@@ -43,3 +43,6 @@ create-cluster-with-config:
 autocomplete:
   k3d completion zsh > ~/.zsh/completions/_k3d
   k3d completion zsh > ~/.zsh/completion/_k3d
+
+vendor:
+  bash scripts/helm.sh
