@@ -36,3 +36,6 @@ rm-cluster:
   k3d cluster rm k3d-playground || true
 
 reset-cluster: rm-cluster setup-cluster
+
+create-cluster-with-config:
+  k3d cluster create --config /home/me/my-awesome-config.yaml
