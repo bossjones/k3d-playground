@@ -39,3 +39,7 @@ reset-cluster: rm-cluster setup-cluster
 
 create-cluster-with-config:
   k3d cluster create --config /home/me/my-awesome-config.yaml
+
+autocomplete:
+  k3d completion zsh > ~/.zsh/completions/_k3d
+  k3d completion zsh > ~/.zsh/completion/_k3d
