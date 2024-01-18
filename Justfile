@@ -27,7 +27,7 @@ pre-commit-install:
 
 
 setup-cluster:
-  k3d cluster create --api-port 6550 -p "8888:80@loadbalancer" --gpus "all" --agents 2 k3d-playground --image rancher/k3s:v1.29.0-k3s1
+  k3d cluster create --api-port 6550 -p "8888:80@loadbalancer" --agents 2 k3d-playground --image rancher/k3s:v1.29.0-k3s1
 
 start-cluster:
   k3d cluster start
