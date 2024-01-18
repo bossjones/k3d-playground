@@ -48,4 +48,4 @@ vendor:
   bash scripts/helm.sh
 
 weave:
-  kubectl apply -f "https://cloud.weave.works/k8s/scope.yaml?k8s-service-type=LoadBalancer&k8s-version=$(kubectl version | base64 | tr -d '\n')"
+  kubectl apply -f "https://github.com/weaveworks/scope/releases/download/v1.13.2/k8s-scope.yaml?k8s-service-type=LoadBalancer&k8s-version=$(kubectl version | base64 | tr -d '\n')"
