@@ -5,6 +5,7 @@ install-minio:
 	kubectl -n monitoring apply -f minio.yaml
 
 install: install-minio
+	kubectl create ns monitoring || true
 	helm upgrade --version 0.71.1 --install --values loki-distributed-overrides.yaml loki grafana/loki-distributed -n monitoring
 
 render-install: render install
