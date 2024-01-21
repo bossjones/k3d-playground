@@ -34,12 +34,15 @@ setup-cluster:
 # The above command is creating another K3d cluster and mapping port 8888 on the host to port 80 on the containers that have a nodefilter of loadbalancer.
 
 start-cluster:
-  k3d cluster start
+  k3d cluster start k3d-playground || true
 
-rm-cluster:
-  k3d cluster rm k3d-playground || true
+stop-cluster:
+  k3d cluster stop k3d-playground || true
 
-reset-cluster: rm-cluster setup-cluster
+delete-cluster:
+  k3d cluster delete k3d-playground || true
+
+reset-cluster: delete-cluster setup-cluster
 
 create-cluster-with-config:
   k3d cluster create --config /home/me/my-awesome-config.yaml
