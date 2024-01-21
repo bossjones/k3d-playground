@@ -6,6 +6,10 @@ metadata:
   namespace: kube-system
 spec:
   valuesContent: |-
+    providers:
+      kubernetesIngress:
+        # -- Allows to return 503 when there is no endpoints available
+        allowEmptyServices: false
     additionalArguments:
       - "--log.level=DEBUG"
       - "--api.insecure=true"
