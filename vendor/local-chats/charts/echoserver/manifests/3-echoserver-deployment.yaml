@@ -13,11 +13,8 @@ spec:
       labels:
         app: echoserver
     spec:
-      imagePullSecrets:
-          - name: behance-artifactory-secrets
       containers:
-      # - image: gcr.io/google_containers/echoserver:1.4
-      - image: docker-behance-release.dr-uw2.adobeitc.com/behance/echoserver:latest
+      - image: gcr.io/google_containers/echoserver:1.4
         imagePullPolicy: Always
         name: echoserver
         ports:
