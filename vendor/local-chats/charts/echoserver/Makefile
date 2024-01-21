@@ -1,6 +1,8 @@
 apply-echoserver:
 	kubectl apply -f manifests/
 
+install: apply-echoserver
+
 delete-echoserver:
 	kubectl delete -f manifests/
 
