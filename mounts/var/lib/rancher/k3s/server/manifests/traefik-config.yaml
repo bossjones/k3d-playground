@@ -8,12 +8,27 @@ spec:
   valuesContent: |-
     additionalArguments:
       - "--log.level=DEBUG"
+
+    ingressRoute:
+      dashboard:
+        # -- Create an IngressRoute for the dashboard
+        enabled: true
+      healthcheck:
+        # -- Create an IngressRoute for the dashboard
+        enabled: true
+
     dashboard:
       enabled: true
+
     ports:
       traefik:
         expose: true # this is not recommended in production deployments, but I want to be able to see my dashboard locally
-      metrics: true
+      metrics:
+        expose: true
+
     logs:
+      general:
+        level: DEBUG
+
       access:
         enabled: true
