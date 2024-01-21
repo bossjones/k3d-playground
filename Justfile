@@ -36,7 +36,7 @@ setup-cluster:
   --volume {{PATH_TO_TRAEFIK_CONFIG}}:/var/lib/rancer/k3s/server/manifests/traefik-config.yaml@all \
   --volume /tmp/k3dvol:/var/lib/rancher/k3s/storage@all \
   --api-port 6550 \
-  -p "8080:80@loadbalancer" \
+  -p "8888:80@loadbalancer" \
   -p "8900:30080@agent:0" -p "8901:30081@agent:0" -p "8902:30082@agent:0" \
   --agents 2 k3d-playground \
   --image rancher/k3s:v1.27.9-k3s1
