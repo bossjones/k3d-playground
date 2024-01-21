@@ -74,7 +74,7 @@ vendor:
 
 weave:
   kubectl apply -f "https://github.com/weaveworks/scope/releases/download/v1.13.2/k8s-scope.yaml?k8s-service-type=LoadBalancer&k8s-version=$(kubectl version | base64 | tr -d '\n')"
-  kubectl apply -f vendor/local-charts/charts/scope/manifests/
+  kubectl apply -f vendor/local-chats/charts/scope/manifests/
 
 open-ports:
   ss -tlnp
