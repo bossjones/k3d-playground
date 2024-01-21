@@ -27,7 +27,9 @@ pre-commit-install:
 
 
 setup-cluster:
+  mkdir -p /tmp/k3dvol || true
   k3d cluster create --api-port 6550 -p "8888:80@loadbalancer" --agents 2 k3d-playground --image rancher/k3s:v1.29.0-k3s1
+# k3d cluster create --volume /tmp/k3dvol:/tmp/k3dvol --api-port 6550 -p "8888:80@loadbalancer" --agents 2 k3d-playground --image rancher/k3s:v1.29.0-k3s1
 
 start-cluster:
   k3d cluster start

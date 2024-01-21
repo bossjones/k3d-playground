@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echoserver
+  namespace: echoserver
+spec:
+  selector:
+    matchLabels:
+      app: echoserver
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: echoserver
+    spec:
+      imagePullSecrets:
+          - name: behance-artifactory-secrets
+      containers:
+      # - image: gcr.io/google_containers/echoserver:1.4
+      - image: docker-behance-release.dr-uw2.adobeitc.com/behance/echoserver:latest
+        imagePullPolicy: Always
+        name: echoserver
+        ports:
+        - containerPort: 8080
+        # Container resources
+        # Remember that resources are per-container, not per-Pod!
+        resources:
+          # Requests are guaranteed resources and should be set to what your
+          # application requires at steady state.
+          # https://git.corp.adobe.com/adobe-platform/k8s-infrastructure/blob/master/docs/vertical-pod-autoscaler.md#requests
+          requests:
+            cpu: "0.05"
+            memory: "10Mi"
+          # Limits are burstable resources and should be set to what your
+          # application requires during resource spikes.
+          # https://git.corp.adobe.com/adobe-platform/k8s-infrastructure/blob/master/docs/vertical-pod-autoscaler.md#limits
+          limits:
+            cpu: ".5"
+            memory: "200Mi"
+        env:
+        # POD_UID is a special environment variable required for the logging
+        # sidecar.
+        # In k8s-infrastructure, the logging sidecar is configured separately.
+        # See https://git.corp.adobe.com/adobe-platform/k8s-logging-reference
+        # for information on forwarding container logs to Splunk with a sidecar
+        - name: POD_UID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.uid
+        lifecycle:
+          # Ideally, containers should handle the SIGTERM signal by gracefully
+          # halting work and draining any open connections. If a container
+          # doesn't handle SIGTERM well, a preStop hook to sleep during the
+          # grace period will at least allow Contour and Envoy to handle
+          # graceful connection draining for connections through the
+          # IngressRoute.
+          # https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods
+          preStop:
+            exec:
+              command:
+              - "sleep"
+              - "20"

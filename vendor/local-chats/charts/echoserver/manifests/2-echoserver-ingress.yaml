@@ -1,0 +1,21 @@
+---
+# SOURCE: https://dev.to/bbende/k3s-on-raspberry-pi-volumes-and-storage-1om5
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: echoserver
+  name: echoserver
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+spec:
+  rules:
+  - host: echoserver
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: echoserver
+            port:
+              number: 80

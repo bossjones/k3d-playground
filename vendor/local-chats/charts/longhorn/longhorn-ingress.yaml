@@ -1,0 +1,20 @@
+# SOURCE: https://dev.to/bbende/k3s-on-raspberry-pi-volumes-and-storage-1om5
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: longhorn-system
+  name: longhorn-ingress
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+spec:
+  rules:
+  - host: longhorn-ui
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: longhorn-frontend
+            port:
+              number: 80

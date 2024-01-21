@@ -162,3 +162,8 @@ cython_debug/
 vendor/prometheus-community
 vendor/grafana
 vendor/vectordotdev
+
+# Pyre type checker
+.pyre/
+nms.yaml
+*secret.yaml
