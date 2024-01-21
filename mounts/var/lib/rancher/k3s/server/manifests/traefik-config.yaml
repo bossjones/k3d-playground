@@ -6,6 +6,8 @@ metadata:
   namespace: kube-system
 spec:
   valuesContent: |-
+    image:
+      tag: 2.9.10
     dashboard:
       enabled: true
     ports:
