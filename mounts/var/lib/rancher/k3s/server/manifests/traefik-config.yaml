@@ -1,0 +1,17 @@
+# SOURCE: https://stackoverflow.com/questions/68565048/how-to-expose-traefik-v2-dashboard-in-k3d-k3s-via-configuration
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    dashboard:
+      enabled: true
+    ports:
+      traefik:
+        expose: true # this is not recommended in production deployments, but I want to be able to see my dashboard locally
+      metrics: true
+    logs:
+      access:
+        enabled: true
