@@ -6,7 +6,7 @@ install:
 	--set tls=external \
 	--set replicas=1
 	kubectl -n cattle-system rollout status deploy/rancher
-	kubectl -n cattle-system aply -f manifests/
+	kubectl -n cattle-system apply -f manifests/
 
 uninstall:
 	helm -n cattle-system uninstall rancher

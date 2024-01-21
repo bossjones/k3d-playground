@@ -13,3 +13,22 @@ Just messing around with k3d
       - "traefik.http.services.minio-http.loadbalancer.server.port=9000"
       - "traefik.port=9000"
 ```
+
+
+```
+# SOURCE: https://doc.traefik.io/traefik/getting-started/install-traefik/#use-the-helm-chart
+# dashboard.yaml
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dashboard
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`traefik.localhost`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
+      kind: Rule
+      services:
+        - name: api@internal
+          kind: TraefikService
+```

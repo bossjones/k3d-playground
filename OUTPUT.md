@@ -109,3 +109,57 @@ pi@boss-station ~/dev/bossjones/Users/malcolm/dev/grafana/helm-charts/charts/lok
 ❯
 
 ```
+
+# rancher
+
+```
+pi@boss-station ~/dev/bossjones/k3d-playground/vendor/local-chats/charts/rancher main
+❯ make install
+helm install rancher rancher-latest/rancher \
+--namespace cattle-system \
+--create-namespace \
+--set ingress.enabled=false \
+--set tls=external \
+--set replicas=1
+NAME: rancher
+LAST DEPLOYED: Sun Jan 21 14:04:25 2024
+NAMESPACE: cattle-system
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+Rancher Server has been installed.
+
+NOTE: Rancher may take several minutes to fully initialize. Please standby while Certificates are being issued, Containers are started and the Ingress rule comes up.
+
+Check out our docs at https://rancher.com/docs/
+
+If you provided your own bootstrap password during installation, browse to https:// to get started.
+
+If this is the first time you installed Rancher, get started by running this command and clicking the URL it generates:
+
+```
+echo https:///dashboard/?setup=$(kubectl get secret --namespace cattle-system bootstrap-secret -o go-template='{{.data.bootstrapPassword|base64decode}}')
+```
+
+To get just the bootstrap password on its own, run:
+
+```
+kubectl get secret --namespace cattle-system bootstrap-secret -o go-template='{{.data.bootstrapPassword|base64decode}}{{ "\n" }}'
+```
+
+
+Happy Containering!
+kubectl -n cattle-system rollout status deploy/rancher
+Waiting for deployment "rancher" rollout to finish: 0 of 1 updated replicas are available...
+deployment "rancher" successfully rolled out
+kubectl -n cattle-system aply -f manifests/
+Error: flags cannot be placed before plugin name: -n
+make: *** [Makefile:4: install] Error 1
+
+pi@boss-station ~/dev/bossjones/k3d-playground/vendor/local-chats/charts/rancher main 2m 36s
+❯ kubectl -n cattle-system apply -f manifests/
+Found existing alias for "kubectl". You should use: "k"
+
+
+```
