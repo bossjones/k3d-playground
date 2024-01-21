@@ -11,4 +11,6 @@ make install
 cd vendor/local-chats/charts/loki-distributed
 make install
 cd vendor/local-chats/charts/promtail
+make install
+
 cd ~/dev/bossjones/k3d-playground
