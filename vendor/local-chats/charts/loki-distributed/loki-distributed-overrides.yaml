@@ -1015,11 +1015,11 @@ ingress:
       - /prometheus/api/v1/rules
       - /prometheus/api/v1/alerts
   hosts:
-    - loki.example.com
+    - loki.boss-station.scarlettlab.home
   # tls:
   #   - secretName: loki-distributed-tls
   #     hosts:
-  #       - loki.example.com
+  #       - loki.boss-station.scarlettlab.home
 
 # Configuration for the gateway
 gateway:
@@ -1151,16 +1151,16 @@ gateway:
   # Gateway ingress configuration
   ingress:
     # -- Specifies whether an ingress for the gateway should be created
-    enabled: false
+    enabled: true
     # -- Ingress Class Name. MAY be required for Kubernetes versions >= 1.18
     # For example: `ingressClassName: nginx`
-    ingressClassName: ''
+    ingressClassName: 'traefik'
 
     # -- Annotations for the gateway ingress
     annotations: {}
     # -- Hosts configuration for the gateway ingress
     hosts:
-      - host: gateway.loki.example.com
+      - host: loki-gateway.boss-station.scarlettlab.home
         paths:
           - path: /
             # -- pathType (e.g. ImplementationSpecific, Prefix, .. etc.) might also be required by some Ingress Controllers
@@ -1170,7 +1170,7 @@ gateway:
     # tls:
     #   - secretName: loki-gateway-tls
     #     hosts:
-    #       - gateway.loki.example.com
+    #       - gateway.loki.boss-station.scarlettlab.home
 
   # Basic auth configuration
   basicAuth:

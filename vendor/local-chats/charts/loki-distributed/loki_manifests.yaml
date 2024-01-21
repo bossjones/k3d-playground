@@ -1113,6 +1113,32 @@ spec:
         - name: data
           emptyDir: {}
 ---
+# Source: loki-distributed/templates/gateway/ingress-gateway.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: loki-loki-distributed-gateway
+  labels:
+    helm.sh/chart: loki-distributed-0.71.1
+    app.kubernetes.io/name: loki-distributed
+    app.kubernetes.io/instance: loki
+    app.kubernetes.io/version: "2.8.3"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: gateway
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: "loki-gateway.boss-station.scarlettlab.home"
+      http:
+        paths:
+          - path: /
+            pathType: 
+            backend:
+              service:
+                name: loki-loki-distributed-gateway
+                port:
+                  number: 80
+---
 # Source: loki-distributed/templates/prometheusrule.yaml
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
