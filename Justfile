@@ -48,6 +48,7 @@ setup-cluster:
   -p "80:80@loadbalancer" \
   -p "443:443@loadbalancer" \
   -p "8900:30080@agent:0" -p "8901:30081@agent:0" -p "8902:30082@agent:0" \
+  -p "4040:30083@agent:0" -p "9000:30084@agent:0" -p "8000:30085@agent:0" \
   --agents 2 k3d-playground \
   --runtime-ulimit "nofile=26677:26677" \
   --runtime-ulimit "nproc=26677:26677" \

@@ -163,3 +163,37 @@ Found existing alias for "kubectl". You should use: "k"
 
 
 ```
+
+# portainer
+
+```
+pi@boss-station ~/dev/bossjones/k3d-playground main
+❯ just portainer-install
+helm repo add portainer https://portainer.github.io/k8s/
+"portainer" has been added to your repositories
+helm repo update
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "kubernetes-dashboard" chart repository
+...Successfully got an update from the "portainer" chart repository
+...Successfully got an update from the "influxdata" chart repository
+...Successfully got an update from the "rancher-latest" chart repository
+...Successfully got an update from the "grafana" chart repository
+...Successfully got an update from the "prometheus-community" chart repository
+...Successfully got an update from the "bitnami" chart repository
+Update Complete. ⎈Happy Helming!⎈
+helm upgrade --install --create-namespace -n portainer portainer portainer/portainer --set tls.force=false
+Release "portainer" does not exist. Installing it now.
+NAME: portainer
+LAST DEPLOYED: Sun Jan 21 18:16:15 2024
+NAMESPACE: portainer
+STATUS: deployed
+REVISION: 1
+NOTES:
+Get the application URL by running these commands:
+    export NODE_PORT=$(kubectl get --namespace portainer -o jsonpath="{.spec.ports[1].nodePort}" services portainer)
+  export NODE_IP=$(kubectl get nodes --namespace portainer -o jsonpath="{.items[0].status.addresses[0].address}")
+  echo https://$NODE_IP:$NODE_PORT
+echo "open: https://localhost:30779/ or http://localhost:30777/ to access portainer"
+open: https://localhost:30779/ or http://localhost:30777/ to access portainer
+
+```
