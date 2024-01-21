@@ -35,6 +35,9 @@ pre-commit-install:
 # --port 8080:80@loadbalancer will add a mapping of local host port 8080 to loadbalancer port 80, which will proxy requests to port 80 on all agent nodes
 # --api-port 6443 : by default, no API-Port is exposed (no host port mapping). It's used to have k3s's API-Server listening on port 6443 with that port mapped to the host system. So that the load balancer will be the access point to the Kubernetes API, so even for multi-server clusters, you only need to expose a single api port. The load balancer will then take care of proxying your requests to the appropriate server node
 # -p "32000-32767:32000-32767@loadbalancer": You may as well expose a NodePort range (if you want to avoid the Ingress Controller).
+# FATA[0000] runtime ulimit "noproc" is not valid, allowed keys are: fsize, rss, rtprio, data, msgqueue, nofile, stack, core, rttime, cpu, memlock, nice, nproc, sigpending, locks
+# error: Recipe `setup-cluster` failed on line 50 with exit code 1
+
 
 setup-cluster:
   mkdir -p /tmp/k3dvol || true
@@ -48,6 +51,7 @@ setup-cluster:
   --agents 2 k3d-playground \
   --runtime-ulimit "nofile=26677:26677" \
   --runtime-ulimit "nproc=26677:26677" \
+  --runtime-ulimit "core=26677:26677" \
   --image rancher/k3s:v1.29.0-k3s1
 # -p "32000-32767:32000-32767@loadbalancer" \
 # --image rancher/k3s:v1.28.5+k3s1
@@ -84,3 +88,9 @@ open-ports:
 
 install: weave
   bash scripts/install.sh
+
+portainer-install:
+  helm repo add portainer https://portainer.github.io/k8s/
+  helm repo update
+  helm upgrade --install --create-namespace -n portainer portainer portainer/portainer --set tls.force=false
+  echo "open: https://localhost:30779/ or http://localhost:30777/ to access portainer"
