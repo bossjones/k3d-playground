@@ -23,6 +23,7 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 # Add kubernetes-dashboard repository
 helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 # Deploy a Helm Release named "kubernetes-dashboard" using the kubernetes-dashboard chart
+helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
 helm repo update
 
 helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard

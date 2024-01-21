@@ -28,6 +28,7 @@ pre-commit-install:
 # install taplo	if not found
 # https://github.com/mlops-club/awscdk-clearml/blob/3d47f23479dd18e864fda43e11ecc8d5624613a9/Justfile
 # k3d cluster create --api-port 6550 -p "8888:80@loadbalancer" --agents 2 k3d-playground --image rancher/k3s:v1.29.0-k3s1
+# 8900-8902 = https://medium.com/47billion/playing-with-kubernetes-using-k3d-and-rancher-78126d341d23
 
 setup-cluster:
   mkdir -p /tmp/k3dvol || true
@@ -36,6 +37,7 @@ setup-cluster:
   --volume /tmp/k3dvol:/var/lib/rancher/k3s/storage@all \
   --api-port 6550 \
   -p "8888:80@loadbalancer" \
+  -p "8900:30080@agent:0" -p "8901:30081@agent:0" -p "8902:30082@agent:0" \
   --agents 2 k3d-playground \
   --image rancher/k3s:v1.29.0-k3s1
 # The above command is creating another K3d cluster and mapping port 8888 on the host to port 80 on the containers that have a nodefilter of loadbalancer.
