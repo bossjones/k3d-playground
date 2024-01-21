@@ -1132,7 +1132,7 @@ spec:
       http:
         paths:
           - path: /
-            pathType: 
+            pathType: Prefix
             backend:
               service:
                 name: loki-loki-distributed-gateway
