@@ -31,7 +31,7 @@ stringData:
     server:
       log_level: info
       log_format: logfmt
-      http_listen_port: 3101
+      http_listen_port: 4101
       
     
     clients:
@@ -184,7 +184,7 @@ spec:
   clusterIP: None
   ports:
     - name: http-metrics
-      port: 3101
+      port: 4101
       targetPort: http-metrics
       protocol: TCP
   selector:
@@ -218,7 +218,7 @@ spec:
         bosslab: k3d
         prometheus: main
       annotations:
-        checksum/config: 1ad42f36968df3846db4461385052ab6a88e22862910d08d6dcc55a0ed208430
+        checksum/config: 19620ac9a0305742a6ce53c41f5db8d16fae589d5f24e0ae32bb10bdbc5c1187
     spec:
       serviceAccountName: promtail
       enableServiceLinks: true
@@ -250,7 +250,7 @@ spec:
                   fieldPath: spec.nodeName
           ports:
             - name: http-metrics
-              containerPort: 3101
+              containerPort: 4101
               protocol: TCP
           securityContext:
             allowPrivilegeEscalation: false

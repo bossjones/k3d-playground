@@ -381,7 +381,7 @@ config:
   # -- The port of the Promtail server
   # Must be reference in `config.file` to configure `server.http_listen_port`
   # See default config in `values.yaml`
-  serverPort: 3101
+  serverPort: 4101
   # -- The config of clients of the Promtail server
   # Must be reference in `config.file` to configure `clients`
   # @default -- See `values.yaml`
@@ -551,7 +551,7 @@ networkPolicy:
     cidrs: []
   k8sApi:
     # -- Specify the k8s API endpoint port
-    port: 8443
+    port: 6550
     # -- Specifies specific network CIDRs you want to limit access to
     cidrs: []
 
