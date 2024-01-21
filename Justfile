@@ -80,3 +80,6 @@ weave:
 
 open-ports:
   ss -tlnp
+
+install:
+  bash scripts/install.sh
