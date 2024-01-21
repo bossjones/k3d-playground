@@ -7,13 +7,15 @@ LOCATION_PYTHON := `python -c "import sys;print(sys.executable)"`
 set	dotenv-load	:= false
 
 K3D_VERSION := `k3d	version`
-CURRENT_DIR := `pwd`
+CURRENT_DIR := "$(pwd)"
+PATH_TO_TRAEFIK_CONFIG := CURRENT_DIR / "mounts/var/lib/rancer/k3s/server/manifests/traefik-config.yaml"
 
 _default:
 	@just --list
 
 info:
     print "Python location: {{LOCATION_PYTHON}}"
+    print "PATH_TO_TRAEFIK_CONFIG: {{PATH_TO_TRAEFIK_CONFIG}}"
 
 # verify python	is running under pyenv
 which-python:
@@ -25,12 +27,17 @@ pre-commit-install:
 
 # install taplo	if not found
 # https://github.com/mlops-club/awscdk-clearml/blob/3d47f23479dd18e864fda43e11ecc8d5624613a9/Justfile
-
+# k3d cluster create --api-port 6550 -p "8888:80@loadbalancer" --agents 2 k3d-playground --image rancher/k3s:v1.29.0-k3s1
 
 setup-cluster:
   mkdir -p /tmp/k3dvol || true
-# k3d cluster create --api-port 6550 -p "8888:80@loadbalancer" --agents 2 k3d-playground --image rancher/k3s:v1.29.0-k3s1
-  k3d cluster create --volume "{{CURRENT_DIR}}/mounts/var/lib/rancer/k3s/server/manifests/traefik-config.yaml:/var/lib/rancer/k3s/server/manifests/traefik-config.yaml@all" --volume /tmp/k3dvol:/var/lib/rancher/k3s/storage@all --api-port 6550 -p "8888:80@loadbalancer" --agents 2 k3d-playground --image rancher/k3s:v1.29.0-k3s1
+  k3d cluster create \
+  --volume {{PATH_TO_TRAEFIK_CONFIG}}:/var/lib/rancer/k3s/server/manifests/traefik-config.yaml@all \
+  --volume /tmp/k3dvol:/var/lib/rancher/k3s/storage@all \
+  --api-port 6550 \
+  -p "8888:80@loadbalancer" \
+  --agents 2 k3d-playground \
+  --image rancher/k3s:v1.29.0-k3s1
 # The above command is creating another K3d cluster and mapping port 8888 on the host to port 80 on the containers that have a nodefilter of loadbalancer.
 
 start-cluster:
