@@ -53,7 +53,7 @@ setup-cluster:
   --runtime-ulimit "nofile=26677:26677" \
   --runtime-ulimit "nproc=26677:26677" \
   --runtime-ulimit "core=26677:26677" \
-  --image rancher/k3s:v1.29.0-k3s1
+  --image rancher/k3s:v1.27.9-k3s1
 # -p "32000-32767:32000-32767@loadbalancer" \
 # --image rancher/k3s:v1.28.5+k3s1
 # --image rancher/k3s:v1.27.9-k3s1
