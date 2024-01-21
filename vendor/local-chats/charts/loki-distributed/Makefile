@@ -2,6 +2,7 @@ render:
 	helm template --version 0.71.1 --values loki-distributed-overrides.yaml loki grafana/loki-distributed -n monitoring > loki_manifests.yaml
 
 install-minio:
+	kubectl create ns monitoring || true
 	kubectl -n monitoring apply -f minio.yaml
 
 install: install-minio
