@@ -1,20 +1,38 @@
+# ---
+# # SOURCE: https://dev.to/bbende/k3s-on-raspberry-pi-volumes-and-storage-1om5
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   namespace: echoserver
+#   name: echoserver
+#   annotations:
+#     ingress.kubernetes.io/ssl-redirect: "false"
+# spec:
+#   ingressClassName: "traefik"
+#   rules:
+#   - host: echoserver
+#     http:
+#       paths:
+#       - path: /
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: echoserver
+#             port:
+#               number: 80
+
+# SOURCE: https://github.com/TheFutonEng/k3d-article/blob/main/manifests/ingress.yaml
 ---
-# SOURCE: https://dev.to/bbende/k3s-on-raspberry-pi-volumes-and-storage-1om5
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
-  namespace: echoserver
   name: echoserver
 spec:
-  ingressClassName: "traefik"
-  rules:
-  - host: echoserver
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: echoserver
-            port:
-              number: 80
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`echoserver.boss-station.scarlettlab.home`)
+      kind: Rule
+      services:
+        - name: echoserver
+          port: 80
