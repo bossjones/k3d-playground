@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: weave-scope
+  name: weave-scope-np-svc
+  namespace: weave
+spec:
+  ports:
+  - name: weave-np
+    nodePort: 30082
+    port: 4040
+    protocol: TCP
+    targetPort: 4040
+  selector:
+    app: weave-scope
+  type: NodePort
