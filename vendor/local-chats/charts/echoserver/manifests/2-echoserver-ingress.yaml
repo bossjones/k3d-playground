@@ -5,9 +5,8 @@ kind: Ingress
 metadata:
   namespace: echoserver
   name: echoserver
-  annotations:
-    kubernetes.io/ingress.class: "traefik"
 spec:
+  ingressClassName: "traefik"
   rules:
   - host: echoserver
     http:
