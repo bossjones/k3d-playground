@@ -38,7 +38,7 @@ pre-commit-install:
 
 setup-cluster:
   mkdir -p /tmp/k3dvol || true
-  k3d cluster create \
+  k3d --verbose cluster create \
   --volume {{PATH_TO_TRAEFIK_CONFIG}}:/var/lib/rancer/k3s/server/manifests/traefik-config.yaml@all \
   --volume /tmp/k3dvol:/var/lib/rancher/k3s/storage@all \
   --api-port 6550 \
@@ -57,7 +57,7 @@ start-cluster:
 stop-cluster:
   k3d cluster stop k3d-playground || true
 
-delete-cluster:
+delete-cluster: stop-cluster
   k3d cluster delete k3d-playground || true
 
 reset-cluster: delete-cluster setup-cluster

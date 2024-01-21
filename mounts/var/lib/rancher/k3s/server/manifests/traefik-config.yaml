@@ -6,6 +6,8 @@ metadata:
   namespace: kube-system
 spec:
   valuesContent: |-
+    additionalArguments:
+      - "--log.level=DEBUG"
     dashboard:
       enabled: true
     ports:
