@@ -8,11 +8,68 @@ spec:
   valuesContent: |-
     additionalArguments:
       - "--log.level=DEBUG"
+      - "--api.insecure=true"
+
+    # SOURCE: https://github.com/traefik/traefik-helm-chart/blob/d9f4731fce7c8fdb134f417d977537e2ecad1a6e/EXAMPLES.md#publish-and-protect-traefik-dashboard-with-an-ingress
+    # Create the service, middleware and Ingress used to expose the dashboard (can also be created in another way).
+    # /!\ Yes, you need to replace "changeme" password with a better one. /!\
+    extraObjects:
+      - apiVersion: v1
+        kind: Service
+        metadata:
+          name: traefik-api
+        spec:
+          type: ClusterIP
+          selector:
+            app.kubernetes.io/name: traefik
+            app.kubernetes.io/instance: traefik-default
+          ports:
+          - port: 8080
+            name: traefik
+            targetPort: 9000
+            protocol: TCP
+
+      - apiVersion: v1
+        kind: Secret
+        metadata:
+          name: traefik-dashboard-auth-secret
+        type: kubernetes.io/basic-auth
+        stringData:
+          username: admin
+          password: changeme
+
+      - apiVersion: traefik.io/v1alpha1
+        kind: Middleware
+        metadata:
+          name: traefik-dashboard-auth
+        spec:
+          basicAuth:
+            secret: traefik-dashboard-auth-secret
+
+      - apiVersion: networking.k8s.io/v1
+        kind: Ingress
+        metadata:
+          name: traefik-dashboard
+          annotations:
+            traefik.ingress.kubernetes.io/router.entrypoints: websecure
+            traefik.ingress.kubernetes.io/router.middlewares: default-traefik-dashboard-auth@kubernetescrd
+        spec:
+          rules:
+          - host: traefik-dashboard.boss-station.scarlettlab.home
+            http:
+              paths:
+              - path: /
+                pathType: Prefix
+                backend:
+                  service:
+                    name: traefik-api
+                    port:
+                      name: traefik
 
     ingressRoute:
       dashboard:
         # -- Create an IngressRoute for the dashboard
-        enabled: true
+        enabled: false
       healthcheck:
         # -- Create an IngressRoute for the dashboard
         enabled: true
