@@ -1,5 +1,5 @@
 render:
-	helm template  --version 48.2.2 --values kube-prometheus-stack-overrides.yaml monitoring-stack prometheus-community/kube-prometheus-stack -n monitoring  > prometheus_manifests.yaml
+	helm template --version 48.2.2 --values kube-prometheus-stack-overrides.yaml monitoring-stack prometheus-community/kube-prometheus-stack -n monitoring  > prometheus_manifests.yaml
 
 install:
 	kubectl apply -f namespace.yaml

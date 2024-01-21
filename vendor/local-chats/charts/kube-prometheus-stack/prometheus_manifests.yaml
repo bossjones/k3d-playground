@@ -2127,6 +2127,39 @@ spec:
           type: RuntimeDefault
       serviceAccountName: monitoring-stack-kube-prom-operator
 ---
+# Source: kube-prometheus-stack/templates/alertmanager/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: monitoring-stack-kube-prom-alertmanager
+  namespace: monitoring
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+  labels:
+    app: kube-prometheus-stack-alertmanager
+    
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: monitoring-stack
+    app.kubernetes.io/version: "48.2.2"
+    app.kubernetes.io/part-of: kube-prometheus-stack
+    chart: kube-prometheus-stack-48.2.2
+    release: "monitoring-stack"
+    heritage: "Helm"
+    prometheus: main
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: alertmanager.boss-station.scarlettlab.home
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: monitoring-stack-kube-prom-alertmanager
+                port:
+                  number: 9093
+---
 # Source: kube-prometheus-stack/templates/alertmanager/alertmanager.yaml
 apiVersion: monitoring.coreos.com/v1
 kind: Alertmanager
@@ -2150,7 +2183,7 @@ spec:
   replicas: 1
   listenLocal: false
   serviceAccountName: monitoring-stack-kube-prom-alertmanager
-  externalUrl: http://monitoring-stack-kube-prom-alertmanager.monitoring:9093
+  externalUrl: "http://alertmanager.boss-station.scarlettlab.home/"
   paused: false
   logFormat: "logfmt"
   logLevel:  "debug"
