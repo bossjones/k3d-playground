@@ -46,7 +46,7 @@ setup-cluster:
   -p "8900:30080@agent:0" -p "8901:30081@agent:0" -p "8902:30082@agent:0" \
   --agents 2 k3d-playground \
   --runtime-ulimit "nofile=26677:26677" \
-  --runtime-ulimit "noproc=26677:26677" \
+  --runtime-ulimit "nproc=26677:26677" \
   --image rancher/k3s:v1.29.0-k3s1
 # -p "32000-32767:32000-32767@loadbalancer" \
 # --image rancher/k3s:v1.28.5+k3s1
