@@ -29,6 +29,12 @@ pre-commit-install:
 # https://github.com/mlops-club/awscdk-clearml/blob/3d47f23479dd18e864fda43e11ecc8d5624613a9/Justfile
 # k3d cluster create --api-port 6550 -p "8888:80@loadbalancer" --agents 2 k3d-playground --image rancher/k3s:v1.29.0-k3s1
 # 8900-8902 = https://medium.com/47billion/playing-with-kubernetes-using-k3d-and-rancher-78126d341d23
+# SOURCE: https://www.sokube.io/blog/k3s-k3d-k8s-a-new-perfect-match-for-dev-and-test
+# Ports mapping:
+
+# --port 8080:80@loadbalancer will add a mapping of local host port 8080 to loadbalancer port 80, which will proxy requests to port 80 on all agent nodes
+# --api-port 6443 : by default, no API-Port is exposed (no host port mapping). It's used to have k3s's API-Server listening on port 6443 with that port mapped to the host system. So that the load balancer will be the access point to the Kubernetes API, so even for multi-server clusters, you only need to expose a single api port. The load balancer will then take care of proxying your requests to the appropriate server node
+# -p "32000-32767:32000-32767@loadbalancer": You may as well expose a NodePort range (if you want to avoid the Ingress Controller).
 
 setup-cluster:
   mkdir -p /tmp/k3dvol || true
@@ -38,6 +44,7 @@ setup-cluster:
   --api-port 6550 \
   -p "8888:80@loadbalancer" \
   -p "8900:30080@agent:0" -p "8901:30081@agent:0" -p "8902:30082@agent:0" \
+  -p "32000-32767:32000-32767@loadbalancer" \
   --agents 2 k3d-playground \
   --image rancher/k3s:v1.29.0-k3s1
 # --image rancher/k3s:v1.28.5+k3s1
