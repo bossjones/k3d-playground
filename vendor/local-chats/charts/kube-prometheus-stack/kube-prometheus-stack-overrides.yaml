@@ -392,7 +392,7 @@ alertmanager:
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    # ingressClassName: nginx
+    ingressClassName: traefik
 
     annotations: {}
     labels: {}
@@ -911,16 +911,17 @@ grafana:
   ingress:
     ## If true, Grafana Ingress will be created
     ##
-    enabled: false
+    enabled: true
 
     ## IngressClassName for Grafana Ingress.
     ## Should be provided if Ingress is enable.
     ##
-    # ingressClassName: nginx
+    ingressClassName: traefik
 
     ## Annotations for Grafana Ingress
     ##
-    annotations: {}
+    annotations:
+      ingress.kubernetes.io/ssl-redirect: "false"
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
 
@@ -932,8 +933,9 @@ grafana:
     ## Must be provided if Ingress is enable.
     ##
     # hosts:
-    #   - grafana.domain.com
-    hosts: []
+    #   - grafana.boss-station.scarlettlab.home
+    hosts:
+      - grafana.boss-station.scarlettlab.home
 
     ## Path for grafana ingress
     path: /
@@ -2787,11 +2789,11 @@ prometheus:
 
   # Ingress exposes thanos sidecar outside the cluster
   thanosIngress:
-    enabled: false
+    enabled: true
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    # ingressClassName: nginx
+    ingressClassName: traefik
 
     annotations: {}
     labels: {}
@@ -2806,7 +2808,7 @@ prometheus:
     ## Hosts must be provided if Ingress is enabled.
     ##
     hosts: []
-      # - thanos-gateway.domain.com
+      # - thanos-gateway.boss-station.scarlettlab.home
 
     ## Paths to use for ingress rules
     ##
@@ -2823,7 +2825,7 @@ prometheus:
     tls: []
     # - secretName: thanos-gateway-tls
     #   hosts:
-    #   - thanos-gateway.domain.com
+    #   - thanos-gateway.boss-station.scarlettlab.home
     #
 
   ## ExtraSecret can be used to store various data in an extra secret
@@ -2838,13 +2840,14 @@ prometheus:
   #     someoneelse:$apr1$DMZX2Z4q$6SbQIfyuLQd.xmo/P0m2c.
 
   ingress:
-    enabled: false
+    enabled: true
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    # ingressClassName: nginx
+    ingressClassName: traefik
 
-    annotations: {}
+    annotations:
+      ingress.kubernetes.io/ssl-redirect: "false"
     labels: {}
       # prometheus: main
 
@@ -2855,13 +2858,14 @@ prometheus:
     ## Must be provided if Ingress is enabled.
     ##
     # hosts:
-    #   - prometheus.domain.com
-    hosts: []
+    #   - prometheus.boss-station.scarlettlab.home
+    hosts:
+      - prometheus.boss-station.scarlettlab.home
 
     ## Paths to use for ingress rules - one path should match the prometheusSpec.routePrefix
     ##
-    paths: []
-    # - /
+    paths:
+    - /
 
     ## For Kubernetes >= 1.18 you should specify the pathType (determines how Ingress paths should be matched)
     ## See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#better-path-matching-with-path-types
@@ -2883,7 +2887,7 @@ prometheus:
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    # ingressClassName: nginx
+    ingressClassName: traefik
 
     annotations: {}
     labels: {}
@@ -3850,26 +3854,27 @@ thanosRuler:
     maxUnavailable: ""
 
   ingress:
-    enabled: false
+    enabled: true
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    # ingressClassName: nginx
+    ingressClassName: traefik
 
-    annotations: {}
+    annotations:
+      ingress.kubernetes.io/ssl-redirect: "false"
 
     labels: {}
       # prometheus: main
 
     ## Hosts must be provided if Ingress is enabled.
     ##
-    hosts: []
-      # - thanosruler.domain.com
+    hosts:
+      - thanosruler.boss-station.scarlettlab.home
 
     ## Paths to use for ingress rules - one path should match the thanosruler.routePrefix
     ##
-    paths: []
-    # - /
+    paths:
+    - /
 
     ## For Kubernetes >= 1.18 you should specify the pathType (determines how Ingress paths should be matched)
     ## See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#better-path-matching-with-path-types
