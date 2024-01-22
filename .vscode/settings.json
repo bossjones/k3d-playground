@@ -1,0 +1,202 @@
+{
+  "json.schemaDownload.enable": true,
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.colorTheme": "GitHub Dark",
+  "workbench.productIconTheme": "material-product-icons",
+  "material-icon-theme.activeIconPack": "react",
+  "material-icon-theme.hidesExplorerArrows": true,
+  "workbench.colorCustomizations": {
+      "errorLens.errorBackground": "#E06C751A",
+      "errorLens.errorForeground": "#E06C75",
+      "errorLens.warningBackground": "#D19A661A",
+      "errorLens.warningForeground": "#D19A66",
+      "errorLens.infoBackground": "#61AFEF1A",
+      "errorLens.infoForeground": "#61AFEF",
+      "errorLens.hintBackground": "#98C3791A",
+      "errorLens.hintForeground": "#98C379"
+  },
+  "diffEditor.wordWrap": "on",
+  "vsicons.dontShowNewVersionMessage": true,
+  "redhat.telemetry.enabled": false,
+  "editor.wordWrap": "on",
+  // SOURCE: https://github.com/Homebrew/brew/blob/fc86485e9a30a15773e275b36a792ed39c5facf8/.vscode/settings.json
+  "[shellscript]": {
+      "editor.defaultFormatter": "foxundermoon.shell-format",
+      "editor.formatOnSave": true,
+      "editor.codeActionsOnSave": {
+          "source.fixAll.shellcheck": "explicit"
+      }
+  },
+  "explorer.confirmDelete": false,
+  "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": false
+  },
+  "python.terminal.activateEnvironment": true,
+  "output.smartScroll.enabled": false,
+  "editor.guides.bracketPairs": true,
+  "vs-kubernetes": {
+      "vs-kubernetes.crd-code-completion": "enabled"
+  },
+  "[python]": {
+      "editor.formatOnType": true
+  },
+  "editor.tokenColorCustomizations": {},
+  "files.insertFinalNewline": true,
+  "files.associations": {
+      "requirements*": "pip-requirements",
+      "*.internal": "makefile",
+      "*.tmpl": "shellscript"
+  },
+  "sort-json.settings.objectSortType": "Key",
+  "editor.inlineSuggest.enabled": true,
+  "editor.minimap.enabled": false,
+  "shellcheck.customArgs": [
+      "--shell=dash"
+  ],
+  "shellcheck.executablePath": "/opt/homebrew/bin/shellcheck",
+  "shellcheck.run": "onSave",
+  "go.toolsManagement.autoUpdate": true,
+  "terminal.integrated.profiles.osx": {
+      "bash": {
+          "path": "bash",
+          "args": [
+              "-l"
+          ],
+          "icon": "terminal-bash"
+      },
+      "sh": {
+          "path": "/bin/sh",
+          "args": [
+              "-l"
+          ],
+          "icon": "terminal"
+      },
+      "zsh": {
+          "path": "/opt/homebrew/bin/zsh",
+          "args": [
+              "-l"
+          ]
+      },
+      "fish": {
+          "path": "fish",
+          "args": [
+              "-l"
+          ]
+      },
+      "tmux": {
+          "path": "tmux",
+          "icon": "terminal-tmux"
+      },
+      "pwsh": {
+          "path": "pwsh",
+          "icon": "terminal-powershell"
+      }
+  },
+  "[ruby]": {
+      "editor.formatOnSave": true,
+      "editor.formatOnType": true,
+      "editor.tabSize": 2,
+      "editor.insertSpaces": true,
+      "editor.semanticHighlighting.enabled": true,
+      "editor.defaultFormatter": "Shopify.ruby-lsp"
+  },
+  "files.trimTrailingWhitespace": true,
+  "editor.rulers": [
+      120
+  ],
+  "opa.path": "/Users/malcolm/.asdf/installs/opa/0.45.0/bin/opa",
+  "[rego]": {
+      "editor.defaultFormatter": "tsandall.opa"
+  },
+  "yaml.schemas": {
+      "https://raw.githubusercontent.com/k3d-io/k3d/main/pkg/config/v1alpha5/schema.json": [
+          "examples/*.yaml"
+      ],
+      "https://raw.githubusercontent.com/bossjones/k3d-playground/main/schema/argocd/v2.8.0/application_v1alpha1.json": [
+          "apps/argocd/base/{utilities,core,apps}/*.yaml"
+      ],
+      "https://raw.githubusercontent.com/bossjones/k3d-playground/main/schema/argocd/v2.8.0/appproject_v1alpha1.json": [
+          "apps/argocd/base/projects/*.yaml"
+      ],
+      "https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json": [
+          "argo/**/*.yaml"
+      ],
+      "https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml": [
+          "alertmanager_rules.yaml"
+      ],
+  },
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "files.encoding": "utf8",
+  "files.eol": "\n",
+  "files.trimFinalNewlines": true,
+  "shellformat.effectLanguages": [
+      "shellscript"
+  ],
+  "editor.fontLigatures": false,
+  "[go][go.mod]": {
+      "editor.codeActionsOnSave": {
+          "source.organizeImports": "explicit"
+      }
+  },
+  "window.zoomLevel": -1,
+  "code-runner.runInTerminal": true,
+  "rust-analyzer.cargo.loadOutDirsFromCheck": true,
+  "editor.formatOnSave": true,
+  "todohighlight.keywords": [
+      {
+        "text": "TODO:",
+        "color": "#fff",
+        "backgroundColor": "#ffbd2a",
+        "overviewRulerColor": "rgba(255,189,42,0.8)"
+      },
+      {
+        "text": "FIXME:",
+        "color": "#fff",
+        "backgroundColor": "#f06292",
+        "overviewRulerColor": "rgba(240,98,146,0.8)"
+      },
+      {
+        "text": "BOSSJONES:",
+        "color": "#fff",
+        "backgroundColor": "green"
+      },
+      {
+        "text": "DEBUG:",
+        "color": "#fff",
+        "backgroundColor": "blue"
+      },
+      {
+        "text": "REVIEW:",
+        "color": "#fff",
+        "backgroundColor": "yellow"
+      },
+      {
+        "text": "INFO:",
+        "color": "#fff",
+        "backgroundColor": "violet"
+      },
+      {
+        "text": "NOTE:",
+        "color": "#fff",
+        "backgroundColor": "grey"
+      },
+      {
+        "text": "EXAMPLE:",
+        "color": "#fff",
+        "backgroundColor": "teal"
+      },
+      {
+        "text": "SOURCE:",
+        "color": "#fff",
+        "backgroundColor": "maroon"
+      },
+      {
+        "text": "DISABLED:",
+        "color": "#fff",
+        "backgroundColor": "#f06292"
+      }
+  ],
+  "editor.renderWhitespace": "all",
+}
