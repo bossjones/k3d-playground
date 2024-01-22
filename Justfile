@@ -76,6 +76,8 @@ nuke-cluster: delete-cluster
 
 reset-cluster: delete-cluster setup-cluster
 
+simple-cluster-reset: reset-cluster install
+
 create-cluster-with-config:
   k3d cluster create --config /home/me/my-awesome-config.yaml
 
