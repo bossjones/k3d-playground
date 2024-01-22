@@ -30,8 +30,9 @@ metadata:
 data:
   vector.yaml: |
     api:
-      address: 0.0.0.0:8686
+      address: 127.0.0.1:8686
       enabled: true
+      playground: false
     data_dir: /var/lib/vector
     sinks:
       loki:
@@ -46,7 +47,7 @@ data:
         healthcheck:
           enabled: true
         inputs:
-        - my_remap_id
+        - kubernetes_logs
         labels:
           application: vector
           cluster: k3d
@@ -62,16 +63,39 @@ data:
           rate_limit_num: 10
         tenant_id: docker
         type: loki
+      prom_exporter:
+        address: 0.0.0.0:9090
+        inputs:
+        - host_metrics
+        - internal_metrics
+        type: prometheus_exporter
+      stdout:
+        encoding:
+          codec: json
+        inputs:
+        - kubernetes_logs
+        type: console
     sources:
-      kube_log:
-        auto_partial_merge: true
-        extra_namespace_label_selector: kubernetes.io/metadata.name in (monitoring)
-        timezone: local
+      host_metrics:
+        filesystem:
+          devices:
+            excludes:
+            - binfmt_misc
+          filesystems:
+            excludes:
+            - binfmt_misc
+          mountPoints:
+            excludes:
+            - '*/proc/sys/fs/binfmt_misc'
+        type: host_metrics
+      internal_metrics:
+        type: internal_metrics
+      kubernetes_logs:
         type: kubernetes_logs
     transforms:
       my_remap_id:
         inputs:
-        - kube_log
+        - kubernetes_logs
         source: |-
           .test = del(.)
           .container_name = del(.test.kubernetes.container_name)
@@ -202,7 +226,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: 59629f14822170d7d2cdcc1c2049d45a1a35be0fdbbffc10c9e11c6ef550db9d
+        checksum/config: ef9e4f0fd4df25ed391c5bbb1f4c5dfd0fbb0d7d2ab4abf36b972dc81169076b
       labels:
         app.kubernetes.io/name: vector
         app.kubernetes.io/instance: vector
@@ -240,6 +264,9 @@ spec:
           ports:      
             - name: api
               containerPort: 8686
+              protocol: TCP
+            - name: prom-exporter
+              containerPort: 9090
               protocol: TCP
           resources:
             limits:

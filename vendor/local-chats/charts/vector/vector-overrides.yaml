@@ -299,18 +299,33 @@ customConfig:
   data_dir: /var/lib/vector
   api:
     enabled: true
-    address: "0.0.0.0:8686"
+    address: 127.0.0.1:8686
+    playground: false
   sources:
-    kube_log:
-      type: "kubernetes_logs"
-      timezone: "local"
-      auto_partial_merge: true
-      extra_namespace_label_selector: "kubernetes.io/metadata.name in (monitoring)"
+    kubernetes_logs:
+      type: kubernetes_logs
+    host_metrics:
+      filesystem:
+        devices:
+          excludes: [binfmt_misc]
+        filesystems:
+          excludes: [binfmt_misc]
+        mountPoints:
+          excludes: ["*/proc/sys/fs/binfmt_misc"]
+      type: host_metrics
+    internal_metrics:
+      type: internal_metrics
+  # sources:
+  #   kube_log:
+  #     type: "kubernetes_logs"
+  #     timezone: "local"
+  #     auto_partial_merge: true
+  #     extra_namespace_label_selector: "kubernetes.io/metadata.name in (monitoring)"
   transforms:
     my_remap_id:
       type: remap
       inputs:
-      - kube_log
+      - kubernetes_logs
       source: |-
         .test = del(.)
         .container_name = del(.test.kubernetes.container_name)
@@ -331,13 +346,21 @@ customConfig:
     #   compression: none
     #   encoding:
     #     codec: json
-
-
-    # https://vector.dev/docs/reference/configuration/sinks/loki/#label-expansion
+    prom_exporter:
+      type: prometheus_exporter
+      inputs: [host_metrics, internal_metrics]
+      address: 0.0.0.0:9090
+    stdout:
+      type: console
+      inputs: [kubernetes_logs]
+      encoding:
+        codec: json
+# https://vector.dev/docs/reference/configuration/sinks/loki/#label-expansion
     loki:
       type: loki
       inputs:
-        - "my_remap_id"
+        # - "my_remap_id"
+        - "kubernetes_logs"
       endpoint: http://loki-loki-distributed-gateway.monitoring.svc.cluster.local
       labels:
         forwarder: vector
@@ -345,7 +368,6 @@ customConfig:
         host: "k3d-playground"
         job: vector
         application: "vector"
-
       out_of_order_action: accept
       remove_timestamp: true
       remove_label_fields: false
