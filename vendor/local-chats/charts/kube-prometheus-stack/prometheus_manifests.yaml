@@ -119,7 +119,7 @@ metadata:
 type: Opaque
 data:
   admin-user: "YWRtaW4="
-  admin-password: "cHJvbS1vcGVyYXRvcg=="
+  admin-password: "cGFzc3dvcmQ="
   ldap-toml: ""
 ---
 # Source: kube-prometheus-stack/templates/alertmanager/secret.yaml
@@ -1755,7 +1755,7 @@ spec:
         checksum/config: 6da6948e4e64bfd759e9d045c4e63e30d857ba2148572c05fcfd89cd8f02ba8a
         checksum/dashboards-json-config: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
         checksum/sc-dashboard-provider-config: 499051ff49b282810da5e896972c2144eea62810ca4c255842941a157e8a9950
-        checksum/secret: edd6698fbc777c4af107ff38f4e4c09f7c81467fae20c8e8238174961fff1031
+        checksum/secret: f1a23904e4d11ef8fc8f309ae2ca236216fa2d323e7c432b1aea94b0a6c6a7fd
         kubectl.kubernetes.io/default-container: grafana
     spec:
       
