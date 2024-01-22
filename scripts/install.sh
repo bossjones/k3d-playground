@@ -14,12 +14,8 @@ cd vendor/local-chats/charts/loki-distributed
 make install
 cd - || exit
 
-cd vendor/local-chats/charts/promtail
+cd vendor/local-chats/charts/vector
 make install
 cd -
-
-cd vendor/local-chats/charts/rancher
-make install
-cd - || exit
 
 cd ~/dev/bossjones/k3d-playground || exit
