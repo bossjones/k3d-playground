@@ -1,0 +1,202 @@
+---
+# Source: vector/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vector
+  labels:
+    helm.sh/chart: vector-0.30.0
+    app.kubernetes.io/name: vector
+    app.kubernetes.io/instance: vector
+    app.kubernetes.io/component: Aggregator
+    app.kubernetes.io/version: "0.35.0-distroless-libc"
+    app.kubernetes.io/managed-by: Helm
+    
+automountServiceAccountToken: true
+---
+# Source: vector/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vector
+  labels:
+    helm.sh/chart: vector-0.30.0
+    app.kubernetes.io/name: vector
+    app.kubernetes.io/instance: vector
+    app.kubernetes.io/component: Aggregator
+    app.kubernetes.io/version: "0.35.0-distroless-libc"
+    app.kubernetes.io/managed-by: Helm
+    
+data:
+  vector.yaml: |
+    api:
+      address: 0.0.0.0:8686
+      enabled: true
+    data_dir: /var/lib/vector
+    sinks:
+      loki:
+        auth:
+          password: ""
+          strategy: basic
+          user: ""
+        encoding:
+          codec: json
+          timestamp_format: rfc3339
+        endpoint: http://loki-loki-distributed-gateway.monitoring.svc.cluster.local
+        healthcheck:
+          enabled: true
+        inputs:
+        - my_remap_id
+        labels:
+          application: vector
+          cluster: k3d
+          forwarder: vector
+          host: k3d-playground
+          job: vector
+        out_of_order_action: accept
+        remove_label_fields: false
+        remove_timestamp: true
+        request:
+          concurrency: adaptive
+          rate_limit_duration_secs: 1
+          rate_limit_num: 10
+        tenant_id: docker
+        type: loki
+    sources:
+      kube_log:
+        auto_partial_merge: true
+        extra_namespace_label_selector: kubernetes.io/metadata.name in (monitoring)
+        timezone: local
+        type: kubernetes_logs
+    transforms:
+      my_remap_id:
+        inputs:
+        - kube_log
+        source: |-
+          .test = del(.)
+          .container_name = del(.test.kubernetes.container_name)
+          .message = del(.test.message)
+          .timestamp = del(.test.timestamp)
+          del(.test)
+        type: remap
+---
+# Source: vector/templates/service-headless.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: vector-headless
+  labels:
+    helm.sh/chart: vector-0.30.0
+    app.kubernetes.io/name: vector
+    app.kubernetes.io/instance: vector
+    app.kubernetes.io/component: Aggregator
+    app.kubernetes.io/version: "0.35.0-distroless-libc"
+    app.kubernetes.io/managed-by: Helm
+    
+  annotations:
+spec:
+  clusterIP: None
+  ports:
+    - name: http
+      port: 9090
+  selector:
+    app.kubernetes.io/name: vector
+    app.kubernetes.io/instance: vector
+    app.kubernetes.io/component: Aggregator
+  type: ClusterIP
+---
+# Source: vector/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: vector
+  labels:
+    helm.sh/chart: vector-0.30.0
+    app.kubernetes.io/name: vector
+    app.kubernetes.io/instance: vector
+    app.kubernetes.io/component: Aggregator
+    app.kubernetes.io/version: "0.35.0-distroless-libc"
+    app.kubernetes.io/managed-by: Helm
+    
+  annotations:
+spec:
+  ports:
+    - name: http
+      port: 9090
+  selector:
+    app.kubernetes.io/name: vector
+    app.kubernetes.io/instance: vector
+    app.kubernetes.io/component: Aggregator
+  type: ClusterIP
+---
+# Source: vector/templates/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: vector
+  labels:
+    helm.sh/chart: vector-0.30.0
+    app.kubernetes.io/name: vector
+    app.kubernetes.io/instance: vector
+    app.kubernetes.io/component: Aggregator
+    app.kubernetes.io/version: "0.35.0-distroless-libc"
+    app.kubernetes.io/managed-by: Helm
+    
+  annotations:
+    {}
+spec:
+  replicas: 1
+  podManagementPolicy: OrderedReady
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: vector
+      app.kubernetes.io/instance: vector
+      app.kubernetes.io/component: Aggregator
+  serviceName: vector-headless
+  template:
+    metadata:
+      annotations:
+        checksum/config: acb533da9f55acbcd8ed4475a9f809531e8a58a29bd43d1ea6b35121844d88c3
+      labels:
+        app.kubernetes.io/name: vector
+        app.kubernetes.io/instance: vector
+        app.kubernetes.io/component: Aggregator
+        vector.dev/exclude: "true"
+    spec:
+      serviceAccountName: vector
+      dnsPolicy: ClusterFirst
+      containers:
+        - name: vector
+          image: "timberio/vector:0.35.0-distroless-libc"
+          imagePullPolicy: IfNotPresent
+          args:
+            - --config-dir
+            - /etc/vector/
+          env:
+          ports:      
+            - name: api
+              containerPort: 8686
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 400m
+              memory: 500Mi
+            requests:
+              cpu: 300m
+              memory: 256Mi
+          volumeMounts:
+            - name: data
+              mountPath: "/var/lib/vector"
+            - name: config
+              mountPath: "/etc/vector/"
+              readOnly: true
+      terminationGracePeriodSeconds: 60
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: config
+          projected:
+            sources:
+              - configMap:
+                  name: vector
+  volumeClaimTemplates:

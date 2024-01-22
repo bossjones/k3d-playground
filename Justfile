@@ -68,6 +68,8 @@ stop-cluster:
 delete-cluster: stop-cluster
   k3d cluster delete k3d-playground || true
 
+nuke-cluster: delete-cluster
+
 reset-cluster: delete-cluster setup-cluster
 
 create-cluster-with-config:

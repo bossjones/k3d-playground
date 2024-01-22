@@ -31,7 +31,7 @@ stringData:
     server:
       log_level: info
       log_format: logfmt
-      http_listen_port: 4101
+      http_listen_port: 3101
       
     
     clients:
@@ -184,16 +184,16 @@ spec:
   clusterIP: None
   ports:
     - name: http-metrics
-      port: 4101
+      port: 3101
       targetPort: http-metrics
       protocol: TCP
   selector:
     app.kubernetes.io/name: promtail
     app.kubernetes.io/instance: promtail
 ---
-# Source: promtail/templates/daemonset.yaml
+# Source: promtail/templates/deployment.yaml
 apiVersion: apps/v1
-kind: DaemonSet
+kind: Deployment
 metadata:
   name: promtail
   namespace: monitoring
@@ -204,12 +204,11 @@ metadata:
     app.kubernetes.io/version: "2.8.3"
     app.kubernetes.io/managed-by: Helm
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: promtail
       app.kubernetes.io/instance: promtail
-  updateStrategy:
-    {}
   template:
     metadata:
       labels:
@@ -218,7 +217,7 @@ spec:
         bosslab: k3d
         prometheus: main
       annotations:
-        checksum/config: 19620ac9a0305742a6ce53c41f5db8d16fae589d5f24e0ae32bb10bdbc5c1187
+        checksum/config: 1ad42f36968df3846db4461385052ab6a88e22862910d08d6dcc55a0ed208430
     spec:
       serviceAccountName: promtail
       enableServiceLinks: true
@@ -250,7 +249,7 @@ spec:
                   fieldPath: spec.nodeName
           ports:
             - name: http-metrics
-              containerPort: 4101
+              containerPort: 3101
               protocol: TCP
           securityContext:
             allowPrivilegeEscalation: false

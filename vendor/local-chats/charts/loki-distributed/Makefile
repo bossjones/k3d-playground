@@ -12,7 +12,7 @@ install: install-minio
 render-install: render install
 
 uninstall:
-	helm -n monitoring uninstall loki
+	helm -n monitoring uninstall loki || true
 	kubectl -n monitoring delete -f minio.yaml
 
 reinstall: uninstall install
