@@ -32,3 +32,10 @@ spec:
         - name: api@internal
           kind: TraefikService
 ```
+
+
+# Query to use when you get to grafana
+
+```
+{job="vector"} | json | line_format "{{.message}}" |= ``
+```
