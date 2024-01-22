@@ -103,3 +103,10 @@ portainer-install:
   helm repo update
   helm upgrade --install --create-namespace -n portainer portainer portainer/portainer --set tls.force=false
   echo "open: https://localhost:30779/ or http://localhost:30777/ to access portainer"
+
+proxy-weave:
+  kubectl port-forward -n weave "$(kubectl get -n weave pod --selector=weave-scope-component=app -o jsonpath='{.items..metadata.name}')" 4040
+
+proxy-traefik:
+  echo "open up: http://localhost:9000/dashboard/#/ in your browser"
+  kubectl port-forward -n kube-system "$(kubectl get pods -n kube-system| grep '^traefik-' | awk '{print $1}')" 9000:9000
