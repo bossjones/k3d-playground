@@ -13,3 +13,8 @@ uninstall:
 	helm -n monitoring uninstall vector
 
 reinstall: uninstall install
+
+monitor:
+	kubectl -n monitoring exec -it statefulset/vector -- vector top --url http://0.0.0.0:8686/graphql
+
+metrics: monitor
