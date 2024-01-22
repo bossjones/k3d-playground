@@ -47,6 +47,7 @@ data:
         healthcheck:
           enabled: true
         inputs:
+        - parse_k8s_events
         - kubernetes_logs
         labels:
           application: vector
@@ -90,18 +91,26 @@ data:
         type: host_metrics
       internal_metrics:
         type: internal_metrics
+      kubernetes_events:
+        extra_label_selector: app.kubernetes.io/name=k8s-event-logger
+        type: kubernetes_logs
       kubernetes_logs:
         type: kubernetes_logs
     transforms:
-      my_remap_id:
+      parse_k8s_events:
         inputs:
-        - kubernetes_logs
-        source: |-
-          .test = del(.)
-          .container_name = del(.test.kubernetes.container_name)
-          .message = del(.test.message)
-          .timestamp = del(.test.timestamp)
-          del(.test)
+        - kubernetes_events
+        source: |
+          # Remove useless fields. In this case, we are only interested
+          # about the output of the application, we don't want to monitor
+          # the pod itself
+                del(.kubernetes)
+                parsed, err = parse_json(string!(.message))
+                if err != null {
+                  .log_parsing_error = err
+                } else {
+                  . |= object!(parsed)
+                }
         type: remap
 ---
 # Source: vector/templates/rbac.yaml
@@ -226,7 +235,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: ef9e4f0fd4df25ed391c5bbb1f4c5dfd0fbb0d7d2ab4abf36b972dc81169076b
+        checksum/config: 6878498c4f627a826934cc3d81db0306706921a0567019bf021c3d6747888406
       labels:
         app.kubernetes.io/name: vector
         app.kubernetes.io/instance: vector

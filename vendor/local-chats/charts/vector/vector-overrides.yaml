@@ -302,6 +302,11 @@ customConfig:
     address: 127.0.0.1:8686
     playground: false
   sources:
+    # SOURCE: https://medium.com/@guilmont.romain/observing-k8s-events-in-grafana-an-easy-way-a47efcb395c1
+    kubernetes_events:
+      type: kubernetes_logs
+      # Select only the k8s-event-logger pod
+      extra_label_selector: "app.kubernetes.io/name=k8s-event-logger"
     kubernetes_logs:
       type: kubernetes_logs
     host_metrics:
@@ -322,16 +327,33 @@ customConfig:
   #     auto_partial_merge: true
   #     extra_namespace_label_selector: "kubernetes.io/metadata.name in (monitoring)"
   transforms:
-    my_remap_id:
-      type: remap
+    # SOURCE: https://medium.com/@guilmont.romain/observing-k8s-events-in-grafana-an-easy-way-a47efcb395c1
+    parse_k8s_events:
       inputs:
-      - kubernetes_logs
-      source: |-
-        .test = del(.)
-        .container_name = del(.test.kubernetes.container_name)
-        .message = del(.test.message)
-        .timestamp = del(.test.timestamp)
-        del(.test)
+        - kubernetes_events
+      type: remap
+      source: |
+        # Remove useless fields. In this case, we are only interested
+        # about the output of the application, we don't want to monitor
+        # the pod itself
+              del(.kubernetes)
+              parsed, err = parse_json(string!(.message))
+              if err != null {
+                .log_parsing_error = err
+              } else {
+                . |= object!(parsed)
+              }
+  # transforms:
+  #   my_remap_id:
+  #     type: remap
+  #     inputs:
+  #     - kubernetes_logs
+  #     source: |-
+  #       .test = del(.)
+  #       .container_name = del(.test.kubernetes.container_name)
+  #       .message = del(.test.message)
+  #       .timestamp = del(.test.timestamp)
+  #       del(.test)
 
   sinks:
     # azure_blob:
@@ -360,6 +382,7 @@ customConfig:
       type: loki
       inputs:
         # - "my_remap_id"
+        - "parse_k8s_events"
         - "kubernetes_logs"
       endpoint: http://loki-loki-distributed-gateway.monitoring.svc.cluster.local
       labels:
