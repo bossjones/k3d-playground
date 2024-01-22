@@ -167,3 +167,4 @@ vendor/vectordotdev
 .pyre/
 nms.yaml
 *secret.yaml
+.ruff_cache
