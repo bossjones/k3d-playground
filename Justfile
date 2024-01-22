@@ -37,7 +37,7 @@ pre-commit-install:
 # -p "32000-32767:32000-32767@loadbalancer": You may as well expose a NodePort range (if you want to avoid the Ingress Controller).
 # FATA[0000] runtime ulimit "noproc" is not valid, allowed keys are: fsize, rss, rtprio, data, msgqueue, nofile, stack, core, rttime, cpu, memlock, nice, nproc, sigpending, locks
 # error: Recipe `setup-cluster` failed on line 50 with exit code 1
-
+# NOTE: Regarding disk pressure - https://github.com/k3d-io/k3d/issues/133
 
 setup-cluster:
   mkdir -p /tmp/k3dvol || true
@@ -53,6 +53,10 @@ setup-cluster:
   --runtime-ulimit "nofile=26677:26677" \
   --runtime-ulimit "nproc=26677:26677" \
   --runtime-ulimit "core=26677:26677" \
+  --k3s-arg '--kubelet-arg=eviction-hard=imagefs.available<1%,nodefs.available<1%@agent:*' \
+  --k3s-arg '--kubelet-arg=eviction-minimum-reclaim=imagefs.available=1%,nodefs.available=1%@agent:*' \
+  --k3s-arg '--kubelet-arg=eviction-hard=imagefs.available<1%,nodefs.available<1%@server:0' \
+  --k3s-arg '--kubelet-arg=eviction-minimum-reclaim=imagefs.available=1%,nodefs.available=1%@server:0' \
   --image rancher/k3s:v1.27.9-k3s1
 # -p "32000-32767:32000-32767@loadbalancer" \
 # --image rancher/k3s:v1.28.5+k3s1
