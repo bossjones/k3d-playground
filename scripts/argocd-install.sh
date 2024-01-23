@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-set -euxo pipefail
+# set -euxo pipefail
+set -x
 
 kubectx k3d-demo
 

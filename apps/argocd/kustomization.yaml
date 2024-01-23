@@ -31,6 +31,7 @@ images:
 
 commonAnnotations:
   reloader.stakater.com/auto: "true"
+
 patches:
 - path: overlay/argocd-svc.yaml
 - path: overlay/argocd-rbac.yaml
