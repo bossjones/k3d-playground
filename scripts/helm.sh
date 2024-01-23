@@ -1,20 +1,5 @@
 #!/usr/bin/env bash
 
-cd ~/dev/bossjones/k3d-playground || exit
-
-mkdir vendor/prometheus-community || true
-cd vendor/prometheus-community || exit
-git clone https://github.com/prometheus-community/helm-charts || git pull --rebase
-cd - || exit
-mkdir vendor/grafana || true
-cd vendor/grafana || exit
-git clone https://github.com/grafana/helm-charts || git pull --rebase
-cd - || exit
-mkdir vendor/vectordotdev || true
-cd vendor/vectordotdev || exit
-git clone https://github.com/vectordotdev/helm-charts || git pull --rebase
-cd - || exit
-
 helm repo add influxdata https://helm.influxdata.com/
 helm repo add bitnami https://charts.bitnami.com/bitnami
 # helm install my-release oci://registry-1.docker.io/bitnamicharts/memcached
@@ -40,6 +25,6 @@ helm repo add stakater https://stakater.github.io/stakater-charts
 helm repo add ananace-charts https://ananace.gitlab.io/charts
 helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
 
-helm repo update
+helm repo add portainer https://portainer.github.io/k8s/
 
-helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
+helm repo update

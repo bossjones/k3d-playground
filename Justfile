@@ -89,6 +89,9 @@ autocomplete:
   k3d completion zsh > ~/.zsh/completion/_k3d
 
 vendor:
+  bash scripts/vendor.sh
+
+helm:
   bash scripts/helm.sh
 
 weave:
@@ -184,4 +187,4 @@ argocd-bridge:
 argocd-proxy: argocd-bridge
 
 # bring up k3d-demo cluster
-demo: dns template k3d-demo argocd-install certs argocd-secrets argocd-password argocd-bridge
+demo: nuke-cluster helm dns template k3d-demo argocd-install certs argocd-secrets argocd-password argocd-bridge
