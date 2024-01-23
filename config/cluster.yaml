@@ -35,6 +35,8 @@ volumes:
   - server:0
   - agent:*
 
+  # --volume {{PWD}}:/var/lib/rancer/k3s/server/manifests/traefik-config.yaml@all \
+  # --volume /tmp/k3dvol:/var/lib/rancher/k3s/storage@all \
 hostAliases:
 - ip: 127.0.0.1
   hostnames:

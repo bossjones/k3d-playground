@@ -21,6 +21,7 @@ resources:
 
 components:
 - https://github.com/argoproj-labs/argocd-extensions/manifests
+# - https://github.com/argoproj-labs/argocd-extensions/tree/main/manifests
 
 
 namespace: argocd
