@@ -168,3 +168,25 @@ vendor/vectordotdev
 nms.yaml
 *secret.yaml
 .ruff_cache
+
+# local-gitops
+!apps/kwatch/.gitkeep
+!postgres/.gitkeep
+!storage/.gitkeep
+!utilities/.gitkeep
+.envrc
+*-secret.yaml
+*.pem
+apps/argocd/base/secrets/*.yaml
+apps/argocd/overlay/*.json
+apps/kwatch/*
+apps/prometheus/kube-prometheus/*
+config/tls/*.pem
+config/tls/base/tls-secret.yaml
+config/tls/cert.pem
+config/tls/key.pem
+j*.pem
+manifests/*.yaml
+postgres/*
+storage/*
+utilities/*

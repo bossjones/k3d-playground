@@ -111,7 +111,7 @@
   },
   "yaml.schemas": {
       "https://raw.githubusercontent.com/k3d-io/k3d/main/pkg/config/v1alpha5/schema.json": [
-          "examples/*.yaml"
+          "{examples,config}/*.yaml"
       ],
       "https://raw.githubusercontent.com/bossjones/k3d-playground/main/schema/argocd/v2.8.0/application_v1alpha1.json": [
           "apps/argocd/base/{utilities,core,apps}/*.yaml"
