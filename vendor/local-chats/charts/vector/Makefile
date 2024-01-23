@@ -3,7 +3,7 @@ render:
 
 install:
 	helm repo add deliveryhero https://charts.deliveryhero.io/ || true
-	helm install k8s-event-logger deliveryhero/k8s-event-logger --version=1.1.4
+	helm install k8s-event-logger deliveryhero/k8s-event-logger --version=1.1.4 || true
 	helm upgrade --install vector vector/vector -f vector-overrides.yaml -n monitoring --version 0.30.0
 
 render-install: render install
