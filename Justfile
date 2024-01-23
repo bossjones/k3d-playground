@@ -169,8 +169,8 @@ certs: post-certs
   cd -
 
 # generate argocd templates
-template:
-  bash scripts/template.sh
+templates:
+  bash scripts/templates.sh
 
 # install argocd
 argocd-install:
@@ -191,4 +191,4 @@ argocd-bridge:
 argocd-proxy: argocd-bridge
 
 # bring up k3d-demo cluster
-demo: nuke-cluster helm dns template k3d-demo argocd-install certs argocd-secrets argocd-password argocd-bridge
+demo: nuke-cluster helm k3d-demo argocd-install certs argocd-secrets templates argocd-password argocd-bridge

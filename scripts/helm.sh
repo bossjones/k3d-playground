@@ -15,7 +15,7 @@ helm repo add chaos-mesh https://charts.chaos-mesh.org
 helm repo add hashicorp https://helm.releases.hashicorp.com
 helm repo add external-dns https://kubernetes-sigs.github.io/external-dns/
 helm repo add nginx-stable https://helm.nginx.com/stable
-helm repo add hashicorp https://helm.releases.hashicorp.co
+# helm repo add hashicorp https://helm.releases.hashicorp.co
 helm repo add lwolf-charts http://charts.lwolf.org
 helm repo add emberstack https://emberstack.github.io/helm-charts
 helm repo add keyporttech https://keyporttech.github.io/helm-charts/
