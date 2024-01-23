@@ -212,12 +212,15 @@ argocd-bridge:
 
 argocd-proxy: argocd-bridge
 
+# Add apps to argocd
+monitoring-install:
+  ./scripts/run-kustomize.sh monitoring/kube-prometheus-stack
+
 # bring up k3d-demo cluster
 demo: nuke-cluster helm k3d-demo argocd-install certs argocd-secret templates argocd-password argocd-bridge
 
 # bring up k3d-demo cluster but skip some steps
-demo-prebuilt: nuke-cluster k3d-demo argocd-install certs-only argocd-secret templates argocd-password argocd-bridge
-
+demo-prebuilt: nuke-cluster k3d-demo argocd-install certs-only argocd-secret templates monitoring-install argocd-password argocd-bridge
 
 # fix network policies in all namespaces
 fix-network-policies:

@@ -10,7 +10,7 @@ resources:
 - base/core/nginx.yaml
 - base/core/argocd.yaml
 - base/core/ingress.yaml
-- base/core/allow-all-egress.yaml
+# - base/core/allow-all-egress.yaml
 - base/apps/example.yaml
 - base/apps/template.yaml
 - base/utilities/zalando.yaml
@@ -36,31 +36,31 @@ patches:
 - path: overlay/argocd-rbac.yaml
 - path: overlay/argocd-cm.yaml
 - path: overlay/argocd-cr.yaml
-- path: delete-np-argocd-redis-network-policy.yaml
+- path: overlay/delete-np-argocd-redis-network-policy.yaml
   target:
     kind: NetworkPolicy
     name: argocd-redis-network-policy
-- path: delete-np-argocd-server-network-policy.yaml
+- path: overlay/delete-np-argocd-server-network-policy.yaml
   target:
     kind: NetworkPolicy
     name: argocd-server-network-policy
-- path: delete-np-argocd-dex-server-network-policy.yaml
+- path: overlay/delete-np-argocd-dex-server-network-policy.yaml
   target:
     kind: NetworkPolicy
     name: argocd-dex-server-network-policy
-- path: delete-np-argocd-repo-server-network-policy.yaml
+- path: overlay/delete-np-argocd-repo-server-network-policy.yaml
   target:
     kind: NetworkPolicy
     name: argocd-repo-server-network-policy
-- path: delete-np-argocd-notifications-controller-network-policy.yaml
+- path: overlay/delete-np-argocd-notifications-controller-network-policy.yaml
   target:
     kind: NetworkPolicy
     name: argocd-notifications-controller-network-policy
-- path: delete-np-argocd-application-controller-network-policy.yaml
+- path: overlay/delete-np-argocd-application-controller-network-policy.yaml
   target:
     kind: NetworkPolicy
     name: argocd-application-controller-network-policy
-- path: delete-np-argocd-applicationset-controller-network-policy.yaml
+- path: overlay/delete-np-argocd-applicationset-controller-network-policy.yaml
   target:
     kind: NetworkPolicy
     name: argocd-applicationset-controller-network-policy

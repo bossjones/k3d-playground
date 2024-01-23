@@ -18,7 +18,7 @@ spec:
           - $values/apps/argocd/base/monitoring/kube-prometheus-stack/values.yaml
     - repoURL: 'https://github.com/bossjones/k3d-playground.git' # Can point to either a Helm chart repo or a git repo.
       targetRevision: main # For Helm, this refers to the chart version.
-      path: apps/argocd/base/monitoring/kube-prometheus-stack # This has no meaning for Helm charts pulled directly from a Helm repo instead of git.
+      path: kubernetes/manifests/monitoring/kube-prometheus-stack # This has no meaning for Helm charts pulled directly from a Helm repo instead of git.
       ref: values # For Helm, acts as a reference to this source for fetching values files from this source. Has no meaning when under `source` field
   destination:
     namespace: monitoring
