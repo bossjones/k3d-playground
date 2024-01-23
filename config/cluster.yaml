@@ -53,6 +53,9 @@ options:
       - settings.workerConnections=2048
   k3s:
     extraArgs:
+    - arg: "--disable-network-policy"
+      nodeFilters:
+        - server:*
     - arg: --disable=traefik
       nodeFilters:
       - server:*
