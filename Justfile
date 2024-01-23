@@ -213,3 +213,9 @@ demo: nuke-cluster helm k3d-demo argocd-install certs argocd-secret templates ar
 
 # bring up k3d-demo cluster but skip some steps
 demo-prebuilt: nuke-cluster k3d-demo argocd-install certs-only argocd-secret templates argocd-password argocd-bridge
+
+# fix network policies in all namespaces
+fix-network-policies:
+  bash scripts/fix-network-policies.sh
+
+fix-np: fix-network-policies
