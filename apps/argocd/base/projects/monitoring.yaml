@@ -1,3 +1,9 @@
+# Projects
+# Projects provide a logical grouping of applications, which is useful when Argo CD is used by multiple teams. Projects provide the following features:
+# restrict what may be deployed (trusted Git source repositories)
+# restrict where apps may be deployed to (destination clusters and namespaces)
+# restrict what kinds of objects may or may not be deployed (e.g. RBAC, CRDs, DaemonSets, NetworkPolicy etc...)
+# defining project roles to provide application RBAC (bound to OIDC groups and/or JWT tokens)
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
@@ -7,8 +13,10 @@ metadata:
 spec:
   description: Monitoring Project
   sourceRepos:
+  # Any other repo is fine though
   - '*'
   destinations:
+  # This app project can deploy to the following namespaces in our k3d cluster
   - namespace: monitoring
     server: https://kubernetes.default.svc
   - namespace: kube-system
@@ -19,8 +27,14 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: vault
     server: https://kubernetes.default.svc
+  # permits deployments from any source repo, to any cluster, and all resource Kinds
   clusterResourceWhitelist:
   - group: '*'
     kind: '*'
+  # SOURCE: https://argo-cd.readthedocs.io/en/stable/user-guide/orphaned-resources/
+  # Orphaned Resources Monitoring¶
+  # Orphaned Kubernetes resource is a top-level namespaced resource which does not belong to any Argo CD Application. The Orphaned Resources Monitoring feature allows detecting orphaned resources, inspect/remove resources using Argo CD UI and generate a warning.
+
+  # The Orphaned Resources monitoring is enabled in Project settings, and the below is an example of enabling the feature using the AppProject custom resource.
   orphanedResources:
     warn: false
