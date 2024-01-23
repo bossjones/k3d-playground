@@ -98,6 +98,7 @@ helm:
 weave:
   kubectl apply -f "https://github.com/weaveworks/scope/releases/download/v1.13.2/k8s-scope.yaml?k8s-service-type=LoadBalancer&k8s-version=$(kubectl version | base64 | tr -d '\n')"
   kubectl apply -f vendor/local-chats/charts/scope/manifests/
+  # kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
 
 open-ports:
   ss -tlnp
@@ -117,6 +118,9 @@ proxy-weave:
 proxy-traefik:
   echo "open up: http://localhost:9000/dashboard/#/ in your browser"
   kubectl port-forward -n kube-system "$(kubectl get pods -n kube-system| grep '^traefik-' | awk '{print $1}')" 9000:9000
+
+proxy-grafana:
+	kubectl port-forward service/monitoring-stack-grafana 8081:80 -n monitoring
 
 # Generate argocd jsonschema
 argocd-schema:
@@ -214,8 +218,11 @@ demo: nuke-cluster helm k3d-demo argocd-install certs argocd-secret templates ar
 # bring up k3d-demo cluster but skip some steps
 demo-prebuilt: nuke-cluster k3d-demo argocd-install certs-only argocd-secret templates argocd-password argocd-bridge
 
+
 # fix network policies in all namespaces
 fix-network-policies:
   bash scripts/fix-network-policies.sh
 
 fix-np: fix-network-policies
+
+demo-update: argocd-install certs-only argocd-secret templates argocd-password install fix-np argocd-bridge
