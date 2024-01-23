@@ -10,6 +10,9 @@ K3D_VERSION := `k3d	version`
 CURRENT_DIR := "$(pwd)"
 PATH_TO_TRAEFIK_CONFIG := CURRENT_DIR / "mounts/var/lib/rancer/k3s/server/manifests/traefik-config.yaml"
 
+base64_cmd := if {{os()}} == "macos" { "base64 -b 0 cert.pem > ca.pem" } else { "base64 -w 0 cert.pem > ca.pem" }
+
+
 _default:
 	@just --list
 
@@ -111,7 +114,74 @@ proxy-traefik:
   echo "open up: http://localhost:9000/dashboard/#/ in your browser"
   kubectl port-forward -n kube-system "$(kubectl get pods -n kube-system| grep '^traefik-' | awk '{print $1}')" 9000:9000
 
+# Generate argocd jsonschema
 argocd-schema:
   python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.0/manifests/crds/application-crd.yaml
   python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.0/manifests/crds/applicationset-crd.yaml
   python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.0/manifests/crds/appproject-crd.yaml
+
+# Starts your local k3d cluster.
+k3d-demo:
+  k3d cluster delete demo
+  k3d cluster create --config config/cluster.yaml
+  echo -e "\nYour cluster has been created. Type 'k3d cluster list' to confirm."
+
+# Creates the DNS entry required for the local domain to work.
+dns:
+  sudo hostctl add k8s -q < config/.etchosts
+  echo -e "Added 'k8s.localhost' and related domains to your hosts file!"
+
+# Initial cert creation steps
+pre-certs:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  cd config/tls
+  pwd
+  rm cert.pem key.pem base/tls-secret.yaml ca.pem 2> /dev/null
+  mkcert -install
+  mkcert -cert-file cert.pem -key-file key.pem -p12-file p12.pem "*.k8s.localhost" k8s.localhost "*.localhost" ::1 127.0.0.1 localhost 127.0.0.1 "*.internal.localhost" "*.local" 2> /dev/null
+  cd -
+
+# Post cert creation steps
+post-certs:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  cd config/tls
+  pwd
+  echo -e 'running eval "{{base64_cmd}}"\n'
+  eval "{{base64_cmd}}"
+  cd -
+
+# generate certs
+certs: post-certs
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  cd config/tls
+  pwd
+  echo -e "Creating certificate secrets on Kubernetes for local TLS enabled by default\n"
+  kubectl config set-context --current --namespace=kube-system --cluster=k3d-demo
+  kubectl create secret tls tls-secret --cert=cert.pem --key=key.pem --dry-run=client -o yaml >base/tls-secret.yaml
+  kubectl apply -k ./
+  echo -e "\nCertificate resources have been created.\n"
+  cd -
+
+# generate argocd templates
+template:
+  bash scripts/template.sh
+
+# install argocd
+argocd-install:
+  bash scripts/argocd-install.sh
+
+# install argocd secrets
+argocd-secrets:
+  bash scripts/argocd-secrets.sh
+
+# port forward to argocd
+argocd-bridge:
+  kubectl port-forward -n argocd svc/argocd-server 8832:80
+
+argocd-proxy: argocd-bridge
+
+# bring up k3d-demo cluster
+demo: dns template k3d-demo argocd-install certs argocd-secrets argocd-password argocd-bridge

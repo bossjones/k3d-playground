@@ -24,6 +24,22 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 # Deploy a Helm Release named "kubernetes-dashboard" using the kubernetes-dashboard chart
 helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
+
+# local-gitops
+helm repo add chaos-mesh https://charts.chaos-mesh.org
+helm repo add hashicorp https://helm.releases.hashicorp.com
+helm repo add external-dns https://kubernetes-sigs.github.io/external-dns/
+helm repo add nginx-stable https://helm.nginx.com/stable
+helm repo add hashicorp https://helm.releases.hashicorp.co
+helm repo add lwolf-charts http://charts.lwolf.org
+helm repo add emberstack https://emberstack.github.io/helm-charts
+helm repo add keyporttech https://keyporttech.github.io/helm-charts/
+helm repo add agones https://agones.dev/chart/stable
+helm repo add drone https://charts.drone.io
+helm repo add stakater https://stakater.github.io/stakater-charts
+helm repo add ananace-charts https://ananace.gitlab.io/charts
+helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
+
 helm repo update
 
 helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
