@@ -10,7 +10,7 @@ K3D_VERSION := `k3d	version`
 CURRENT_DIR := "$(pwd)"
 PATH_TO_TRAEFIK_CONFIG := CURRENT_DIR / "mounts/var/lib/rancer/k3s/server/manifests/traefik-config.yaml"
 
-base64_cmd := if "{{os()}}" == "macos" { "base64 -b 0 cert.pem > ca.pem" } else { "base64 -w 0 cert.pem > ca.pem" }
+base64_cmd := if "{{os()}}" == "macos" { "base64 -w 0 -i cert.pem -o ca.pem" } else { "base64 -b 0 -i cert.pem -o ca.pem" }
 
 
 _default:
@@ -19,6 +19,7 @@ _default:
 info:
     print "Python location: {{LOCATION_PYTHON}}"
     print "PATH_TO_TRAEFIK_CONFIG: {{PATH_TO_TRAEFIK_CONFIG}}"
+    print "OS: {{os()}}"
 
 # verify python	is running under pyenv
 which-python:
@@ -129,6 +130,10 @@ k3d-demo:
   k3d cluster create --config config/cluster.yaml
   echo -e "\nYour cluster has been created. Type 'k3d cluster list' to confirm."
 
+# delete k3d demo cluster
+demo-down:
+  k3d cluster delete demo
+
 # Creates the DNS entry required for the local domain to work.
 dns:
   sudo hostctl add k8s -q < config/.etchosts
@@ -137,10 +142,10 @@ dns:
 # Initial cert creation steps
 pre-certs:
   #!/usr/bin/env bash
-  set -euxo pipefail
   cd config/tls
   pwd
   rm cert.pem key.pem base/tls-secret.yaml ca.pem 2> /dev/null
+  set -euxo pipefail
   mkcert -install
   mkcert -cert-file cert.pem -key-file key.pem -p12-file p12.pem "*.k8s.localhost" k8s.localhost "*.localhost" ::1 127.0.0.1 localhost 127.0.0.1 "*.internal.localhost" "*.local" 2> /dev/null
   cd -
@@ -156,7 +161,20 @@ post-certs:
   cd -
 
 # generate certs
-certs: post-certs
+certs: pre-certs post-certs
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  cd config/tls
+  pwd
+  echo -e "Creating certificate secrets on Kubernetes for local TLS enabled by default\n"
+  kubectl config set-context --current --namespace=kube-system --cluster=k3d-demo
+  kubectl create secret tls tls-secret --cert=cert.pem --key=key.pem --dry-run=client -o yaml >base/tls-secret.yaml
+  kubectl apply -k ./
+  echo -e "\nCertificate resources have been created.\n"
+  cd -
+
+# generate certs ONLY
+certs-only:
   #!/usr/bin/env bash
   set -euxo pipefail
   cd config/tls
@@ -177,8 +195,8 @@ argocd-install:
   bash scripts/argocd-install.sh
 
 # install argocd secrets
-argocd-secrets:
-  bash scripts/argocd-secrets.sh
+argocd-secret:
+  bash scripts/argocd-secret.sh
 
 # get argocd password
 argocd-password:
@@ -191,4 +209,7 @@ argocd-bridge:
 argocd-proxy: argocd-bridge
 
 # bring up k3d-demo cluster
-demo: nuke-cluster helm k3d-demo argocd-install certs argocd-secrets templates argocd-password argocd-bridge
+demo: nuke-cluster helm k3d-demo argocd-install certs argocd-secret templates argocd-password argocd-bridge
+
+# bring up k3d-demo cluster but skip some steps
+demo-prebuilt: nuke-cluster k3d-demo argocd-install certs-only argocd-secret templates argocd-password argocd-bridge

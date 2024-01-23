@@ -10,6 +10,7 @@ resources:
 - base/core/nginx.yaml
 - base/core/argocd.yaml
 - base/core/ingress.yaml
+- base/core/allow-all-egress.yaml
 - base/apps/example.yaml
 - base/apps/template.yaml
 - base/utilities/zalando.yaml
