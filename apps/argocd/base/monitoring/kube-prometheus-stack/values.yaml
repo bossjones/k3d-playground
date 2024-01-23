@@ -345,7 +345,7 @@ alertmanager:
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    ingressClassName: traefik
+    ingressClassName: nginx
 
     annotations:
       ingress.kubernetes.io/ssl-redirect: "false"
@@ -361,7 +361,7 @@ alertmanager:
     ## Hosts must be provided if Ingress is enabled.
     ##
     hosts:
-      - alertmanager.boss-station.scarlettlab.home
+      - alertmanager.k8s.localhost
 
     ## Paths to use for ingress rules - one path should match the alertmanagerSpec.routePrefix
     ##
@@ -370,7 +370,7 @@ alertmanager:
 
     ## For Kubernetes >= 1.18 you should specify the pathType (determines how Ingress paths should be matched)
     ## See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#better-path-matching-with-path-types
-    pathType: ImplementationSpecific
+    pathType: Prefix
 
     ## TLS configuration for Alertmanager Ingress
     ## Secret must be manually created in the namespace
@@ -393,7 +393,7 @@ alertmanager:
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    ingressClassName: traefik
+    ingressClassName: nginx
 
     annotations: {}
     labels: {}
@@ -414,7 +414,7 @@ alertmanager:
 
     ## For Kubernetes >= 1.18 you should specify the pathType (determines how Ingress paths should be matched)
     ## See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#better-path-matching-with-path-types
-    pathType: ImplementationSpecific
+    pathType: Prefix
 
     ## Secret name containing the TLS certificate for alertmanager per replica ingress
     ## Secret must be manually created in the namespace
@@ -691,7 +691,13 @@ alertmanager:
     ## Storage is the definition of how storage will be used by the Alertmanager instances.
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/storage.md
     ##
-    storage: {}
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: manual
+          resources:
+            requests:
+              storage: 1Gi
     # volumeClaimTemplate:
     #   spec:
     #     storageClassName: gluster
@@ -917,7 +923,7 @@ grafana:
     ## IngressClassName for Grafana Ingress.
     ## Should be provided if Ingress is enable.
     ##
-    ingressClassName: traefik
+    ingressClassName: nginx
 
     ## Annotations for Grafana Ingress
     ##
@@ -934,9 +940,9 @@ grafana:
     ## Must be provided if Ingress is enable.
     ##
     # hosts:
-    #   - grafana.boss-station.scarlettlab.home
+    #   - grafana.k8s.localhost
     hosts:
-      - grafana.boss-station.scarlettlab.home
+      - grafana.k8s.localhost
 
     ## Path for grafana ingress
     path: /
@@ -2794,7 +2800,7 @@ prometheus:
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    ingressClassName: traefik
+    ingressClassName: nginx
 
     annotations: {}
     labels: {}
@@ -2809,7 +2815,7 @@ prometheus:
     ## Hosts must be provided if Ingress is enabled.
     ##
     hosts: []
-      # - thanos-gateway.boss-station.scarlettlab.home
+      # - thanos-gateway.k8s.localhost
 
     ## Paths to use for ingress rules
     ##
@@ -2818,7 +2824,7 @@ prometheus:
 
     ## For Kubernetes >= 1.18 you should specify the pathType (determines how Ingress paths should be matched)
     ## See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#better-path-matching-with-path-types
-    pathType: ImplementationSpecific
+    pathType: Prefix
 
     ## TLS configuration for Thanos Ingress
     ## Secret must be manually created in the namespace
@@ -2826,7 +2832,7 @@ prometheus:
     tls: []
     # - secretName: thanos-gateway-tls
     #   hosts:
-    #   - thanos-gateway.boss-station.scarlettlab.home
+    #   - thanos-gateway.k8s.localhost
     #
 
   ## ExtraSecret can be used to store various data in an extra secret
@@ -2845,7 +2851,7 @@ prometheus:
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    ingressClassName: traefik
+    ingressClassName: nginx
 
     annotations:
       ingress.kubernetes.io/ssl-redirect: "false"
@@ -2859,9 +2865,9 @@ prometheus:
     ## Must be provided if Ingress is enabled.
     ##
     # hosts:
-    #   - prometheus.boss-station.scarlettlab.home
+    #   - prometheus.k8s.localhost
     hosts:
-      - prometheus.boss-station.scarlettlab.home
+      - prometheus.k8s.localhost
 
     ## Paths to use for ingress rules - one path should match the prometheusSpec.routePrefix
     ##
@@ -2870,7 +2876,7 @@ prometheus:
 
     ## For Kubernetes >= 1.18 you should specify the pathType (determines how Ingress paths should be matched)
     ## See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#better-path-matching-with-path-types
-    pathType: ImplementationSpecific
+    pathType: Prefix
 
     ## TLS configuration for Prometheus Ingress
     ## Secret must be manually created in the namespace
@@ -2888,7 +2894,7 @@ prometheus:
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    ingressClassName: traefik
+    ingressClassName: nginx
 
     annotations: {}
     labels: {}
@@ -2910,7 +2916,7 @@ prometheus:
 
     ## For Kubernetes >= 1.18 you should specify the pathType (determines how Ingress paths should be matched)
     ## See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#better-path-matching-with-path-types
-    pathType: ImplementationSpecific
+    pathType: Prefix
 
     ## Secret name containing the TLS certificate for Prometheus per replica ingress
     ## Secret must be manually created in the namespace
@@ -3035,7 +3041,7 @@ prometheus:
     ## This is disabled by default.
     ## ref: https://prometheus.io/docs/prometheus/latest/querying/api/#tsdb-admin-apis
     ##
-    enableAdminAPI: false
+    enableAdminAPI: true
 
     ## Sets version of Prometheus overriding the Prometheus version as derived
     ## from the image tag. Useful in cases where the tag does not follow semver v2.
@@ -3055,7 +3061,10 @@ prometheus:
 
     # EnableFeatures API enables access to Prometheus disabled features.
     # ref: https://prometheus.io/docs/prometheus/latest/disabled_features/
-    enableFeatures: []
+      enableFeatures:
+      - auto-gomaxprocs
+      - memory-snapshot-on-shutdown
+      - new-service-discovery-manager
     # - exemplar-storage
 
     ## Image of Prometheus.
@@ -3166,7 +3175,7 @@ prometheus:
     ## prometheus resource to be created with selectors based on values in the helm deployment,
     ## which will also match the PrometheusRule resources created
     ##
-    ruleSelectorNilUsesHelmValues: true
+    ruleSelectorNilUsesHelmValues: false
 
     ## PrometheusRules to be selected for target discovery.
     ## If {}, select all PrometheusRules
@@ -3193,7 +3202,7 @@ prometheus:
     ## prometheus resource to be created with selectors based on values in the helm deployment,
     ## which will also match the servicemonitors created
     ##
-    serviceMonitorSelectorNilUsesHelmValues: true
+    serviceMonitorSelectorNilUsesHelmValues: false
 
     ## ServiceMonitors to be selected for target discovery.
     ## If {}, select all ServiceMonitors
@@ -3218,7 +3227,7 @@ prometheus:
     ## prometheus resource to be created with selectors based on values in the helm deployment,
     ## which will also match the podmonitors created
     ##
-    podMonitorSelectorNilUsesHelmValues: true
+    podMonitorSelectorNilUsesHelmValues: false
 
     ## PodMonitors to be selected for target discovery.
     ## If {}, select all PodMonitors
@@ -3242,7 +3251,7 @@ prometheus:
     ## prometheus resource to be created with selectors based on values in the helm deployment,
     ## which will also match the probes created
     ##
-    probeSelectorNilUsesHelmValues: true
+    probeSelectorNilUsesHelmValues: false
 
     ## Probes to be selected for target discovery.
     ## If {}, select all Probes
@@ -3266,7 +3275,7 @@ prometheus:
     ## prometheus resource to be created with selectors based on values in the helm deployment,
     ## which will also match the scrapeConfigs created
     ##
-    scrapeConfigSelectorNilUsesHelmValues: true
+    scrapeConfigSelectorNilUsesHelmValues: false
 
     ## scrapeConfigs to be selected for target discovery.
     ## If {}, select all scrapeConfigs
@@ -3394,7 +3403,13 @@ prometheus:
     ## Prometheus StorageSpec for persistent data
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/storage.md
     ##
-    storageSpec: {}
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: manual
+          resources:
+            requests:
+              storage: 1Gi
     ## Using PersistentVolumeClaim
     ##
     #  volumeClaimTemplate:
@@ -3859,7 +3874,7 @@ thanosRuler:
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    ingressClassName: traefik
+    ingressClassName: nginx
 
     annotations:
       ingress.kubernetes.io/ssl-redirect: "false"
@@ -3870,7 +3885,7 @@ thanosRuler:
     ## Hosts must be provided if Ingress is enabled.
     ##
     hosts:
-      - thanosruler.boss-station.scarlettlab.home
+      - thanosruler.k8s.localhost
 
     ## Paths to use for ingress rules - one path should match the thanosruler.routePrefix
     ##
@@ -3879,7 +3894,7 @@ thanosRuler:
 
     ## For Kubernetes >= 1.18 you should specify the pathType (determines how Ingress paths should be matched)
     ## See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#better-path-matching-with-path-types
-    pathType: ImplementationSpecific
+    pathType: Prefix
 
     ## TLS configuration for ThanosRuler Ingress
     ## Secret must be manually created in the namespace

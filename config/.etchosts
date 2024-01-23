@@ -9,3 +9,9 @@
 127.0.0.1 postgres.k8s.localhost
 127.0.0.1 app.k8s.localhost
 127.0.0.1 example.k8s.localhost
+127.0.0.1 alertmanager.k8s.localhost
+127.0.0.1 grafana.k8s.localhost
+127.0.0.1 prometheus.k8s.localhost
+127.0.0.1 thanosruler.k8s.localhost
+127.0.0.1 loki-gateway.k8s.localhost
+127.0.0.1 vector.k8s.localhost
