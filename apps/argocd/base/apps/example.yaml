@@ -1,28 +1,51 @@
+# SOURCE: https://argo-cd.readthedocs.io/en/stable/user-guide/application-specification/
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: example-app
+  # Add this finalizer ONLY if you want these to cascade delete.
   finalizers:
+    # The default behaviour is foreground cascading deletion
     - resources-finalizer.argocd.argoproj.io
+    # Alternatively, you can use background cascading deletion
+    # - resources-finalizer.argocd.argoproj.io/background
 spec:
+  # The project the application belongs to.
   project: apps
+  # Source of the application manifests
   source:
+    # Can point to either a Helm chart repo or a git repo.
     repoURL: 'https://github.com/gruberdev/local-gitops.git'
+    # This has no meaning for Helm charts pulled directly from a Helm repo instead of git.
     path: apps/example
+    # For Helm, this refers to the chart version.
     targetRevision: main
+  # Destination cluster and namespace to deploy the application
   destination:
     namespace: example
+    # or cluster name
+    # name: in-cluster
     name: in-cluster
   syncPolicy:
+    # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
     automated:
+      # Specifies if resources should be pruned during auto-syncing ( false by default ).
       prune: true
+      # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
       selfHeal: true
+      # Allows deleting all application resources during automatic syncing ( false by default ).
       allowEmpty: true
     syncOptions:
+    # disables resource validation (equivalent to 'kubectl apply --validate=false') ( true by default ).
     - Validate=true
+    # Namespace Auto-Creation ensures that namespace specified as the application destination exists in the destination cluster.
     - CreateNamespace=true
+    # Supported policies are background, foreground and orphan.
     - PrunePropagationPolicy=foreground
+    # Allow the ability for resource pruning to happen as a final, implicit wave of a sync operation
     - PruneLast=true
+    # https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/
+    # Currently when syncing using auto sync Argo CD applies every object in the application. For applications containing thousands of objects this takes quite a long time and puts undue pressure on the api server. Turning on selective sync option which will sync only out-of-sync resources.
     - ApplyOutOfSyncOnly=false
     - Prune=true
     retry:
