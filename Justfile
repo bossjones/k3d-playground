@@ -10,7 +10,7 @@ K3D_VERSION := `k3d	version`
 CURRENT_DIR := "$(pwd)"
 PATH_TO_TRAEFIK_CONFIG := CURRENT_DIR / "mounts/var/lib/rancer/k3s/server/manifests/traefik-config.yaml"
 
-base64_cmd := if {{os()}} == "macos" { "base64 -b 0 cert.pem > ca.pem" } else { "base64 -w 0 cert.pem > ca.pem" }
+base64_cmd := if "{{os()}}" == "macos" { "base64 -b 0 cert.pem > ca.pem" } else { "base64 -w 0 cert.pem > ca.pem" }
 
 
 _default:
@@ -179,6 +179,10 @@ argocd-install:
 # install argocd secrets
 argocd-secrets:
   bash scripts/argocd-secrets.sh
+
+# get argocd password
+argocd-password:
+  bash scripts/argocd-password.sh
 
 # port forward to argocd
 argocd-bridge:
