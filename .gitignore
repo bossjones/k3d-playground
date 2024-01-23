@@ -170,17 +170,23 @@ nms.yaml
 .ruff_cache
 
 # local-gitops
+!apps/kwatch/.gitkeep
+!postgres/.gitkeep
+!storage/.gitkeep
+!utilities/.gitkeep
+.envrc
+*-secret.yaml
+*.pem
+apps/argocd/base/secrets/*.yaml
+apps/argocd/overlay/*.json
+apps/kwatch/*
+apps/prometheus/kube-prometheus/*
+config/tls/*.pem
 config/tls/base/tls-secret.yaml
 config/tls/cert.pem
 config/tls/key.pem
-apps/prometheus/kube-prometheus/*
-apps/kwatch/*
-!apps/kwatch/.gitkeep
-apps/argocd/base/secrets/*.yaml
-storage/*
-!storage/.gitkeep
+j*.pem
 manifests/*.yaml
-config/tls/*.pem
-*-secret.yaml
-apps/argocd/overlay/*.json
-.envrc
+postgres/*
+storage/*
+utilities/*
