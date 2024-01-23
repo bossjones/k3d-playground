@@ -183,3 +183,4 @@ manifests/*.yaml
 config/tls/*.pem
 *-secret.yaml
 apps/argocd/overlay/*.json
+.envrc
