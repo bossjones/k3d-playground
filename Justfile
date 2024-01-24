@@ -210,6 +210,7 @@ argocd-bridge:
 
 argocd-proxy: argocd-bridge
 
+
 # Add apps to argocd
 monitoring-install:
   ./scripts/run-kustomize.sh manifests/monitoring/kube-prometheus-stack
@@ -220,6 +221,7 @@ deploy-monitoring:
 open-argocd:
   open https://localhost:8832
 
+proxy-argocd: open-argocd argocd-proxy
 
 # bring up k3d-demo cluster
 demo: nuke-cluster helm k3d-demo argocd-install certs argocd-secret templates argocd-password argocd-bridge

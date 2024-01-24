@@ -10,6 +10,7 @@ metadata:
   name: monitoring
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  namespace: argocd
 spec:
   description: Monitoring Project
   sourceRepos:
@@ -26,6 +27,8 @@ spec:
   - namespace: databases
     server: https://kubernetes.default.svc
   - namespace: vault
+    server: https://kubernetes.default.svc
+  - namespace: default
     server: https://kubernetes.default.svc
   # permits deployments from any source repo, to any cluster, and all resource Kinds
   clusterResourceWhitelist:

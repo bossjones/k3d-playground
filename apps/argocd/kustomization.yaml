@@ -2,7 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.0/manifests/install.yaml
 - base/projects/core.yaml
 - base/projects/cluster.yaml
 - base/projects/monitoring.yaml
@@ -19,10 +18,12 @@ resources:
 - base/utilities/reflector.yaml
 # - base/utilities/descheduler.yaml
 - base/monitoring/kube-prometheus-stack/app/app.yaml
+- https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.0/manifests/install.yaml
+- base/core/role_prometheus-k8s.yaml
+- base/core/rolebinding_prometheus-k8s.yaml
 
 components:
 - https://github.com/argoproj-labs/argocd-extensions/manifests
-# - https://github.com/argoproj-labs/argocd-extensions/tree/main/manifests
 
 
 namespace: argocd
