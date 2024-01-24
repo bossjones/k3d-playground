@@ -290,18 +290,18 @@ options:
     #   nodeFilters:
     #     - server:*
     #     - agent:*
-    # - arg: "--disable=servicelb"
-    #   nodeFilters:
-    #     - server:*
-    #     - agent:*
+    - arg: "--disable=servicelb"
+      nodeFilters:
+        - server:*
+        - agent:*
     - arg: "--flannel-backend=none"
       nodeFilters:
         - server:*
         - agent:*
-    # - arg: "--disable-network-policy"
-    #   nodeFilters:
-    #     - server:*
-    #     - agent:*
+    - arg: "--disable-network-policy"
+      nodeFilters:
+        - server:*
+        - agent:*
   kubeconfig:
     updateDefaultKubeconfig: true
     switchCurrentContext: true
