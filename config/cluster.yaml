@@ -12,13 +12,13 @@ kubeAPI:
 image: rancher/k3s:v1.27.4-k3s1
 network: demo-net
 ports:
-- port: 0.0.0.0:80:80
+- port: 80:80
   nodeFilters:
   - loadbalancer
-- port: 0.0.0.0:443:443
+- port: 443:443
   nodeFilters:
   - loadbalancer
-- port: 0.0.0.0:5053:53/udp
+- port: 5053:53/udp
   nodeFilters:
   - agent:0:direct
 # https://github.com/bravecobra/k8s-e2e/blob/fe1370ae14ca9bed95523b122cca67c9e937ab44/k3s-devinfra.yaml#L2
