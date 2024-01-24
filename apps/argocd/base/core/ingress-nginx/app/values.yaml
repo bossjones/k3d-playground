@@ -1,0 +1,60 @@
+controller:
+  replicaCount: 1
+  allowSnippetAnnotations: true
+  extraEnvs:
+    - name: TZ
+      value: America/EST
+  service:
+    type: LoadBalancer
+    externalTrafficPolicy: Local
+  ingressClassResource:
+    default: true
+  config:
+    proxy-body-size: 0
+    proxy-buffer-size: "16k"
+    ssl-protocols: "TLSv1.3 TLSv1.2"
+    use-forwarded-headers: "true"
+    client-body-buffer-size: "100M"
+    client-body-timeout: 120
+    client-header-timeout: 120
+    enable-brotli: "true"
+    enable-real-ip: "true"
+    forwarded-for-header: "CF-Connecting-IP"
+    custom-http-errors: 404,403
+    hsts-max-age: "31449600"
+    keep-alive-requests: 10000
+    keep-alive: 120
+    large-client-header-buffers: "4 16k"
+  extraArgs:
+      default-ssl-certificate: "kube-system/tls-secret"
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: kube-system
+      namespaceSelector:
+        any: true
+defaultBackend:
+  enabled: true
+  image:
+    repository: ghcr.io/tarampampam/error-pages
+    tag: 2.26.0
+  extraEnvs:
+    - name: TEMPLATE_NAME
+      value: ghost
+    - name: SHOW_DETAILS
+      value: "true"
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values: ["ingress-nginx"]
+                - key: app.kubernetes.io/component
+                  operator: In
+                  values: ["default-backend"]
+            topologyKey: kubernetes.io/hostname

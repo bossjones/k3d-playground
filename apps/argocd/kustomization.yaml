@@ -7,7 +7,8 @@ resources:
 - base/projects/monitoring.yaml
 - base/projects/networking.yaml
 - base/projects/apps.yaml
-- base/core/nginx.yaml
+- base/core/ingress-nginx/app/app.yaml
+# - base/core/nginx.yaml
 - base/core/argocd.yaml
 - base/core/ingress.yaml
 # - base/core/allow-all-egress.yaml
