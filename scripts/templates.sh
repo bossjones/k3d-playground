@@ -14,7 +14,8 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: core
+  # project: core
+  project: cluster
   source:
     repoURL: '$GIT_URI'
     path: apps/argocd
@@ -51,7 +52,8 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: core
+  # project: core
+  project: cluster
   source:
     repoURL: '$GIT_URI'
     path: apps/argocd
@@ -125,7 +127,8 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: apps
+  # project: apps
+  project: cluster
   source:
     repoURL: '$GIT_URI'
     path: apps/example
