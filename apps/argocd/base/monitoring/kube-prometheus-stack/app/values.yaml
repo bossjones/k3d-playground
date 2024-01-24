@@ -880,6 +880,224 @@ alertmanager:
 ##
 grafana:
   enabled: true
+  env:
+    # GF_AUTH_GENERIC_OAUTH_API_URL: https://auth.porkboi.io/api/oidc/userinfo
+    # GF_AUTH_GENERIC_OAUTH_AUTH_URL: https://auth.porkboi.io/api/oidc/authorization
+    # GF_AUTH_GENERIC_OAUTH_CLIENT_ID: grafana
+    # GF_AUTH_GENERIC_OAUTH_TOKEN_URL: https://auth.porkboi.io/api/oidc/token
+    GF_DATE_FORMATS_USE_BROWSER_LOCALE: true
+    GF_SECURITY_DISABLE_INITIAL_ADMIN_CREATION: false
+    GF_EXPLORE_ENABLED: true
+    GF_FEATURE_TOGGLES_ENABLE: publicDashboards
+    GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel
+    # GF_SECURITY_COOKIE_SAMESITE: grafana
+    # GF_SERVER_ROOT_URL: https://grafana.porkboi.io
+  grafana.ini:
+    analytics:
+      check_for_updates: false
+      check_for_plugin_updates: false
+      reporting_enabled: false
+    # auth:
+    #   oauth_auto_login: false
+    #   oauth_allow_insecure_email_lookup: false
+    # auth.generic_oauth:
+    #   enabled: true
+    #   name: Authelia
+    #   icon: signin
+    #   scopes: openid profile email groups
+    #   empty_scopes: false
+    #   login_attribute_path: preferred_username
+    #   groups_attribute_path: groups
+    #   name_attribute_path: name
+    #   use_pkce: true
+    # auth.generic_oauth.group_mapping:
+    #   org_id: 1
+    #   role_attribute_path: |
+    #     contains(groups[*], 'lldap_admin') && 'Admin' || contains(groups[*], 'people') && 'Viewer'
+    auth.basic:
+      enabled: true
+    auth.anonymous:
+      enabled: true
+    news:
+      news_feed_enabled: false
+
+
+
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: default
+          orgId: 1
+          folder: ""
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/default
+        - name: ceph
+          orgId: 1
+          folder: Ceph
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/ceph
+        - name: kubernetes
+          orgId: 1
+          folder: Kubernetes
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/kubernetes
+        - name: nginx
+          orgId: 1
+          folder: Nginx
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/nginx
+        - name: argo
+          orgId: 1
+          folder: Argo
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/argocd
+        - name: unifi
+          orgId: 1
+          folder: Unifi
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/unifi
+  datasources:
+    # datasources.yaml:
+    #   apiVersion: 1
+    #   deleteDatasources:
+    #     - { name: Alertmanager, orgId: 1 }
+    #     - { name: Loki, orgId: 1 }
+    #   datasources:
+    #     - name: Prometheus
+    #       type: prometheus
+    #       uid: prometheus
+    #       access: proxy
+    #       url: http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
+    #       isDefault: true
+  dashboards:
+    default:
+      external-dns:
+        # renovate: depName="External-dns"
+        gnetId: 15038
+        revision: 1
+        datasource: Prometheus
+      node-exporter-full:
+        # renovate: depName="Node Exporter Full"
+        gnetId: 1860
+        revision: 33
+        datasource: Prometheus
+      redis:
+        # renovate: depName="Redis Dashboard for Prometheus Redis Exporter 1.x"
+        gnetId: 763
+        revision: 5
+        datasource: Prometheus
+      cloudnative-pg:
+        url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/main/docs/src/samples/monitoring/grafana-dashboard.json
+        datasource: Prometheus
+      cert-manager:
+        url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
+        datasource: Prometheus
+      external-secrets:
+        url: https://raw.githubusercontent.com/external-secrets/external-secrets/main/docs/snippets/dashboard.json
+        datasource: Prometheus
+    ceph:
+      ceph-cluster:
+        # renovate: depName="Ceph Cluster"
+        gnetId: 2842
+        revision: 17
+        datasource: Prometheus
+      ceph-osd:
+        # renovate: depName="Ceph - OSD (Single)"
+        gnetId: 5336
+        revision: 9
+        datasource: Prometheus
+      ceph-pools:
+        # renovate: depName="Ceph - Pools"
+        gnetId: 5342
+        revision: 9
+        datasource: Prometheus
+    kubernetes:
+      kubernetes-api-server:
+        # renovate: depName="Kubernetes / System / API Server"
+        gnetId: 15761
+        revision: 14
+        datasource: Prometheus
+      kubernetes-coredns:
+        # renovate: depName="Kubernetes / System / CoreDNS"
+        gnetId: 15762
+        revision: 13
+        datasource: Prometheus
+      kubernetes-global:
+        # renovate: depName="Kubernetes / Views / Global"
+        gnetId: 15757
+        revision: 31
+        datasource: Prometheus
+      kubernetes-namespaces:
+        # renovate: depName="Kubernetes / Views / Namespaces"
+        gnetId: 15758
+        revision: 27
+        datasource: Prometheus
+      kubernetes-nodes:
+        # renovate: depName="Kubernetes / Views / Nodes"
+        gnetId: 15759
+        revision: 19
+        datasource: Prometheus
+      kubernetes-pods:
+        # renovate: depName="Kubernetes / Views / Pods"
+        gNetId: 15760
+        revision: 21
+        datasource: Prometheus
+      kubernetes-volumes:
+        # renovate: depName="K8s / Storage / Volumes / Cluster"
+        gnetId: 11454
+        revision: 14
+        datasource: Prometheus
+    nginx:
+      nginx:
+        url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
+        datasource: Prometheus
+      nginx-request-handling-performance:
+        url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
+        datasource: Prometheus
+    argo:
+      argocd-dashboard:
+        url: https://raw.githubusercontent.com/argoproj/argo-cd/master/examples/dashboard.json
+        datasource: Prometheus
+    unifi:
+      unifi-insights:
+        # renovate: depName="UniFi-Poller: Client Insights - Prometheus"
+        gnetId: 11315
+        revision: 9
+        datasource: Prometheus
+      unifi-network-sites:
+        # renovate: depName="UniFi-Poller: Network Sites - Prometheus"
+        gnetId: 11311
+        revision: 5
+        datasource: Prometheus
+      unifi-uap:
+        # renovate: depName="UniFi-Poller: UAP Insights - Prometheus"
+        gnetId: 11314
+        revision: 10
+        datasource: Prometheus
+      unifi-usw:
+        # renovate: depName="UniFi-Poller: USW Insights - Prometheus"
+        gnetId: 11312
+        revision: 9
+        datasource: Prometheus
   # plugins:
   # - grafana-clock-panel
   # - natel-discrete-panel
@@ -893,11 +1111,11 @@ grafana:
 
   ## ForceDeployDatasources Create datasource configmap even if grafana deployment has been disabled
   ##
-  forceDeployDatasources: false
+  forceDeployDatasources: true
 
   ## ForceDeployDashboard Create dashboard configmap even if grafana deployment has been disabled
   ##
-  forceDeployDashboards: false
+  forceDeployDashboards: true
 
   ## Deploy default dashboards
   ##
@@ -954,7 +1172,17 @@ grafana:
     # - secretName: grafana-general-tls
     #   hosts:
     #   - grafana.example.com
-
+  plugins:
+  - grafana-clock-panel
+  - grafana-piechart-panel
+  - grafana-worldmap-panel
+  - natel-discrete-panel
+  - pr0ps-trackmap-panel
+  - vonage-status-panel
+  persistence:
+    enabled: false
+  testFramework:
+    enabled: false
   sidecar:
     dashboards:
       enabled: true
@@ -962,6 +1190,11 @@ grafana:
       labelValue: "1"
       # Allow discovery in all namespaces for dashboards
       searchNamespace: ALL
+      folderAnnotation: grafana_folder
+      provider:
+        disableDelete: true
+        foldersFromFilesStructure: true
+        allowUiUpdates: true
 
       ## Annotations for Grafana dashboard configmaps
       ##
@@ -971,12 +1204,11 @@ grafana:
           enabled: false
         etcd:
           enabled: false
-      provider:
-        allowUiUpdates: false
     datasources:
       enabled: true
       defaultDatasourceEnabled: true
       isDefaultDatasource: true
+      searchNamespace: ALL
 
       uid: prometheus
 
