@@ -1,0 +1,22 @@
+hostname: rancher.k8s.localhost
+tls: external
+replicas: 1
+bootstrapPassword: admin
+privateCA: true
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  extraAnnotations:
+      ingress.kubernetes.io/ssl-redirect: "false"
+  tls:
+    source: "secret"
+
+# args:
+#   - --kubelet-insecure-tls
+#   - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+#   - --kubelet-use-node-status-port
+#   - --metric-resolution=15s
+# metrics:
+#   enabled: true
+# serviceMonitor:
+#   enabled: true

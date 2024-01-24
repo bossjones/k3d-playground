@@ -20,6 +20,7 @@ resources:
 # - base/utilities/descheduler.yaml
 - base/monitoring/kube-prometheus-stack/app/app.yaml
 - base/monitoring/metrics-server/app/app.yaml
+- base/monitoring/rancher/app/app.yaml
 - https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.0/manifests/install.yaml
 # - base/core/role_prometheus-k8s.yaml
 # - base/core/rolebinding_prometheus-k8s.yaml

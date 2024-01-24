@@ -90,9 +90,9 @@ options:
     - arg: --disable=metrics-server
       nodeFilters:
       - server:*
-    - arg: --disable-network-policy
-      nodeFilters:
-        - server:*
+    # - arg: --disable-network-policy
+    #   nodeFilters:
+    #     - server:*
     - arg: --tls-san=localhost,registry.local.gd,127.0.0.1,registry.localhost,k8s.localhost,whoami.k8s.localhost
       nodeFilters:
       - server:*

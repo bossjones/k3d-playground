@@ -1,0 +1,29 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rancher
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: cluster
+  sources:
+  - repoURL: 'https://releases.rancher.com/server-charts/latest'
+    chart: rancher
+    targetRevision: 2.8.1
+    helm:
+      valueFiles:
+        - $values/apps/argocd/base/monitoring/rancher/app/values.yaml
+  - repoURL: 'https://github.com/bossjones/k3d-playground.git'
+    targetRevision: main
+    path: apps/argocd/base/monitoring/rancher
+    ref: values
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: cattle-system
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
