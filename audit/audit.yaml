@@ -1,0 +1,26 @@
+# SOURCE: https://github.com/manno/fleet-dev-tools/blob/ae58f3d6ec25f42466bafb541027edc6bdf64580/bin/setup-k3d-audit.sh#L29
+apiVersion: audit.k8s.io/v1
+kind: Policy
+omitStages:
+- "RequestReceived"
+rules:
+- level: Metadata
+  resources:
+  - group: ""
+    resources: ["pods"]
+  namespaces: ["monitoring"]
+- level: Metadata
+  resources:
+  - group: ""
+    resources: ["pods"]
+  namespaces: ["cattle-fleet-system"]
+- level: None
+  resources:
+  - group: "apps"
+    resources: ["deployments"]
+  namespaces: ["kube-system"]
+- level: RequestResponse
+  resources:
+  - group: "apps"
+    resources: ["deployments"]
+- level: None

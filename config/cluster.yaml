@@ -145,6 +145,13 @@ volumes:
   nodeFilters:
   - server:0
   - agent:*
+- volume: "${PWD}/audit/audit.yaml:/var/lib/rancher/k3s/server/manifests/audit.yaml"
+  nodeFilters:
+  - server:*
+- volume: "${PWD}/audit/logs:/var/log/kubernetes/audit"
+  nodeFilters:
+  - server:*
+
 # SOURCE: https://github.com/defenseunicorns/uds-capability-confluence/blob/90b30c74d83f0aa4ec404a840b92a5956f921195/utils/k3d/k3d-config.yaml#L2
 # - volume: /etc/machine-id:/etc/machine-id
 #   nodeFilters:
@@ -217,6 +224,12 @@ options:
       nodeFilters:
       - server:*
     - arg: --kubelet-arg=eviction-minimum-reclaim=imagefs.available=1%,nodefs.available=1%
+      nodeFilters:
+      - server:*
+    - arg: --kube-apiserver-arg=audit-policy-file=/var/lib/rancher/k3s/server/manifests/audit.yaml
+      nodeFilters:
+      - server:*
+    - arg: --kube-apiserver-arg=audit-log-path=/var/log/kubernetes/audit/audit.log
       nodeFilters:
       - server:*
 
