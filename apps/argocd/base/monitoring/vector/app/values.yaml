@@ -538,7 +538,7 @@ readinessProbe: {}
 # Configure a PodMonitor for Vector, requires the PodMonitor CRD to be installed.
 podMonitor:
   # podMonitor.enabled -- If true, create a PodMonitor for Vector.
-  enabled: false
+  enabled: true
   # podMonitor.jobLabel -- Override the label to retrieve the job name from.
   jobLabel: app.kubernetes.io/name
   # podMonitor.port -- Override the port to scrape.
@@ -566,7 +566,7 @@ podMonitor:
   honorTimestamps: true
 
 # Log level for Vector.
-logLevel: "info"
+logLevel: "debug"
 
 # Optional built-in HAProxy load balancer.
 haproxy:
