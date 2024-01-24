@@ -8,7 +8,7 @@ metadata:
   #   notifications.argoproj.io/subscribe.on-deployed-github.pushover: ui6cxf78gwxa6n93zkwddw1g8s3yio
   #   argocd.argoproj.io/manifest-generate-paths: /kubernetes/apps/networking/ingress-nginx
 spec:
-  project: default
+  project: cluster
   sources:
   - repoURL: 'https://kubernetes.github.io/ingress-nginx/'
     chart: ingress-nginx
@@ -17,7 +17,7 @@ spec:
       valueFiles:
         # - $values/kubernetes/apps/networking/ingress-nginx/app/values.yaml
         - $values/apps/argocd/base/core/ingress-nginx/app/values.yaml
-  - repoURL: 'https://github.com/jimmy-ungerman/pork3s.git'
+  - repoURL: 'https://github.com/bossjones/k3d-playground.git'
     targetRevision: main
     path: apps/argocd/base/core/ingress-nginx
     ref: values
