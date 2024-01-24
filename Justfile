@@ -248,3 +248,6 @@ demo-update: argocd-install certs-only argocd-secret templates argocd-password i
 
 get-apps:
   kubectl -n argocd get applications.argoproj.io
+
+tail-audit:
+  tail -f audit/logs/audit.log | jq .

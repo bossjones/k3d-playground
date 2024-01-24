@@ -1,0 +1,3 @@
+# SOURCE: https://github.com/wandersonwhcr/k8s-examples/tree/26c604f008118cbe5942be173bb3b3b28359b30f/audit/volumes/server/var/log/kubernetes/audit
+*
+!.gitignore
