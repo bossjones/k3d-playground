@@ -214,12 +214,19 @@ argocd-proxy: argocd-bridge
 monitoring-install:
   ./scripts/run-kustomize.sh manifests/monitoring/kube-prometheus-stack
 
+deploy-monitoring:
+  kustomize build --enable-alpha-plugins apps/argocd/base/monitoring/kube-prometheus-stack | kubectl apply -f -
+
+open-argocd:
+  open https://localhost:8832
+
+
 # bring up k3d-demo cluster
 demo: nuke-cluster helm k3d-demo argocd-install certs argocd-secret templates argocd-password argocd-bridge
 
 # demo-prebuilt: nuke-cluster k3d-demo argocd-install certs-only argocd-secret templates monitoring-install argocd-password argocd-bridge
 # bring up k3d-demo cluster but skip some steps
-demo-prebuilt: nuke-cluster k3d-demo argocd-install certs-only argocd-secret templates argocd-password argocd-bridge
+demo-prebuilt: nuke-cluster k3d-demo argocd-install certs-only argocd-secret templates deploy-monitoring argocd-password argocd-bridge
 
 # fix network policies in all namespaces
 fix-network-policies:
@@ -231,6 +238,3 @@ demo-update: argocd-install certs-only argocd-secret templates argocd-password i
 
 get-apps:
   kubectl -n argocd get applications.argoproj.io
-
-deploy-monitoring:
-  kustomize build --enable-alpha-plugins apps/argocd/base/monitoring/kube-prometheus-stack | kubectl apply -f -
