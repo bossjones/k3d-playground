@@ -6,7 +6,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: default
+  project: cluster
   sources:
   - repoURL: 'https://prometheus-community.github.io/helm-charts'
     chart: kube-prometheus-stack
@@ -33,10 +33,10 @@ spec:
     syncOptions:
     - Validate=false
     - CreateNamespace=true
-    - PrunePropagationPolicy=foreground
-    - PruneLast=false
-    - ApplyOutOfSyncOnly=false
-    - Prune=true
+    # - PrunePropagationPolicy=foreground
+    # - PruneLast=false
+    # - ApplyOutOfSyncOnly=false
+    # - Prune=true
     retry:
       limit: -1
       backoff:

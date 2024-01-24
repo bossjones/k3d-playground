@@ -5,7 +5,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: core
+  project: cluster
   source:
     repoURL: 'https://github.com/bossjones/k3d-playground.git'
     path: apps/argocd
