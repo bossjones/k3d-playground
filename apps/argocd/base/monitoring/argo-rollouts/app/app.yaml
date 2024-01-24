@@ -8,18 +8,10 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: cluster
-  sources:
-  - repoURL: 'https://github.com/argoproj/argo-rollouts'
-    chart: argo-rollouts
+  source:
+    repoURL: 'https://github.com/argoproj/argo-rollouts'
     targetRevision: v1.6.4
     path: manifests/cluster-install
-    # helm:
-    #   valueFiles:
-    #     - $values/apps/argocd/base/monitoring/argo-rollouts/app/values.yaml
-  # - repoURL: 'https://github.com/bossjones/k3d-playground.git'
-  #   targetRevision: main
-  #   path: apps/argocd/base/monitoring/argo-rollouts
-  #   ref: values
   destination:
     server: "https://kubernetes.default.svc"
     namespace: argo-rollouts
