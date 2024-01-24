@@ -114,6 +114,11 @@ ports:
   nodeFilters:
     - loadbalancer
 #%{ endif }
+#%{ if expose_grafana == true }
+- port: 3000:3000 # same as `--port '6379:6379@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
+#%{ endif }
 # - port: 5053:53/udp
 #   nodeFilters:
 #   - agent:0:direct
