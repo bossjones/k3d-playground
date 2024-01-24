@@ -171,9 +171,8 @@ certs: pre-certs post-certs
   cd config/tls
   pwd
   echo -e "Creating certificate secrets on Kubernetes for local TLS enabled by default\n"
-  kubectl config set-context --current --namespace=kube-system --cluster=k3d-demo
-  kubectl create secret tls tls-secret --cert=cert.pem --key=key.pem --dry-run=client -o yaml >base/tls-secret.yaml
-  kubectl apply -k ./
+  kubectl --namespace=kube-system --cluster=k3d-demo create secret tls tls-secret --cert=cert.pem --key=key.pem --dry-run=client -o yaml >base/tls-secret.yaml
+  kubectl --namespace=kube-system --cluster=k3d-demo apply -k ./
   echo -e "\nCertificate resources have been created.\n"
   cd -
 
@@ -184,9 +183,8 @@ certs-only:
   cd config/tls
   pwd
   echo -e "Creating certificate secrets on Kubernetes for local TLS enabled by default\n"
-  kubectl config set-context --current --namespace=kube-system --cluster=k3d-demo
-  kubectl create secret tls tls-secret --cert=cert.pem --key=key.pem --dry-run=client -o yaml >base/tls-secret.yaml
-  kubectl apply -k ./
+  kubectl --namespace=kube-system --cluster=k3d-demo create secret tls tls-secret --cert=cert.pem --key=key.pem --dry-run=client -o yaml >base/tls-secret.yaml
+  kubectl --namespace=kube-system --cluster=k3d-demo apply -k ./
   echo -e "\nCertificate resources have been created.\n"
   cd -
 
@@ -219,8 +217,9 @@ monitoring-install:
 # bring up k3d-demo cluster
 demo: nuke-cluster helm k3d-demo argocd-install certs argocd-secret templates argocd-password argocd-bridge
 
+# demo-prebuilt: nuke-cluster k3d-demo argocd-install certs-only argocd-secret templates monitoring-install argocd-password argocd-bridge
 # bring up k3d-demo cluster but skip some steps
-demo-prebuilt: nuke-cluster k3d-demo argocd-install certs-only argocd-secret templates monitoring-install argocd-password argocd-bridge
+demo-prebuilt: nuke-cluster k3d-demo argocd-install certs-only argocd-secret templates argocd-password argocd-bridge
 
 # fix network policies in all namespaces
 fix-network-policies:
