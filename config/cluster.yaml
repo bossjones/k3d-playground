@@ -18,6 +18,9 @@ ports:
 - port: 443:443
   nodeFilters:
   - loadbalancer
+# - port: 8080:8080
+#   nodeFilters:
+#   - loadbalancer
 registries:
   create:
     name: registry.localhost
@@ -58,6 +61,10 @@ options:
     - arg: "--disable-network-policy"
       nodeFilters:
         - server:*
+    - arg: "--debug"
+      nodeFilters:
+        - server:*
+        - agent:*
     - arg: --disable=traefik
       nodeFilters:
       - server:*
