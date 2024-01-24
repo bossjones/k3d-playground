@@ -694,7 +694,7 @@ alertmanager:
     storage:
       volumeClaimTemplate:
         spec:
-          storageClassName: manual
+          storageClassName: local-path
           resources:
             requests:
               storage: 1Gi
@@ -3406,7 +3406,7 @@ prometheus:
     storageSpec:
       volumeClaimTemplate:
         spec:
-          storageClassName: manual
+          storageClassName: local-path
           resources:
             requests:
               storage: 1Gi
