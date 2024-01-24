@@ -18,6 +18,102 @@ ports:
 - port: 443:443
   nodeFilters:
   - loadbalancer
+
+# SOURCE: https://github.com/bravecobra/k8s-dev-infrastructure/blob/adb085443cffb00a69c2ddc4a415f02ef785d79a/src/clusters/k3d/devinfra-template.yaml#L2
+- port: 8100:8100 # same as `--port '8100:8100@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
+
+#
+#%{ if expose_azurite == true }
+- port: 10000:10000 # same as `--port '10000:10000@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
+- port: 10001:10001 # same as `--port '10001:10001@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
+- port: 10002:10002 # same as `--port '10002:10002@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
+#%{ endif }
+
+#%{ if expose_seq == true }
+- port: 5341:5341 # same as `--port '5341:5341@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
+#%{ endif }
+
+#%{ if expose_opentelemetry == true }
+- port: 4317:4317 # same as `--port '4317:4317@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
+- port: 4318:4318 # same as `--port '4318:4318@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
+#%{ endif }
+
+#%{ if expose_jaeger == true }
+- port: 6831:6831 # same as `--port '6831:6831@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
+- port: 6832:6832 # same as `--port '6832:6832@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
+#%{ endif }
+
+#%{ if expose_rabbitmq == true }
+- port: 5672:5672 # same as `--port '5672:5672@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
+#%{ endif }
+
+#%{ if expose_loki == true }
+- port: 3100:3100 # same as `--port '3100:3100@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
+#%{ endif }
+
+#%{ if expose_rds_mssql == true }
+- port: 1433:1433 # same as `--port '1433:1433@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
+#%{ endif }
+
+#%{ if expose_rds_oracle == true }
+- port: 1521:1521 # same as `--port '1521:1521@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
+#%{ endif }
+
+#%{ if expose_rds_mysql == true }
+- port: 3306:3306 # same as `--port '3306:3306@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
+#%{ endif }
+
+#%{ if expose_rds_mysql == true }
+- port: 3307:3307 # same as `--port '3306:3306@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
+#%{ endif }
+
+#%{ if expose_rds_postgres == true }
+- port: 5432:5432 # same as `--port '5432:5432@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
+#%{ endif }
+
+#%{ if expose_nosql_mongodb == true }
+- port: 27017:27017 # same as `--port '27017:27017@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
+#%{ endif }
+
+#%{ if expose_redis == true }
+- port: 6379:6379 # same as `--port '6379:6379@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
+#%{ endif }
 # - port: 5053:53/udp
 #   nodeFilters:
 #   - agent:0:direct
