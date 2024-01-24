@@ -1,0 +1,29 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: k8s-event-logger
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: cluster
+  sources:
+  - repoURL: 'https://charts.deliveryhero.io/'
+    chart: k8s-event-logger
+    targetRevision: 1.1.4
+    helm:
+      valueFiles:
+        - $values/apps/argocd/base/monitoring/k8s-event-logger/app/values.yaml
+  - repoURL: 'https://github.com/bossjones/k3d-playground.git'
+    targetRevision: main
+    path: apps/argocd/base/monitoring/k8s-event-logger
+    ref: values
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
