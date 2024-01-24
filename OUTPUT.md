@@ -201,6 +201,8 @@ open: https://localhost:30779/ or http://localhost:30777/ to access portainer
 
 #####################################
 
+# After running: https://github.com/chipmk/docker-mac-net-connect
+
 ```
 ~/dev/bossjones/k3d-playground main* 57s
 ❯  sudo brew services start chipmk/tap/docker-mac-net-connect
@@ -218,5 +220,21 @@ Warning: docker-mac-net-connect must be run as non-root to start at user login!
 
 ~/dev/bossjones/k3d-playground main* 9s
 ❯
+
+```
+
+
+```
+[ingress-nginx-controller-7869c84bb7-kvsmm] W0124 23:44:51.972739       6 controller.go:1214] Service "monitoring/kube-prometheus-stack-prometheus" does not have any active Endpoint.
+[ingress-nginx-controller-7869c84bb7-kvsmm] W0124 23:44:51.972786       6 controller.go:1214] Service "databases/postgres-operator-ui" does not have any active Endpoint.
+[ingress-nginx-controller-7869c84bb7-kvsmm] I0124 23:44:57.219555       6 status.go:304] "updating Ingress status" namespace="example" ingress="example" currentValue=null newValue=[{"ip":"172.21.0.4"}]
+[ingress-nginx-controller-7869c84bb7-kvsmm] I0124 23:44:57.224568       6 event.go:298] Event(v1.ObjectReference{Kind:"Ingress", Namespace:"example", Name:"example", UID:"42375546-ee6d-450b-8d07-022b9eaf04de", APIVersion:"networking.k8s.io/v1", ResourceVersion:"3332", FieldPath:""}): type: 'Normal' reason: 'Sync' Scheduled for sync
+[ingress-nginx-controller-7869c84bb7-kvsmm] W0124 23:44:57.225283       6 controller.go:1214] Service "monitoring/kube-prometheus-stack-prometheus" does not have any active Endpoint.
+[ingress-nginx-controller-7869c84bb7-kvsmm] W0124 23:44:57.225314       6 controller.go:1214] Service "monitoring/kube-prometheus-stack-prometheus" does not have any active Endpoint.
+[ingress-nginx-controller-7869c84bb7-kvsmm] W0124 23:44:57.225355       6 controller.go:1214] Service "databases/postgres-operator-ui" does not have any active Endpoint.
+[ingress-nginx-controller-7869c84bb7-kvsmm] W0124 23:45:00.559086       6 controller.go:1214] Service "monitoring/kube-prometheus-stack-prometheus" does not have any active Endpoint.
+[ingress-nginx-controller-7869c84bb7-kvsmm] W0124 23:45:00.559115       6 controller.go:1214] Service "monitoring/kube-prometheus-stack-prometheus" does not have any active Endpoint.
+[ingress-nginx-controller-7869c84bb7-kvsmm] W0124 23:45:03.892411       6 controller.go:1214] Service "monitoring/kube-prometheus-stack-prometheus" does not have any active Endpoint.
+[ingress-nginx-controller-7869c84bb7-kvsmm] W0124 23:45:04.074336       6 controller.go:1214] Service "monitoring/kube-prometheus-stack-prometheus" does not have any active Endpoint.
 
 ```

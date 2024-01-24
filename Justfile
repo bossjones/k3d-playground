@@ -251,3 +251,6 @@ get-apps:
 
 tail-audit:
   tail -f audit/logs/audit.log | jq .
+
+get-audit2rbac:
+  wget https://github.com/liggitt/audit2rbac/releases/download/v0.10.0/audit2rbac-darwin-arm64.tar.gz -O - | tar -xz

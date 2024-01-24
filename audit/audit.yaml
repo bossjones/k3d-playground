@@ -24,3 +24,16 @@ rules:
   - group: "apps"
     resources: ["deployments"]
 - level: None
+
+# # SOURCE: https://github.com/anasinnyk/oslo.rs/blob/52725a20a5794b58a2924d9f278b8d749eda8c3a/justfile#L97
+# kind: "Policy"
+# apiVersion: "audit.k8s.io/v1"
+# rules:
+# - level: Metadata
+#   users:
+#   - system:admin
+#   - system:serviceaccount:default:doc-controller
+#   omitStages:
+#   - RequestReceived
+#   - ResponseStarted
+#   - Panic
