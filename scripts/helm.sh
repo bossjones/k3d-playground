@@ -24,6 +24,7 @@ helm repo add drone https://charts.drone.io
 helm repo add stakater https://stakater.github.io/stakater-charts
 helm repo add ananace-charts https://ananace.gitlab.io/charts
 helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
+helm repo add cilium https://helm.cilium.io
 
 helm repo add portainer https://portainer.github.io/k8s/
 

@@ -1,6 +1,37 @@
 # k3d-playground
 Just messing around with k3d
 
+Linux and macOS script to create a k3d (k3s in docker) cluster for development
+including:
+
+- [Cert Manager](https://github.com/cert-manager/cert-manager) provision and manage TLS certificates in Kubernetes
+- [Cilium](https://github.com/cilium/cilium) eBPF-based networking, security, and observability
+- [Grafana](https://github.com/grafana/grafana) visualize metrics, logs, and traces
+- [Ingress-NGINX](https://github.com/kubernetes/ingress-nginx) ingress controller for Kubernetes using NGINX
+- [Kubernetes Dashboard](https://github.com/kubernetes/dashboard) general-purpose web UI for Kubernetes
+- [Loki](https://github.com/grafana/loki) log aggregation system
+- [MetalLB](https://github.com/metallb/metallb) network load-balancer implementation
+- [OpenFaaS](https://github.com/openfaas/faas) serverless functions made simple
+- [Prometheus](https://github.com/prometheus/prometheus) monitoring system and time series database
+
+## Requirements
+
+A working `docker` installation is required. Additional tooling will be downloaded automatically if they are not
+available: `helm`, `k3d` and `kubectl`.
+
+### macOS notes
+
+Docker Desktop for Mac does not support routing to containers by IP address meaning that cluster nodes and load balancer
+addresses cannot be accessed directly. This functionality is supported natively by Linux and requires additional tooling
+on macOS. One such utility is [docker-mac-net-connect](https://github.com/chipmk/docker-mac-net-connect) which can be
+installed via [homebrew](https://brew.sh/):
+
+```sh
+brew install chipmk/tap/docker-mac-net-connect
+brew services start chipmk/tap/docker-mac-net-connect
+```
+
+
 
 ### Example traefik labels
 

@@ -18,7 +18,9 @@ ports:
 - port: 443:443
   nodeFilters:
   - loadbalancer
-
+- port: 6445:6445 # same as `--port '8080:80@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
 # SOURCE: https://github.com/bravecobra/k8s-dev-infrastructure/blob/adb085443cffb00a69c2ddc4a415f02ef785d79a/src/clusters/k3d/devinfra-template.yaml#L2
 - port: 8100:8100 # same as `--port '8100:8100@loadbalancer'`
   nodeFilters:
@@ -145,6 +147,20 @@ volumes:
   nodeFilters:
   - server:0
   - agent:*
+
+- volume: "$PWD/scripts/k3d-entrypoint-cilium.sh:/bin/k3d-entrypoint-cilium.sh"
+  nodeFilters:
+  - server:0
+  - agent:*
+# SOURCE: https://github.com/nxy7/k3d-cilium/blob/master/k3d.config.yaml
+# - volume: /sys/fs/bpf:/sys/fs/bpf:shared # same as `--volume '/my/host/path:/path/in/node@server:0;agent:*'`
+#   nodeFilters:
+#     - server:*
+#     - agent:*
+# - volume: /run/cilium/cgroupv2:/run/cilium/cgroupv2:shared # same as `--volume '/my/host/path:/path/in/node@server:0;agent:*'`
+#   nodeFilters:
+#     - server:*
+#     - agent:*
 # SOURCE: https://github.com/defenseunicorns/uds-capability-confluence/blob/90b30c74d83f0aa4ec404a840b92a5956f921195/utils/k3d/k3d-config.yaml#L2
 # - volume: /etc/machine-id:/etc/machine-id
 #   nodeFilters:
@@ -219,7 +235,15 @@ options:
     - arg: --kubelet-arg=eviction-minimum-reclaim=imagefs.available=1%,nodefs.available=1%
       nodeFilters:
       - server:*
-
+  # k3s: # options passed on to K3s itself
+  #   extraServerArgs: # additional arguments passed to the `k3s server` command; same as `--k3s-server-arg`
+  #     - --cluster-cidr=10.244.0.0/16
+  #     - --service-cidr=10.96.0.0/16
+  #     - --tls-san=kubernetes.k3d
+  #     - --flannel-backend=none
+  #     - --disable=servicelb
+  #     - --disable=traefik
+  #     - --disable-network-policy
     # https://github.com/chainguard-dev/actions/blob/ce8f95bff0df14286adebc33bf1617f91288caea/setup-k3d/action.yaml#L78
     # # This is needed in order to support projected volumes with service account tokens.
     # # See:
@@ -251,6 +275,33 @@ options:
     # - arg: --flannel-backend=none
     #   nodeFilters:
     #     - server:*
+    ################################################################################
+    # SOURCE: https://github.com/nxy7/k3d-cilium/blob/master/k3d.config.yaml
+    ################################################################################
+    # - arg: "--disable-kube-proxy"
+    #   nodeFilters:
+    #     - server:*
+    #     - agent:*
+    # - arg: "--disable=local-storage"
+    #   nodeFilters:
+    #     - server:*
+    #     - agent:*
+    # - arg: "--disable=traefik"
+    #   nodeFilters:
+    #     - server:*
+    #     - agent:*
+    # - arg: "--disable=servicelb"
+    #   nodeFilters:
+    #     - server:*
+    #     - agent:*
+    - arg: "--flannel-backend=none"
+      nodeFilters:
+        - server:*
+        - agent:*
+    # - arg: "--disable-network-policy"
+    #   nodeFilters:
+    #     - server:*
+    #     - agent:*
   kubeconfig:
     updateDefaultKubeconfig: true
     switchCurrentContext: true

@@ -197,3 +197,26 @@ echo "open: https://localhost:30779/ or http://localhost:30777/ to access portai
 open: https://localhost:30779/ or http://localhost:30777/ to access portainer
 
 ```
+
+
+#####################################
+
+```
+~/dev/bossjones/k3d-playground main* 57s
+❯  sudo brew services start chipmk/tap/docker-mac-net-connect
+Password:
+Warning: Taking root:admin ownership of some docker-mac-net-connect paths:
+  /opt/homebrew/Cellar/docker-mac-net-connect/v0.1.2/bin
+  /opt/homebrew/Cellar/docker-mac-net-connect/v0.1.2/bin/docker-mac-net-connect
+  /opt/homebrew/opt/docker-mac-net-connect
+  /opt/homebrew/opt/docker-mac-net-connect/bin
+  /opt/homebrew/var/homebrew/linked/docker-mac-net-connect
+This will require manual removal of these paths using `sudo rm` on
+brew upgrade/reinstall/uninstall.
+Warning: docker-mac-net-connect must be run as non-root to start at user login!
+==> Successfully started `docker-mac-net-connect` (label: homebrew.mxcl.docker-mac-net-connect)
+
+~/dev/bossjones/k3d-playground main* 9s
+❯
+
+```
