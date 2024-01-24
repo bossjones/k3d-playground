@@ -9,3 +9,9 @@ resources:
 
 # commonAnnotations:
 #   argocd.argoproj.io/sync-options: Replace=true
+
+# SOURCE: https://www.innoq.com/en/blog/2022/07/advanced-kustomize-features/#limitlabelsandannotationstospecificresourcesorfields
+labels:
+- pairs:
+    monitoring: prometheus
+    prometheus: main

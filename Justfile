@@ -120,7 +120,7 @@ proxy-traefik:
   kubectl port-forward -n kube-system "$(kubectl get pods -n kube-system| grep '^traefik-' | awk '{print $1}')" 9000:9000
 
 proxy-grafana:
-	kubectl port-forward service/monitoring-stack-grafana 8081:80 -n monitoring
+	kubectl port-forward service/kube-prometheus-stack-grafana 8081:80 -n monitoring
 
 # Generate argocd jsonschema
 argocd-schema:

@@ -2170,10 +2170,15 @@ kubeStateMetrics:
 ## Configuration for kube-state-metrics subchart
 ##
 kube-state-metrics:
+  releaseLabel: true
+  metricLabelsAllowlist:
+    - "pods=[*]"
+    - "deployments=[*]"
+    - "persistentvolumeclaims=[*]"
   namespaceOverride: ""
   rbac:
     create: true
-  releaseLabel: true
+
   prometheus:
     monitor:
       enabled: true
@@ -2234,6 +2239,11 @@ kube-state-metrics:
         regex: '(.+)'
         replacement: 'k3d'
         targetLabel: cluster
+      - action: replace
+        regex: ^(.*)$
+        replacement: $1
+        sourceLabels: ["__meta_kubernetes_pod_node_name"]
+        targetLabel: kubernetes_node
       # - sourceLabels: [__meta_kubernetes_pod_node_name]
       #   separator: ;
       #   regex: ^(.*)$
@@ -2309,6 +2319,9 @@ prometheus-node-exporter:
         regex: '(.+)'
         replacement: 'k3d'
         targetLabel: cluster
+      - action: drop
+        sourceLabels: ["mountpoint"]
+        regex: /var/lib/kubelet/pods.+
       # - sourceLabels: [__name__]
       #   separator: ;
       #   regex: ^node_mountstats_nfs_(event|operations|transport)_.+
@@ -2323,6 +2336,7 @@ prometheus-node-exporter:
         regex: '(.+)'
         replacement: 'k3d'
         targetLabel: cluster
+
       # - sourceLabels: [__meta_kubernetes_pod_node_name]
       #   separator: ;
       #   regex: ^(.*)$
@@ -3429,6 +3443,8 @@ prometheus:
     # ruleSelector:
     #   matchLabels:
     #     role: example-rules
+
+    # By default, Prometheus discovers PodMonitors and ServiceMonitors within its namespace, that are labeled with the same release tag as the prometheus-operator release. Sometimes, you may need to discover custom PodMonitors/ServiceMonitors, for example used to scrape data from third-party applications. An easy way of doing this, without compromising the default PodMonitors/ServiceMonitors discovery, is allowing Prometheus to discover all PodMonitors/ServiceMonitors within its namespace, without applying label filtering. To do so, you can set prometheus.prometheusSpec.podMonitorSelectorNilUsesHelmValues and prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues to false.
 
     ## If true, a nil or {} value for prometheus.prometheusSpec.serviceMonitorSelector will cause the
     ## prometheus resource to be created with selectors based on values in the helm deployment,
