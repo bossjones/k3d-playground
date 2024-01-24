@@ -9,7 +9,7 @@ if [ $# -lt 1 ]; then
   exit 1
 fi
 
-cd kubernetes/"${1}"
+cd "${1}"
 kustomize build | kubectl apply -f -
 sleep 10
 kustomize build | kubectl apply -f -
@@ -22,7 +22,7 @@ sleep 30
 
 kubectx k3d-demo
 
-cd kubernetes/"${1}"
+cd "${1}"
 kustomize build | kubectl apply -f -
 sleep 10
 kustomize build | kubectl apply -f -

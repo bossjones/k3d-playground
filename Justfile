@@ -231,3 +231,6 @@ demo-update: argocd-install certs-only argocd-secret templates argocd-password i
 
 get-apps:
   kubectl -n argocd get applications.argoproj.io
+
+deploy-monitoring:
+  kustomize build --enable-alpha-plugins apps/argocd/base/monitoring/kube-prometheus-stack | kubectl apply -f -
