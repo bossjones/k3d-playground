@@ -2,6 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
+- https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.0/manifests/install.yaml
 - base/projects/core.yaml
 - base/projects/cluster.yaml
 - base/projects/monitoring.yaml
@@ -18,7 +19,6 @@ resources:
 - base/utilities/reflector.yaml
 # - base/utilities/descheduler.yaml
 - base/monitoring/kube-prometheus-stack/app/app.yaml
-- https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.0/manifests/install.yaml
 
 components:
 - https://github.com/argoproj-labs/argocd-extensions/manifests
@@ -38,6 +38,8 @@ patches:
 - path: overlay/argocd-rbac.yaml
 - path: overlay/argocd-cm.yaml
 - path: overlay/argocd-cr.yaml
+- path: overlay/argocd-cmd-params-cm.yaml
+- path: overlays/argocd-server-role.yaml
 - path: overlay/delete-np-argocd-redis-network-policy.yaml
   target:
     kind: NetworkPolicy

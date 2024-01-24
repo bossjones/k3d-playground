@@ -28,3 +28,7 @@ data:
     p, role:action-runner, applications, action/argoproj.io/WorkflowTemplate/create-workflow, *, allow
     p, role:action-runner, applications, action/argoproj.io/CronWorkflow/create-workflow, *, allow
     p, role:action-runner, applications, action/batch/CronJob/create-job, *, allow
+
+    # pork3s
+    g, lldap_admin, role:admin
+    p, lldap_admin, exec, create, */*, allow
