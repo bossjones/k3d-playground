@@ -21,7 +21,6 @@ resources:
 - https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.0/manifests/install.yaml
 - base/core/role_prometheus-k8s.yaml
 - base/core/rolebinding_prometheus-k8s.yaml
-- base/core/argocd-cmd-params-cm.yaml
 
 components:
 - https://github.com/argoproj-labs/argocd-extensions/manifests
@@ -40,6 +39,7 @@ patches:
 - path: overlay/argocd-rbac.yaml
 - path: overlay/argocd-cm.yaml
 - path: overlay/argocd-cr.yaml
+- path: overlay/argocd-cmd-params-cm.yaml
 - path: overlay/argocd-server-role.yaml
 - path: overlay/delete-np-argocd-redis-network-policy.yaml
   target:
