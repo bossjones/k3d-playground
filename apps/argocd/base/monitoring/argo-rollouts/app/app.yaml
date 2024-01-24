@@ -1,0 +1,37 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-rollouts
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: cluster
+  sources:
+  - repoURL: 'https://github.com/argoproj/argo-rollouts'
+    chart: argo-rollouts
+    targetRevision: v1.6.4
+    path: manifests/cluster-install
+    # helm:
+    #   valueFiles:
+    #     - $values/apps/argocd/base/monitoring/argo-rollouts/app/values.yaml
+  # - repoURL: 'https://github.com/bossjones/k3d-playground.git'
+  #   targetRevision: main
+  #   path: apps/argocd/base/monitoring/argo-rollouts
+  #   ref: values
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: argo-rollouts
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: -1
+      backoff:
+        duration: 30s
+        factor: 2
+        maxDuration: 30m

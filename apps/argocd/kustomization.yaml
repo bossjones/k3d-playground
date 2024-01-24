@@ -24,6 +24,7 @@ resources:
 - base/monitoring/loki-distributed/app/app.yaml
 - base/monitoring/vector/app/app.yaml
 - base/monitoring/k8s-event-logger/app/app.yaml
+- base/monitoring/argo-rollouts/app/app.yaml
 - https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.0/manifests/install.yaml
 # - base/core/role_prometheus-k8s.yaml
 # - base/core/rolebinding_prometheus-k8s.yaml
