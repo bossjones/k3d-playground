@@ -8,20 +8,21 @@ metadata:
 spec:
   project: monitoring
   sources:
-    - repoURL: https://prometheus-community.github.io/helm-charts
-      chart: kube-prometheus-stack
-      targetRevision: 48.2.2
-      helm:
-        releaseName: kube-prometheus-stack
-        # Helm values files for overriding values in the helm chart
-        # The path is relative to the spec.source.path directory defined above
-        valueFiles:
-          - $values/apps/argocd/base/monitoring/kube-prometheus-stack/app/values.yaml
-    - repoURL: 'https://github.com/bossjones/k3d-playground.git' # Can point to either a Helm chart repo or a git repo.
-      targetRevision: main # For Helm, this refers to the chart version.
-      path: apps/argocd/base/monitoring/kube-prometheus-stack # This has no meaning for Helm charts pulled directly from a Helm repo instead of git.
-      ref: values # For Helm, acts as a reference to this source for fetching values files from this source. Has no meaning when under `source` field
+  - repoURL: 'https://prometheus-community.github.io/helm-charts'
+    chart: kube-prometheus-stack
+    targetRevision: 48.2.2
+    helm:
+      releaseName: kube-prometheus-stack
+      # Helm values files for overriding values in the helm chart
+      # The path is relative to the spec.source.path directory defined above
+      valueFiles:
+        - $values/apps/argocd/base/monitoring/kube-prometheus-stack/app/values.yaml
+  - repoURL: 'https://github.com/bossjones/k3d-playground.git' # Can point to either a Helm chart repo or a git repo.
+    targetRevision: main # For Helm, this refers to the chart version.
+    path: apps/argocd/base/monitoring/kube-prometheus-stack # This has no meaning for Helm charts pulled directly from a Helm repo instead of git.
+    ref: values # For Helm, acts as a reference to this source for fetching values files from this source. Has no meaning when under `source` field
   destination:
+    # server: "https://kubernetes.default.svc"
     namespace: monitoring
     name: in-cluster
   syncPolicy:

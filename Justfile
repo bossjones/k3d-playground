@@ -229,3 +229,6 @@ fix-network-policies:
 fix-np: fix-network-policies
 
 demo-update: argocd-install certs-only argocd-secret templates argocd-password install fix-np argocd-bridge
+
+get-apps:
+  kubectl -n argocd get applications.argoproj.io
