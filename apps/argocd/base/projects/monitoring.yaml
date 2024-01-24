@@ -30,6 +30,14 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: default
     server: https://kubernetes.default.svc
+  - namespace: apps
+    server: https://kubernetes.default.svc
+  - namespace: databases
+    server: https://kubernetes.default.svc
+  - namespace: development
+    server: https://kubernetes.default.svc
+  - namespace: example
+    server: https://kubernetes.default.svc
   # permits deployments from any source repo, to any cluster, and all resource Kinds
   clusterResourceWhitelist:
   - group: '*'
