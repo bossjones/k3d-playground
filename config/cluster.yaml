@@ -12,12 +12,19 @@ kubeAPI:
 image: rancher/k3s:v1.27.4-k3s1
 network: demo-net
 ports:
-- port: 80:80
+- port: 0.0.0.0:80:80
   nodeFilters:
   - loadbalancer
-- port: 443:443
+- port: 0.0.0.0:443:443
   nodeFilters:
   - loadbalancer
+- port: 0.0.0.0:5053:53/udp
+  nodeFilters:
+  - agent:0:direct
+# https://github.com/bravecobra/k8s-e2e/blob/fe1370ae14ca9bed95523b122cca67c9e937ab44/k3s-devinfra.yaml#L2
+- port: 8100:8100 # same as `--port '8100:8100@loadbalancer'`
+  nodeFilters:
+    - loadbalancer
 # - port: 8080:8080
 #   nodeFilters:
 #   - loadbalancer
@@ -37,7 +44,13 @@ volumes:
   nodeFilters:
   - server:0
   - agent:*
-
+# SOURCE: https://github.com/defenseunicorns/uds-capability-confluence/blob/90b30c74d83f0aa4ec404a840b92a5956f921195/utils/k3d/k3d-config.yaml#L2
+# - volume: /etc/machine-id:/etc/machine-id
+#   nodeFilters:
+#     - server:*
+# - volume: /sys/fs/bpf:/sys/fs/bpf:shared
+#   nodeFilters:
+#     - server:*
   # --volume {{PWD}}:/var/lib/rancer/k3s/server/manifests/traefik-config.yaml@all \
   # --volume /tmp/k3dvol:/var/lib/rancher/k3s/storage@all \
 hostAliases:
@@ -65,9 +78,21 @@ options:
       nodeFilters:
         - server:*
         - agent:*
+    # - arg: "--write-kubeconfig-mode 644"
+    #   nodeFilters:
+    #     - server:*
+    # - arg: "--write-kubeconfig ~/.kube/config"
+    #   nodeFilters:
+    #     - server:*
     - arg: --disable=traefik
       nodeFilters:
       - server:*
+    - arg: --disable=metrics-server
+      nodeFilters:
+      - server:*
+    - arg: --disable-network-policy
+      nodeFilters:
+        - server:*
     - arg: --tls-san=localhost,registry.local.gd,127.0.0.1,registry.localhost,k8s.localhost,whoami.k8s.localhost
       nodeFilters:
       - server:*
@@ -94,6 +119,34 @@ options:
       nodeFilters:
       - server:*
 
+    # https://github.com/chainguard-dev/actions/blob/ce8f95bff0df14286adebc33bf1617f91288caea/setup-k3d/action.yaml#L78
+    # # This is needed in order to support projected volumes with service account tokens.
+    # # See:
+    # #   https://kubernetes.slack.com/archives/CEKK1KTN2/p1600268272383600
+    # #   https://stackoverflow.com/questions/74603633/k3s-allow-unauthenticated-access-to-oidc-endpoints
+    # - arg: --kube-apiserver-arg=anonymous-auth=true
+    #   nodeFilters:
+    #     - server:*
+    # # This sets the issuer to what sigstore scaffolding expects.
+    # # See also: https://github.com/k3d-io/k3d/issues/1187
+    # - arg: --kube-apiserver-arg=service-account-issuer=https://kubernetes.default.svc
+    #   nodeFilters:
+    #     - server:*
+    # - arg: --kubelet-arg=max-pods=${{ inputs.max-pods }}
+    #   nodeFilters:
+    #     - server:*
+    #     - agent:*
+
+    # SOURCE: https://github.com/owncloud-docker/helm-charts/blob/d183f212988cb3530d28dbe4e409aaf0b862af2a/ci/k3d-drone.yaml#L2
+    # - arg: --tls-san=k3d
+    #   nodeFilters:
+    #     - server:*
+    # - arg: --disable=servicelb
+    #   nodeFilters:
+    #     - server:*
+    # - arg: --disable=local-storage
+    #   nodeFilters:
+    #     - server:*
   kubeconfig:
     updateDefaultKubeconfig: true
     switchCurrentContext: true
