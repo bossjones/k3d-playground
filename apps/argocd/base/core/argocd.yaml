@@ -15,6 +15,8 @@ spec:
     name: in-cluster
   syncPolicy:
     automated:
+      # SOURCE: https://argo-cd.readthedocs.io/en/stable/user-guide/auto_sync/
+      # By default (and as a safety mechanism), automated sync will not delete resources when Argo CD detects the resource is no longer defined in Git. To prune the resources, a manual sync can always be performed (with pruning checked).
       prune: true
       selfHeal: true
       allowEmpty: true
