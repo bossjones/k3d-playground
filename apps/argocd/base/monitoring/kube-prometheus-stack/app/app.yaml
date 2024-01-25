@@ -53,3 +53,33 @@ spec:
       kind: ServiceMonitor
       jqPathExpressions:
       - .spec.endpoints[]?.relabelings[]?.action
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      jqPathExpressions:
+      - .spec.endpoints[]?.metricRelabelings[]?.action
+    # SOURCE: https://github.com/rogerrum/k8s-gitops/blob/578d7a8cdd89dd940060e005942e567814dcf9f6/main/monitoring/values.yaml#L24
+    # SOURCE: https://github.com/search?q=jqpathexpressions+metricRelabelings&type=code
+    # - kind: MutatingWebhookConfiguration
+    #   jsonPointers:
+    #     - /webhooks/0/failurePolicy
+    # - kind: ValidatingWebhookConfiguration
+    #   jsonPointers:
+    #     - /webhooks/0/failurePolicy
+    # - kind: ServiceAccount
+    #   jsonPointers:
+    #     - /imagePullSecrets
+
+# - name: blackbox-exporter
+#   namespace: monitoring
+#   path: main/monitoring/blackbox-exporter
+#   manifest-paths: /main/monitoring/blackbox-exporter
+#   sync-wave: "-1"
+#   ignoreDifferences:
+#     - group: "*"
+#       kind: "ServiceMonitor"
+#       jqPathExpressions:
+#         - .spec.endpoints[].metricRelabelings
+#   helm:
+#     enabled: true
+#   syncOptions:
+#     - RespectIgnoreDifferences=true
