@@ -33,7 +33,8 @@ fullnameOverride: ""
 ## Labels to apply to all resources
 ##
 # TODO: FixME
-commonLabels: {}
+commonLabels:
+  prometheus: main
 #  prometheus: main
 # scmhash: abc123
 # myLabel: aakkmd
@@ -587,7 +588,9 @@ alertmanager:
     ## Standard object's metadata. More info: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#metadata
     ## Metadata Labels and Annotations gets propagated to the Alertmanager pods.
     ##
-    podMetadata: {}
+    podMetadata:
+      annotations:
+        terminating-pod-cleaner/delete: "1"
 
     ## Image of Alertmanager
     ##
@@ -623,7 +626,10 @@ alertmanager:
 
     ## AlertmanagerConfigs to be selected to merge and configure Alertmanager with.
     ##
-    alertmanagerConfigSelector: {}
+    # alertmanagerConfigSelector: {}
+    alertmanagerConfigSelector:
+      matchLabels:
+        prometheus: main
     ## Example which selects all alertmanagerConfig resources
     ## with label "alertconfig" with values any of "example-config" or "example-config-2"
     # alertmanagerConfigSelector:
@@ -892,6 +898,8 @@ grafana:
     GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel
     # GF_SECURITY_COOKIE_SAMESITE: grafana
     # GF_SERVER_ROOT_URL: https://grafana.porkboi.io
+    # https://grafana.com/docs/grafana/latest/administration/configuration/#allowed_origins
+    GF_LIVE_ALLOWED_ORIGINS: "*"
   grafana.ini:
     analytics:
       check_for_updates: false
@@ -1405,6 +1413,38 @@ kubeApiServer:
         regex: '(.+)'
         replacement: 'k3d'
         targetLabel: cluster
+
+      # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/monitoring/charts/kube-prometheus-stack/templates/kube-prometheus-stack-application.yaml
+      # Drop metrics that are unset, high cardinality, or extraneous
+      # https://github.com/coreos/prometheus-operator/pull/1959
+      - sourceLabels: [__name__]
+        action: drop
+        regex: etcd_(debugging|disk|request|server).*
+      - sourceLabels: [__name__]
+        action: drop
+      # Drop metrics that are unset, high cardinality, or extraneous
+      # https://github.com/coreos/prometheus-operator/pull/2387
+        regex: apiserver_admission_controller_admission_latencies_seconds_.*
+      - sourceLabels: [__name__]
+        action: drop
+        regex: apiserver_admission_step_admission_latencies_seconds_.*
+      # kube-apiserver's apiserver_request_duration_seconds_bucket metric has
+      # a high cardinality that includes labels for the API group, verb, scope,
+      # resource, and component for each object type, including for each CRD.
+      # This one metric has ~10k time series in a typical cluster (btw 10-40% of total)
+      # Removing the apiserver request duration outright would make latency alerts
+      # a NoOp and break a Grafana apiserver panel. Instead, drop series that
+      # have a "group" label. Effectively, only request durations for core
+      # Kubernetes APIs will be kept (e.g. cardinality won't grow with each
+      # CRD added). This reduces the metric to ~2k unique series
+      # https://github.com/poseidon/typhoon/pull/596
+      - sourceLabels: [__name__, group]
+        regex: apiserver_request_duration_seconds_bucket;.+
+        action: drop
+      # Drop metrics that are unset, high cardinality, or extraneous
+      - sourceLabels: [__name__]
+        regex: ^(apiserver_request_sli_|apiserver_request_slo_).*
+        action: drop
     # - action: keep
     #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
     #   sourceLabels: [__name__]
@@ -1485,7 +1525,8 @@ kubelet:
     ##
     resource: false
     # From kubernetes 1.18, /metrics/resource/v1alpha1 renamed to /metrics/resource
-    resourcePath: "/metrics/resource/v1alpha1"
+    # resourcePath: "/metrics/resource/v1alpha1"
+    resourcePath: "/metrics/resource"
 
     ## MetricRelabelConfigs to apply to samples after scraping, but before ingestion.
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
@@ -1515,6 +1556,16 @@ kubelet:
       - sourceLabels: [id, pod]
         action: drop
         regex: '.+;'
+      # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/monitoring/charts/kube-prometheus-stack/templates/kube-prometheus-stack-application.yaml
+      # Drop metrics that are unset, high cardinality, or extraneous
+      # https://github.com/coreos/prometheus-operator/pull/2387
+      - sourceLabels: [__name__, image]
+        action: drop
+        regex: container_([a-z_]+);
+      - sourceLabels: [__name__]
+        action: drop
+        regex: container_(network_tcp_usage_total|network_udp_usage_total|tasks_state|cpu_load_average_10s)
+
     # - sourceLabels: [__name__, image]
     #   separator: ;
     #   regex: container_([a-z_]+);
@@ -1619,6 +1670,17 @@ kubelet:
     - action: drop
       sourceLabels: ["__name__"]
       regex: (rest_client_request_duration_seconds_bucket|rest_client_request_duration_seconds_sum|rest_client_request_duration_seconds_count)
+
+    # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/monitoring/charts/kube-prometheus-stack/templates/kube-prometheus-stack-application.yaml
+    # Drop metrics that are unset, high cardinality, or extraneous
+    # https://github.com/coreos/prometheus-operator/pull/2387
+    - sourceLabels: [__name__, image]
+      action: drop
+      regex: container_([a-z_]+);
+    - sourceLabels: [__name__]
+      action: drop
+      regex: container_(network_tcp_usage_total|network_udp_usage_total|tasks_state|cpu_load_average_10s)
+
     # SOURCE: https://github.com/onedr0p/home-ops/blob/main/kubernetes/main/apps/observability/kube-prometheus-stack/app/helmrelease.yaml
     # - sourceLabels: [__name__, image]
     #   separator: ;
@@ -1675,8 +1737,13 @@ kubeControllerManager:
     ## If null or unset, the value is determined dynamically based on target Kubernetes version due to change
     ## of default port in Kubernetes 1.22.
     ##
-    port: null
-    targetPort: null
+    port: 10257
+    targetPort: 10257
+    selector:
+      tier: control-plane
+      component: kube-controller-manager
+    # port: null
+    # targetPort: null
     # selector:
     #   component: kube-controller-manager
 
@@ -1735,6 +1802,12 @@ kubeControllerManager:
     - action: keep
       sourceLabels: ["__name__"]
       regex: "(apiserver_audit|apiserver_client|apiserver_delegated|apiserver_envelope|apiserver_storage|apiserver_webhooks|attachdetach_controller|authenticated_user|authentication|cronjob_controller|disabled_metric|endpoint_slice|ephemeral_volume|garbagecollector_controller|get_token|go|hidden_metric|job_controller|kubernetes_build|kubernetes_feature|leader_election|node_collector|node_ipam|process_cpu|process_max|process_open|process_resident|process_start|process_virtual|pv_collector|registered_metric|replicaset_controller|rest_client|retroactive_storageclass|root_ca|running_managed|scrape_duration|scrape_samples|scrape_series|service_controller|storage_count|storage_operation|ttl_after|volume_operation|workqueue)_(.+)"
+    # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/monitoring/charts/kube-prometheus-stack/templates/kube-prometheus-stack-application.yaml
+    # Drop metrics that are unset, high cardinality, or extraneous
+    # https://github.com/coreos/prometheus-operator/pull/1959
+    - sourceLabels: [__name__]
+      action: drop
+      regex: etcd_(debugging|disk|request|server).*
     # SOURCE: https://github.com/onedr0p/home-ops/blob/main/kubernetes/main/apps/observability/kube-prometheus-stack/app/helmrelease.yaml
     # - action: keep
     #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
@@ -1768,8 +1841,8 @@ coreDns:
   service:
     port: 9153
     targetPort: 9153
-    # selector:
-    #   k8s-app: kube-dns
+    selector:
+      k8s-app: kube-dns
   serviceMonitor:
     ## Scrape interval. If not set, the Prometheus default scrape interval is used.
     ##
@@ -2046,8 +2119,13 @@ kubeScheduler:
     ## If null or unset, the value is determined dynamically based on target Kubernetes version due to change
     ## of default port in Kubernetes 1.23.
     ##
-    port: null
-    targetPort: null
+    port: 10259
+    targetPort: 10259
+    selector:
+      tier: control-plane
+      component: kube-scheduler
+    # port: null
+    # targetPort: null
     # selector:
     #   component: kube-scheduler
 
@@ -2194,6 +2272,12 @@ kubeProxy:
       regex: '(.+)'
       replacement: 'k3d'
       targetLabel: cluster
+    # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/monitoring/charts/kube-prometheus-stack/templates/kube-prometheus-stack-application.yaml
+    # Drop metrics that are unset, high cardinality, or extraneous
+    # https://github.com/coreos/prometheus-operator/pull/1959
+    - sourceLabels: [__name__]
+      action: drop
+      regex: etcd_(debugging).*
     # - action: keep
     #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
     #   sourceLabels: [__name__]
@@ -2224,6 +2308,38 @@ kubeStateMetrics:
 ## Configuration for kube-state-metrics subchart
 ##
 kube-state-metrics:
+  # Available collectors for kube-state-metrics.
+  # By default, all available resources are enabled, comment out to disable.
+  # collectors:
+  #   - certificatesigningrequests
+  #   - configmaps
+  #   - cronjobs
+  #   - daemonsets
+  #   - deployments
+  #   - endpoints
+  #   - horizontalpodautoscalers
+  #   - ingresses
+  #   - jobs
+  #   - leases
+  #   - limitranges
+  #   - mutatingwebhookconfigurations
+  #   - namespaces
+  #   - networkpolicies
+  #   - nodes
+  #   - persistentvolumeclaims
+  #   - persistentvolumes
+  #   - poddisruptionbudgets
+  #   - pods
+  #   - replicasets
+  #   - replicationcontrollers
+  #   - resourcequotas
+  #   - secrets
+  #   - services
+  #   - statefulsets
+  #   - storageclasses
+  #   - validatingwebhookconfigurations
+  #   - volumeattachments
+  #   - verticalpodautoscalers
   releaseLabel: true
   metricLabelsAllowlist:
     - "pods=[*]"
@@ -2236,6 +2352,10 @@ kube-state-metrics:
   prometheus:
     monitor:
       enabled: true
+
+      # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/monitoring/charts/kube-prometheus-stack/templates/kube-prometheus-stack-application.yaml
+      additionalLabels:
+        prometheus: main
 
       ## Scrape interval. If not set, the Prometheus default scrape interval is used.
       ##
@@ -2281,6 +2401,14 @@ kube-state-metrics:
         regex: '(.+)'
         replacement: 'k3d'
         targetLabel: cluster
+      # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/monitoring/charts/kube-prometheus-stack/templates/kube-prometheus-stack-application.yaml
+      # Drop metrics that are unset, high cardinality, or extraneous
+      - sourceLabels: [__name__]
+        separator: ;
+        regex: ^(kube_pod_container_info).*
+        replacement: $1
+        action: drop
+
       # - action: keep
       #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
       #   sourceLabels: [__name__]
@@ -2325,11 +2453,15 @@ prometheus-node-exporter:
   extraArgs:
     - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
     - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
+    # - --collector.mountstats
   service:
     portName: http-metrics
   prometheus:
     monitor:
       enabled: true
+      ## Standardized labels
+      additionalLabels:
+        prometheus: main
 
       jobLabel: jobLabel
 
@@ -2376,6 +2508,12 @@ prometheus-node-exporter:
       - action: drop
         sourceLabels: ["mountpoint"]
         regex: /var/lib/kubelet/pods.+
+      # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/monitoring/charts/kube-prometheus-stack/templates/kube-prometheus-stack-application.yaml
+      - sourceLabels: [__name__]
+        separator: ;
+        regex: ^node_mountstats_nfs_(event|operations|transport)_.+
+        replacement: $1
+        action: drop
       # - sourceLabels: [__name__]
       #   separator: ;
       #   regex: ^node_mountstats_nfs_(event|operations|transport)_.+
@@ -2441,6 +2579,10 @@ prometheusOperator:
     annotations: {}
     #   argocd.argoproj.io/hook: PreSync
     #   argocd.argoproj.io/hook-delete-policy: HookSucceeded
+    # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/monitoring/charts/kube-prometheus-stack/templates/kube-prometheus-stack-application.yaml
+    # # disable admission webhook self-signed cert patching
+    # patch:
+    #   enable: false
     patch:
       enabled: true
       image:
@@ -3437,7 +3579,7 @@ prometheus:
 
     ## Name of the external label used to denote Prometheus instance name
     ##
-    prometheusExternalLabelName: ""
+    prometheusExternalLabelName: "cluster"
 
     ## If true, the Operator won't add the external label used to denote Prometheus instance name
     ##
@@ -3519,15 +3661,15 @@ prometheus:
     ##
     # serviceMonitorSelector: {}
     ## Example which selects ServiceMonitors with label "prometheus" set to "somelabel"
-    serviceMonitorSelector: {}
-      ## DISABLED: # matchLabels:
-      ## DISABLED: #   prometheus: main
+    serviceMonitorSelector:
+      matchLabels:
+        prometheus: main
 
     ## Namespaces to be selected for ServiceMonitor discovery.
     ##
-    serviceMonitorNamespaceSelector: {}
-      ## DISABLED: # matchLabels:
-      ## DISABLED: #   prometheus: main
+    serviceMonitorNamespaceSelector:
+      matchLabels:
+        prometheus: main
     ## Example which selects ServiceMonitors in namespaces with label "prometheus" set to "somelabel"
     # serviceMonitorNamespaceSelector:
     #   matchLabels:
@@ -3542,9 +3684,9 @@ prometheus:
     ## PodMonitors to be selected for target discovery.
     ## If {}, select all PodMonitors
     ##
-    podMonitorSelector: {}
-      # DISABLED: # matchLabels:
-      # DISABLED: #   prometheus: main
+    podMonitorSelector:
+      matchLabels:
+        prometheus: main
     ## Example which selects PodMonitors with label "prometheus" set to "somelabel"
     # podMonitorSelector:
     #   matchLabels:
@@ -3657,8 +3799,11 @@ prometheus:
     ## Metadata Labels and Annotations gets propagated to the prometheus pods.
     ##
     podMetadata:
-      labels:
-        prometheus: main
+      # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/monitoring/charts/kube-prometheus-stack/templates/kube-prometheus-stack-application.yaml
+      annotations:
+        terminating-pod-cleaner/delete: "1"
+      # labels:
+      #   prometheus: main
     #   app: prometheus
     #   k8s-app: prometheus
 
@@ -3713,6 +3858,7 @@ prometheus:
     ## Prometheus StorageSpec for persistent data
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/storage.md
     ##
+
     storageSpec: {}
       # volumeClaimTemplate:
       #   spec:

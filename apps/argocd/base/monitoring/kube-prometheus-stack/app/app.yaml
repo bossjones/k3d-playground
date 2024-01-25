@@ -62,6 +62,15 @@ spec:
       kind: ServiceMonitor
       jqPathExpressions:
       - .spec.endpoints[]?.metricRelabelings[]?.action
+    # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/monitoring/charts/kube-prometheus-stack/templates/kube-prometheus-stack-application.yaml
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      jsonPointers:
+        - /webhooks/0/failurePolicy
+    - group: admissionregistration.k8s.io
+      kind: MutatingWebhookConfiguration
+      jsonPointers:
+        - /webhooks/0/failurePolicy
     # SOURCE: https://github.com/rogerrum/k8s-gitops/blob/578d7a8cdd89dd940060e005942e567814dcf9f6/main/monitoring/values.yaml#L24
     # SOURCE: https://github.com/search?q=jqpathexpressions+metricRelabelings&type=code
     # - kind: MutatingWebhookConfiguration
