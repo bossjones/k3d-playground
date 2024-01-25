@@ -21,7 +21,7 @@ resources:
 # - base/utilities/descheduler.yaml
 - base/monitoring/kube-prometheus-stack/app/app.yaml
 - base/monitoring/metrics-server/app/app.yaml
-- base/monitoring/rancher/app/app.yaml
+# - base/monitoring/rancher/app/app.yaml
 - base/monitoring/loki-distributed/app/app.yaml
 - base/monitoring/vector/app/app.yaml
 - base/monitoring/k8s-event-logger/app/app.yaml
