@@ -11,7 +11,8 @@ metadata:
     # - resources-finalizer.argocd.argoproj.io/background
 spec:
   # The project the application belongs to.
-  project: apps
+  # NOTE: 1/24/2024 - it used to be this -> # project: apps
+  project: cluster
   # Source of the application manifests
   source:
     # Can point to either a Helm chart repo or a git repo.

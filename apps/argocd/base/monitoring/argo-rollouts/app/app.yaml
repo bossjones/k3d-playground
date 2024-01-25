@@ -13,7 +13,8 @@ spec:
     targetRevision: v1.6.4
     path: manifests/cluster-install
   destination:
-    server: "https://kubernetes.default.svc"
+    # server: "https://kubernetes.default.svc"
+    name: in-cluster
     namespace: argo-rollouts
   syncPolicy:
     automated:

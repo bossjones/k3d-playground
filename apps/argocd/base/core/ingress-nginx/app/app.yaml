@@ -22,7 +22,8 @@ spec:
     path: apps/argocd/base/core/ingress-nginx
     ref: values
   destination:
-    server: "https://kubernetes.default.svc"
+    # server: "https://kubernetes.default.svc"
+    name: in-cluster
     namespace: kube-system
   syncPolicy:
     automated:

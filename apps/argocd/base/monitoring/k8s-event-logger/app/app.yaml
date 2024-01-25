@@ -20,7 +20,8 @@ spec:
     path: apps/argocd/base/monitoring/k8s-event-logger
     ref: values
   destination:
-    server: "https://kubernetes.default.svc"
+    name: in-cluster
+    # server: "https://kubernetes.default.svc"
     namespace: monitoring
   syncPolicy:
     automated:

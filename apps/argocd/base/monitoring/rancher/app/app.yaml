@@ -20,7 +20,8 @@ spec:
     path: apps/argocd/base/monitoring/rancher
     ref: values
   destination:
-    server: "https://kubernetes.default.svc"
+    # server: "https://kubernetes.default.svc"
+    name: in-cluster
     namespace: cattle-system
   syncPolicy:
     automated:
