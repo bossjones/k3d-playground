@@ -41,12 +41,17 @@ spec:
     # - PruneLast=false
     # - ApplyOutOfSyncOnly=false
     # - Prune=true
+      #     --resource stringArray                  Sync only specific resources as GROUP:KIND:NAME or !GROUP:KIND:NAME. Fields may be blank and '*' can be used. This option may be specified repeatedly
+      # --retry-backoff-duration duration       Retry backoff base duration. Input needs to be a duration (e.g. 2m, 1h) (default 5s)
+      # --retry-backoff-factor int              Factor multiplies the base duration after each failed retry (default 2)
+      # --retry-backoff-max-duration duration   Max retry backoff duration. Input needs to be a duration (e.g. 2m, 1h) (default 3m0s)
+      # --retry-limit int                       Max number of allowed sync retries
     retry:
-      limit: -1
+      limit: -1  # Max number of allowed sync retries
       backoff:
-        duration: 20s
-        factor: 2
-        maxDuration: 15m
+        duration: 20s # Retry backoff base duration. Input needs to be a duration (e.g. 2m, 1h) (default 5s)
+        factor: 2 # Factor multiplies the base duration after each failed retry (default 2)
+        maxDuration: 15m Max retry backoff duration. Input needs to be a duration (e.g. 2m, 1h) (default 3m0s)
   # SOURCE: https://github.com/argoproj/argo-cd/issues/11074
   ignoreDifferences:
     - group: monitoring.coreos.com

@@ -77,3 +77,7 @@ patches:
   target:
     kind: NetworkPolicy
     name: argocd-applicationset-controller-network-policy
+- path: patch-configmap-argocd-ssh-known-hosts-cm.yaml
+  target:
+    kind: ConfigMap
+    name: argocd-ssh-known-hosts-cm
