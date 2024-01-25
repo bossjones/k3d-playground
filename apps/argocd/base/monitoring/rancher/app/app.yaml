@@ -13,6 +13,7 @@ spec:
     chart: rancher
     targetRevision: 2.8.1
     helm:
+      releaseName: rancher
       valueFiles:
         - $values/apps/argocd/base/monitoring/rancher/app/values.yaml
   - repoURL: 'https://github.com/bossjones/k3d-playground.git'

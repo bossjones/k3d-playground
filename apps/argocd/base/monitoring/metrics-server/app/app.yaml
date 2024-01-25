@@ -13,6 +13,7 @@ spec:
     chart: metrics-server
     targetRevision: 3.11.0
     helm:
+      releaseName: metrics-server
       valueFiles:
         - $values/apps/argocd/base/monitoring/metrics-server/app/values.yaml
   - repoURL: 'https://github.com/bossjones/k3d-playground.git'

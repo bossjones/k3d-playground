@@ -13,6 +13,7 @@ spec:
     chart: k8s-event-logger
     targetRevision: 1.1.4
     helm:
+      releaseName: k8s-event-logger
       valueFiles:
         - $values/apps/argocd/base/monitoring/k8s-event-logger/app/values.yaml
   - repoURL: 'https://github.com/bossjones/k3d-playground.git'

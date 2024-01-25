@@ -14,6 +14,7 @@ spec:
     chart: ingress-nginx
     targetRevision: 4.9.0
     helm:
+      releaseName: ingress-nginx
       valueFiles:
         # - $values/kubernetes/apps/networking/ingress-nginx/app/values.yaml
         - $values/apps/argocd/base/core/ingress-nginx/app/values.yaml

@@ -13,6 +13,7 @@ spec:
     chart: loki-distributed
     targetRevision: 0.71.1
     helm:
+      releaseName: loki
       valueFiles:
         - $values/apps/argocd/base/monitoring/loki-distributed/app/values.yaml
   - repoURL: 'https://github.com/bossjones/k3d-playground.git'
