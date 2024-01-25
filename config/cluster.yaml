@@ -179,13 +179,10 @@ options:
       - settings.workerConnections=2048
   k3s:
     extraArgs:
-    # - arg: "--disable-network-policy"
+    # - arg: "--debug"
     #   nodeFilters:
     #     - server:*
-    - arg: "--debug"
-      nodeFilters:
-        - server:*
-        - agent:*
+    #     - agent:*
     # - arg: "--write-kubeconfig-mode 644"
     #   nodeFilters:
     #     - server:*
