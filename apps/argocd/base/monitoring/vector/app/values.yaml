@@ -424,6 +424,14 @@ customConfig:
         source: |
           # Standardize 'app' index
           .custom_app_name = .kubernetes.pod_labels."app.kubernetes.io/name" || .kubernetes.pod_labels.app || .kubernetes.pod_labels."k8s-app" || "unknown"
+
+
+          # Since we have 2 different sources, need to include this by default
+          .node = .kubernetes.pod_node_name
+          .pod = .kubernetes.pod_name
+          .namespace = .kubernetes.pod_namespace
+          .container = .kubernetes.container_name
+
   # transforms:
   #   my_remap_id:
   #     type: remap
@@ -500,14 +508,14 @@ customConfig:
           {{ printf "{{ custom_app_name }}" }}
         stream: >-
           {{ printf "{{ stream }}" }}
-        node:  >-
-          {{ printf "{{ kubernetes.pod_node_name }}" }}
-        pod:  >-
-          {{ printf "{{ kubernetes.pod_name }}" }}
-        namespace:  >-
-          {{ printf "{{ kubernetes.pod_namespace }}" }}
-        container:  >-
-          {{ printf "{{ kubernetes.container_name }}" }}
+        # node:  >-
+        #   {{ printf "{{ kubernetes.pod_node_name }}" }}
+        # pod:  >-
+        #   {{ printf "{{ kubernetes.pod_name }}" }}
+        # namespace:  >-
+        #   {{ printf "{{ kubernetes.pod_namespace }}" }}
+        # container:  >-
+        #   {{ printf "{{ kubernetes.container_name }}" }}
         source: kubernetes
         ############################################################################
       out_of_order_action: accept
