@@ -483,19 +483,20 @@ customConfig:
         # pod: "`{{ kubernetes.pod_name  }}`"
         # namespace: "`{{ kubernetes.pod_namespace }}`"
         # container: "`{{ kubernetes.container_name }}`"
+        #Below key useed printf() to escape Helm interprets {{ }}
         # SOURCE: https://github.com/helm/helm/issues/2798#issuecomment-890478869
         app:  >-
-          {{ printf "{{ custom_app_name }}" }}
-        stream: >-
-          {{ printf "{{ stream }}" }}
-        node:  >-
-          {{ printf "{{ kubernetes.pod_node_name }}" }}
-        pod:  >-
-          {{ printf "{{ kubernetes.pod_name }}" }}
-        namespace:  >-
-          {{ printf "{{ kubernetes.pod_namespace }}" }}
-        container:  >-
-          {{ printf "{{ kubernetes.container_name }}" }}
+          {{ printf "{{ custom_app_name | default "app" | quote }}" }}
+        # stream: >-
+        #   {{ printf "{{ stream }}" }}
+        # node:  >-
+        #   {{ printf "{{ kubernetes.pod_node_name }}" }}
+        # pod:  >-
+        #   {{ printf "{{ kubernetes.pod_name }}" }}
+        # namespace:  >-
+        #   {{ printf "{{ kubernetes.pod_namespace }}" }}
+        # container:  >-
+        #   {{ printf "{{ kubernetes.container_name }}" }}
         source: kubernetes
         ############################################################################
       out_of_order_action: accept
