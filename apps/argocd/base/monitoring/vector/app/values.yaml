@@ -486,7 +486,7 @@ customConfig:
         #Below key useed printf() to escape Helm interprets {{ }}
         # SOURCE: https://github.com/helm/helm/issues/2798#issuecomment-890478869
         app:  >-
-          {{ printf "{{ custom_app_name | default "app" | quote }}" }}
+          {{ printf "{{ custom_app_name }}" }}
         # stream: >-
         #   {{ printf "{{ stream }}" }}
         # node:  >-
