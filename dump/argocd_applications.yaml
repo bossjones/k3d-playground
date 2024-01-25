@@ -5,1620 +5,6 @@ items:
   metadata:
     annotations:
       kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"labels":{"app.kubernetes.io/instance":"argocd","monitoring":"prometheus","prometheus":"main"},"name":"reflector-app","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"kube-system"},"project":"cluster","source":{"chart":"reflector","helm":{"releaseName":"reflector"},"repoURL":"https://emberstack.github.io/helm-charts","targetRevision":"7.0.193"},"syncPolicy":{"automated":{"allowEmpty":true,"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"5s","factor":2,"maxDuration":"3m"},"limit":-1},"syncOptions":["Validate=false","CreateNamespace=false","PrunePropagationPolicy=background","PruneLast=true","ApplyOutOfSyncOnly=false","Prune=true"]}}}
-      reloader.stakater.com/auto: "true"
-    creationTimestamp: "2024-01-25T17:29:15Z"
-    finalizers:
-    - resources-finalizer.argocd.argoproj.io
-    generation: 103
-    labels:
-      app.kubernetes.io/instance: argocd
-      monitoring: prometheus
-      prometheus: main
-    name: reflector-app
-    namespace: argocd
-    resourceVersion: "37393"
-    uid: 7561cf9a-94f1-478f-8498-dee905ef4e24
-  spec:
-    destination:
-      name: in-cluster
-      namespace: kube-system
-    project: cluster
-    source:
-      chart: reflector
-      helm:
-        releaseName: reflector
-      repoURL: https://emberstack.github.io/helm-charts
-      targetRevision: 7.0.193
-    syncPolicy:
-      automated:
-        allowEmpty: true
-        prune: true
-        selfHeal: true
-      retry:
-        backoff:
-          duration: 5s
-          factor: 2
-          maxDuration: 3m
-        limit: -1
-      syncOptions:
-      - Validate=false
-      - CreateNamespace=false
-      - PrunePropagationPolicy=background
-      - PruneLast=true
-      - ApplyOutOfSyncOnly=false
-      - Prune=true
-  status:
-    controllerNamespace: argocd
-    health:
-      status: Healthy
-    history:
-    - deployStartedAt: "2024-01-25T17:30:28Z"
-      deployedAt: "2024-01-25T17:30:28Z"
-      id: 0
-      revision: 7.0.193
-      source:
-        chart: reflector
-        helm:
-          releaseName: reflector
-        repoURL: https://emberstack.github.io/helm-charts
-        targetRevision: 7.0.193
-    operationState:
-      finishedAt: "2024-01-25T17:30:28Z"
-      message: successfully synced (all tasks run)
-      operation:
-        initiatedBy:
-          automated: true
-        retry:
-          backoff:
-            duration: 5s
-            factor: 2
-            maxDuration: 3m
-          limit: -1
-        sync:
-          prune: true
-          revision: 7.0.193
-          syncOptions:
-          - Validate=false
-          - CreateNamespace=false
-          - PrunePropagationPolicy=background
-          - PruneLast=true
-          - ApplyOutOfSyncOnly=false
-          - Prune=true
-      phase: Succeeded
-      startedAt: "2024-01-25T17:30:28Z"
-      syncResult:
-        resources:
-        - group: ""
-          hookPhase: Running
-          kind: ServiceAccount
-          message: serviceaccount/reflector created
-          name: reflector
-          namespace: kube-system
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: rbac.authorization.k8s.io
-          hookPhase: Running
-          kind: ClusterRole
-          message: "clusterrole.rbac.authorization.k8s.io/reflector reconciled. reconciliation
-            required create\n\tmissing rules added:\n\t\t{Verbs:[*] APIGroups:[] Resources:[configmaps
-            secrets] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[watch list]
-            APIGroups:[] Resources:[namespaces] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[watch
-            list] APIGroups:[apiextensions.k8s.io] Resources:[customresourcedefinitions]
-            ResourceNames:[] NonResourceURLs:[]}. clusterrole.rbac.authorization.k8s.io/reflector
-            configured. Warning: resource clusterroles/reflector is missing the kubectl.kubernetes.io/last-applied-configuration
-            annotation which is required by  apply.  apply should only be used on
-            resources created declaratively by either  create --save-config or  apply.
-            The missing annotation will be patched automatically."
-          name: reflector
-          namespace: kube-system
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: rbac.authorization.k8s.io
-          hookPhase: Running
-          kind: ClusterRoleBinding
-          message: "clusterrolebinding.rbac.authorization.k8s.io/reflector reconciled.
-            reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
-            APIGroup: Name:reflector Namespace:kube-system}. clusterrolebinding.rbac.authorization.k8s.io/reflector
-            configured. Warning: resource clusterrolebindings/reflector is missing
-            the kubectl.kubernetes.io/last-applied-configuration annotation which
-            is required by  apply.  apply should only be used on resources created
-            declaratively by either  create --save-config or  apply. The missing annotation
-            will be patched automatically."
-          name: reflector
-          namespace: kube-system
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: apps
-          hookPhase: Running
-          kind: Deployment
-          message: deployment.apps/reflector created
-          name: reflector
-          namespace: kube-system
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        revision: 7.0.193
-        source:
-          chart: reflector
-          helm:
-            releaseName: reflector
-          repoURL: https://emberstack.github.io/helm-charts
-          targetRevision: 7.0.193
-    reconciledAt: "2024-01-25T21:53:29Z"
-    resources:
-    - kind: ServiceAccount
-      name: reflector
-      namespace: kube-system
-      status: Synced
-      version: v1
-    - group: apps
-      health:
-        status: Healthy
-      kind: Deployment
-      name: reflector
-      namespace: kube-system
-      status: Synced
-      version: v1
-    - group: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: reflector
-      status: Synced
-      version: v1
-    - group: rbac.authorization.k8s.io
-      kind: ClusterRoleBinding
-      name: reflector
-      status: Synced
-      version: v1
-    sourceType: Helm
-    summary:
-      images:
-      - emberstack/kubernetes-reflector:7.0.193
-    sync:
-      comparedTo:
-        destination:
-          name: in-cluster
-          namespace: kube-system
-        source:
-          chart: reflector
-          helm:
-            releaseName: reflector
-          repoURL: https://emberstack.github.io/helm-charts
-          targetRevision: 7.0.193
-      revision: 7.0.193
-      status: Synced
-- apiVersion: argoproj.io/v1alpha1
-  kind: Application
-  metadata:
-    annotations:
-      kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"labels":{"app.kubernetes.io/instance":"argocd","monitoring":"prometheus","prometheus":"main"},"name":"reloader","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"kube-system"},"project":"cluster","source":{"chart":"reloader","helm":{"releaseName":"reloader","values":"kubernetes:\n  host: https://kubernetes.default\nreloader:\n  isArgoRollouts: true\n  isOpenshift: false\n  ignoreSecrets: false\n  ignoreConfigMaps: false\n  reloadOnCreate: true\n  reloadStrategy: default\n  ignoreNamespaces: \"\"\n  logFormat: \"\"\n  watchGlobally: true\n  readOnlyRootFileSystem: false\n"},"repoURL":"https://stakater.github.io/stakater-charts","targetRevision":"1.0.38"},"syncPolicy":{"automated":{"allowEmpty":true,"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"20s","factor":2,"maxDuration":"15m"},"limit":-1},"syncOptions":["Validate=false","CreateNamespace=false","PrunePropagationPolicy=foreground","PruneLast=false","ApplyOutOfSyncOnly=false","Prune=true"]}}}
-      reloader.stakater.com/auto: "true"
-    creationTimestamp: "2024-01-25T17:29:15Z"
-    finalizers:
-    - resources-finalizer.argocd.argoproj.io
-    generation: 103
-    labels:
-      app.kubernetes.io/instance: argocd
-      monitoring: prometheus
-      prometheus: main
-    name: reloader
-    namespace: argocd
-    resourceVersion: "37394"
-    uid: 30a2cc6c-bf20-4427-a6cd-71d28d9c8aa8
-  spec:
-    destination:
-      name: in-cluster
-      namespace: kube-system
-    project: cluster
-    source:
-      chart: reloader
-      helm:
-        releaseName: reloader
-        values: |
-          kubernetes:
-            host: https://kubernetes.default
-          reloader:
-            isArgoRollouts: true
-            isOpenshift: false
-            ignoreSecrets: false
-            ignoreConfigMaps: false
-            reloadOnCreate: true
-            reloadStrategy: default
-            ignoreNamespaces: ""
-            logFormat: ""
-            watchGlobally: true
-            readOnlyRootFileSystem: false
-      repoURL: https://stakater.github.io/stakater-charts
-      targetRevision: 1.0.38
-    syncPolicy:
-      automated:
-        allowEmpty: true
-        prune: true
-        selfHeal: true
-      retry:
-        backoff:
-          duration: 20s
-          factor: 2
-          maxDuration: 15m
-        limit: -1
-      syncOptions:
-      - Validate=false
-      - CreateNamespace=false
-      - PrunePropagationPolicy=foreground
-      - PruneLast=false
-      - ApplyOutOfSyncOnly=false
-      - Prune=true
-  status:
-    controllerNamespace: argocd
-    health:
-      status: Healthy
-    history:
-    - deployStartedAt: "2024-01-25T17:30:28Z"
-      deployedAt: "2024-01-25T17:30:28Z"
-      id: 0
-      revision: 1.0.38
-      source:
-        chart: reloader
-        helm:
-          releaseName: reloader
-          values: |
-            kubernetes:
-              host: https://kubernetes.default
-            reloader:
-              isArgoRollouts: true
-              isOpenshift: false
-              ignoreSecrets: false
-              ignoreConfigMaps: false
-              reloadOnCreate: true
-              reloadStrategy: default
-              ignoreNamespaces: ""
-              logFormat: ""
-              watchGlobally: true
-              readOnlyRootFileSystem: false
-        repoURL: https://stakater.github.io/stakater-charts
-        targetRevision: 1.0.38
-    operationState:
-      finishedAt: "2024-01-25T17:30:28Z"
-      message: successfully synced (all tasks run)
-      operation:
-        initiatedBy:
-          automated: true
-        retry:
-          backoff:
-            duration: 20s
-            factor: 2
-            maxDuration: 15m
-          limit: -1
-        sync:
-          prune: true
-          revision: 1.0.38
-          syncOptions:
-          - Validate=false
-          - CreateNamespace=false
-          - PrunePropagationPolicy=foreground
-          - PruneLast=false
-          - ApplyOutOfSyncOnly=false
-          - Prune=true
-      phase: Succeeded
-      startedAt: "2024-01-25T17:30:28Z"
-      syncResult:
-        resources:
-        - group: ""
-          hookPhase: Running
-          kind: ServiceAccount
-          message: serviceaccount/reloader-reloader created
-          name: reloader-reloader
-          namespace: kube-system
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: rbac.authorization.k8s.io
-          hookPhase: Running
-          kind: ClusterRole
-          message: "clusterrole.rbac.authorization.k8s.io/reloader-reloader-role reconciled.
-            reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[list
-            get watch] APIGroups:[] Resources:[secrets configmaps] ResourceNames:[]
-            NonResourceURLs:[]}\n\t\t{Verbs:[list get update patch] APIGroups:[argoproj.io
-            ] Resources:[rollouts] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[list
-            get update patch] APIGroups:[apps] Resources:[deployments daemonsets statefulsets]
-            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[list get update patch]
-            APIGroups:[extensions] Resources:[deployments daemonsets] ResourceNames:[]
-            NonResourceURLs:[]}\n\t\t{Verbs:[create patch] APIGroups:[] Resources:[events]
-            ResourceNames:[] NonResourceURLs:[]}. clusterrole.rbac.authorization.k8s.io/reloader-reloader-role
-            configured. Warning: resource clusterroles/reloader-reloader-role is missing
-            the kubectl.kubernetes.io/last-applied-configuration annotation which
-            is required by  apply.  apply should only be used on resources created
-            declaratively by either  create --save-config or  apply. The missing annotation
-            will be patched automatically."
-          name: reloader-reloader-role
-          namespace: kube-system
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: rbac.authorization.k8s.io
-          hookPhase: Running
-          kind: ClusterRoleBinding
-          message: "clusterrolebinding.rbac.authorization.k8s.io/reloader-reloader-role-binding
-            reconciled. reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
-            APIGroup: Name:reloader-reloader Namespace:kube-system}. clusterrolebinding.rbac.authorization.k8s.io/reloader-reloader-role-binding
-            configured. Warning: resource clusterrolebindings/reloader-reloader-role-binding
-            is missing the kubectl.kubernetes.io/last-applied-configuration annotation
-            which is required by  apply.  apply should only be used on resources created
-            declaratively by either  create --save-config or  apply. The missing annotation
-            will be patched automatically."
-          name: reloader-reloader-role-binding
-          namespace: kube-system
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: apps
-          hookPhase: Running
-          kind: Deployment
-          message: deployment.apps/reloader-reloader created
-          name: reloader-reloader
-          namespace: kube-system
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        revision: 1.0.38
-        source:
-          chart: reloader
-          helm:
-            releaseName: reloader
-            values: |
-              kubernetes:
-                host: https://kubernetes.default
-              reloader:
-                isArgoRollouts: true
-                isOpenshift: false
-                ignoreSecrets: false
-                ignoreConfigMaps: false
-                reloadOnCreate: true
-                reloadStrategy: default
-                ignoreNamespaces: ""
-                logFormat: ""
-                watchGlobally: true
-                readOnlyRootFileSystem: false
-          repoURL: https://stakater.github.io/stakater-charts
-          targetRevision: 1.0.38
-    reconciledAt: "2024-01-25T21:53:29Z"
-    resources:
-    - kind: ServiceAccount
-      name: reloader-reloader
-      namespace: kube-system
-      status: Synced
-      version: v1
-    - group: apps
-      health:
-        status: Healthy
-      kind: Deployment
-      name: reloader-reloader
-      namespace: kube-system
-      status: Synced
-      version: v1
-    - group: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: reloader-reloader-role
-      status: Synced
-      version: v1
-    - group: rbac.authorization.k8s.io
-      kind: ClusterRoleBinding
-      name: reloader-reloader-role-binding
-      status: Synced
-      version: v1
-    sourceType: Helm
-    summary:
-      images:
-      - ghcr.io/stakater/reloader:v1.0.38
-    sync:
-      comparedTo:
-        destination:
-          name: in-cluster
-          namespace: kube-system
-        source:
-          chart: reloader
-          helm:
-            releaseName: reloader
-            values: |
-              kubernetes:
-                host: https://kubernetes.default
-              reloader:
-                isArgoRollouts: true
-                isOpenshift: false
-                ignoreSecrets: false
-                ignoreConfigMaps: false
-                reloadOnCreate: true
-                reloadStrategy: default
-                ignoreNamespaces: ""
-                logFormat: ""
-                watchGlobally: true
-                readOnlyRootFileSystem: false
-          repoURL: https://stakater.github.io/stakater-charts
-          targetRevision: 1.0.38
-      revision: 1.0.38
-      status: Synced
-- apiVersion: argoproj.io/v1alpha1
-  kind: Application
-  metadata:
-    annotations:
-      kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"labels":{"app.kubernetes.io/instance":"argocd","monitoring":"prometheus","prometheus":"main"},"name":"postgres","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"databases"},"project":"cluster","source":{"path":"apps/databases/zalando","repoURL":"https://github.com/bossjones/k3d-playground.git","targetRevision":"main"},"syncPolicy":{"automated":{"allowEmpty":true,"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"20s","factor":2,"maxDuration":"15m"},"limit":-1},"syncOptions":["Validate=false","CreateNamespace=true","PrunePropagationPolicy=foreground","PruneLast=true","ApplyOutOfSyncOnly=false","Prune=true"]}}}
-      reloader.stakater.com/auto: "true"
-    creationTimestamp: "2024-01-25T17:29:15Z"
-    finalizers:
-    - resources-finalizer.argocd.argoproj.io
-    generation: 111
-    labels:
-      app.kubernetes.io/instance: argocd
-      monitoring: prometheus
-      prometheus: main
-    name: postgres
-    namespace: argocd
-    resourceVersion: "37395"
-    uid: ac03b640-2c39-4741-8fe1-26a4479891b0
-  spec:
-    destination:
-      name: in-cluster
-      namespace: databases
-    project: cluster
-    source:
-      path: apps/databases/zalando
-      repoURL: https://github.com/bossjones/k3d-playground.git
-      targetRevision: main
-    syncPolicy:
-      automated:
-        allowEmpty: true
-        prune: true
-        selfHeal: true
-      retry:
-        backoff:
-          duration: 20s
-          factor: 2
-          maxDuration: 15m
-        limit: -1
-      syncOptions:
-      - Validate=false
-      - CreateNamespace=true
-      - PrunePropagationPolicy=foreground
-      - PruneLast=true
-      - ApplyOutOfSyncOnly=false
-      - Prune=true
-  status:
-    controllerNamespace: argocd
-    health:
-      status: Healthy
-    history:
-    - deployStartedAt: "2024-01-25T17:30:38Z"
-      deployedAt: "2024-01-25T17:30:40Z"
-      id: 0
-      revision: 5b5857841881588558279c658428ab1b9312d728
-      source:
-        path: apps/databases/zalando
-        repoURL: https://github.com/bossjones/k3d-playground.git
-        targetRevision: main
-    operationState:
-      finishedAt: "2024-01-25T17:30:40Z"
-      message: successfully synced (all tasks run)
-      operation:
-        initiatedBy:
-          automated: true
-        retry:
-          backoff:
-            duration: 20s
-            factor: 2
-            maxDuration: 15m
-          limit: -1
-        sync:
-          prune: true
-          revision: 5b5857841881588558279c658428ab1b9312d728
-          syncOptions:
-          - Validate=false
-          - CreateNamespace=true
-          - PrunePropagationPolicy=foreground
-          - PruneLast=true
-          - ApplyOutOfSyncOnly=false
-          - Prune=true
-      phase: Succeeded
-      startedAt: "2024-01-25T17:30:38Z"
-      syncResult:
-        resources:
-        - group: ""
-          hookPhase: Running
-          kind: Namespace
-          message: namespace/databases created
-          name: databases
-          namespace: ""
-          status: Synced
-          syncPhase: PreSync
-          version: v1
-        - group: ""
-          hookPhase: Running
-          kind: ServiceAccount
-          message: serviceaccount/postgres-operator created
-          name: postgres-operator
-          namespace: databases
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: ""
-          hookPhase: Running
-          kind: ServiceAccount
-          message: serviceaccount/postgres-operator-ui created
-          name: postgres-operator-ui
-          namespace: databases
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: ""
-          hookPhase: Running
-          kind: ConfigMap
-          message: configmap/postgres-operator created
-          name: postgres-operator
-          namespace: databases
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: rbac.authorization.k8s.io
-          hookPhase: Running
-          kind: ClusterRole
-          message: "clusterrole.rbac.authorization.k8s.io/postgres-operator-ui reconciled.
-            reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[create
-            delete get list patch update] APIGroups:[acid.zalan.do] Resources:[postgresqls]
-            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get list watch] APIGroups:[]
-            Resources:[pods] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get
-            list] APIGroups:[] Resources:[services] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get
-            list] APIGroups:[apps] Resources:[deployments statefulsets] ResourceNames:[]
-            NonResourceURLs:[]}\n\t\t{Verbs:[get list] APIGroups:[] Resources:[namespaces]
-            ResourceNames:[] NonResourceURLs:[]}. clusterrole.rbac.authorization.k8s.io/postgres-operator-ui
-            configured. Warning: resource clusterroles/postgres-operator-ui is missing
-            the kubectl.kubernetes.io/last-applied-configuration annotation which
-            is required by  apply.  apply should only be used on resources created
-            declaratively by either  create --save-config or  apply. The missing annotation
-            will be patched automatically."
-          name: postgres-operator-ui
-          namespace: databases
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: rbac.authorization.k8s.io
-          hookPhase: Running
-          kind: ClusterRole
-          message: "clusterrole.rbac.authorization.k8s.io/postgres-pod reconciled.
-            reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[create
-            delete deletecollection get list patch update watch] APIGroups:[] Resources:[endpoints]
-            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get list patch update
-            watch] APIGroups:[] Resources:[pods] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create]
-            APIGroups:[] Resources:[services] ResourceNames:[] NonResourceURLs:[]}.
-            clusterrole.rbac.authorization.k8s.io/postgres-pod configured. Warning:
-            resource clusterroles/postgres-pod is missing the kubectl.kubernetes.io/last-applied-configuration
-            annotation which is required by  apply.  apply should only be used on
-            resources created declaratively by either  create --save-config or  apply.
-            The missing annotation will be patched automatically."
-          name: postgres-pod
-          namespace: databases
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: rbac.authorization.k8s.io
-          hookPhase: Running
-          kind: ClusterRole
-          message: "clusterrole.rbac.authorization.k8s.io/postgres-operator reconciled.
-            reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[create
-            delete deletecollection get list patch update watch] APIGroups:[acid.zalan.do]
-            Resources:[postgresqls postgresqls/status operatorconfigurations] ResourceNames:[]
-            NonResourceURLs:[]}\n\t\t{Verbs:[get list watch] APIGroups:[acid.zalan.do]
-            Resources:[postgresteams] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
-            get patch update] APIGroups:[apiextensions.k8s.io] Resources:[customresourcedefinitions]
-            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get] APIGroups:[] Resources:[configmaps]
-            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create get list patch
-            update watch] APIGroups:[] Resources:[events] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
-            delete deletecollection get list patch update watch] APIGroups:[] Resources:[endpoints]
-            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create delete get update]
-            APIGroups:[] Resources:[secrets] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get
-            list watch] APIGroups:[] Resources:[nodes] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[delete
-            get list patch update] APIGroups:[] Resources:[persistentvolumeclaims]
-            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get list update] APIGroups:[]
-            Resources:[persistentvolumes] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[delete
-            get list patch update watch] APIGroups:[] Resources:[pods] ResourceNames:[]
-            NonResourceURLs:[]}\n\t\t{Verbs:[create] APIGroups:[] Resources:[pods/exec]
-            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create delete get patch
-            update] APIGroups:[] Resources:[services] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
-            delete get list patch] APIGroups:[apps] Resources:[statefulsets deployments]
-            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create delete get list
-            patch update] APIGroups:[batch] Resources:[cronjobs] ResourceNames:[]
-            NonResourceURLs:[]}\n\t\t{Verbs:[get] APIGroups:[] Resources:[namespaces]
-            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create delete get] APIGroups:[policy]
-            Resources:[poddisruptionbudgets] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get
-            create] APIGroups:[] Resources:[serviceaccounts] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get
-            create] APIGroups:[rbac.authorization.k8s.io] Resources:[rolebindings]
-            ResourceNames:[] NonResourceURLs:[]}. clusterrole.rbac.authorization.k8s.io/postgres-operator
-            configured. Warning: resource clusterroles/postgres-operator is missing
-            the kubectl.kubernetes.io/last-applied-configuration annotation which
-            is required by  apply.  apply should only be used on resources created
-            declaratively by either  create --save-config or  apply. The missing annotation
-            will be patched automatically."
-          name: postgres-operator
-          namespace: databases
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: rbac.authorization.k8s.io
-          hookPhase: Running
-          kind: ClusterRoleBinding
-          message: "clusterrolebinding.rbac.authorization.k8s.io/postgres-operator-ui
-            reconciled. reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
-            APIGroup: Name:postgres-operator-ui Namespace:databases}. clusterrolebinding.rbac.authorization.k8s.io/postgres-operator-ui
-            configured. Warning: resource clusterrolebindings/postgres-operator-ui
-            is missing the kubectl.kubernetes.io/last-applied-configuration annotation
-            which is required by  apply.  apply should only be used on resources created
-            declaratively by either  create --save-config or  apply. The missing annotation
-            will be patched automatically."
-          name: postgres-operator-ui
-          namespace: databases
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: rbac.authorization.k8s.io
-          hookPhase: Running
-          kind: ClusterRoleBinding
-          message: "clusterrolebinding.rbac.authorization.k8s.io/postgres-operator
-            reconciled. reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
-            APIGroup: Name:postgres-operator Namespace:databases}. clusterrolebinding.rbac.authorization.k8s.io/postgres-operator
-            configured. Warning: resource clusterrolebindings/postgres-operator is
-            missing the kubectl.kubernetes.io/last-applied-configuration annotation
-            which is required by  apply.  apply should only be used on resources created
-            declaratively by either  create --save-config or  apply. The missing annotation
-            will be patched automatically."
-          name: postgres-operator
-          namespace: databases
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: ""
-          hookPhase: Running
-          kind: Service
-          message: service/postgres-operator-ui created
-          name: postgres-operator-ui
-          namespace: databases
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: ""
-          hookPhase: Running
-          kind: Service
-          message: service/postgres-operator created
-          name: postgres-operator
-          namespace: databases
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: apps
-          hookPhase: Running
-          kind: Deployment
-          message: deployment.apps/postgres-operator created
-          name: postgres-operator
-          namespace: databases
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: apps
-          hookPhase: Running
-          kind: Deployment
-          message: deployment.apps/postgres-operator-ui created
-          name: postgres-operator-ui
-          namespace: databases
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: networking.k8s.io
-          hookPhase: Running
-          kind: Ingress
-          message: ingress.networking.k8s.io/postgres-operator-ui created
-          name: postgres-operator-ui
-          namespace: databases
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        revision: 5b5857841881588558279c658428ab1b9312d728
-        source:
-          path: apps/databases/zalando
-          repoURL: https://github.com/bossjones/k3d-playground.git
-          targetRevision: main
-    reconciledAt: "2024-01-25T21:53:29Z"
-    resources:
-    - kind: ConfigMap
-      name: postgres-operator
-      namespace: databases
-      status: Synced
-      version: v1
-    - health:
-        status: Healthy
-      kind: Service
-      name: postgres-operator
-      namespace: databases
-      status: Synced
-      version: v1
-    - health:
-        status: Healthy
-      kind: Service
-      name: postgres-operator-ui
-      namespace: databases
-      status: Synced
-      version: v1
-    - kind: ServiceAccount
-      name: postgres-operator
-      namespace: databases
-      status: Synced
-      version: v1
-    - kind: ServiceAccount
-      name: postgres-operator-ui
-      namespace: databases
-      status: Synced
-      version: v1
-    - group: apps
-      health:
-        status: Healthy
-      kind: Deployment
-      name: postgres-operator
-      namespace: databases
-      status: Synced
-      version: v1
-    - group: apps
-      health:
-        status: Healthy
-      kind: Deployment
-      name: postgres-operator-ui
-      namespace: databases
-      status: Synced
-      version: v1
-    - group: networking.k8s.io
-      health:
-        status: Healthy
-      kind: Ingress
-      name: postgres-operator-ui
-      namespace: databases
-      status: Synced
-      version: v1
-    - group: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: postgres-operator
-      status: Synced
-      version: v1
-    - group: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: postgres-operator-ui
-      status: Synced
-      version: v1
-    - group: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: postgres-pod
-      status: Synced
-      version: v1
-    - group: rbac.authorization.k8s.io
-      kind: ClusterRoleBinding
-      name: postgres-operator
-      status: Synced
-      version: v1
-    - group: rbac.authorization.k8s.io
-      kind: ClusterRoleBinding
-      name: postgres-operator-ui
-      status: Synced
-      version: v1
-    sourceType: Kustomize
-    summary:
-      externalURLs:
-      - https://dbs.k8s.localhost/
-      images:
-      - registry.opensource.zalan.do/acid/postgres-operator-ui:v1.10.1
-      - registry.opensource.zalan.do/acid/postgres-operator:v1.10.1
-    sync:
-      comparedTo:
-        destination:
-          name: in-cluster
-          namespace: databases
-        source:
-          path: apps/databases/zalando
-          repoURL: https://github.com/bossjones/k3d-playground.git
-          targetRevision: main
-      revision: bcc80ef62eaabf5fc40d953ac24912c764466218
-      status: Synced
-- apiVersion: argoproj.io/v1alpha1
-  kind: Application
-  metadata:
-    annotations:
-      kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"labels":{"app.kubernetes.io/instance":"argocd","monitoring":"prometheus","prometheus":"main"},"name":"example-app","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"example"},"project":"cluster","source":{"path":"apps/example","repoURL":"https://github.com/bossjones/k3d-playground.git","targetRevision":"main"},"syncPolicy":{"automated":{"allowEmpty":true,"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"20s","factor":2,"maxDuration":"15m"},"limit":-1},"syncOptions":["Validate=true","CreateNamespace=true","PrunePropagationPolicy=foreground","PruneLast=true","ApplyOutOfSyncOnly=false","Prune=true"]}}}
-      reloader.stakater.com/auto: "true"
-    creationTimestamp: "2024-01-25T17:29:14Z"
-    finalizers:
-    - resources-finalizer.argocd.argoproj.io
-    generation: 112
-    labels:
-      app.kubernetes.io/instance: argocd
-      monitoring: prometheus
-      prometheus: main
-    name: example-app
-    namespace: argocd
-    resourceVersion: "37400"
-    uid: 16b741e9-699e-4517-b028-82254b688200
-  spec:
-    destination:
-      name: in-cluster
-      namespace: example
-    project: cluster
-    source:
-      path: apps/example
-      repoURL: https://github.com/bossjones/k3d-playground.git
-      targetRevision: main
-    syncPolicy:
-      automated:
-        allowEmpty: true
-        prune: true
-        selfHeal: true
-      retry:
-        backoff:
-          duration: 20s
-          factor: 2
-          maxDuration: 15m
-        limit: -1
-      syncOptions:
-      - Validate=true
-      - CreateNamespace=true
-      - PrunePropagationPolicy=foreground
-      - PruneLast=true
-      - ApplyOutOfSyncOnly=false
-      - Prune=true
-  status:
-    controllerNamespace: argocd
-    health:
-      status: Healthy
-    history:
-    - deployStartedAt: "2024-01-25T17:30:40Z"
-      deployedAt: "2024-01-25T17:31:24Z"
-      id: 0
-      revision: 5b5857841881588558279c658428ab1b9312d728
-      source:
-        path: apps/example
-        repoURL: https://github.com/bossjones/k3d-playground.git
-        targetRevision: main
-    operationState:
-      finishedAt: "2024-01-25T17:31:24Z"
-      message: successfully synced (all tasks run)
-      operation:
-        initiatedBy:
-          automated: true
-        retry:
-          backoff:
-            duration: 20s
-            factor: 2
-            maxDuration: 15m
-          limit: -1
-        sync:
-          prune: true
-          revision: 5b5857841881588558279c658428ab1b9312d728
-          syncOptions:
-          - Validate=true
-          - CreateNamespace=true
-          - PrunePropagationPolicy=foreground
-          - PruneLast=true
-          - ApplyOutOfSyncOnly=false
-          - Prune=true
-      phase: Succeeded
-      retryCount: 1
-      startedAt: "2024-01-25T17:30:40Z"
-      syncResult:
-        resources:
-        - group: ""
-          hookPhase: Running
-          kind: Namespace
-          message: namespace/example created
-          name: example
-          namespace: ""
-          status: Synced
-          syncPhase: PreSync
-          version: v1
-        - group: ""
-          hookPhase: Running
-          kind: PersistentVolumeClaim
-          message: persistentvolumeclaim/local-path-pvc created
-          name: local-path-pvc
-          namespace: example
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: ""
-          hookPhase: Running
-          kind: Service
-          message: service/whoami-svc created
-          name: whoami-svc
-          namespace: example
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: apps
-          hookPhase: Running
-          kind: Deployment
-          message: deployment.apps/whoami created
-          name: whoami
-          namespace: example
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: networking.k8s.io
-          hookPhase: Running
-          kind: Ingress
-          message: ingress.networking.k8s.io/example created
-          name: example
-          namespace: example
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: acid.zalan.do
-          hookPhase: Running
-          kind: postgresql
-          message: postgresql.acid.zalan.do/minimal-db created
-          name: minimal-db
-          namespace: example
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        revision: 5b5857841881588558279c658428ab1b9312d728
-        source:
-          path: apps/example
-          repoURL: https://github.com/bossjones/k3d-playground.git
-          targetRevision: main
-    reconciledAt: "2024-01-25T21:53:29Z"
-    resources:
-    - health:
-        status: Healthy
-      kind: PersistentVolumeClaim
-      name: local-path-pvc
-      namespace: example
-      status: Synced
-      version: v1
-    - health:
-        status: Healthy
-      kind: Service
-      name: whoami-svc
-      namespace: example
-      status: Synced
-      version: v1
-    - group: acid.zalan.do
-      kind: postgresql
-      name: minimal-db
-      namespace: example
-      status: Synced
-      version: v1
-    - group: apps
-      health:
-        status: Healthy
-      kind: Deployment
-      name: whoami
-      namespace: example
-      status: Synced
-      version: v1
-    - group: networking.k8s.io
-      health:
-        status: Healthy
-      kind: Ingress
-      name: example
-      namespace: example
-      status: Synced
-      version: v1
-    sourceType: Kustomize
-    summary:
-      externalURLs:
-      - https://whoami.k8s.localhost/
-      images:
-      - containous/whoami:v1.5.0
-    sync:
-      comparedTo:
-        destination:
-          name: in-cluster
-          namespace: example
-        source:
-          path: apps/example
-          repoURL: https://github.com/bossjones/k3d-playground.git
-          targetRevision: main
-      revision: bcc80ef62eaabf5fc40d953ac24912c764466218
-      status: Synced
-- apiVersion: argoproj.io/v1alpha1
-  kind: Application
-  metadata:
-    annotations:
-      kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"labels":{"app.kubernetes.io/instance":"argocd","monitoring":"prometheus","prometheus":"main"},"name":"template-app","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"development"},"project":"cluster","source":{"path":"apps/template","repoURL":"https://github.com/bossjones/k3d-playground.git","targetRevision":"main"},"syncPolicy":{"automated":{"allowEmpty":true,"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"35s","factor":2,"maxDuration":"15m"},"limit":5},"syncOptions":["Validate=true","CreateNamespace=true","PrunePropagationPolicy=foreground","PruneLast=true","ApplyOutOfSyncOnly=false","Prune=true"]}}}
-      reloader.stakater.com/auto: "true"
-    creationTimestamp: "2024-01-25T17:29:15Z"
-    finalizers:
-    - resources-finalizer.argocd.argoproj.io
-    generation: 107
-    labels:
-      app.kubernetes.io/instance: argocd
-      monitoring: prometheus
-      prometheus: main
-    name: template-app
-    namespace: argocd
-    resourceVersion: "37402"
-    uid: 84c916be-21ed-406f-a692-688b7b025351
-  spec:
-    destination:
-      name: in-cluster
-      namespace: development
-    project: cluster
-    source:
-      path: apps/template
-      repoURL: https://github.com/bossjones/k3d-playground.git
-      targetRevision: main
-    syncPolicy:
-      automated:
-        allowEmpty: true
-        prune: true
-        selfHeal: true
-      retry:
-        backoff:
-          duration: 35s
-          factor: 2
-          maxDuration: 15m
-        limit: 5
-      syncOptions:
-      - Validate=true
-      - CreateNamespace=true
-      - PrunePropagationPolicy=foreground
-      - PruneLast=true
-      - ApplyOutOfSyncOnly=false
-      - Prune=true
-  status:
-    controllerNamespace: argocd
-    health:
-      status: Healthy
-    history:
-    - deployStartedAt: "2024-01-25T17:32:30Z"
-      deployedAt: "2024-01-25T17:32:32Z"
-      id: 0
-      revision: 5b5857841881588558279c658428ab1b9312d728
-      source:
-        path: apps/template
-        repoURL: https://github.com/bossjones/k3d-playground.git
-        targetRevision: main
-    operationState:
-      finishedAt: "2024-01-25T17:32:32Z"
-      message: successfully synced (all tasks run)
-      operation:
-        initiatedBy:
-          automated: true
-        retry:
-          backoff:
-            duration: 35s
-            factor: 2
-            maxDuration: 15m
-          limit: 5
-        sync:
-          prune: true
-          revision: 5b5857841881588558279c658428ab1b9312d728
-          syncOptions:
-          - Validate=true
-          - CreateNamespace=true
-          - PrunePropagationPolicy=foreground
-          - PruneLast=true
-          - ApplyOutOfSyncOnly=false
-          - Prune=true
-      phase: Succeeded
-      startedAt: "2024-01-25T17:32:30Z"
-      syncResult:
-        resources:
-        - group: ""
-          hookPhase: Running
-          kind: Namespace
-          message: namespace/development created
-          name: development
-          namespace: ""
-          status: Synced
-          syncPhase: PreSync
-          version: v1
-        - group: ""
-          hookPhase: Running
-          kind: Service
-          message: service/podinfo created
-          name: podinfo
-          namespace: development
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: apps
-          hookPhase: Running
-          kind: Deployment
-          message: deployment.apps/podinfo created
-          name: podinfo
-          namespace: development
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: autoscaling
-          hookPhase: Running
-          kind: HorizontalPodAutoscaler
-          message: horizontalpodautoscaler.autoscaling/podinfo created
-          name: podinfo
-          namespace: development
-          status: Synced
-          syncPhase: Sync
-          version: v2
-        - group: networking.k8s.io
-          hookPhase: Running
-          kind: Ingress
-          message: ingress.networking.k8s.io/template-app-ingress created
-          name: template-app-ingress
-          namespace: development
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        revision: 5b5857841881588558279c658428ab1b9312d728
-        source:
-          path: apps/template
-          repoURL: https://github.com/bossjones/k3d-playground.git
-          targetRevision: main
-    reconciledAt: "2024-01-25T21:53:29Z"
-    resources:
-    - health:
-        status: Healthy
-      kind: Service
-      name: podinfo
-      namespace: development
-      status: Synced
-      version: v1
-    - group: apps
-      health:
-        status: Healthy
-      kind: Deployment
-      name: podinfo
-      namespace: development
-      status: Synced
-      version: v1
-    - group: autoscaling
-      health:
-        message: recommended size matches current size
-        status: Healthy
-      kind: HorizontalPodAutoscaler
-      name: podinfo
-      namespace: development
-      status: Synced
-      version: v2
-    - group: networking.k8s.io
-      health:
-        status: Healthy
-      kind: Ingress
-      name: template-app-ingress
-      namespace: development
-      status: Synced
-      version: v1
-    sourceType: Kustomize
-    summary:
-      externalURLs:
-      - https://app.k8s.localhost/
-      images:
-      - ghcr.io/stefanprodan/podinfo:6.5.4
-    sync:
-      comparedTo:
-        destination:
-          name: in-cluster
-          namespace: development
-        source:
-          path: apps/template
-          repoURL: https://github.com/bossjones/k3d-playground.git
-          targetRevision: main
-      revision: bcc80ef62eaabf5fc40d953ac24912c764466218
-      status: Synced
-- apiVersion: argoproj.io/v1alpha1
-  kind: Application
-  metadata:
-    annotations:
-      kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"labels":{"app.kubernetes.io/instance":"argocd","monitoring":"prometheus","prometheus":"main"},"name":"argo-rollouts","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"argo-rollouts"},"project":"cluster","source":{"path":"manifests/cluster-install","repoURL":"https://github.com/argoproj/argo-rollouts","targetRevision":"v1.6.4"},"syncPolicy":{"automated":{"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"30s","factor":2,"maxDuration":"30m"},"limit":-1},"syncOptions":["CreateNamespace=true"]}}}
-      reloader.stakater.com/auto: "true"
-    creationTimestamp: "2024-01-25T17:29:14Z"
-    finalizers:
-    - resources-finalizer.argocd.argoproj.io
-    generation: 101
-    labels:
-      app.kubernetes.io/instance: argocd
-      monitoring: prometheus
-      prometheus: main
-    name: argo-rollouts
-    namespace: argocd
-    resourceVersion: "37419"
-    uid: c01242af-39b8-4df3-8126-136243fd1fa9
-  spec:
-    destination:
-      name: in-cluster
-      namespace: argo-rollouts
-    project: cluster
-    source:
-      path: manifests/cluster-install
-      repoURL: https://github.com/argoproj/argo-rollouts
-      targetRevision: v1.6.4
-    syncPolicy:
-      automated:
-        prune: true
-        selfHeal: true
-      retry:
-        backoff:
-          duration: 30s
-          factor: 2
-          maxDuration: 30m
-        limit: -1
-      syncOptions:
-      - CreateNamespace=true
-  status:
-    controllerNamespace: argocd
-    health:
-      status: Healthy
-    history:
-    - deployStartedAt: "2024-01-25T17:32:37Z"
-      deployedAt: "2024-01-25T17:32:41Z"
-      id: 0
-      revision: a312af9f632b985ec13f64918b918c5dcd02a15e
-      source:
-        path: manifests/cluster-install
-        repoURL: https://github.com/argoproj/argo-rollouts
-        targetRevision: v1.6.4
-    operationState:
-      finishedAt: "2024-01-25T17:32:41Z"
-      message: successfully synced (all tasks run)
-      operation:
-        initiatedBy:
-          automated: true
-        retry:
-          backoff:
-            duration: 30s
-            factor: 2
-            maxDuration: 30m
-          limit: -1
-        sync:
-          prune: true
-          revision: a312af9f632b985ec13f64918b918c5dcd02a15e
-          syncOptions:
-          - CreateNamespace=true
-      phase: Succeeded
-      startedAt: "2024-01-25T17:32:37Z"
-      syncResult:
-        resources:
-        - group: ""
-          hookPhase: Running
-          kind: Namespace
-          message: namespace/argo-rollouts created
-          name: argo-rollouts
-          namespace: ""
-          status: Synced
-          syncPhase: PreSync
-          version: v1
-        - group: ""
-          hookPhase: Running
-          kind: ServiceAccount
-          message: serviceaccount/argo-rollouts created
-          name: argo-rollouts
-          namespace: argo-rollouts
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: ""
-          hookPhase: Running
-          kind: Secret
-          message: secret/argo-rollouts-notification-secret created
-          name: argo-rollouts-notification-secret
-          namespace: argo-rollouts
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: ""
-          hookPhase: Running
-          kind: ConfigMap
-          message: configmap/argo-rollouts-config created
-          name: argo-rollouts-config
-          namespace: argo-rollouts
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: apiextensions.k8s.io
-          hookPhase: Running
-          kind: CustomResourceDefinition
-          message: customresourcedefinition.apiextensions.k8s.io/analysisruns.argoproj.io
-            created
-          name: analysisruns.argoproj.io
-          namespace: argo-rollouts
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: apiextensions.k8s.io
-          hookPhase: Running
-          kind: CustomResourceDefinition
-          message: customresourcedefinition.apiextensions.k8s.io/clusteranalysistemplates.argoproj.io
-            created
-          name: clusteranalysistemplates.argoproj.io
-          namespace: argo-rollouts
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: apiextensions.k8s.io
-          hookPhase: Running
-          kind: CustomResourceDefinition
-          message: customresourcedefinition.apiextensions.k8s.io/analysistemplates.argoproj.io
-            created
-          name: analysistemplates.argoproj.io
-          namespace: argo-rollouts
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: apiextensions.k8s.io
-          hookPhase: Running
-          kind: CustomResourceDefinition
-          message: customresourcedefinition.apiextensions.k8s.io/experiments.argoproj.io
-            created
-          name: experiments.argoproj.io
-          namespace: argo-rollouts
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: apiextensions.k8s.io
-          hookPhase: Running
-          kind: CustomResourceDefinition
-          message: customresourcedefinition.apiextensions.k8s.io/rollouts.argoproj.io
-            created
-          name: rollouts.argoproj.io
-          namespace: argo-rollouts
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: rbac.authorization.k8s.io
-          hookPhase: Running
-          kind: ClusterRole
-          message: "clusterrole.rbac.authorization.k8s.io/argo-rollouts-aggregate-to-view
-            reconciled. reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[get
-            list watch] APIGroups:[argoproj.io] Resources:[rollouts rollouts/scale
-            experiments analysistemplates clusteranalysistemplates analysisruns] ResourceNames:[]
-            NonResourceURLs:[]}. clusterrole.rbac.authorization.k8s.io/argo-rollouts-aggregate-to-view
-            configured. Warning: resource clusterroles/argo-rollouts-aggregate-to-view
-            is missing the kubectl.kubernetes.io/last-applied-configuration annotation
-            which is required by  apply.  apply should only be used on resources created
-            declaratively by either  create --save-config or  apply. The missing annotation
-            will be patched automatically."
-          name: argo-rollouts-aggregate-to-view
-          namespace: argo-rollouts
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: rbac.authorization.k8s.io
-          hookPhase: Running
-          kind: ClusterRole
-          message: "clusterrole.rbac.authorization.k8s.io/argo-rollouts reconciled.
-            reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[get
-            list watch update patch] APIGroups:[argoproj.io] Resources:[rollouts rollouts/status
-            rollouts/finalizers] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
-            get list watch update patch delete] APIGroups:[argoproj.io] Resources:[analysisruns
-            analysisruns/finalizers experiments experiments/finalizers] ResourceNames:[]
-            NonResourceURLs:[]}\n\t\t{Verbs:[get list watch] APIGroups:[argoproj.io]
-            Resources:[analysistemplates clusteranalysistemplates] ResourceNames:[]
-            NonResourceURLs:[]}\n\t\t{Verbs:[create get list watch update patch delete]
-            APIGroups:[apps] Resources:[replicasets] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get
-            list watch] APIGroups:[ apps] Resources:[deployments podtemplates] ResourceNames:[]
-            NonResourceURLs:[]}\n\t\t{Verbs:[get list watch patch create delete] APIGroups:[]
-            Resources:[services] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
-            get update] APIGroups:[coordination.k8s.io] Resources:[leases] ResourceNames:[]
-            NonResourceURLs:[]}\n\t\t{Verbs:[get list watch] APIGroups:[] Resources:[secrets
-            configmaps] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[list update
-            watch] APIGroups:[] Resources:[pods] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create]
-            APIGroups:[] Resources:[pods/eviction] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
-            update patch] APIGroups:[] Resources:[events] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
-            get list watch update patch] APIGroups:[networking.k8s.io extensions]
-            Resources:[ingresses] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
-            get list watch update patch delete] APIGroups:[batch] Resources:[jobs]
-            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[watch get update patch
-            list] APIGroups:[networking.istio.io] Resources:[virtualservices destinationrules]
-            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create watch get update
-            patch] APIGroups:[split.smi-spec.io] Resources:[trafficsplits] ResourceNames:[]
-            NonResourceURLs:[]}\n\t\t{Verbs:[create watch get update list delete]
-            APIGroups:[getambassador.io x.getambassador.io] Resources:[mappings ambassadormappings]
-            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get] APIGroups:[] Resources:[endpoints]
-            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[list get] APIGroups:[elbv2.k8s.aws]
-            Resources:[targetgroupbindings] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[watch
-            get list] APIGroups:[appmesh.k8s.aws] Resources:[virtualservices] ResourceNames:[]
-            NonResourceURLs:[]}\n\t\t{Verbs:[watch get list update patch] APIGroups:[appmesh.k8s.aws]
-            Resources:[virtualnodes virtualrouters] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[watch
-            get update] APIGroups:[traefik.containo.us] Resources:[traefikservices]
-            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[watch get update] APIGroups:[apisix.apache.org]
-            Resources:[apisixroutes] ResourceNames:[] NonResourceURLs:[]}. clusterrole.rbac.authorization.k8s.io/argo-rollouts
-            configured. Warning: resource clusterroles/argo-rollouts is missing the
-            kubectl.kubernetes.io/last-applied-configuration annotation which is required
-            by  apply.  apply should only be used on resources created declaratively
-            by either  create --save-config or  apply. The missing annotation will
-            be patched automatically."
-          name: argo-rollouts
-          namespace: argo-rollouts
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: rbac.authorization.k8s.io
-          hookPhase: Running
-          kind: ClusterRole
-          message: "clusterrole.rbac.authorization.k8s.io/argo-rollouts-aggregate-to-edit
-            reconciled. reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[create
-            delete deletecollection get list patch update watch] APIGroups:[argoproj.io]
-            Resources:[rollouts rollouts/scale rollouts/status experiments analysistemplates
-            clusteranalysistemplates analysisruns] ResourceNames:[] NonResourceURLs:[]}.
-            clusterrole.rbac.authorization.k8s.io/argo-rollouts-aggregate-to-edit
-            configured. Warning: resource clusterroles/argo-rollouts-aggregate-to-edit
-            is missing the kubectl.kubernetes.io/last-applied-configuration annotation
-            which is required by  apply.  apply should only be used on resources created
-            declaratively by either  create --save-config or  apply. The missing annotation
-            will be patched automatically."
-          name: argo-rollouts-aggregate-to-edit
-          namespace: argo-rollouts
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: rbac.authorization.k8s.io
-          hookPhase: Running
-          kind: ClusterRole
-          message: "clusterrole.rbac.authorization.k8s.io/argo-rollouts-aggregate-to-admin
-            reconciled. reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[create
-            delete deletecollection get list patch update watch] APIGroups:[argoproj.io]
-            Resources:[rollouts rollouts/scale rollouts/status experiments analysistemplates
-            clusteranalysistemplates analysisruns] ResourceNames:[] NonResourceURLs:[]}.
-            clusterrole.rbac.authorization.k8s.io/argo-rollouts-aggregate-to-admin
-            configured. Warning: resource clusterroles/argo-rollouts-aggregate-to-admin
-            is missing the kubectl.kubernetes.io/last-applied-configuration annotation
-            which is required by  apply.  apply should only be used on resources created
-            declaratively by either  create --save-config or  apply. The missing annotation
-            will be patched automatically."
-          name: argo-rollouts-aggregate-to-admin
-          namespace: argo-rollouts
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: rbac.authorization.k8s.io
-          hookPhase: Running
-          kind: ClusterRoleBinding
-          message: "clusterrolebinding.rbac.authorization.k8s.io/argo-rollouts reconciled.
-            reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
-            APIGroup: Name:argo-rollouts Namespace:argo-rollouts}. clusterrolebinding.rbac.authorization.k8s.io/argo-rollouts
-            configured. Warning: resource clusterrolebindings/argo-rollouts is missing
-            the kubectl.kubernetes.io/last-applied-configuration annotation which
-            is required by  apply.  apply should only be used on resources created
-            declaratively by either  create --save-config or  apply. The missing annotation
-            will be patched automatically."
-          name: argo-rollouts
-          namespace: argo-rollouts
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: ""
-          hookPhase: Running
-          kind: Service
-          message: service/argo-rollouts-metrics created
-          name: argo-rollouts-metrics
-          namespace: argo-rollouts
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        - group: apps
-          hookPhase: Running
-          kind: Deployment
-          message: deployment.apps/argo-rollouts created
-          name: argo-rollouts
-          namespace: argo-rollouts
-          status: Synced
-          syncPhase: Sync
-          version: v1
-        revision: a312af9f632b985ec13f64918b918c5dcd02a15e
-        source:
-          path: manifests/cluster-install
-          repoURL: https://github.com/argoproj/argo-rollouts
-          targetRevision: v1.6.4
-    reconciledAt: "2024-01-25T21:53:29Z"
-    resources:
-    - kind: ConfigMap
-      name: argo-rollouts-config
-      namespace: argo-rollouts
-      status: Synced
-      version: v1
-    - kind: Secret
-      name: argo-rollouts-notification-secret
-      namespace: argo-rollouts
-      status: Synced
-      version: v1
-    - health:
-        status: Healthy
-      kind: Service
-      name: argo-rollouts-metrics
-      namespace: argo-rollouts
-      status: Synced
-      version: v1
-    - kind: ServiceAccount
-      name: argo-rollouts
-      namespace: argo-rollouts
-      status: Synced
-      version: v1
-    - group: apiextensions.k8s.io
-      kind: CustomResourceDefinition
-      name: analysisruns.argoproj.io
-      status: Synced
-      version: v1
-    - group: apiextensions.k8s.io
-      kind: CustomResourceDefinition
-      name: analysistemplates.argoproj.io
-      status: Synced
-      version: v1
-    - group: apiextensions.k8s.io
-      kind: CustomResourceDefinition
-      name: clusteranalysistemplates.argoproj.io
-      status: Synced
-      version: v1
-    - group: apiextensions.k8s.io
-      kind: CustomResourceDefinition
-      name: experiments.argoproj.io
-      status: Synced
-      version: v1
-    - group: apiextensions.k8s.io
-      kind: CustomResourceDefinition
-      name: rollouts.argoproj.io
-      status: Synced
-      version: v1
-    - group: apps
-      health:
-        status: Healthy
-      kind: Deployment
-      name: argo-rollouts
-      namespace: argo-rollouts
-      status: Synced
-      version: v1
-    - group: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: argo-rollouts
-      status: Synced
-      version: v1
-    - group: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: argo-rollouts-aggregate-to-admin
-      status: Synced
-      version: v1
-    - group: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: argo-rollouts-aggregate-to-edit
-      status: Synced
-      version: v1
-    - group: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: argo-rollouts-aggregate-to-view
-      status: Synced
-      version: v1
-    - group: rbac.authorization.k8s.io
-      kind: ClusterRoleBinding
-      name: argo-rollouts
-      status: Synced
-      version: v1
-    sourceType: Kustomize
-    summary:
-      images:
-      - quay.io/argoproj/argo-rollouts:latest
-    sync:
-      comparedTo:
-        destination:
-          name: in-cluster
-          namespace: argo-rollouts
-        source:
-          path: manifests/cluster-install
-          repoURL: https://github.com/argoproj/argo-rollouts
-          targetRevision: v1.6.4
-      revision: a312af9f632b985ec13f64918b918c5dcd02a15e
-      status: Synced
-- apiVersion: argoproj.io/v1alpha1
-  kind: Application
-  metadata:
-    annotations:
-      kubectl.kubernetes.io/last-applied-configuration: |
         {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"labels":{"app.kubernetes.io/instance":"argocd","monitoring":"prometheus","prometheus":"main"},"name":"k8s-event-logger","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"monitoring"},"project":"cluster","sources":[{"chart":"k8s-event-logger","helm":{"releaseName":"k8s-event-logger","valueFiles":["$values/apps/argocd/base/monitoring/k8s-event-logger/app/values.yaml"]},"repoURL":"https://charts.deliveryhero.io/","targetRevision":"1.1.4"},{"path":"apps/argocd/base/monitoring/k8s-event-logger","ref":"values","repoURL":"https://github.com/bossjones/k3d-playground.git","targetRevision":"main"}],"syncPolicy":{"automated":{"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"20s","factor":2,"maxDuration":"15m"},"limit":-1},"syncOptions":["CreateNamespace=true","ServerSideApply=true"]}}}
       reloader.stakater.com/auto: "true"
     creationTimestamp: "2024-01-25T17:29:14Z"
@@ -5296,6 +3682,1620 @@ items:
           repoURL: https://github.com/bossjones/k3d-playground.git
           targetRevision: main
       revision: bcc80ef62eaabf5fc40d953ac24912c764466218
+      status: Synced
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"labels":{"app.kubernetes.io/instance":"argocd","monitoring":"prometheus","prometheus":"main"},"name":"reflector-app","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"kube-system"},"project":"cluster","source":{"chart":"reflector","helm":{"releaseName":"reflector"},"repoURL":"https://emberstack.github.io/helm-charts","targetRevision":"7.0.193"},"syncPolicy":{"automated":{"allowEmpty":true,"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"5s","factor":2,"maxDuration":"3m"},"limit":-1},"syncOptions":["Validate=false","CreateNamespace=false","PrunePropagationPolicy=background","PruneLast=true","ApplyOutOfSyncOnly=false","Prune=true"]}}}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-25T17:29:15Z"
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    generation: 104
+    labels:
+      app.kubernetes.io/instance: argocd
+      monitoring: prometheus
+      prometheus: main
+    name: reflector-app
+    namespace: argocd
+    resourceVersion: "37811"
+    uid: 7561cf9a-94f1-478f-8498-dee905ef4e24
+  spec:
+    destination:
+      name: in-cluster
+      namespace: kube-system
+    project: cluster
+    source:
+      chart: reflector
+      helm:
+        releaseName: reflector
+      repoURL: https://emberstack.github.io/helm-charts
+      targetRevision: 7.0.193
+    syncPolicy:
+      automated:
+        allowEmpty: true
+        prune: true
+        selfHeal: true
+      retry:
+        backoff:
+          duration: 5s
+          factor: 2
+          maxDuration: 3m
+        limit: -1
+      syncOptions:
+      - Validate=false
+      - CreateNamespace=false
+      - PrunePropagationPolicy=background
+      - PruneLast=true
+      - ApplyOutOfSyncOnly=false
+      - Prune=true
+  status:
+    controllerNamespace: argocd
+    health:
+      status: Healthy
+    history:
+    - deployStartedAt: "2024-01-25T17:30:28Z"
+      deployedAt: "2024-01-25T17:30:28Z"
+      id: 0
+      revision: 7.0.193
+      source:
+        chart: reflector
+        helm:
+          releaseName: reflector
+        repoURL: https://emberstack.github.io/helm-charts
+        targetRevision: 7.0.193
+    operationState:
+      finishedAt: "2024-01-25T17:30:28Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m
+          limit: -1
+        sync:
+          prune: true
+          revision: 7.0.193
+          syncOptions:
+          - Validate=false
+          - CreateNamespace=false
+          - PrunePropagationPolicy=background
+          - PruneLast=true
+          - ApplyOutOfSyncOnly=false
+          - Prune=true
+      phase: Succeeded
+      startedAt: "2024-01-25T17:30:28Z"
+      syncResult:
+        resources:
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/reflector created
+          name: reflector
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/reflector reconciled. reconciliation
+            required create\n\tmissing rules added:\n\t\t{Verbs:[*] APIGroups:[] Resources:[configmaps
+            secrets] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[watch list]
+            APIGroups:[] Resources:[namespaces] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[watch
+            list] APIGroups:[apiextensions.k8s.io] Resources:[customresourcedefinitions]
+            ResourceNames:[] NonResourceURLs:[]}. clusterrole.rbac.authorization.k8s.io/reflector
+            configured. Warning: resource clusterroles/reflector is missing the kubectl.kubernetes.io/last-applied-configuration
+            annotation which is required by  apply.  apply should only be used on
+            resources created declaratively by either  create --save-config or  apply.
+            The missing annotation will be patched automatically."
+          name: reflector
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRoleBinding
+          message: "clusterrolebinding.rbac.authorization.k8s.io/reflector reconciled.
+            reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
+            APIGroup: Name:reflector Namespace:kube-system}. clusterrolebinding.rbac.authorization.k8s.io/reflector
+            configured. Warning: resource clusterrolebindings/reflector is missing
+            the kubectl.kubernetes.io/last-applied-configuration annotation which
+            is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: reflector
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/reflector created
+          name: reflector
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        revision: 7.0.193
+        source:
+          chart: reflector
+          helm:
+            releaseName: reflector
+          repoURL: https://emberstack.github.io/helm-charts
+          targetRevision: 7.0.193
+    reconciledAt: "2024-01-25T21:56:29Z"
+    resources:
+    - kind: ServiceAccount
+      name: reflector
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: reflector
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: reflector
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: reflector
+      status: Synced
+      version: v1
+    sourceType: Helm
+    summary:
+      images:
+      - emberstack/kubernetes-reflector:7.0.193
+    sync:
+      comparedTo:
+        destination:
+          name: in-cluster
+          namespace: kube-system
+        source:
+          chart: reflector
+          helm:
+            releaseName: reflector
+          repoURL: https://emberstack.github.io/helm-charts
+          targetRevision: 7.0.193
+      revision: 7.0.193
+      status: Synced
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"labels":{"app.kubernetes.io/instance":"argocd","monitoring":"prometheus","prometheus":"main"},"name":"template-app","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"development"},"project":"cluster","source":{"path":"apps/template","repoURL":"https://github.com/bossjones/k3d-playground.git","targetRevision":"main"},"syncPolicy":{"automated":{"allowEmpty":true,"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"35s","factor":2,"maxDuration":"15m"},"limit":5},"syncOptions":["Validate=true","CreateNamespace=true","PrunePropagationPolicy=foreground","PruneLast=true","ApplyOutOfSyncOnly=false","Prune=true"]}}}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-25T17:29:15Z"
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    generation: 108
+    labels:
+      app.kubernetes.io/instance: argocd
+      monitoring: prometheus
+      prometheus: main
+    name: template-app
+    namespace: argocd
+    resourceVersion: "37812"
+    uid: 84c916be-21ed-406f-a692-688b7b025351
+  spec:
+    destination:
+      name: in-cluster
+      namespace: development
+    project: cluster
+    source:
+      path: apps/template
+      repoURL: https://github.com/bossjones/k3d-playground.git
+      targetRevision: main
+    syncPolicy:
+      automated:
+        allowEmpty: true
+        prune: true
+        selfHeal: true
+      retry:
+        backoff:
+          duration: 35s
+          factor: 2
+          maxDuration: 15m
+        limit: 5
+      syncOptions:
+      - Validate=true
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+      - ApplyOutOfSyncOnly=false
+      - Prune=true
+  status:
+    controllerNamespace: argocd
+    health:
+      status: Healthy
+    history:
+    - deployStartedAt: "2024-01-25T17:32:30Z"
+      deployedAt: "2024-01-25T17:32:32Z"
+      id: 0
+      revision: 5b5857841881588558279c658428ab1b9312d728
+      source:
+        path: apps/template
+        repoURL: https://github.com/bossjones/k3d-playground.git
+        targetRevision: main
+    operationState:
+      finishedAt: "2024-01-25T17:32:32Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          backoff:
+            duration: 35s
+            factor: 2
+            maxDuration: 15m
+          limit: 5
+        sync:
+          prune: true
+          revision: 5b5857841881588558279c658428ab1b9312d728
+          syncOptions:
+          - Validate=true
+          - CreateNamespace=true
+          - PrunePropagationPolicy=foreground
+          - PruneLast=true
+          - ApplyOutOfSyncOnly=false
+          - Prune=true
+      phase: Succeeded
+      startedAt: "2024-01-25T17:32:30Z"
+      syncResult:
+        resources:
+        - group: ""
+          hookPhase: Running
+          kind: Namespace
+          message: namespace/development created
+          name: development
+          namespace: ""
+          status: Synced
+          syncPhase: PreSync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/podinfo created
+          name: podinfo
+          namespace: development
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/podinfo created
+          name: podinfo
+          namespace: development
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: autoscaling
+          hookPhase: Running
+          kind: HorizontalPodAutoscaler
+          message: horizontalpodautoscaler.autoscaling/podinfo created
+          name: podinfo
+          namespace: development
+          status: Synced
+          syncPhase: Sync
+          version: v2
+        - group: networking.k8s.io
+          hookPhase: Running
+          kind: Ingress
+          message: ingress.networking.k8s.io/template-app-ingress created
+          name: template-app-ingress
+          namespace: development
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        revision: 5b5857841881588558279c658428ab1b9312d728
+        source:
+          path: apps/template
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+    reconciledAt: "2024-01-25T21:56:29Z"
+    resources:
+    - health:
+        status: Healthy
+      kind: Service
+      name: podinfo
+      namespace: development
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: podinfo
+      namespace: development
+      status: Synced
+      version: v1
+    - group: autoscaling
+      health:
+        message: recommended size matches current size
+        status: Healthy
+      kind: HorizontalPodAutoscaler
+      name: podinfo
+      namespace: development
+      status: Synced
+      version: v2
+    - group: networking.k8s.io
+      health:
+        status: Healthy
+      kind: Ingress
+      name: template-app-ingress
+      namespace: development
+      status: Synced
+      version: v1
+    sourceType: Kustomize
+    summary:
+      externalURLs:
+      - https://app.k8s.localhost/
+      images:
+      - ghcr.io/stefanprodan/podinfo:6.5.4
+    sync:
+      comparedTo:
+        destination:
+          name: in-cluster
+          namespace: development
+        source:
+          path: apps/template
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+      revision: bcc80ef62eaabf5fc40d953ac24912c764466218
+      status: Synced
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"labels":{"app.kubernetes.io/instance":"argocd","monitoring":"prometheus","prometheus":"main"},"name":"example-app","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"example"},"project":"cluster","source":{"path":"apps/example","repoURL":"https://github.com/bossjones/k3d-playground.git","targetRevision":"main"},"syncPolicy":{"automated":{"allowEmpty":true,"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"20s","factor":2,"maxDuration":"15m"},"limit":-1},"syncOptions":["Validate=true","CreateNamespace=true","PrunePropagationPolicy=foreground","PruneLast=true","ApplyOutOfSyncOnly=false","Prune=true"]}}}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-25T17:29:14Z"
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    generation: 113
+    labels:
+      app.kubernetes.io/instance: argocd
+      monitoring: prometheus
+      prometheus: main
+    name: example-app
+    namespace: argocd
+    resourceVersion: "37813"
+    uid: 16b741e9-699e-4517-b028-82254b688200
+  spec:
+    destination:
+      name: in-cluster
+      namespace: example
+    project: cluster
+    source:
+      path: apps/example
+      repoURL: https://github.com/bossjones/k3d-playground.git
+      targetRevision: main
+    syncPolicy:
+      automated:
+        allowEmpty: true
+        prune: true
+        selfHeal: true
+      retry:
+        backoff:
+          duration: 20s
+          factor: 2
+          maxDuration: 15m
+        limit: -1
+      syncOptions:
+      - Validate=true
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+      - ApplyOutOfSyncOnly=false
+      - Prune=true
+  status:
+    controllerNamespace: argocd
+    health:
+      status: Healthy
+    history:
+    - deployStartedAt: "2024-01-25T17:30:40Z"
+      deployedAt: "2024-01-25T17:31:24Z"
+      id: 0
+      revision: 5b5857841881588558279c658428ab1b9312d728
+      source:
+        path: apps/example
+        repoURL: https://github.com/bossjones/k3d-playground.git
+        targetRevision: main
+    operationState:
+      finishedAt: "2024-01-25T17:31:24Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          backoff:
+            duration: 20s
+            factor: 2
+            maxDuration: 15m
+          limit: -1
+        sync:
+          prune: true
+          revision: 5b5857841881588558279c658428ab1b9312d728
+          syncOptions:
+          - Validate=true
+          - CreateNamespace=true
+          - PrunePropagationPolicy=foreground
+          - PruneLast=true
+          - ApplyOutOfSyncOnly=false
+          - Prune=true
+      phase: Succeeded
+      retryCount: 1
+      startedAt: "2024-01-25T17:30:40Z"
+      syncResult:
+        resources:
+        - group: ""
+          hookPhase: Running
+          kind: Namespace
+          message: namespace/example created
+          name: example
+          namespace: ""
+          status: Synced
+          syncPhase: PreSync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: PersistentVolumeClaim
+          message: persistentvolumeclaim/local-path-pvc created
+          name: local-path-pvc
+          namespace: example
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/whoami-svc created
+          name: whoami-svc
+          namespace: example
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/whoami created
+          name: whoami
+          namespace: example
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: networking.k8s.io
+          hookPhase: Running
+          kind: Ingress
+          message: ingress.networking.k8s.io/example created
+          name: example
+          namespace: example
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: acid.zalan.do
+          hookPhase: Running
+          kind: postgresql
+          message: postgresql.acid.zalan.do/minimal-db created
+          name: minimal-db
+          namespace: example
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        revision: 5b5857841881588558279c658428ab1b9312d728
+        source:
+          path: apps/example
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+    reconciledAt: "2024-01-25T21:56:29Z"
+    resources:
+    - health:
+        status: Healthy
+      kind: PersistentVolumeClaim
+      name: local-path-pvc
+      namespace: example
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: whoami-svc
+      namespace: example
+      status: Synced
+      version: v1
+    - group: acid.zalan.do
+      kind: postgresql
+      name: minimal-db
+      namespace: example
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: whoami
+      namespace: example
+      status: Synced
+      version: v1
+    - group: networking.k8s.io
+      health:
+        status: Healthy
+      kind: Ingress
+      name: example
+      namespace: example
+      status: Synced
+      version: v1
+    sourceType: Kustomize
+    summary:
+      externalURLs:
+      - https://whoami.k8s.localhost/
+      images:
+      - containous/whoami:v1.5.0
+    sync:
+      comparedTo:
+        destination:
+          name: in-cluster
+          namespace: example
+        source:
+          path: apps/example
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+      revision: bcc80ef62eaabf5fc40d953ac24912c764466218
+      status: Synced
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"labels":{"app.kubernetes.io/instance":"argocd","monitoring":"prometheus","prometheus":"main"},"name":"reloader","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"kube-system"},"project":"cluster","source":{"chart":"reloader","helm":{"releaseName":"reloader","values":"kubernetes:\n  host: https://kubernetes.default\nreloader:\n  isArgoRollouts: true\n  isOpenshift: false\n  ignoreSecrets: false\n  ignoreConfigMaps: false\n  reloadOnCreate: true\n  reloadStrategy: default\n  ignoreNamespaces: \"\"\n  logFormat: \"\"\n  watchGlobally: true\n  readOnlyRootFileSystem: false\n"},"repoURL":"https://stakater.github.io/stakater-charts","targetRevision":"1.0.38"},"syncPolicy":{"automated":{"allowEmpty":true,"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"20s","factor":2,"maxDuration":"15m"},"limit":-1},"syncOptions":["Validate=false","CreateNamespace=false","PrunePropagationPolicy=foreground","PruneLast=false","ApplyOutOfSyncOnly=false","Prune=true"]}}}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-25T17:29:15Z"
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    generation: 104
+    labels:
+      app.kubernetes.io/instance: argocd
+      monitoring: prometheus
+      prometheus: main
+    name: reloader
+    namespace: argocd
+    resourceVersion: "37814"
+    uid: 30a2cc6c-bf20-4427-a6cd-71d28d9c8aa8
+  spec:
+    destination:
+      name: in-cluster
+      namespace: kube-system
+    project: cluster
+    source:
+      chart: reloader
+      helm:
+        releaseName: reloader
+        values: |
+          kubernetes:
+            host: https://kubernetes.default
+          reloader:
+            isArgoRollouts: true
+            isOpenshift: false
+            ignoreSecrets: false
+            ignoreConfigMaps: false
+            reloadOnCreate: true
+            reloadStrategy: default
+            ignoreNamespaces: ""
+            logFormat: ""
+            watchGlobally: true
+            readOnlyRootFileSystem: false
+      repoURL: https://stakater.github.io/stakater-charts
+      targetRevision: 1.0.38
+    syncPolicy:
+      automated:
+        allowEmpty: true
+        prune: true
+        selfHeal: true
+      retry:
+        backoff:
+          duration: 20s
+          factor: 2
+          maxDuration: 15m
+        limit: -1
+      syncOptions:
+      - Validate=false
+      - CreateNamespace=false
+      - PrunePropagationPolicy=foreground
+      - PruneLast=false
+      - ApplyOutOfSyncOnly=false
+      - Prune=true
+  status:
+    controllerNamespace: argocd
+    health:
+      status: Healthy
+    history:
+    - deployStartedAt: "2024-01-25T17:30:28Z"
+      deployedAt: "2024-01-25T17:30:28Z"
+      id: 0
+      revision: 1.0.38
+      source:
+        chart: reloader
+        helm:
+          releaseName: reloader
+          values: |
+            kubernetes:
+              host: https://kubernetes.default
+            reloader:
+              isArgoRollouts: true
+              isOpenshift: false
+              ignoreSecrets: false
+              ignoreConfigMaps: false
+              reloadOnCreate: true
+              reloadStrategy: default
+              ignoreNamespaces: ""
+              logFormat: ""
+              watchGlobally: true
+              readOnlyRootFileSystem: false
+        repoURL: https://stakater.github.io/stakater-charts
+        targetRevision: 1.0.38
+    operationState:
+      finishedAt: "2024-01-25T17:30:28Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          backoff:
+            duration: 20s
+            factor: 2
+            maxDuration: 15m
+          limit: -1
+        sync:
+          prune: true
+          revision: 1.0.38
+          syncOptions:
+          - Validate=false
+          - CreateNamespace=false
+          - PrunePropagationPolicy=foreground
+          - PruneLast=false
+          - ApplyOutOfSyncOnly=false
+          - Prune=true
+      phase: Succeeded
+      startedAt: "2024-01-25T17:30:28Z"
+      syncResult:
+        resources:
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/reloader-reloader created
+          name: reloader-reloader
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/reloader-reloader-role reconciled.
+            reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[list
+            get watch] APIGroups:[] Resources:[secrets configmaps] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[list get update patch] APIGroups:[argoproj.io
+            ] Resources:[rollouts] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[list
+            get update patch] APIGroups:[apps] Resources:[deployments daemonsets statefulsets]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[list get update patch]
+            APIGroups:[extensions] Resources:[deployments daemonsets] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[create patch] APIGroups:[] Resources:[events]
+            ResourceNames:[] NonResourceURLs:[]}. clusterrole.rbac.authorization.k8s.io/reloader-reloader-role
+            configured. Warning: resource clusterroles/reloader-reloader-role is missing
+            the kubectl.kubernetes.io/last-applied-configuration annotation which
+            is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: reloader-reloader-role
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRoleBinding
+          message: "clusterrolebinding.rbac.authorization.k8s.io/reloader-reloader-role-binding
+            reconciled. reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
+            APIGroup: Name:reloader-reloader Namespace:kube-system}. clusterrolebinding.rbac.authorization.k8s.io/reloader-reloader-role-binding
+            configured. Warning: resource clusterrolebindings/reloader-reloader-role-binding
+            is missing the kubectl.kubernetes.io/last-applied-configuration annotation
+            which is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: reloader-reloader-role-binding
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/reloader-reloader created
+          name: reloader-reloader
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        revision: 1.0.38
+        source:
+          chart: reloader
+          helm:
+            releaseName: reloader
+            values: |
+              kubernetes:
+                host: https://kubernetes.default
+              reloader:
+                isArgoRollouts: true
+                isOpenshift: false
+                ignoreSecrets: false
+                ignoreConfigMaps: false
+                reloadOnCreate: true
+                reloadStrategy: default
+                ignoreNamespaces: ""
+                logFormat: ""
+                watchGlobally: true
+                readOnlyRootFileSystem: false
+          repoURL: https://stakater.github.io/stakater-charts
+          targetRevision: 1.0.38
+    reconciledAt: "2024-01-25T21:56:29Z"
+    resources:
+    - kind: ServiceAccount
+      name: reloader-reloader
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: reloader-reloader
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: reloader-reloader-role
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: reloader-reloader-role-binding
+      status: Synced
+      version: v1
+    sourceType: Helm
+    summary:
+      images:
+      - ghcr.io/stakater/reloader:v1.0.38
+    sync:
+      comparedTo:
+        destination:
+          name: in-cluster
+          namespace: kube-system
+        source:
+          chart: reloader
+          helm:
+            releaseName: reloader
+            values: |
+              kubernetes:
+                host: https://kubernetes.default
+              reloader:
+                isArgoRollouts: true
+                isOpenshift: false
+                ignoreSecrets: false
+                ignoreConfigMaps: false
+                reloadOnCreate: true
+                reloadStrategy: default
+                ignoreNamespaces: ""
+                logFormat: ""
+                watchGlobally: true
+                readOnlyRootFileSystem: false
+          repoURL: https://stakater.github.io/stakater-charts
+          targetRevision: 1.0.38
+      revision: 1.0.38
+      status: Synced
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"labels":{"app.kubernetes.io/instance":"argocd","monitoring":"prometheus","prometheus":"main"},"name":"postgres","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"databases"},"project":"cluster","source":{"path":"apps/databases/zalando","repoURL":"https://github.com/bossjones/k3d-playground.git","targetRevision":"main"},"syncPolicy":{"automated":{"allowEmpty":true,"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"20s","factor":2,"maxDuration":"15m"},"limit":-1},"syncOptions":["Validate=false","CreateNamespace=true","PrunePropagationPolicy=foreground","PruneLast=true","ApplyOutOfSyncOnly=false","Prune=true"]}}}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-25T17:29:15Z"
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    generation: 112
+    labels:
+      app.kubernetes.io/instance: argocd
+      monitoring: prometheus
+      prometheus: main
+    name: postgres
+    namespace: argocd
+    resourceVersion: "37815"
+    uid: ac03b640-2c39-4741-8fe1-26a4479891b0
+  spec:
+    destination:
+      name: in-cluster
+      namespace: databases
+    project: cluster
+    source:
+      path: apps/databases/zalando
+      repoURL: https://github.com/bossjones/k3d-playground.git
+      targetRevision: main
+    syncPolicy:
+      automated:
+        allowEmpty: true
+        prune: true
+        selfHeal: true
+      retry:
+        backoff:
+          duration: 20s
+          factor: 2
+          maxDuration: 15m
+        limit: -1
+      syncOptions:
+      - Validate=false
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+      - ApplyOutOfSyncOnly=false
+      - Prune=true
+  status:
+    controllerNamespace: argocd
+    health:
+      status: Healthy
+    history:
+    - deployStartedAt: "2024-01-25T17:30:38Z"
+      deployedAt: "2024-01-25T17:30:40Z"
+      id: 0
+      revision: 5b5857841881588558279c658428ab1b9312d728
+      source:
+        path: apps/databases/zalando
+        repoURL: https://github.com/bossjones/k3d-playground.git
+        targetRevision: main
+    operationState:
+      finishedAt: "2024-01-25T17:30:40Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          backoff:
+            duration: 20s
+            factor: 2
+            maxDuration: 15m
+          limit: -1
+        sync:
+          prune: true
+          revision: 5b5857841881588558279c658428ab1b9312d728
+          syncOptions:
+          - Validate=false
+          - CreateNamespace=true
+          - PrunePropagationPolicy=foreground
+          - PruneLast=true
+          - ApplyOutOfSyncOnly=false
+          - Prune=true
+      phase: Succeeded
+      startedAt: "2024-01-25T17:30:38Z"
+      syncResult:
+        resources:
+        - group: ""
+          hookPhase: Running
+          kind: Namespace
+          message: namespace/databases created
+          name: databases
+          namespace: ""
+          status: Synced
+          syncPhase: PreSync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/postgres-operator created
+          name: postgres-operator
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/postgres-operator-ui created
+          name: postgres-operator-ui
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/postgres-operator created
+          name: postgres-operator
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/postgres-operator-ui reconciled.
+            reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[create
+            delete get list patch update] APIGroups:[acid.zalan.do] Resources:[postgresqls]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get list watch] APIGroups:[]
+            Resources:[pods] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get
+            list] APIGroups:[] Resources:[services] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get
+            list] APIGroups:[apps] Resources:[deployments statefulsets] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[get list] APIGroups:[] Resources:[namespaces]
+            ResourceNames:[] NonResourceURLs:[]}. clusterrole.rbac.authorization.k8s.io/postgres-operator-ui
+            configured. Warning: resource clusterroles/postgres-operator-ui is missing
+            the kubectl.kubernetes.io/last-applied-configuration annotation which
+            is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: postgres-operator-ui
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/postgres-pod reconciled.
+            reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[create
+            delete deletecollection get list patch update watch] APIGroups:[] Resources:[endpoints]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get list patch update
+            watch] APIGroups:[] Resources:[pods] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create]
+            APIGroups:[] Resources:[services] ResourceNames:[] NonResourceURLs:[]}.
+            clusterrole.rbac.authorization.k8s.io/postgres-pod configured. Warning:
+            resource clusterroles/postgres-pod is missing the kubectl.kubernetes.io/last-applied-configuration
+            annotation which is required by  apply.  apply should only be used on
+            resources created declaratively by either  create --save-config or  apply.
+            The missing annotation will be patched automatically."
+          name: postgres-pod
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/postgres-operator reconciled.
+            reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[create
+            delete deletecollection get list patch update watch] APIGroups:[acid.zalan.do]
+            Resources:[postgresqls postgresqls/status operatorconfigurations] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[get list watch] APIGroups:[acid.zalan.do]
+            Resources:[postgresteams] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
+            get patch update] APIGroups:[apiextensions.k8s.io] Resources:[customresourcedefinitions]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get] APIGroups:[] Resources:[configmaps]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create get list patch
+            update watch] APIGroups:[] Resources:[events] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
+            delete deletecollection get list patch update watch] APIGroups:[] Resources:[endpoints]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create delete get update]
+            APIGroups:[] Resources:[secrets] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get
+            list watch] APIGroups:[] Resources:[nodes] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[delete
+            get list patch update] APIGroups:[] Resources:[persistentvolumeclaims]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get list update] APIGroups:[]
+            Resources:[persistentvolumes] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[delete
+            get list patch update watch] APIGroups:[] Resources:[pods] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[create] APIGroups:[] Resources:[pods/exec]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create delete get patch
+            update] APIGroups:[] Resources:[services] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
+            delete get list patch] APIGroups:[apps] Resources:[statefulsets deployments]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create delete get list
+            patch update] APIGroups:[batch] Resources:[cronjobs] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[get] APIGroups:[] Resources:[namespaces]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create delete get] APIGroups:[policy]
+            Resources:[poddisruptionbudgets] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get
+            create] APIGroups:[] Resources:[serviceaccounts] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get
+            create] APIGroups:[rbac.authorization.k8s.io] Resources:[rolebindings]
+            ResourceNames:[] NonResourceURLs:[]}. clusterrole.rbac.authorization.k8s.io/postgres-operator
+            configured. Warning: resource clusterroles/postgres-operator is missing
+            the kubectl.kubernetes.io/last-applied-configuration annotation which
+            is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: postgres-operator
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRoleBinding
+          message: "clusterrolebinding.rbac.authorization.k8s.io/postgres-operator-ui
+            reconciled. reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
+            APIGroup: Name:postgres-operator-ui Namespace:databases}. clusterrolebinding.rbac.authorization.k8s.io/postgres-operator-ui
+            configured. Warning: resource clusterrolebindings/postgres-operator-ui
+            is missing the kubectl.kubernetes.io/last-applied-configuration annotation
+            which is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: postgres-operator-ui
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRoleBinding
+          message: "clusterrolebinding.rbac.authorization.k8s.io/postgres-operator
+            reconciled. reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
+            APIGroup: Name:postgres-operator Namespace:databases}. clusterrolebinding.rbac.authorization.k8s.io/postgres-operator
+            configured. Warning: resource clusterrolebindings/postgres-operator is
+            missing the kubectl.kubernetes.io/last-applied-configuration annotation
+            which is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: postgres-operator
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/postgres-operator-ui created
+          name: postgres-operator-ui
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/postgres-operator created
+          name: postgres-operator
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/postgres-operator created
+          name: postgres-operator
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/postgres-operator-ui created
+          name: postgres-operator-ui
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: networking.k8s.io
+          hookPhase: Running
+          kind: Ingress
+          message: ingress.networking.k8s.io/postgres-operator-ui created
+          name: postgres-operator-ui
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        revision: 5b5857841881588558279c658428ab1b9312d728
+        source:
+          path: apps/databases/zalando
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+    reconciledAt: "2024-01-25T21:56:29Z"
+    resources:
+    - kind: ConfigMap
+      name: postgres-operator
+      namespace: databases
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: postgres-operator
+      namespace: databases
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: postgres-operator-ui
+      namespace: databases
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: postgres-operator
+      namespace: databases
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: postgres-operator-ui
+      namespace: databases
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: postgres-operator
+      namespace: databases
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: postgres-operator-ui
+      namespace: databases
+      status: Synced
+      version: v1
+    - group: networking.k8s.io
+      health:
+        status: Healthy
+      kind: Ingress
+      name: postgres-operator-ui
+      namespace: databases
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: postgres-operator
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: postgres-operator-ui
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: postgres-pod
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: postgres-operator
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: postgres-operator-ui
+      status: Synced
+      version: v1
+    sourceType: Kustomize
+    summary:
+      externalURLs:
+      - https://dbs.k8s.localhost/
+      images:
+      - registry.opensource.zalan.do/acid/postgres-operator-ui:v1.10.1
+      - registry.opensource.zalan.do/acid/postgres-operator:v1.10.1
+    sync:
+      comparedTo:
+        destination:
+          name: in-cluster
+          namespace: databases
+        source:
+          path: apps/databases/zalando
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+      revision: bcc80ef62eaabf5fc40d953ac24912c764466218
+      status: Synced
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"labels":{"app.kubernetes.io/instance":"argocd","monitoring":"prometheus","prometheus":"main"},"name":"argo-rollouts","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"argo-rollouts"},"project":"cluster","source":{"path":"manifests/cluster-install","repoURL":"https://github.com/argoproj/argo-rollouts","targetRevision":"v1.6.4"},"syncPolicy":{"automated":{"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"30s","factor":2,"maxDuration":"30m"},"limit":-1},"syncOptions":["CreateNamespace=true"]}}}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-25T17:29:14Z"
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    generation: 102
+    labels:
+      app.kubernetes.io/instance: argocd
+      monitoring: prometheus
+      prometheus: main
+    name: argo-rollouts
+    namespace: argocd
+    resourceVersion: "37817"
+    uid: c01242af-39b8-4df3-8126-136243fd1fa9
+  spec:
+    destination:
+      name: in-cluster
+      namespace: argo-rollouts
+    project: cluster
+    source:
+      path: manifests/cluster-install
+      repoURL: https://github.com/argoproj/argo-rollouts
+      targetRevision: v1.6.4
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      retry:
+        backoff:
+          duration: 30s
+          factor: 2
+          maxDuration: 30m
+        limit: -1
+      syncOptions:
+      - CreateNamespace=true
+  status:
+    controllerNamespace: argocd
+    health:
+      status: Healthy
+    history:
+    - deployStartedAt: "2024-01-25T17:32:37Z"
+      deployedAt: "2024-01-25T17:32:41Z"
+      id: 0
+      revision: a312af9f632b985ec13f64918b918c5dcd02a15e
+      source:
+        path: manifests/cluster-install
+        repoURL: https://github.com/argoproj/argo-rollouts
+        targetRevision: v1.6.4
+    operationState:
+      finishedAt: "2024-01-25T17:32:41Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          backoff:
+            duration: 30s
+            factor: 2
+            maxDuration: 30m
+          limit: -1
+        sync:
+          prune: true
+          revision: a312af9f632b985ec13f64918b918c5dcd02a15e
+          syncOptions:
+          - CreateNamespace=true
+      phase: Succeeded
+      startedAt: "2024-01-25T17:32:37Z"
+      syncResult:
+        resources:
+        - group: ""
+          hookPhase: Running
+          kind: Namespace
+          message: namespace/argo-rollouts created
+          name: argo-rollouts
+          namespace: ""
+          status: Synced
+          syncPhase: PreSync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/argo-rollouts created
+          name: argo-rollouts
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Secret
+          message: secret/argo-rollouts-notification-secret created
+          name: argo-rollouts-notification-secret
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/argo-rollouts-config created
+          name: argo-rollouts-config
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiextensions.k8s.io
+          hookPhase: Running
+          kind: CustomResourceDefinition
+          message: customresourcedefinition.apiextensions.k8s.io/analysisruns.argoproj.io
+            created
+          name: analysisruns.argoproj.io
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiextensions.k8s.io
+          hookPhase: Running
+          kind: CustomResourceDefinition
+          message: customresourcedefinition.apiextensions.k8s.io/clusteranalysistemplates.argoproj.io
+            created
+          name: clusteranalysistemplates.argoproj.io
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiextensions.k8s.io
+          hookPhase: Running
+          kind: CustomResourceDefinition
+          message: customresourcedefinition.apiextensions.k8s.io/analysistemplates.argoproj.io
+            created
+          name: analysistemplates.argoproj.io
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiextensions.k8s.io
+          hookPhase: Running
+          kind: CustomResourceDefinition
+          message: customresourcedefinition.apiextensions.k8s.io/experiments.argoproj.io
+            created
+          name: experiments.argoproj.io
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiextensions.k8s.io
+          hookPhase: Running
+          kind: CustomResourceDefinition
+          message: customresourcedefinition.apiextensions.k8s.io/rollouts.argoproj.io
+            created
+          name: rollouts.argoproj.io
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/argo-rollouts-aggregate-to-view
+            reconciled. reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[get
+            list watch] APIGroups:[argoproj.io] Resources:[rollouts rollouts/scale
+            experiments analysistemplates clusteranalysistemplates analysisruns] ResourceNames:[]
+            NonResourceURLs:[]}. clusterrole.rbac.authorization.k8s.io/argo-rollouts-aggregate-to-view
+            configured. Warning: resource clusterroles/argo-rollouts-aggregate-to-view
+            is missing the kubectl.kubernetes.io/last-applied-configuration annotation
+            which is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: argo-rollouts-aggregate-to-view
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/argo-rollouts reconciled.
+            reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[get
+            list watch update patch] APIGroups:[argoproj.io] Resources:[rollouts rollouts/status
+            rollouts/finalizers] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
+            get list watch update patch delete] APIGroups:[argoproj.io] Resources:[analysisruns
+            analysisruns/finalizers experiments experiments/finalizers] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[get list watch] APIGroups:[argoproj.io]
+            Resources:[analysistemplates clusteranalysistemplates] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[create get list watch update patch delete]
+            APIGroups:[apps] Resources:[replicasets] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get
+            list watch] APIGroups:[ apps] Resources:[deployments podtemplates] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[get list watch patch create delete] APIGroups:[]
+            Resources:[services] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
+            get update] APIGroups:[coordination.k8s.io] Resources:[leases] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[get list watch] APIGroups:[] Resources:[secrets
+            configmaps] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[list update
+            watch] APIGroups:[] Resources:[pods] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create]
+            APIGroups:[] Resources:[pods/eviction] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
+            update patch] APIGroups:[] Resources:[events] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
+            get list watch update patch] APIGroups:[networking.k8s.io extensions]
+            Resources:[ingresses] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
+            get list watch update patch delete] APIGroups:[batch] Resources:[jobs]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[watch get update patch
+            list] APIGroups:[networking.istio.io] Resources:[virtualservices destinationrules]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create watch get update
+            patch] APIGroups:[split.smi-spec.io] Resources:[trafficsplits] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[create watch get update list delete]
+            APIGroups:[getambassador.io x.getambassador.io] Resources:[mappings ambassadormappings]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get] APIGroups:[] Resources:[endpoints]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[list get] APIGroups:[elbv2.k8s.aws]
+            Resources:[targetgroupbindings] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[watch
+            get list] APIGroups:[appmesh.k8s.aws] Resources:[virtualservices] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[watch get list update patch] APIGroups:[appmesh.k8s.aws]
+            Resources:[virtualnodes virtualrouters] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[watch
+            get update] APIGroups:[traefik.containo.us] Resources:[traefikservices]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[watch get update] APIGroups:[apisix.apache.org]
+            Resources:[apisixroutes] ResourceNames:[] NonResourceURLs:[]}. clusterrole.rbac.authorization.k8s.io/argo-rollouts
+            configured. Warning: resource clusterroles/argo-rollouts is missing the
+            kubectl.kubernetes.io/last-applied-configuration annotation which is required
+            by  apply.  apply should only be used on resources created declaratively
+            by either  create --save-config or  apply. The missing annotation will
+            be patched automatically."
+          name: argo-rollouts
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/argo-rollouts-aggregate-to-edit
+            reconciled. reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[create
+            delete deletecollection get list patch update watch] APIGroups:[argoproj.io]
+            Resources:[rollouts rollouts/scale rollouts/status experiments analysistemplates
+            clusteranalysistemplates analysisruns] ResourceNames:[] NonResourceURLs:[]}.
+            clusterrole.rbac.authorization.k8s.io/argo-rollouts-aggregate-to-edit
+            configured. Warning: resource clusterroles/argo-rollouts-aggregate-to-edit
+            is missing the kubectl.kubernetes.io/last-applied-configuration annotation
+            which is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: argo-rollouts-aggregate-to-edit
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/argo-rollouts-aggregate-to-admin
+            reconciled. reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[create
+            delete deletecollection get list patch update watch] APIGroups:[argoproj.io]
+            Resources:[rollouts rollouts/scale rollouts/status experiments analysistemplates
+            clusteranalysistemplates analysisruns] ResourceNames:[] NonResourceURLs:[]}.
+            clusterrole.rbac.authorization.k8s.io/argo-rollouts-aggregate-to-admin
+            configured. Warning: resource clusterroles/argo-rollouts-aggregate-to-admin
+            is missing the kubectl.kubernetes.io/last-applied-configuration annotation
+            which is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: argo-rollouts-aggregate-to-admin
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRoleBinding
+          message: "clusterrolebinding.rbac.authorization.k8s.io/argo-rollouts reconciled.
+            reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
+            APIGroup: Name:argo-rollouts Namespace:argo-rollouts}. clusterrolebinding.rbac.authorization.k8s.io/argo-rollouts
+            configured. Warning: resource clusterrolebindings/argo-rollouts is missing
+            the kubectl.kubernetes.io/last-applied-configuration annotation which
+            is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: argo-rollouts
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/argo-rollouts-metrics created
+          name: argo-rollouts-metrics
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/argo-rollouts created
+          name: argo-rollouts
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        revision: a312af9f632b985ec13f64918b918c5dcd02a15e
+        source:
+          path: manifests/cluster-install
+          repoURL: https://github.com/argoproj/argo-rollouts
+          targetRevision: v1.6.4
+    reconciledAt: "2024-01-25T21:56:29Z"
+    resources:
+    - kind: ConfigMap
+      name: argo-rollouts-config
+      namespace: argo-rollouts
+      status: Synced
+      version: v1
+    - kind: Secret
+      name: argo-rollouts-notification-secret
+      namespace: argo-rollouts
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: argo-rollouts-metrics
+      namespace: argo-rollouts
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: argo-rollouts
+      namespace: argo-rollouts
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: analysisruns.argoproj.io
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: analysistemplates.argoproj.io
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: clusteranalysistemplates.argoproj.io
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: experiments.argoproj.io
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: rollouts.argoproj.io
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: argo-rollouts
+      namespace: argo-rollouts
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: argo-rollouts
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: argo-rollouts-aggregate-to-admin
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: argo-rollouts-aggregate-to-edit
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: argo-rollouts-aggregate-to-view
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: argo-rollouts
+      status: Synced
+      version: v1
+    sourceType: Kustomize
+    summary:
+      images:
+      - quay.io/argoproj/argo-rollouts:latest
+    sync:
+      comparedTo:
+        destination:
+          name: in-cluster
+          namespace: argo-rollouts
+        source:
+          path: manifests/cluster-install
+          repoURL: https://github.com/argoproj/argo-rollouts
+          targetRevision: v1.6.4
+      revision: a312af9f632b985ec13f64918b918c5dcd02a15e
       status: Synced
 kind: List
 metadata:

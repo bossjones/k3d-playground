@@ -1,7 +1,7 @@
 NAMESPACE   NAME         AGE
-argocd      default      4h25m
-argocd      apps         4h25m
-argocd      core         4h25m
-argocd      cluster      4h25m
-argocd      monitoring   4h25m
-argocd      networking   4h25m
+argocd      default      4h27m
+argocd      apps         4h27m
+argocd      core         4h27m
+argocd      cluster      4h27m
+argocd      monitoring   4h27m
+argocd      networking   4h27m

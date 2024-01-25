@@ -278,7 +278,9 @@ dump-everything:
   kubectl -n argocd get clusterrolebindings.rbac.authorization.k8s.io > dump/argocd-clusterrolebindings.txt
   kubectl -n argocd get clusterrolebindings.rbac.authorization.k8s.io -o yaml > dump/argocd-clusterrolebindings.yaml
   kubectl -n argocd get clusterroles.rbac.authorization.k8s.io -o yaml > dump/argocd-clusterroles.yaml
-
+  kubectl -n monitoring get clusterrolebindings.rbac.authorization.k8s.io > dump/monitoring-clusterrolebindings.txt
+  kubectl -n monitoring get clusterrolebindings.rbac.authorization.k8s.io -o yaml > dump/monitoring-clusterrolebindings.yaml
+  kubectl -n monitoring get clusterroles.rbac.authorization.k8s.io -o yaml > dump/monitoring-clusterroles.yaml
 
 
 # use kubectl-slice to split the dump into individual files
