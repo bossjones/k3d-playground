@@ -1,0 +1,16 @@
+NAMESPACE     NAME                                             AGE
+kube-system   metrics-server                                   9m11s
+kube-system   ingress-nginx-controller                         8m56s
+monitoring    kube-prometheus-stack-alertmanager               8m48s
+monitoring    kube-prometheus-stack-apiserver                  8m48s
+monitoring    kube-prometheus-stack-coredns                    8m48s
+monitoring    kube-prometheus-stack-grafana                    8m48s
+monitoring    kube-prometheus-stack-kube-controller-manager    8m48s
+monitoring    kube-prometheus-stack-kube-etcd                  8m48s
+monitoring    kube-prometheus-stack-kube-proxy                 8m48s
+monitoring    kube-prometheus-stack-kube-scheduler             8m48s
+monitoring    kube-prometheus-stack-kube-state-metrics         8m48s
+monitoring    kube-prometheus-stack-kubelet                    8m48s
+monitoring    kube-prometheus-stack-operator                   8m48s
+monitoring    kube-prometheus-stack-prometheus                 8m48s
+monitoring    kube-prometheus-stack-prometheus-node-exporter   8m48s

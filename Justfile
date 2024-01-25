@@ -261,3 +261,15 @@ get-audit2rbac:
 gen-rbac:
   audit2rbac -f audit/audit.log --serviceaccount=default:doc-controller \
     --generate-labels="" --generate-annotations="" --generate-name=doc-controller
+
+dump-everything:
+  kubectl get serviceaccounts --all-namespaces -o yaml > dump/serviceaccounts.yaml
+  kubectl -n argocd get applications -o yaml > dump/argocd_applications.yaml
+  kubectl get applications.argoproj.io --all-namespaces > dump/applications.argoproj.io.txt
+  kubectl get appprojects.argoproj.io --all-namespaces > dump/applications.argoproj.io.txt
+  kubectl get servicemonitors.monitoring.coreos.com --all-namespaces > dump/servicemonitors.monitoring.coreos.com.txt
+  kubectl get svc --all-namespaces > dump/svc.txt
+  kubectl get svc --all-namespaces -o yaml > dump/svc.yaml
+  kubectl get prometheuses.monitoring.coreos.com --all-namespaces > dump/prometheuses.monitoring.coreos.com.txt
+  kubectl get prometheusrules.monitoring.coreos.com --all-namespaces > dump/prometheusrules.monitoring.coreos.com.txt
+  kubectl get ns -o yaml > dump/ns.yaml

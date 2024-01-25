@@ -1,0 +1,7 @@
+NAMESPACE   NAME         AGE
+argocd      default      12m
+argocd      apps         13m
+argocd      cluster      13m
+argocd      core         13m
+argocd      networking   13m
+argocd      monitoring   13m

@@ -1,0 +1,4987 @@
+apiVersion: v1
+items:
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: argocd:argoproj.io/Application:argocd/rancher
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"argocd:argoproj.io/Application:argocd/rancher","reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"name":"rancher","namespace":"argocd"},"spec":{"destination":{"namespace":"cattle-system","server":"https://kubernetes.default.svc"},"project":"cluster","sources":[{"chart":"rancher","helm":{"valueFiles":["$values/apps/argocd/base/monitoring/rancher/app/values.yaml"]},"repoURL":"https://releases.rancher.com/server-charts/latest","targetRevision":"2.8.1"},{"path":"apps/argocd/base/monitoring/rancher","ref":"values","repoURL":"https://github.com/bossjones/k3d-playground.git","targetRevision":"main"}],"syncPolicy":{"automated":{"prune":true},"syncOptions":["CreateNamespace=true"]}}}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-25T00:59:28Z"
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    generation: 17
+    name: rancher
+    namespace: argocd
+    resourceVersion: "9068"
+    uid: cb595fc0-04cd-434d-861c-7c5105dd3c92
+  spec:
+    destination:
+      namespace: cattle-system
+      server: https://kubernetes.default.svc
+    project: cluster
+    sources:
+    - chart: rancher
+      helm:
+        valueFiles:
+        - $values/apps/argocd/base/monitoring/rancher/app/values.yaml
+      repoURL: https://releases.rancher.com/server-charts/latest
+      targetRevision: 2.8.1
+    - path: apps/argocd/base/monitoring/rancher
+      ref: values
+      repoURL: https://github.com/bossjones/k3d-playground.git
+      targetRevision: main
+    syncPolicy:
+      automated:
+        prune: true
+      syncOptions:
+      - CreateNamespace=true
+  status:
+    conditions:
+    - lastTransitionTime: "2024-01-25T01:04:43Z"
+      message: Application/rancher is part of applications argocd/rancher and argocd
+      type: SharedResourceWarning
+    controllerNamespace: argocd
+    health:
+      status: Healthy
+    history:
+    - deployStartedAt: "2024-01-25T01:02:45Z"
+      deployedAt: "2024-01-25T01:02:46Z"
+      id: 0
+      revisions:
+      - 2.8.1
+      - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      source:
+        repoURL: ""
+      sources:
+      - chart: rancher
+        helm:
+          valueFiles:
+          - $values/apps/argocd/base/monitoring/rancher/app/values.yaml
+        repoURL: https://releases.rancher.com/server-charts/latest
+        targetRevision: 2.8.1
+      - path: apps/argocd/base/monitoring/rancher
+        ref: values
+        repoURL: https://github.com/bossjones/k3d-playground.git
+        targetRevision: main
+    operationState:
+      finishedAt: "2024-01-25T01:02:46Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          limit: 5
+        sync:
+          prune: true
+          revisions:
+          - 2.8.1
+          - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+          syncOptions:
+          - CreateNamespace=true
+      phase: Succeeded
+      startedAt: "2024-01-25T01:02:45Z"
+      syncResult:
+        resources:
+        - group: ""
+          hookPhase: Running
+          kind: Namespace
+          message: namespace/cattle-system created
+          name: cattle-system
+          namespace: cattle-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/rancher created
+          name: rancher
+          namespace: cattle-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/rancher-config created
+          name: rancher-config
+          namespace: cattle-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRoleBinding
+          message: "clusterrolebinding.rbac.authorization.k8s.io/rancher reconciled.
+            reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
+            APIGroup: Name:rancher Namespace:cattle-system}. clusterrolebinding.rbac.authorization.k8s.io/rancher
+            configured. Warning: resource clusterrolebindings/rancher is missing the
+            kubectl.kubernetes.io/last-applied-configuration annotation which is required
+            by  apply.  apply should only be used on resources created declaratively
+            by either  create --save-config or  apply. The missing annotation will
+            be patched automatically."
+          name: rancher
+          namespace: cattle-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/rancher created
+          name: rancher
+          namespace: cattle-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/rancher created
+          name: rancher
+          namespace: cattle-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: argoproj.io
+          hookPhase: Running
+          kind: Application
+          message: application.argoproj.io/rancher configured
+          name: rancher
+          namespace: argocd
+          status: Synced
+          syncPhase: Sync
+          version: v1alpha1
+        - group: scheduling.k8s.io
+          hookPhase: Running
+          kind: PriorityClass
+          message: priorityclass.scheduling.k8s.io/rancher-critical created
+          name: rancher-critical
+          namespace: cattle-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        revision: ""
+        revisions:
+        - 2.8.1
+        - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+        source:
+          repoURL: ""
+        sources:
+        - chart: rancher
+          helm:
+            valueFiles:
+            - $values/apps/argocd/base/monitoring/rancher/app/values.yaml
+          repoURL: https://releases.rancher.com/server-charts/latest
+          targetRevision: 2.8.1
+        - path: apps/argocd/base/monitoring/rancher
+          ref: values
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+    reconciledAt: "2024-01-25T01:09:44Z"
+    resources:
+    - kind: ConfigMap
+      name: rancher-config
+      namespace: cattle-system
+      status: Synced
+      version: v1
+    - kind: Namespace
+      name: cattle-system
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: rancher
+      namespace: cattle-system
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: rancher
+      namespace: cattle-system
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: rancher
+      namespace: cattle-system
+      status: Synced
+      version: v1
+    - group: argoproj.io
+      kind: Application
+      name: rancher
+      namespace: argocd
+      status: OutOfSync
+      version: v1alpha1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: rancher
+      status: Synced
+      version: v1
+    - group: scheduling.k8s.io
+      kind: PriorityClass
+      name: rancher-critical
+      status: Synced
+      version: v1
+    sourceTypes:
+    - Helm
+    - Kustomize
+    summary:
+      images:
+      - rancher/rancher:v2.8.1
+    sync:
+      comparedTo:
+        destination:
+          namespace: cattle-system
+          server: https://kubernetes.default.svc
+        source:
+          repoURL: ""
+        sources:
+        - chart: rancher
+          helm:
+            valueFiles:
+            - $values/apps/argocd/base/monitoring/rancher/app/values.yaml
+          repoURL: https://releases.rancher.com/server-charts/latest
+          targetRevision: 2.8.1
+        - path: apps/argocd/base/monitoring/rancher
+          ref: values
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+      revisions:
+      - 2.8.1
+      - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      status: OutOfSync
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: argocd:argoproj.io/Application:argocd/reloader
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"argocd:argoproj.io/Application:argocd/reloader","reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"name":"reloader","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"kube-system"},"project":"cluster","source":{"chart":"reloader","helm":{"releaseName":"reloader","values":"kubernetes:\n  host: https://kubernetes.default\nreloader:\n  isArgoRollouts: true\n  isOpenshift: false\n  ignoreSecrets: false\n  ignoreConfigMaps: false\n  reloadOnCreate: true\n  reloadStrategy: default\n  ignoreNamespaces: \"\"\n  logFormat: \"\"\n  watchGlobally: true\n  readOnlyRootFileSystem: false\n"},"repoURL":"https://stakater.github.io/stakater-charts","targetRevision":"1.0.38"},"syncPolicy":{"automated":{"allowEmpty":true,"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"20s","factor":2,"maxDuration":"15m"},"limit":-1},"syncOptions":["Validate=false","CreateNamespace=false","PrunePropagationPolicy=foreground","PruneLast=false","ApplyOutOfSyncOnly=false","Prune=true"]}}}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-25T00:59:28Z"
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    generation: 18
+    name: reloader
+    namespace: argocd
+    resourceVersion: "9072"
+    uid: 408cd736-2c2e-4198-9846-9ce1c6af6b06
+  spec:
+    destination:
+      name: in-cluster
+      namespace: kube-system
+    project: cluster
+    source:
+      chart: reloader
+      helm:
+        releaseName: reloader
+        values: |
+          kubernetes:
+            host: https://kubernetes.default
+          reloader:
+            isArgoRollouts: true
+            isOpenshift: false
+            ignoreSecrets: false
+            ignoreConfigMaps: false
+            reloadOnCreate: true
+            reloadStrategy: default
+            ignoreNamespaces: ""
+            logFormat: ""
+            watchGlobally: true
+            readOnlyRootFileSystem: false
+      repoURL: https://stakater.github.io/stakater-charts
+      targetRevision: 1.0.38
+    syncPolicy:
+      automated:
+        allowEmpty: true
+        prune: true
+        selfHeal: true
+      retry:
+        backoff:
+          duration: 20s
+          factor: 2
+          maxDuration: 15m
+        limit: -1
+      syncOptions:
+      - Validate=false
+      - CreateNamespace=false
+      - PrunePropagationPolicy=foreground
+      - PruneLast=false
+      - ApplyOutOfSyncOnly=false
+      - Prune=true
+  status:
+    controllerNamespace: argocd
+    health:
+      status: Healthy
+    history:
+    - deployStartedAt: "2024-01-25T01:00:43Z"
+      deployedAt: "2024-01-25T01:00:43Z"
+      id: 0
+      revision: 1.0.38
+      source:
+        chart: reloader
+        helm:
+          releaseName: reloader
+          values: |
+            kubernetes:
+              host: https://kubernetes.default
+            reloader:
+              isArgoRollouts: true
+              isOpenshift: false
+              ignoreSecrets: false
+              ignoreConfigMaps: false
+              reloadOnCreate: true
+              reloadStrategy: default
+              ignoreNamespaces: ""
+              logFormat: ""
+              watchGlobally: true
+              readOnlyRootFileSystem: false
+        repoURL: https://stakater.github.io/stakater-charts
+        targetRevision: 1.0.38
+    operationState:
+      finishedAt: "2024-01-25T01:00:43Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          backoff:
+            duration: 20s
+            factor: 2
+            maxDuration: 15m
+          limit: -1
+        sync:
+          prune: true
+          revision: 1.0.38
+          syncOptions:
+          - Validate=false
+          - CreateNamespace=false
+          - PrunePropagationPolicy=foreground
+          - PruneLast=false
+          - ApplyOutOfSyncOnly=false
+          - Prune=true
+      phase: Succeeded
+      startedAt: "2024-01-25T01:00:43Z"
+      syncResult:
+        resources:
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/reloader-reloader created
+          name: reloader-reloader
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/reloader-reloader-role reconciled.
+            reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[list
+            get watch] APIGroups:[] Resources:[secrets configmaps] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[list get update patch] APIGroups:[argoproj.io
+            ] Resources:[rollouts] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[list
+            get update patch] APIGroups:[apps] Resources:[deployments daemonsets statefulsets]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[list get update patch]
+            APIGroups:[extensions] Resources:[deployments daemonsets] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[create patch] APIGroups:[] Resources:[events]
+            ResourceNames:[] NonResourceURLs:[]}. clusterrole.rbac.authorization.k8s.io/reloader-reloader-role
+            configured. Warning: resource clusterroles/reloader-reloader-role is missing
+            the kubectl.kubernetes.io/last-applied-configuration annotation which
+            is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: reloader-reloader-role
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRoleBinding
+          message: "clusterrolebinding.rbac.authorization.k8s.io/reloader-reloader-role-binding
+            reconciled. reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
+            APIGroup: Name:reloader-reloader Namespace:kube-system}. clusterrolebinding.rbac.authorization.k8s.io/reloader-reloader-role-binding
+            configured. Warning: resource clusterrolebindings/reloader-reloader-role-binding
+            is missing the kubectl.kubernetes.io/last-applied-configuration annotation
+            which is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: reloader-reloader-role-binding
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/reloader-reloader created
+          name: reloader-reloader
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        revision: 1.0.38
+        source:
+          chart: reloader
+          helm:
+            releaseName: reloader
+            values: |
+              kubernetes:
+                host: https://kubernetes.default
+              reloader:
+                isArgoRollouts: true
+                isOpenshift: false
+                ignoreSecrets: false
+                ignoreConfigMaps: false
+                reloadOnCreate: true
+                reloadStrategy: default
+                ignoreNamespaces: ""
+                logFormat: ""
+                watchGlobally: true
+                readOnlyRootFileSystem: false
+          repoURL: https://stakater.github.io/stakater-charts
+          targetRevision: 1.0.38
+    reconciledAt: "2024-01-25T01:09:45Z"
+    resources:
+    - kind: ServiceAccount
+      name: reloader-reloader
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: reloader-reloader
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: reloader-reloader-role
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: reloader-reloader-role-binding
+      status: Synced
+      version: v1
+    sourceType: Helm
+    summary:
+      images:
+      - ghcr.io/stakater/reloader:v1.0.38
+    sync:
+      comparedTo:
+        destination:
+          name: in-cluster
+          namespace: kube-system
+        source:
+          chart: reloader
+          helm:
+            releaseName: reloader
+            values: |
+              kubernetes:
+                host: https://kubernetes.default
+              reloader:
+                isArgoRollouts: true
+                isOpenshift: false
+                ignoreSecrets: false
+                ignoreConfigMaps: false
+                reloadOnCreate: true
+                reloadStrategy: default
+                ignoreNamespaces: ""
+                logFormat: ""
+                watchGlobally: true
+                readOnlyRootFileSystem: false
+          repoURL: https://stakater.github.io/stakater-charts
+          targetRevision: 1.0.38
+      revision: 1.0.38
+      status: Synced
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: argocd:argoproj.io/Application:argocd/reflector-app
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"argocd:argoproj.io/Application:argocd/reflector-app","reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"name":"reflector-app","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"kube-system"},"project":"cluster","source":{"chart":"reflector","helm":{"releaseName":"reflector"},"repoURL":"https://emberstack.github.io/helm-charts","targetRevision":"7.0.193"},"syncPolicy":{"automated":{"allowEmpty":true,"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"5s","factor":2,"maxDuration":"3m"},"limit":-1},"syncOptions":["Validate=false","CreateNamespace=false","PrunePropagationPolicy=background","PruneLast=true","ApplyOutOfSyncOnly=false","Prune=true"]}}}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-25T00:59:28Z"
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    generation: 18
+    name: reflector-app
+    namespace: argocd
+    resourceVersion: "9073"
+    uid: 69be144e-9591-41a5-bae7-60c923c9de62
+  spec:
+    destination:
+      name: in-cluster
+      namespace: kube-system
+    project: cluster
+    source:
+      chart: reflector
+      helm:
+        releaseName: reflector
+      repoURL: https://emberstack.github.io/helm-charts
+      targetRevision: 7.0.193
+    syncPolicy:
+      automated:
+        allowEmpty: true
+        prune: true
+        selfHeal: true
+      retry:
+        backoff:
+          duration: 5s
+          factor: 2
+          maxDuration: 3m
+        limit: -1
+      syncOptions:
+      - Validate=false
+      - CreateNamespace=false
+      - PrunePropagationPolicy=background
+      - PruneLast=true
+      - ApplyOutOfSyncOnly=false
+      - Prune=true
+  status:
+    controllerNamespace: argocd
+    health:
+      status: Healthy
+    history:
+    - deployStartedAt: "2024-01-25T01:00:43Z"
+      deployedAt: "2024-01-25T01:00:43Z"
+      id: 0
+      revision: 7.0.193
+      source:
+        chart: reflector
+        helm:
+          releaseName: reflector
+        repoURL: https://emberstack.github.io/helm-charts
+        targetRevision: 7.0.193
+    operationState:
+      finishedAt: "2024-01-25T01:00:43Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m
+          limit: -1
+        sync:
+          prune: true
+          revision: 7.0.193
+          syncOptions:
+          - Validate=false
+          - CreateNamespace=false
+          - PrunePropagationPolicy=background
+          - PruneLast=true
+          - ApplyOutOfSyncOnly=false
+          - Prune=true
+      phase: Succeeded
+      startedAt: "2024-01-25T01:00:43Z"
+      syncResult:
+        resources:
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/reflector created
+          name: reflector
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/reflector reconciled. reconciliation
+            required create\n\tmissing rules added:\n\t\t{Verbs:[*] APIGroups:[] Resources:[configmaps
+            secrets] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[watch list]
+            APIGroups:[] Resources:[namespaces] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[watch
+            list] APIGroups:[apiextensions.k8s.io] Resources:[customresourcedefinitions]
+            ResourceNames:[] NonResourceURLs:[]}. clusterrole.rbac.authorization.k8s.io/reflector
+            configured. Warning: resource clusterroles/reflector is missing the kubectl.kubernetes.io/last-applied-configuration
+            annotation which is required by  apply.  apply should only be used on
+            resources created declaratively by either  create --save-config or  apply.
+            The missing annotation will be patched automatically."
+          name: reflector
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRoleBinding
+          message: "clusterrolebinding.rbac.authorization.k8s.io/reflector reconciled.
+            reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
+            APIGroup: Name:reflector Namespace:kube-system}. clusterrolebinding.rbac.authorization.k8s.io/reflector
+            configured. Warning: resource clusterrolebindings/reflector is missing
+            the kubectl.kubernetes.io/last-applied-configuration annotation which
+            is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: reflector
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/reflector created
+          name: reflector
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        revision: 7.0.193
+        source:
+          chart: reflector
+          helm:
+            releaseName: reflector
+          repoURL: https://emberstack.github.io/helm-charts
+          targetRevision: 7.0.193
+    reconciledAt: "2024-01-25T01:09:45Z"
+    resources:
+    - kind: ServiceAccount
+      name: reflector
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: reflector
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: reflector
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: reflector
+      status: Synced
+      version: v1
+    sourceType: Helm
+    summary:
+      images:
+      - emberstack/kubernetes-reflector:7.0.193
+    sync:
+      comparedTo:
+        destination:
+          name: in-cluster
+          namespace: kube-system
+        source:
+          chart: reflector
+          helm:
+            releaseName: reflector
+          repoURL: https://emberstack.github.io/helm-charts
+          targetRevision: 7.0.193
+      revision: 7.0.193
+      status: Synced
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: argocd:argoproj.io/Application:argocd/kube-prometheus-stack
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"argocd:argoproj.io/Application:argocd/kube-prometheus-stack","reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"name":"kube-prometheus-stack","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"monitoring"},"project":"cluster","sources":[{"chart":"kube-prometheus-stack","helm":{"releaseName":"kube-prometheus-stack","valueFiles":["$values/apps/argocd/base/monitoring/kube-prometheus-stack/app/values.yaml"]},"repoURL":"https://prometheus-community.github.io/helm-charts","targetRevision":"48.2.2"},{"path":"apps/argocd/base/monitoring/kube-prometheus-stack","ref":"values","repoURL":"https://github.com/bossjones/k3d-playground.git","targetRevision":"main"}],"syncPolicy":{"automated":{"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"20s","factor":2,"maxDuration":"15m"},"limit":-1},"syncOptions":["CreateNamespace=true","ServerSideApply=true"]}}}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-25T00:59:28Z"
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    generation: 42
+    labels:
+      monitoring: prometheus
+      prometheus: main
+    name: kube-prometheus-stack
+    namespace: argocd
+    resourceVersion: "9079"
+    uid: 0a4ab63f-66a7-44a0-b67a-2da947d72e38
+  operation:
+    initiatedBy:
+      automated: true
+    retry:
+      backoff:
+        duration: 20s
+        factor: 2
+        maxDuration: 15m
+      limit: -1
+    sync:
+      prune: true
+      revisions:
+      - 48.2.2
+      - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+  spec:
+    destination:
+      name: in-cluster
+      namespace: monitoring
+    project: cluster
+    sources:
+    - chart: kube-prometheus-stack
+      helm:
+        releaseName: kube-prometheus-stack
+        valueFiles:
+        - $values/apps/argocd/base/monitoring/kube-prometheus-stack/app/values.yaml
+      repoURL: https://prometheus-community.github.io/helm-charts
+      targetRevision: 48.2.2
+    - path: apps/argocd/base/monitoring/kube-prometheus-stack
+      ref: values
+      repoURL: https://github.com/bossjones/k3d-playground.git
+      targetRevision: main
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      retry:
+        backoff:
+          duration: 20s
+          factor: 2
+          maxDuration: 15m
+        limit: -1
+      syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+  status:
+    conditions:
+    - lastTransitionTime: "2024-01-25T01:09:44Z"
+      message: Application/kube-prometheus-stack is part of applications argocd/kube-prometheus-stack
+        and argocd
+      type: SharedResourceWarning
+    controllerNamespace: argocd
+    health:
+      status: Healthy
+    operationState:
+      finishedAt: "2024-01-25T01:08:52Z"
+      message: 'one or more objects failed to apply (dry run). Retrying attempt #4
+        at 1:11AM.'
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          backoff:
+            duration: 20s
+            factor: 2
+            maxDuration: 15m
+          limit: -1
+        sync:
+          prune: true
+          revisions:
+          - 48.2.2
+          - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+          syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+      phase: Running
+      retryCount: 4
+      startedAt: "2024-01-25T01:02:54Z"
+      syncResult:
+        resources:
+        - group: monitoring.coreos.com
+          hookPhase: Failed
+          kind: Prometheus
+          message: 'failed to create typed patch object (monitoring/kube-prometheus-stack-prometheus;
+            monitoring.coreos.com/v1, Kind=Prometheus): .spec.ruleNamespaceSelector.any:
+            field not declared in schema'
+          name: kube-prometheus-stack-prometheus
+          namespace: monitoring
+          status: SyncFailed
+          syncPhase: Sync
+          version: v1
+        revision: ""
+        revisions:
+        - 48.2.2
+        - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+        source:
+          repoURL: ""
+        sources:
+        - chart: kube-prometheus-stack
+          helm:
+            releaseName: kube-prometheus-stack
+            valueFiles:
+            - $values/apps/argocd/base/monitoring/kube-prometheus-stack/app/values.yaml
+          repoURL: https://prometheus-community.github.io/helm-charts
+          targetRevision: 48.2.2
+        - path: apps/argocd/base/monitoring/kube-prometheus-stack
+          ref: values
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+    reconciledAt: "2024-01-25T01:08:49Z"
+    resources:
+    - kind: ConfigMap
+      name: kube-prometheus-stack-alertmanager-overview
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-apiserver
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-cluster-total
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-controller-manager
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-etcd
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-grafana
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-grafana-config-dashboards
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-grafana-dashboards-argo
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-grafana-dashboards-ceph
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-grafana-dashboards-default
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-grafana-dashboards-kubernetes
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-grafana-dashboards-nginx
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-grafana-dashboards-unifi
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-grafana-datasource
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-grafana-overview
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-k8s-coredns
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-k8s-resources-cluster
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-k8s-resources-multicluster
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-k8s-resources-namespace
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-k8s-resources-node
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-k8s-resources-pod
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-k8s-resources-workload
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-k8s-resources-workloads-namespace
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-kubelet
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-namespace-by-pod
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-namespace-by-workload
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-node-cluster-rsrc-use
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-node-rsrc-use
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-nodes
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-nodes-darwin
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-persistentvolumesusage
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-pod-total
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-prometheus
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-proxy
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-scheduler
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: kube-prometheus-stack-workload-total
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: Namespace
+      name: monitoring
+      status: Synced
+      version: v1
+    - kind: Secret
+      name: alertmanager-kube-prometheus-stack-alertmanager
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: Secret
+      name: kube-prometheus-stack-grafana
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: kube-prometheus-stack-coredns
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: kube-prometheus-stack-kube-controller-manager
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: kube-prometheus-stack-kube-etcd
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: kube-prometheus-stack-kube-proxy
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: kube-prometheus-stack-kube-scheduler
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: kube-prometheus-stack-alertmanager
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: kube-prometheus-stack-grafana
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: kube-prometheus-stack-kube-state-metrics
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: kube-prometheus-stack-operator
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: kube-prometheus-stack-prometheus
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: kube-prometheus-stack-prometheus-node-exporter
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - hook: true
+      kind: ServiceAccount
+      name: kube-prometheus-stack-admission
+      namespace: monitoring
+      requiresPruning: true
+      version: v1
+    - kind: ServiceAccount
+      name: kube-prometheus-stack-alertmanager
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: kube-prometheus-stack-grafana
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: kube-prometheus-stack-kube-state-metrics
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: kube-prometheus-stack-operator
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: kube-prometheus-stack-prometheus
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: kube-prometheus-stack-prometheus-node-exporter
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: prometheus-k8s
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: admissionregistration.k8s.io
+      kind: MutatingWebhookConfiguration
+      name: kube-prometheus-stack-admission
+      status: Synced
+      version: v1
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      name: kube-prometheus-stack-admission
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: alertmanagerconfigs.monitoring.coreos.com
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: alertmanagers.monitoring.coreos.com
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: podmonitors.monitoring.coreos.com
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: probes.monitoring.coreos.com
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: prometheusagents.monitoring.coreos.com
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: prometheuses.monitoring.coreos.com
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: prometheusrules.monitoring.coreos.com
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: scrapeconfigs.monitoring.coreos.com
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: servicemonitors.monitoring.coreos.com
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: thanosrulers.monitoring.coreos.com
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: DaemonSet
+      name: kube-prometheus-stack-prometheus-node-exporter
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: kube-prometheus-stack-grafana
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: kube-prometheus-stack-kube-state-metrics
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: kube-prometheus-stack-operator
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: argoproj.io
+      kind: Application
+      name: kube-prometheus-stack
+      namespace: argocd
+      status: OutOfSync
+      version: v1alpha1
+    - group: batch
+      hook: true
+      kind: Job
+      name: kube-prometheus-stack-admission-create
+      namespace: monitoring
+      requiresPruning: true
+      version: v1
+    - group: batch
+      hook: true
+      kind: Job
+      name: kube-prometheus-stack-admission-patch
+      namespace: monitoring
+      requiresPruning: true
+      version: v1
+    - group: monitoring.coreos.com
+      kind: Alertmanager
+      name: kube-prometheus-stack-alertmanager
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      health:
+        status: Missing
+      kind: Prometheus
+      name: kube-prometheus-stack-prometheus
+      namespace: monitoring
+      status: OutOfSync
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-alertmanager.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-config-reloaders
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-etcd
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-general.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-k8s.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-kube-apiserver-availability.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-kube-apiserver-burnrate.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-kube-apiserver-histogram.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-kube-apiserver-slos
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-kube-prometheus-general.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-kube-prometheus-node-recording.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-kube-scheduler.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-kube-state-metrics
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-kubelet.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-kubernetes-apps
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-kubernetes-resources
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-kubernetes-storage
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-kubernetes-system
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-kubernetes-system-apiserver
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-kubernetes-system-controller-manager
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-kubernetes-system-kube-proxy
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-kubernetes-system-kubelet
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-kubernetes-system-scheduler
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-node-exporter
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-node-exporter.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-node-network
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-node.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-prometheus
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: kube-prometheus-stack-prometheus-operator
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: kube-prometheus-stack-alertmanager
+      namespace: monitoring
+      status: OutOfSync
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: kube-prometheus-stack-apiserver
+      namespace: monitoring
+      status: OutOfSync
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: kube-prometheus-stack-coredns
+      namespace: monitoring
+      status: OutOfSync
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: kube-prometheus-stack-grafana
+      namespace: monitoring
+      status: OutOfSync
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: kube-prometheus-stack-kube-controller-manager
+      namespace: monitoring
+      status: OutOfSync
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: kube-prometheus-stack-kube-etcd
+      namespace: monitoring
+      status: OutOfSync
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: kube-prometheus-stack-kube-proxy
+      namespace: monitoring
+      status: OutOfSync
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: kube-prometheus-stack-kube-scheduler
+      namespace: monitoring
+      status: OutOfSync
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: kube-prometheus-stack-kube-state-metrics
+      namespace: monitoring
+      status: OutOfSync
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: kube-prometheus-stack-kubelet
+      namespace: monitoring
+      status: OutOfSync
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: kube-prometheus-stack-operator
+      namespace: monitoring
+      status: OutOfSync
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: kube-prometheus-stack-prometheus
+      namespace: monitoring
+      status: OutOfSync
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: kube-prometheus-stack-prometheus-node-exporter
+      namespace: monitoring
+      status: OutOfSync
+      version: v1
+    - group: networking.k8s.io
+      health:
+        status: Healthy
+      kind: Ingress
+      name: kube-prometheus-stack-alertmanager
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: networking.k8s.io
+      health:
+        status: Healthy
+      kind: Ingress
+      name: kube-prometheus-stack-grafana
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: networking.k8s.io
+      health:
+        status: Healthy
+      kind: Ingress
+      name: kube-prometheus-stack-prometheus
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: networking.k8s.io
+      health:
+        status: Healthy
+      kind: Ingress
+      name: kube-prometheus-stack-thanos-gateway
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      hook: true
+      kind: ClusterRole
+      name: kube-prometheus-stack-admission
+      requiresPruning: true
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: kube-prometheus-stack-grafana-clusterrole
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: kube-prometheus-stack-kube-state-metrics
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: kube-prometheus-stack-operator
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: kube-prometheus-stack-prometheus
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: prometheus-k8s
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      hook: true
+      kind: ClusterRoleBinding
+      name: kube-prometheus-stack-admission
+      requiresPruning: true
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: kube-prometheus-stack-grafana-clusterrolebinding
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: kube-prometheus-stack-kube-state-metrics
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: kube-prometheus-stack-operator
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: kube-prometheus-stack-prometheus
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: prometheus-k8s
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      hook: true
+      kind: Role
+      name: kube-prometheus-stack-admission
+      namespace: monitoring
+      requiresPruning: true
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: Role
+      name: kube-prometheus-stack-grafana
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: Role
+      name: prometheus-k8s
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      hook: true
+      kind: RoleBinding
+      name: kube-prometheus-stack-admission
+      namespace: monitoring
+      requiresPruning: true
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: RoleBinding
+      name: kube-prometheus-stack-grafana
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: RoleBinding
+      name: prometheus-k8s-config
+      namespace: monitoring
+      status: Synced
+      version: v1
+    sourceTypes:
+    - Helm
+    - Kustomize
+    summary:
+      externalURLs:
+      - http://alertmanager.k8s.localhost/
+      - http://grafana.k8s.localhost/
+      - http://prometheus.k8s.localhost/
+      - http://thanos-gateway.k8s.localhost/
+      images:
+      - docker.io/curlimages/curl:7.85.0
+      - docker.io/grafana/grafana:10.0.2
+      - quay.io/kiwigrid/k8s-sidecar:1.24.6
+      - quay.io/prometheus-operator/prometheus-config-reloader:v0.66.0
+      - quay.io/prometheus-operator/prometheus-operator:v0.66.0
+      - quay.io/prometheus/alertmanager:v0.25.0
+      - quay.io/prometheus/node-exporter:v1.6.0
+      - registry.k8s.io/ingress-nginx/kube-webhook-certgen:v20221220-controller-v1.5.1-58-g787ea74b6
+      - registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.9.2
+    sync:
+      comparedTo:
+        destination:
+          name: in-cluster
+          namespace: monitoring
+        source:
+          repoURL: ""
+        sources:
+        - chart: kube-prometheus-stack
+          helm:
+            releaseName: kube-prometheus-stack
+            valueFiles:
+            - $values/apps/argocd/base/monitoring/kube-prometheus-stack/app/values.yaml
+          repoURL: https://prometheus-community.github.io/helm-charts
+          targetRevision: 48.2.2
+        - path: apps/argocd/base/monitoring/kube-prometheus-stack
+          ref: values
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+      revisions:
+      - 48.2.2
+      - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      status: OutOfSync
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: argocd:argoproj.io/Application:argocd/example-app
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"argocd:argoproj.io/Application:argocd/example-app","reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"name":"example-app","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"example"},"project":"apps","source":{"path":"apps/example","repoURL":"https://github.com/bossjones/k3d-playground.git","targetRevision":"main"},"syncPolicy":{"automated":{"allowEmpty":true,"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"20s","factor":2,"maxDuration":"15m"},"limit":-1},"syncOptions":["Validate=true","CreateNamespace=true","PrunePropagationPolicy=foreground","PruneLast=true","ApplyOutOfSyncOnly=false","Prune=true"]}}}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-25T00:59:28Z"
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    generation: 28
+    name: example-app
+    namespace: argocd
+    resourceVersion: "10214"
+    uid: b4d328b0-0499-4947-bbea-ef2588079fed
+  spec:
+    destination:
+      name: in-cluster
+      namespace: example
+    project: apps
+    source:
+      path: apps/example
+      repoURL: https://github.com/bossjones/k3d-playground.git
+      targetRevision: main
+    syncPolicy:
+      automated:
+        allowEmpty: true
+        prune: true
+        selfHeal: true
+      retry:
+        backoff:
+          duration: 20s
+          factor: 2
+          maxDuration: 15m
+        limit: -1
+      syncOptions:
+      - Validate=true
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+      - ApplyOutOfSyncOnly=false
+      - Prune=true
+  status:
+    controllerNamespace: argocd
+    health:
+      status: Healthy
+    history:
+    - deployStartedAt: "2024-01-25T01:00:50Z"
+      deployedAt: "2024-01-25T01:01:35Z"
+      id: 0
+      revision: 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      source:
+        path: apps/example
+        repoURL: https://github.com/bossjones/k3d-playground.git
+        targetRevision: main
+    operationState:
+      finishedAt: "2024-01-25T01:01:35Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          backoff:
+            duration: 20s
+            factor: 2
+            maxDuration: 15m
+          limit: -1
+        sync:
+          prune: true
+          revision: 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+          syncOptions:
+          - Validate=true
+          - CreateNamespace=true
+          - PrunePropagationPolicy=foreground
+          - PruneLast=true
+          - ApplyOutOfSyncOnly=false
+          - Prune=true
+      phase: Succeeded
+      retryCount: 1
+      startedAt: "2024-01-25T01:00:50Z"
+      syncResult:
+        resources:
+        - group: ""
+          hookPhase: Running
+          kind: Namespace
+          message: namespace/example created
+          name: example
+          namespace: ""
+          status: Synced
+          syncPhase: PreSync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: PersistentVolumeClaim
+          message: persistentvolumeclaim/local-path-pvc created
+          name: local-path-pvc
+          namespace: example
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/whoami-svc created
+          name: whoami-svc
+          namespace: example
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/whoami created
+          name: whoami
+          namespace: example
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: networking.k8s.io
+          hookPhase: Running
+          kind: Ingress
+          message: ingress.networking.k8s.io/example created
+          name: example
+          namespace: example
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: acid.zalan.do
+          hookPhase: Running
+          kind: postgresql
+          message: postgresql.acid.zalan.do/minimal-db created
+          name: minimal-db
+          namespace: example
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        revision: 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+        source:
+          path: apps/example
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+    reconciledAt: "2024-01-25T01:11:43Z"
+    resources:
+    - health:
+        status: Healthy
+      kind: PersistentVolumeClaim
+      name: local-path-pvc
+      namespace: example
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: whoami-svc
+      namespace: example
+      status: Synced
+      version: v1
+    - group: acid.zalan.do
+      kind: postgresql
+      name: minimal-db
+      namespace: example
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: whoami
+      namespace: example
+      status: Synced
+      version: v1
+    - group: networking.k8s.io
+      health:
+        status: Healthy
+      kind: Ingress
+      name: example
+      namespace: example
+      status: Synced
+      version: v1
+    sourceType: Kustomize
+    summary:
+      externalURLs:
+      - https://whoami.k8s.localhost/
+      images:
+      - containous/whoami:v1.5.0
+    sync:
+      comparedTo:
+        destination:
+          name: in-cluster
+          namespace: example
+        source:
+          path: apps/example
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+      revision: 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      status: Synced
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: argocd:argoproj.io/Application:argocd/postgres
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"argocd:argoproj.io/Application:argocd/postgres","reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"name":"postgres","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"databases"},"project":"cluster","source":{"path":"apps/databases/zalando","repoURL":"https://github.com/bossjones/k3d-playground.git","targetRevision":"main"},"syncPolicy":{"automated":{"allowEmpty":true,"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"20s","factor":2,"maxDuration":"15m"},"limit":-1},"syncOptions":["Validate=false","CreateNamespace=true","PrunePropagationPolicy=foreground","PruneLast=true","ApplyOutOfSyncOnly=false","Prune=true"]}}}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-25T00:59:28Z"
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    generation: 25
+    name: postgres
+    namespace: argocd
+    resourceVersion: "10216"
+    uid: bcbac823-c9e4-4346-8273-64715c11426a
+  spec:
+    destination:
+      name: in-cluster
+      namespace: databases
+    project: cluster
+    source:
+      path: apps/databases/zalando
+      repoURL: https://github.com/bossjones/k3d-playground.git
+      targetRevision: main
+    syncPolicy:
+      automated:
+        allowEmpty: true
+        prune: true
+        selfHeal: true
+      retry:
+        backoff:
+          duration: 20s
+          factor: 2
+          maxDuration: 15m
+        limit: -1
+      syncOptions:
+      - Validate=false
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+      - ApplyOutOfSyncOnly=false
+      - Prune=true
+  status:
+    controllerNamespace: argocd
+    health:
+      status: Healthy
+    history:
+    - deployStartedAt: "2024-01-25T01:00:51Z"
+      deployedAt: "2024-01-25T01:00:53Z"
+      id: 0
+      revision: 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      source:
+        path: apps/databases/zalando
+        repoURL: https://github.com/bossjones/k3d-playground.git
+        targetRevision: main
+    operationState:
+      finishedAt: "2024-01-25T01:00:53Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          backoff:
+            duration: 20s
+            factor: 2
+            maxDuration: 15m
+          limit: -1
+        sync:
+          prune: true
+          revision: 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+          syncOptions:
+          - Validate=false
+          - CreateNamespace=true
+          - PrunePropagationPolicy=foreground
+          - PruneLast=true
+          - ApplyOutOfSyncOnly=false
+          - Prune=true
+      phase: Succeeded
+      startedAt: "2024-01-25T01:00:51Z"
+      syncResult:
+        resources:
+        - group: ""
+          hookPhase: Running
+          kind: Namespace
+          message: namespace/databases created
+          name: databases
+          namespace: ""
+          status: Synced
+          syncPhase: PreSync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/postgres-operator created
+          name: postgres-operator
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/postgres-operator-ui created
+          name: postgres-operator-ui
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/postgres-operator created
+          name: postgres-operator
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/postgres-operator-ui reconciled.
+            reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[create
+            delete get list patch update] APIGroups:[acid.zalan.do] Resources:[postgresqls]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get list watch] APIGroups:[]
+            Resources:[pods] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get
+            list] APIGroups:[] Resources:[services] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get
+            list] APIGroups:[apps] Resources:[deployments statefulsets] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[get list] APIGroups:[] Resources:[namespaces]
+            ResourceNames:[] NonResourceURLs:[]}. clusterrole.rbac.authorization.k8s.io/postgres-operator-ui
+            configured. Warning: resource clusterroles/postgres-operator-ui is missing
+            the kubectl.kubernetes.io/last-applied-configuration annotation which
+            is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: postgres-operator-ui
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/postgres-pod reconciled.
+            reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[create
+            delete deletecollection get list patch update watch] APIGroups:[] Resources:[endpoints]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get list patch update
+            watch] APIGroups:[] Resources:[pods] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create]
+            APIGroups:[] Resources:[services] ResourceNames:[] NonResourceURLs:[]}.
+            clusterrole.rbac.authorization.k8s.io/postgres-pod configured. Warning:
+            resource clusterroles/postgres-pod is missing the kubectl.kubernetes.io/last-applied-configuration
+            annotation which is required by  apply.  apply should only be used on
+            resources created declaratively by either  create --save-config or  apply.
+            The missing annotation will be patched automatically."
+          name: postgres-pod
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/postgres-operator reconciled.
+            reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[create
+            delete deletecollection get list patch update watch] APIGroups:[acid.zalan.do]
+            Resources:[postgresqls postgresqls/status operatorconfigurations] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[get list watch] APIGroups:[acid.zalan.do]
+            Resources:[postgresteams] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
+            get patch update] APIGroups:[apiextensions.k8s.io] Resources:[customresourcedefinitions]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get] APIGroups:[] Resources:[configmaps]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create get list patch
+            update watch] APIGroups:[] Resources:[events] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
+            delete deletecollection get list patch update watch] APIGroups:[] Resources:[endpoints]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create delete get update]
+            APIGroups:[] Resources:[secrets] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get
+            list watch] APIGroups:[] Resources:[nodes] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[delete
+            get list patch update] APIGroups:[] Resources:[persistentvolumeclaims]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get list update] APIGroups:[]
+            Resources:[persistentvolumes] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[delete
+            get list patch update watch] APIGroups:[] Resources:[pods] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[create] APIGroups:[] Resources:[pods/exec]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create delete get patch
+            update] APIGroups:[] Resources:[services] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
+            delete get list patch] APIGroups:[apps] Resources:[statefulsets deployments]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create delete get list
+            patch update] APIGroups:[batch] Resources:[cronjobs] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[get] APIGroups:[] Resources:[namespaces]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create delete get] APIGroups:[policy]
+            Resources:[poddisruptionbudgets] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get
+            create] APIGroups:[] Resources:[serviceaccounts] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get
+            create] APIGroups:[rbac.authorization.k8s.io] Resources:[rolebindings]
+            ResourceNames:[] NonResourceURLs:[]}. clusterrole.rbac.authorization.k8s.io/postgres-operator
+            configured. Warning: resource clusterroles/postgres-operator is missing
+            the kubectl.kubernetes.io/last-applied-configuration annotation which
+            is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: postgres-operator
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRoleBinding
+          message: "clusterrolebinding.rbac.authorization.k8s.io/postgres-operator
+            reconciled. reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
+            APIGroup: Name:postgres-operator Namespace:databases}. clusterrolebinding.rbac.authorization.k8s.io/postgres-operator
+            configured. Warning: resource clusterrolebindings/postgres-operator is
+            missing the kubectl.kubernetes.io/last-applied-configuration annotation
+            which is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: postgres-operator
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRoleBinding
+          message: "clusterrolebinding.rbac.authorization.k8s.io/postgres-operator-ui
+            reconciled. reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
+            APIGroup: Name:postgres-operator-ui Namespace:databases}. clusterrolebinding.rbac.authorization.k8s.io/postgres-operator-ui
+            configured. Warning: resource clusterrolebindings/postgres-operator-ui
+            is missing the kubectl.kubernetes.io/last-applied-configuration annotation
+            which is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: postgres-operator-ui
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/postgres-operator-ui created
+          name: postgres-operator-ui
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/postgres-operator created
+          name: postgres-operator
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/postgres-operator-ui created
+          name: postgres-operator-ui
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/postgres-operator created
+          name: postgres-operator
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: networking.k8s.io
+          hookPhase: Running
+          kind: Ingress
+          message: ingress.networking.k8s.io/postgres-operator-ui created
+          name: postgres-operator-ui
+          namespace: databases
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        revision: 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+        source:
+          path: apps/databases/zalando
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+    reconciledAt: "2024-01-25T01:11:43Z"
+    resources:
+    - kind: ConfigMap
+      name: postgres-operator
+      namespace: databases
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: postgres-operator
+      namespace: databases
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: postgres-operator-ui
+      namespace: databases
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: postgres-operator
+      namespace: databases
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: postgres-operator-ui
+      namespace: databases
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: postgres-operator
+      namespace: databases
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: postgres-operator-ui
+      namespace: databases
+      status: Synced
+      version: v1
+    - group: networking.k8s.io
+      health:
+        status: Healthy
+      kind: Ingress
+      name: postgres-operator-ui
+      namespace: databases
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: postgres-operator
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: postgres-operator-ui
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: postgres-pod
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: postgres-operator
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: postgres-operator-ui
+      status: Synced
+      version: v1
+    sourceType: Kustomize
+    summary:
+      externalURLs:
+      - https://dbs.k8s.localhost/
+      images:
+      - registry.opensource.zalan.do/acid/postgres-operator-ui:v1.10.1
+      - registry.opensource.zalan.do/acid/postgres-operator:v1.10.1
+    sync:
+      comparedTo:
+        destination:
+          name: in-cluster
+          namespace: databases
+        source:
+          path: apps/databases/zalando
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+      revision: 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      status: Synced
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: argocd:argoproj.io/Application:argocd/vector
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"argocd:argoproj.io/Application:argocd/vector","reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"name":"vector","namespace":"argocd"},"spec":{"destination":{"namespace":"monitoring","server":"https://kubernetes.default.svc"},"project":"cluster","sources":[{"chart":"vector","helm":{"valueFiles":["$values/apps/argocd/base/monitoring/vector/app/values.yaml"]},"repoURL":"https://helm.vector.dev","targetRevision":"0.30.0"},{"path":"apps/argocd/base/monitoring/vector","ref":"values","repoURL":"https://github.com/bossjones/k3d-playground.git","targetRevision":"main"}],"syncPolicy":{"automated":{"prune":true},"syncOptions":["CreateNamespace=true"]}}}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-25T00:59:28Z"
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    generation: 20
+    name: vector
+    namespace: argocd
+    resourceVersion: "10217"
+    uid: 5e936f67-ba88-4a67-bd38-e31c36522df7
+  spec:
+    destination:
+      namespace: monitoring
+      server: https://kubernetes.default.svc
+    project: cluster
+    sources:
+    - chart: vector
+      helm:
+        valueFiles:
+        - $values/apps/argocd/base/monitoring/vector/app/values.yaml
+      repoURL: https://helm.vector.dev
+      targetRevision: 0.30.0
+    - path: apps/argocd/base/monitoring/vector
+      ref: values
+      repoURL: https://github.com/bossjones/k3d-playground.git
+      targetRevision: main
+    syncPolicy:
+      automated:
+        prune: true
+      syncOptions:
+      - CreateNamespace=true
+  status:
+    conditions:
+    - lastTransitionTime: "2024-01-25T01:02:50Z"
+      message: Application/vector is part of applications argocd/vector and argocd
+      type: SharedResourceWarning
+    controllerNamespace: argocd
+    health:
+      status: Healthy
+    history:
+    - deployStartedAt: "2024-01-25T01:02:45Z"
+      deployedAt: "2024-01-25T01:02:50Z"
+      id: 0
+      revisions:
+      - 0.30.0
+      - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      source:
+        repoURL: ""
+      sources:
+      - chart: vector
+        helm:
+          valueFiles:
+          - $values/apps/argocd/base/monitoring/vector/app/values.yaml
+        repoURL: https://helm.vector.dev
+        targetRevision: 0.30.0
+      - path: apps/argocd/base/monitoring/vector
+        ref: values
+        repoURL: https://github.com/bossjones/k3d-playground.git
+        targetRevision: main
+    operationState:
+      finishedAt: "2024-01-25T01:02:50Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          limit: 5
+        sync:
+          prune: true
+          revisions:
+          - 0.30.0
+          - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+          syncOptions:
+          - CreateNamespace=true
+      phase: Succeeded
+      startedAt: "2024-01-25T01:02:45Z"
+      syncResult:
+        resources:
+        - group: ""
+          hookPhase: Running
+          kind: Namespace
+          message: namespace/monitoring created
+          name: monitoring
+          namespace: ""
+          status: Synced
+          syncPhase: PreSync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/vector created
+          name: vector
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/vector created
+          name: vector
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/vector reconciled. reconciliation
+            required create\n\tmissing rules added:\n\t\t{Verbs:[list watch] APIGroups:[]
+            Resources:[namespaces nodes pods] ResourceNames:[] NonResourceURLs:[]}.
+            clusterrole.rbac.authorization.k8s.io/vector configured. Warning: resource
+            clusterroles/vector is missing the kubectl.kubernetes.io/last-applied-configuration
+            annotation which is required by  apply.  apply should only be used on
+            resources created declaratively by either  create --save-config or  apply.
+            The missing annotation will be patched automatically."
+          name: vector
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRoleBinding
+          message: "clusterrolebinding.rbac.authorization.k8s.io/vector reconciled.
+            reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
+            APIGroup: Name:vector Namespace:monitoring}. clusterrolebinding.rbac.authorization.k8s.io/vector
+            configured. Warning: resource clusterrolebindings/vector is missing the
+            kubectl.kubernetes.io/last-applied-configuration annotation which is required
+            by  apply.  apply should only be used on resources created declaratively
+            by either  create --save-config or  apply. The missing annotation will
+            be patched automatically."
+          name: vector
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/vector created
+          name: vector
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/vector-headless created
+          name: vector-headless
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: DaemonSet
+          message: daemonset.apps/vector created
+          name: vector
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: argoproj.io
+          hookPhase: Running
+          kind: Application
+          message: application.argoproj.io/vector configured
+          name: vector
+          namespace: argocd
+          status: Synced
+          syncPhase: Sync
+          version: v1alpha1
+        revision: ""
+        revisions:
+        - 0.30.0
+        - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+        source:
+          repoURL: ""
+        sources:
+        - chart: vector
+          helm:
+            valueFiles:
+            - $values/apps/argocd/base/monitoring/vector/app/values.yaml
+          repoURL: https://helm.vector.dev
+          targetRevision: 0.30.0
+        - path: apps/argocd/base/monitoring/vector
+          ref: values
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+    reconciledAt: "2024-01-25T01:11:43Z"
+    resources:
+    - kind: ConfigMap
+      name: vector
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: vector
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: vector-headless
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: vector
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: DaemonSet
+      name: vector
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: argoproj.io
+      kind: Application
+      name: vector
+      namespace: argocd
+      status: OutOfSync
+      version: v1alpha1
+    - group: monitoring.coreos.com
+      health:
+        status: Missing
+      kind: PodMonitor
+      name: vector
+      namespace: monitoring
+      status: OutOfSync
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: vector
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: vector
+      status: Synced
+      version: v1
+    sourceTypes:
+    - Helm
+    - Kustomize
+    summary:
+      images:
+      - timberio/vector:0.35.0-distroless-libc
+    sync:
+      comparedTo:
+        destination:
+          namespace: monitoring
+          server: https://kubernetes.default.svc
+        source:
+          repoURL: ""
+        sources:
+        - chart: vector
+          helm:
+            valueFiles:
+            - $values/apps/argocd/base/monitoring/vector/app/values.yaml
+          repoURL: https://helm.vector.dev
+          targetRevision: 0.30.0
+        - path: apps/argocd/base/monitoring/vector
+          ref: values
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+      revisions:
+      - 0.30.0
+      - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      status: OutOfSync
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: argocd:argoproj.io/Application:argocd/argo-rollouts
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"argocd:argoproj.io/Application:argocd/argo-rollouts","reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"name":"argo-rollouts","namespace":"argocd"},"spec":{"destination":{"namespace":"argo-rollouts","server":"https://kubernetes.default.svc"},"project":"cluster","source":{"path":"manifests/cluster-install","repoURL":"https://github.com/argoproj/argo-rollouts","targetRevision":"v1.6.4"},"syncPolicy":{"automated":{"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"30s","factor":2,"maxDuration":"30m"},"limit":-1},"syncOptions":["CreateNamespace=true"]}}}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-25T00:59:28Z"
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    generation: 16
+    name: argo-rollouts
+    namespace: argocd
+    resourceVersion: "10219"
+    uid: c5cf6e0a-7f10-4698-b6e0-105ebc51921c
+  spec:
+    destination:
+      namespace: argo-rollouts
+      server: https://kubernetes.default.svc
+    project: cluster
+    source:
+      path: manifests/cluster-install
+      repoURL: https://github.com/argoproj/argo-rollouts
+      targetRevision: v1.6.4
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      retry:
+        backoff:
+          duration: 30s
+          factor: 2
+          maxDuration: 30m
+        limit: -1
+      syncOptions:
+      - CreateNamespace=true
+  status:
+    controllerNamespace: argocd
+    health:
+      status: Healthy
+    history:
+    - deployStartedAt: "2024-01-25T01:02:51Z"
+      deployedAt: "2024-01-25T01:02:54Z"
+      id: 0
+      revision: a312af9f632b985ec13f64918b918c5dcd02a15e
+      source:
+        path: manifests/cluster-install
+        repoURL: https://github.com/argoproj/argo-rollouts
+        targetRevision: v1.6.4
+    operationState:
+      finishedAt: "2024-01-25T01:02:54Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          backoff:
+            duration: 30s
+            factor: 2
+            maxDuration: 30m
+          limit: -1
+        sync:
+          prune: true
+          revision: a312af9f632b985ec13f64918b918c5dcd02a15e
+          syncOptions:
+          - CreateNamespace=true
+      phase: Succeeded
+      startedAt: "2024-01-25T01:02:51Z"
+      syncResult:
+        resources:
+        - group: ""
+          hookPhase: Running
+          kind: Namespace
+          message: namespace/argo-rollouts created
+          name: argo-rollouts
+          namespace: ""
+          status: Synced
+          syncPhase: PreSync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/argo-rollouts created
+          name: argo-rollouts
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Secret
+          message: secret/argo-rollouts-notification-secret created
+          name: argo-rollouts-notification-secret
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/argo-rollouts-config created
+          name: argo-rollouts-config
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiextensions.k8s.io
+          hookPhase: Running
+          kind: CustomResourceDefinition
+          message: customresourcedefinition.apiextensions.k8s.io/clusteranalysistemplates.argoproj.io
+            created
+          name: clusteranalysistemplates.argoproj.io
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiextensions.k8s.io
+          hookPhase: Running
+          kind: CustomResourceDefinition
+          message: customresourcedefinition.apiextensions.k8s.io/analysisruns.argoproj.io
+            created
+          name: analysisruns.argoproj.io
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiextensions.k8s.io
+          hookPhase: Running
+          kind: CustomResourceDefinition
+          message: customresourcedefinition.apiextensions.k8s.io/experiments.argoproj.io
+            created
+          name: experiments.argoproj.io
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiextensions.k8s.io
+          hookPhase: Running
+          kind: CustomResourceDefinition
+          message: customresourcedefinition.apiextensions.k8s.io/analysistemplates.argoproj.io
+            created
+          name: analysistemplates.argoproj.io
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiextensions.k8s.io
+          hookPhase: Running
+          kind: CustomResourceDefinition
+          message: customresourcedefinition.apiextensions.k8s.io/rollouts.argoproj.io
+            created
+          name: rollouts.argoproj.io
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/argo-rollouts-aggregate-to-edit
+            reconciled. reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[create
+            delete deletecollection get list patch update watch] APIGroups:[argoproj.io]
+            Resources:[rollouts rollouts/scale rollouts/status experiments analysistemplates
+            clusteranalysistemplates analysisruns] ResourceNames:[] NonResourceURLs:[]}.
+            clusterrole.rbac.authorization.k8s.io/argo-rollouts-aggregate-to-edit
+            configured. Warning: resource clusterroles/argo-rollouts-aggregate-to-edit
+            is missing the kubectl.kubernetes.io/last-applied-configuration annotation
+            which is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: argo-rollouts-aggregate-to-edit
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/argo-rollouts reconciled.
+            reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[get
+            list watch update patch] APIGroups:[argoproj.io] Resources:[rollouts rollouts/status
+            rollouts/finalizers] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
+            get list watch update patch delete] APIGroups:[argoproj.io] Resources:[analysisruns
+            analysisruns/finalizers experiments experiments/finalizers] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[get list watch] APIGroups:[argoproj.io]
+            Resources:[analysistemplates clusteranalysistemplates] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[create get list watch update patch delete]
+            APIGroups:[apps] Resources:[replicasets] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get
+            list watch] APIGroups:[ apps] Resources:[deployments podtemplates] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[get list watch patch create delete] APIGroups:[]
+            Resources:[services] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
+            get update] APIGroups:[coordination.k8s.io] Resources:[leases] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[get list watch] APIGroups:[] Resources:[secrets
+            configmaps] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[list update
+            watch] APIGroups:[] Resources:[pods] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create]
+            APIGroups:[] Resources:[pods/eviction] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
+            update patch] APIGroups:[] Resources:[events] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
+            get list watch update patch] APIGroups:[networking.k8s.io extensions]
+            Resources:[ingresses] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
+            get list watch update patch delete] APIGroups:[batch] Resources:[jobs]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[watch get update patch
+            list] APIGroups:[networking.istio.io] Resources:[virtualservices destinationrules]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create watch get update
+            patch] APIGroups:[split.smi-spec.io] Resources:[trafficsplits] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[create watch get update list delete]
+            APIGroups:[getambassador.io x.getambassador.io] Resources:[mappings ambassadormappings]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get] APIGroups:[] Resources:[endpoints]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[list get] APIGroups:[elbv2.k8s.aws]
+            Resources:[targetgroupbindings] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[watch
+            get list] APIGroups:[appmesh.k8s.aws] Resources:[virtualservices] ResourceNames:[]
+            NonResourceURLs:[]}\n\t\t{Verbs:[watch get list update patch] APIGroups:[appmesh.k8s.aws]
+            Resources:[virtualnodes virtualrouters] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[watch
+            get update] APIGroups:[traefik.containo.us] Resources:[traefikservices]
+            ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[watch get update] APIGroups:[apisix.apache.org]
+            Resources:[apisixroutes] ResourceNames:[] NonResourceURLs:[]}. clusterrole.rbac.authorization.k8s.io/argo-rollouts
+            configured. Warning: resource clusterroles/argo-rollouts is missing the
+            kubectl.kubernetes.io/last-applied-configuration annotation which is required
+            by  apply.  apply should only be used on resources created declaratively
+            by either  create --save-config or  apply. The missing annotation will
+            be patched automatically."
+          name: argo-rollouts
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/argo-rollouts-aggregate-to-view
+            reconciled. reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[get
+            list watch] APIGroups:[argoproj.io] Resources:[rollouts rollouts/scale
+            experiments analysistemplates clusteranalysistemplates analysisruns] ResourceNames:[]
+            NonResourceURLs:[]}. clusterrole.rbac.authorization.k8s.io/argo-rollouts-aggregate-to-view
+            configured. Warning: resource clusterroles/argo-rollouts-aggregate-to-view
+            is missing the kubectl.kubernetes.io/last-applied-configuration annotation
+            which is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: argo-rollouts-aggregate-to-view
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/argo-rollouts-aggregate-to-admin
+            reconciled. reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[create
+            delete deletecollection get list patch update watch] APIGroups:[argoproj.io]
+            Resources:[rollouts rollouts/scale rollouts/status experiments analysistemplates
+            clusteranalysistemplates analysisruns] ResourceNames:[] NonResourceURLs:[]}.
+            clusterrole.rbac.authorization.k8s.io/argo-rollouts-aggregate-to-admin
+            configured. Warning: resource clusterroles/argo-rollouts-aggregate-to-admin
+            is missing the kubectl.kubernetes.io/last-applied-configuration annotation
+            which is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: argo-rollouts-aggregate-to-admin
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRoleBinding
+          message: "clusterrolebinding.rbac.authorization.k8s.io/argo-rollouts reconciled.
+            reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
+            APIGroup: Name:argo-rollouts Namespace:argo-rollouts}. clusterrolebinding.rbac.authorization.k8s.io/argo-rollouts
+            configured. Warning: resource clusterrolebindings/argo-rollouts is missing
+            the kubectl.kubernetes.io/last-applied-configuration annotation which
+            is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: argo-rollouts
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/argo-rollouts-metrics created
+          name: argo-rollouts-metrics
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/argo-rollouts created
+          name: argo-rollouts
+          namespace: argo-rollouts
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        revision: a312af9f632b985ec13f64918b918c5dcd02a15e
+        source:
+          path: manifests/cluster-install
+          repoURL: https://github.com/argoproj/argo-rollouts
+          targetRevision: v1.6.4
+    reconciledAt: "2024-01-25T01:11:43Z"
+    resources:
+    - kind: ConfigMap
+      name: argo-rollouts-config
+      namespace: argo-rollouts
+      status: Synced
+      version: v1
+    - kind: Secret
+      name: argo-rollouts-notification-secret
+      namespace: argo-rollouts
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: argo-rollouts-metrics
+      namespace: argo-rollouts
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: argo-rollouts
+      namespace: argo-rollouts
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: analysisruns.argoproj.io
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: analysistemplates.argoproj.io
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: clusteranalysistemplates.argoproj.io
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: experiments.argoproj.io
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: rollouts.argoproj.io
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: argo-rollouts
+      namespace: argo-rollouts
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: argo-rollouts
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: argo-rollouts-aggregate-to-admin
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: argo-rollouts-aggregate-to-edit
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: argo-rollouts-aggregate-to-view
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: argo-rollouts
+      status: Synced
+      version: v1
+    sourceType: Kustomize
+    summary:
+      images:
+      - quay.io/argoproj/argo-rollouts:latest
+    sync:
+      comparedTo:
+        destination:
+          namespace: argo-rollouts
+          server: https://kubernetes.default.svc
+        source:
+          path: manifests/cluster-install
+          repoURL: https://github.com/argoproj/argo-rollouts
+          targetRevision: v1.6.4
+      revision: a312af9f632b985ec13f64918b918c5dcd02a15e
+      status: Synced
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: argocd:argoproj.io/Application:argocd/k8s-event-logger
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"argocd:argoproj.io/Application:argocd/k8s-event-logger","reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"name":"k8s-event-logger","namespace":"argocd"},"spec":{"destination":{"namespace":"monitoring","server":"https://kubernetes.default.svc"},"project":"cluster","sources":[{"chart":"k8s-event-logger","helm":{"valueFiles":["$values/apps/argocd/base/monitoring/k8s-event-logger/app/values.yaml"]},"repoURL":"https://charts.deliveryhero.io/","targetRevision":"1.1.4"},{"path":"apps/argocd/base/monitoring/k8s-event-logger","ref":"values","repoURL":"https://github.com/bossjones/k3d-playground.git","targetRevision":"main"}],"syncPolicy":{"automated":{"prune":true},"syncOptions":["CreateNamespace=true"]}}}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-25T00:59:28Z"
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    generation: 18
+    name: k8s-event-logger
+    namespace: argocd
+    resourceVersion: "10220"
+    uid: 857267f2-01cb-4c30-9f37-820f45072e41
+  spec:
+    destination:
+      namespace: monitoring
+      server: https://kubernetes.default.svc
+    project: cluster
+    sources:
+    - chart: k8s-event-logger
+      helm:
+        valueFiles:
+        - $values/apps/argocd/base/monitoring/k8s-event-logger/app/values.yaml
+      repoURL: https://charts.deliveryhero.io/
+      targetRevision: 1.1.4
+    - path: apps/argocd/base/monitoring/k8s-event-logger
+      ref: values
+      repoURL: https://github.com/bossjones/k3d-playground.git
+      targetRevision: main
+    syncPolicy:
+      automated:
+        prune: true
+      syncOptions:
+      - CreateNamespace=true
+  status:
+    conditions:
+    - lastTransitionTime: "2024-01-25T01:03:05Z"
+      message: Application/k8s-event-logger is part of applications argocd/k8s-event-logger
+        and argocd
+      type: SharedResourceWarning
+    controllerNamespace: argocd
+    health:
+      status: Healthy
+    history:
+    - deployStartedAt: "2024-01-25T01:02:45Z"
+      deployedAt: "2024-01-25T01:02:50Z"
+      id: 0
+      revisions:
+      - 1.1.4
+      - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      source:
+        repoURL: ""
+      sources:
+      - chart: k8s-event-logger
+        helm:
+          valueFiles:
+          - $values/apps/argocd/base/monitoring/k8s-event-logger/app/values.yaml
+        repoURL: https://charts.deliveryhero.io/
+        targetRevision: 1.1.4
+      - path: apps/argocd/base/monitoring/k8s-event-logger
+        ref: values
+        repoURL: https://github.com/bossjones/k3d-playground.git
+        targetRevision: main
+    operationState:
+      finishedAt: "2024-01-25T01:02:50Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          limit: 5
+        sync:
+          prune: true
+          revisions:
+          - 1.1.4
+          - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+          syncOptions:
+          - CreateNamespace=true
+      phase: Succeeded
+      startedAt: "2024-01-25T01:02:45Z"
+      syncResult:
+        resources:
+        - group: ""
+          hookPhase: Running
+          kind: Namespace
+          message: namespace/monitoring configured
+          name: monitoring
+          namespace: ""
+          status: Synced
+          syncPhase: PreSync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/k8s-event-logger created
+          name: k8s-event-logger
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/k8s-event-logger reconciled.
+            reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[get
+            list watch] APIGroups:[] Resources:[events] ResourceNames:[] NonResourceURLs:[]}.
+            clusterrole.rbac.authorization.k8s.io/k8s-event-logger configured. Warning:
+            resource clusterroles/k8s-event-logger is missing the kubectl.kubernetes.io/last-applied-configuration
+            annotation which is required by  apply.  apply should only be used on
+            resources created declaratively by either  create --save-config or  apply.
+            The missing annotation will be patched automatically."
+          name: k8s-event-logger
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRoleBinding
+          message: "clusterrolebinding.rbac.authorization.k8s.io/k8s-event-logger
+            reconciled. reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
+            APIGroup: Name:k8s-event-logger Namespace:monitoring}. clusterrolebinding.rbac.authorization.k8s.io/k8s-event-logger
+            configured. Warning: resource clusterrolebindings/k8s-event-logger is
+            missing the kubectl.kubernetes.io/last-applied-configuration annotation
+            which is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: k8s-event-logger
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/k8s-event-logger created
+          name: k8s-event-logger
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: argoproj.io
+          hookPhase: Running
+          kind: Application
+          message: application.argoproj.io/k8s-event-logger configured
+          name: k8s-event-logger
+          namespace: argocd
+          status: Synced
+          syncPhase: Sync
+          version: v1alpha1
+        revision: ""
+        revisions:
+        - 1.1.4
+        - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+        source:
+          repoURL: ""
+        sources:
+        - chart: k8s-event-logger
+          helm:
+            valueFiles:
+            - $values/apps/argocd/base/monitoring/k8s-event-logger/app/values.yaml
+          repoURL: https://charts.deliveryhero.io/
+          targetRevision: 1.1.4
+        - path: apps/argocd/base/monitoring/k8s-event-logger
+          ref: values
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+    reconciledAt: "2024-01-25T01:11:43Z"
+    resources:
+    - kind: ServiceAccount
+      name: k8s-event-logger
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: k8s-event-logger
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: argoproj.io
+      kind: Application
+      name: k8s-event-logger
+      namespace: argocd
+      status: OutOfSync
+      version: v1alpha1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: k8s-event-logger
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: k8s-event-logger
+      status: Synced
+      version: v1
+    sourceTypes:
+    - Helm
+    - Kustomize
+    summary:
+      images:
+      - maxrocketinternet/k8s-event-logger:2.0
+    sync:
+      comparedTo:
+        destination:
+          namespace: monitoring
+          server: https://kubernetes.default.svc
+        source:
+          repoURL: ""
+        sources:
+        - chart: k8s-event-logger
+          helm:
+            valueFiles:
+            - $values/apps/argocd/base/monitoring/k8s-event-logger/app/values.yaml
+          repoURL: https://charts.deliveryhero.io/
+          targetRevision: 1.1.4
+        - path: apps/argocd/base/monitoring/k8s-event-logger
+          ref: values
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+      revisions:
+      - 1.1.4
+      - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      status: OutOfSync
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: argocd:argoproj.io/Application:argocd/loki-distributed
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"argocd:argoproj.io/Application:argocd/loki-distributed","reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"name":"loki-distributed","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"monitoring"},"project":"cluster","sources":[{"chart":"loki-distributed","helm":{"valueFiles":["$values/apps/argocd/base/monitoring/loki-distributed/app/values.yaml"]},"repoURL":"https://grafana.github.io/helm-charts","targetRevision":"0.71.1"},{"path":"apps/argocd/base/monitoring/loki-distributed","ref":"values","repoURL":"https://github.com/bossjones/k3d-playground.git","targetRevision":"main"}],"syncPolicy":{"automated":{"prune":true},"syncOptions":["CreateNamespace=true"]}}}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-25T00:59:28Z"
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    generation: 23
+    name: loki-distributed
+    namespace: argocd
+    resourceVersion: "10221"
+    uid: 0b2fd3dd-601f-478d-bf87-13b2d3404ddf
+  spec:
+    destination:
+      name: in-cluster
+      namespace: monitoring
+    project: cluster
+    sources:
+    - chart: loki-distributed
+      helm:
+        valueFiles:
+        - $values/apps/argocd/base/monitoring/loki-distributed/app/values.yaml
+      repoURL: https://grafana.github.io/helm-charts
+      targetRevision: 0.71.1
+    - path: apps/argocd/base/monitoring/loki-distributed
+      ref: values
+      repoURL: https://github.com/bossjones/k3d-playground.git
+      targetRevision: main
+    syncPolicy:
+      automated:
+        prune: true
+      syncOptions:
+      - CreateNamespace=true
+  status:
+    conditions:
+    - lastTransitionTime: "2024-01-25T01:02:50Z"
+      message: Application/loki-distributed is part of applications argocd/loki-distributed
+        and argocd
+      type: SharedResourceWarning
+    controllerNamespace: argocd
+    health:
+      status: Healthy
+    history:
+    - deployStartedAt: "2024-01-25T01:02:46Z"
+      deployedAt: "2024-01-25T01:02:49Z"
+      id: 0
+      revisions:
+      - 0.71.1
+      - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      source:
+        repoURL: ""
+      sources:
+      - chart: loki-distributed
+        helm:
+          valueFiles:
+          - $values/apps/argocd/base/monitoring/loki-distributed/app/values.yaml
+        repoURL: https://grafana.github.io/helm-charts
+        targetRevision: 0.71.1
+      - path: apps/argocd/base/monitoring/loki-distributed
+        ref: values
+        repoURL: https://github.com/bossjones/k3d-playground.git
+        targetRevision: main
+    operationState:
+      finishedAt: "2024-01-25T01:02:49Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          limit: 5
+        sync:
+          prune: true
+          revisions:
+          - 0.71.1
+          - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+          syncOptions:
+          - CreateNamespace=true
+      phase: Succeeded
+      startedAt: "2024-01-25T01:02:46Z"
+      syncResult:
+        resources:
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/loki-distributed created
+          name: loki-distributed
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Secret
+          message: secret/my-minio-cred created
+          name: my-minio-cred
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/loki-distributed-gateway created
+          name: loki-distributed-gateway
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/loki-distributed created
+          name: loki-distributed
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/loki-distributed-runtime created
+          name: loki-distributed-runtime
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/loki-distributed-ingester-headless created
+          name: loki-distributed-ingester-headless
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/loki-distributed-querier-headless created
+          name: loki-distributed-querier-headless
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/loki-distributed-memberlist created
+          name: loki-distributed-memberlist
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/loki-distributed-query-frontend-headless created
+          name: loki-distributed-query-frontend-headless
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/loki-distributed-querier created
+          name: loki-distributed-querier
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/loki-distributed-gateway created
+          name: loki-distributed-gateway
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/minio created
+          name: minio
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/loki-distributed-ingester created
+          name: loki-distributed-ingester
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/loki-distributed-distributor created
+          name: loki-distributed-distributor
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/loki-distributed-query-frontend created
+          name: loki-distributed-query-frontend
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/loki-distributed-gateway created
+          name: loki-distributed-gateway
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/loki-distributed-query-frontend created
+          name: loki-distributed-query-frontend
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/minio created
+          name: minio
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/loki-distributed-distributor created
+          name: loki-distributed-distributor
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: StatefulSet
+          message: statefulset.apps/loki-distributed-querier created
+          name: loki-distributed-querier
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: StatefulSet
+          message: statefulset.apps/loki-distributed-ingester created
+          name: loki-distributed-ingester
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: argoproj.io
+          hookPhase: Running
+          kind: Application
+          message: application.argoproj.io/loki-distributed configured
+          name: loki-distributed
+          namespace: argocd
+          status: Synced
+          syncPhase: Sync
+          version: v1alpha1
+        revision: ""
+        revisions:
+        - 0.71.1
+        - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+        source:
+          repoURL: ""
+        sources:
+        - chart: loki-distributed
+          helm:
+            valueFiles:
+            - $values/apps/argocd/base/monitoring/loki-distributed/app/values.yaml
+          repoURL: https://grafana.github.io/helm-charts
+          targetRevision: 0.71.1
+        - path: apps/argocd/base/monitoring/loki-distributed
+          ref: values
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+    reconciledAt: "2024-01-25T01:11:43Z"
+    resources:
+    - kind: ConfigMap
+      name: loki-distributed
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: loki-distributed-gateway
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: loki-distributed-runtime
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: Secret
+      name: my-minio-cred
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: loki-distributed-distributor
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: loki-distributed-gateway
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: loki-distributed-ingester
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: loki-distributed-ingester-headless
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: loki-distributed-memberlist
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: loki-distributed-querier
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: loki-distributed-querier-headless
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: loki-distributed-query-frontend
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: loki-distributed-query-frontend-headless
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: minio
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: loki-distributed
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: loki-distributed-distributor
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: loki-distributed-gateway
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: loki-distributed-query-frontend
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: minio
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        message: 'partitioned roll out complete: 1 new pods have been updated...'
+        status: Healthy
+      kind: StatefulSet
+      name: loki-distributed-ingester
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        message: 'partitioned roll out complete: 1 new pods have been updated...'
+        status: Healthy
+      kind: StatefulSet
+      name: loki-distributed-querier
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: argoproj.io
+      kind: Application
+      name: loki-distributed
+      namespace: argocd
+      status: OutOfSync
+      version: v1alpha1
+    sourceTypes:
+    - Helm
+    - Kustomize
+    summary:
+      images:
+      - docker.io/grafana/loki:2.8.3
+      - docker.io/nginxinc/nginx-unprivileged:1.20.2-alpine
+      - minio/minio:RELEASE.2022-11-17T23-20-09Z
+    sync:
+      comparedTo:
+        destination:
+          name: in-cluster
+          namespace: monitoring
+        source:
+          repoURL: ""
+        sources:
+        - chart: loki-distributed
+          helm:
+            valueFiles:
+            - $values/apps/argocd/base/monitoring/loki-distributed/app/values.yaml
+          repoURL: https://grafana.github.io/helm-charts
+          targetRevision: 0.71.1
+        - path: apps/argocd/base/monitoring/loki-distributed
+          ref: values
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+      revisions:
+      - 0.71.1
+      - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      status: OutOfSync
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: argocd:argoproj.io/Application:argocd/template-app
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"argocd:argoproj.io/Application:argocd/template-app","reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"name":"template-app","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"development"},"project":"apps","source":{"path":"apps/template","repoURL":"https://github.com/bossjones/k3d-playground.git","targetRevision":"main"},"syncPolicy":{"automated":{"allowEmpty":true,"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"35s","factor":2,"maxDuration":"15m"},"limit":5},"syncOptions":["Validate=true","CreateNamespace=true","PrunePropagationPolicy=foreground","PruneLast=true","ApplyOutOfSyncOnly=false","Prune=true"]}}}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-25T00:59:28Z"
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    generation: 25
+    name: template-app
+    namespace: argocd
+    resourceVersion: "10265"
+    uid: 25958935-de95-456d-bead-41ee7d2fefc4
+  spec:
+    destination:
+      name: in-cluster
+      namespace: development
+    project: apps
+    source:
+      path: apps/template
+      repoURL: https://github.com/bossjones/k3d-playground.git
+      targetRevision: main
+    syncPolicy:
+      automated:
+        allowEmpty: true
+        prune: true
+        selfHeal: true
+      retry:
+        backoff:
+          duration: 35s
+          factor: 2
+          maxDuration: 15m
+        limit: 5
+      syncOptions:
+      - Validate=true
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+      - ApplyOutOfSyncOnly=false
+      - Prune=true
+  status:
+    controllerNamespace: argocd
+    health:
+      status: Healthy
+    history:
+    - deployStartedAt: "2024-01-25T01:02:44Z"
+      deployedAt: "2024-01-25T01:02:46Z"
+      id: 0
+      revision: 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      source:
+        path: apps/template
+        repoURL: https://github.com/bossjones/k3d-playground.git
+        targetRevision: main
+    operationState:
+      finishedAt: "2024-01-25T01:02:46Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          backoff:
+            duration: 35s
+            factor: 2
+            maxDuration: 15m
+          limit: 5
+        sync:
+          prune: true
+          revision: 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+          syncOptions:
+          - Validate=true
+          - CreateNamespace=true
+          - PrunePropagationPolicy=foreground
+          - PruneLast=true
+          - ApplyOutOfSyncOnly=false
+          - Prune=true
+      phase: Succeeded
+      startedAt: "2024-01-25T01:02:44Z"
+      syncResult:
+        resources:
+        - group: ""
+          hookPhase: Running
+          kind: Namespace
+          message: namespace/development created
+          name: development
+          namespace: ""
+          status: Synced
+          syncPhase: PreSync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/podinfo created
+          name: podinfo
+          namespace: development
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/podinfo created
+          name: podinfo
+          namespace: development
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: autoscaling
+          hookPhase: Running
+          kind: HorizontalPodAutoscaler
+          message: horizontalpodautoscaler.autoscaling/podinfo created
+          name: podinfo
+          namespace: development
+          status: Synced
+          syncPhase: Sync
+          version: v2
+        - group: networking.k8s.io
+          hookPhase: Running
+          kind: Ingress
+          message: ingress.networking.k8s.io/template-app-ingress created
+          name: template-app-ingress
+          namespace: development
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        revision: 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+        source:
+          path: apps/template
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+    reconciledAt: "2024-01-25T01:11:48Z"
+    resources:
+    - health:
+        status: Healthy
+      kind: Service
+      name: podinfo
+      namespace: development
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: podinfo
+      namespace: development
+      status: Synced
+      version: v1
+    - group: autoscaling
+      health:
+        message: recommended size matches current size
+        status: Healthy
+      kind: HorizontalPodAutoscaler
+      name: podinfo
+      namespace: development
+      status: Synced
+      version: v2
+    - group: networking.k8s.io
+      health:
+        status: Healthy
+      kind: Ingress
+      name: template-app-ingress
+      namespace: development
+      status: Synced
+      version: v1
+    sourceType: Kustomize
+    summary:
+      externalURLs:
+      - https://app.k8s.localhost/
+      images:
+      - ghcr.io/stefanprodan/podinfo:6.5.4
+    sync:
+      comparedTo:
+        destination:
+          name: in-cluster
+          namespace: development
+        source:
+          path: apps/template
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+      revision: 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      status: Synced
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: argocd:argoproj.io/Application:argocd/metrics-server
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"argocd:argoproj.io/Application:argocd/metrics-server","reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"name":"metrics-server","namespace":"argocd"},"spec":{"destination":{"namespace":"kube-system","server":"https://kubernetes.default.svc"},"project":"cluster","sources":[{"chart":"metrics-server","helm":{"valueFiles":["$values/apps/argocd/base/monitoring/metrics-server/app/values.yaml"]},"repoURL":"https://kubernetes-sigs.github.io/metrics-server/","targetRevision":"3.11.0"},{"path":"apps/argocd/base/monitoring/metrics-server","ref":"values","repoURL":"https://github.com/bossjones/k3d-playground.git","targetRevision":"main"}],"syncPolicy":{"automated":{"prune":true},"syncOptions":["CreateNamespace=true"]}}}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-25T00:59:28Z"
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    generation: 33
+    name: metrics-server
+    namespace: argocd
+    resourceVersion: "10582"
+    uid: e4f9b11d-1568-44d4-a712-f03ecd1b8024
+  spec:
+    destination:
+      namespace: kube-system
+      server: https://kubernetes.default.svc
+    project: cluster
+    sources:
+    - chart: metrics-server
+      helm:
+        valueFiles:
+        - $values/apps/argocd/base/monitoring/metrics-server/app/values.yaml
+      repoURL: https://kubernetes-sigs.github.io/metrics-server/
+      targetRevision: 3.11.0
+    - path: apps/argocd/base/monitoring/metrics-server
+      ref: values
+      repoURL: https://github.com/bossjones/k3d-playground.git
+      targetRevision: main
+    syncPolicy:
+      automated:
+        prune: true
+      syncOptions:
+      - CreateNamespace=true
+  status:
+    conditions:
+    - lastTransitionTime: "2024-01-25T01:03:38Z"
+      message: Application/metrics-server is part of applications argocd/metrics-server
+        and argocd
+      type: SharedResourceWarning
+    controllerNamespace: argocd
+    health:
+      status: Healthy
+    history:
+    - deployStartedAt: "2024-01-25T01:00:44Z"
+      deployedAt: "2024-01-25T01:03:18Z"
+      id: 0
+      revisions:
+      - 3.11.0
+      - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      source:
+        repoURL: ""
+      sources:
+      - chart: metrics-server
+        helm:
+          valueFiles:
+          - $values/apps/argocd/base/monitoring/metrics-server/app/values.yaml
+        repoURL: https://kubernetes-sigs.github.io/metrics-server/
+        targetRevision: 3.11.0
+      - path: apps/argocd/base/monitoring/metrics-server
+        ref: values
+        repoURL: https://github.com/bossjones/k3d-playground.git
+        targetRevision: main
+    operationState:
+      finishedAt: "2024-01-25T01:03:18Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          limit: 5
+        sync:
+          prune: true
+          revisions:
+          - 3.11.0
+          - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+          syncOptions:
+          - CreateNamespace=true
+      phase: Succeeded
+      retryCount: 4
+      startedAt: "2024-01-25T01:00:44Z"
+      syncResult:
+        resources:
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/metrics-server created
+          name: metrics-server
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/system:metrics-server-aggregated-reader
+            reconciled. reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[get
+            list watch] APIGroups:[metrics.k8s.io] Resources:[pods nodes] ResourceNames:[]
+            NonResourceURLs:[]}. clusterrole.rbac.authorization.k8s.io/system:metrics-server-aggregated-reader
+            configured. Warning: resource clusterroles/system:metrics-server-aggregated-reader
+            is missing the kubectl.kubernetes.io/last-applied-configuration annotation
+            which is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: system:metrics-server-aggregated-reader
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: "clusterrole.rbac.authorization.k8s.io/system:metrics-server reconciled.
+            reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[get]
+            APIGroups:[] Resources:[nodes/metrics] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get
+            list watch] APIGroups:[] Resources:[pods nodes namespaces configmaps]
+            ResourceNames:[] NonResourceURLs:[]}. clusterrole.rbac.authorization.k8s.io/system:metrics-server
+            configured. Warning: resource clusterroles/system:metrics-server is missing
+            the kubectl.kubernetes.io/last-applied-configuration annotation which
+            is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: system:metrics-server
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRoleBinding
+          message: "clusterrolebinding.rbac.authorization.k8s.io/metrics-server:system:auth-delegator
+            reconciled. reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
+            APIGroup: Name:metrics-server Namespace:kube-system}. clusterrolebinding.rbac.authorization.k8s.io/metrics-server:system:auth-delegator
+            configured. Warning: resource clusterrolebindings/metrics-server:system:auth-delegator
+            is missing the kubectl.kubernetes.io/last-applied-configuration annotation
+            which is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: metrics-server:system:auth-delegator
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRoleBinding
+          message: "clusterrolebinding.rbac.authorization.k8s.io/system:metrics-server
+            reconciled. reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
+            APIGroup: Name:metrics-server Namespace:kube-system}. clusterrolebinding.rbac.authorization.k8s.io/system:metrics-server
+            configured. Warning: resource clusterrolebindings/system:metrics-server
+            is missing the kubectl.kubernetes.io/last-applied-configuration annotation
+            which is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: system:metrics-server
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: RoleBinding
+          message: "rolebinding.rbac.authorization.k8s.io/metrics-server-auth-reader
+            reconciled. reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
+            APIGroup: Name:metrics-server Namespace:kube-system}. rolebinding.rbac.authorization.k8s.io/metrics-server-auth-reader
+            configured. Warning: resource rolebindings/metrics-server-auth-reader
+            is missing the kubectl.kubernetes.io/last-applied-configuration annotation
+            which is required by  apply.  apply should only be used on resources created
+            declaratively by either  create --save-config or  apply. The missing annotation
+            will be patched automatically."
+          name: metrics-server-auth-reader
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/metrics-server created
+          name: metrics-server
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          kind: Deployment
+          message: deployment.apps/metrics-server created
+          name: metrics-server
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiregistration.k8s.io
+          hookPhase: Running
+          kind: APIService
+          message: apiservice.apiregistration.k8s.io/v1beta1.metrics.k8s.io created
+          name: v1beta1.metrics.k8s.io
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: ServiceMonitor
+          message: servicemonitor.monitoring.coreos.com/metrics-server created
+          name: metrics-server
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: argoproj.io
+          hookPhase: Running
+          kind: Application
+          message: application.argoproj.io/metrics-server configured
+          name: metrics-server
+          namespace: argocd
+          status: Synced
+          syncPhase: Sync
+          version: v1alpha1
+        revision: ""
+        revisions:
+        - 3.11.0
+        - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+        source:
+          repoURL: ""
+        sources:
+        - chart: metrics-server
+          helm:
+            valueFiles:
+            - $values/apps/argocd/base/monitoring/metrics-server/app/values.yaml
+          repoURL: https://kubernetes-sigs.github.io/metrics-server/
+          targetRevision: 3.11.0
+        - path: apps/argocd/base/monitoring/metrics-server
+          ref: values
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+    reconciledAt: "2024-01-25T01:12:21Z"
+    resources:
+    - health:
+        status: Healthy
+      kind: Service
+      name: metrics-server
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: metrics-server
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - group: apiregistration.k8s.io
+      health:
+        message: 'Passed: all checks passed'
+        status: Healthy
+      kind: APIService
+      name: v1beta1.metrics.k8s.io
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: metrics-server
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - group: argoproj.io
+      kind: Application
+      name: metrics-server
+      namespace: argocd
+      status: OutOfSync
+      version: v1alpha1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: metrics-server
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: system:metrics-server
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: system:metrics-server-aggregated-reader
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: metrics-server:system:auth-delegator
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: system:metrics-server
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: RoleBinding
+      name: metrics-server-auth-reader
+      namespace: kube-system
+      status: Synced
+      version: v1
+    sourceTypes:
+    - Helm
+    - Kustomize
+    summary:
+      images:
+      - registry.k8s.io/metrics-server/metrics-server:v0.6.4
+    sync:
+      comparedTo:
+        destination:
+          namespace: kube-system
+          server: https://kubernetes.default.svc
+        source:
+          repoURL: ""
+        sources:
+        - chart: metrics-server
+          helm:
+            valueFiles:
+            - $values/apps/argocd/base/monitoring/metrics-server/app/values.yaml
+          repoURL: https://kubernetes-sigs.github.io/metrics-server/
+          targetRevision: 3.11.0
+        - path: apps/argocd/base/monitoring/metrics-server
+          ref: values
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+      revisions:
+      - 3.11.0
+      - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      status: OutOfSync
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: argocd:argoproj.io/Application:argocd/argocd
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"argocd:argoproj.io/Application:argocd/argocd","reloader.stakater.com/auto":"true"},"finalizers":["resources-finalizer.argocd.argoproj.io"],"name":"argocd","namespace":"argocd"},"spec":{"destination":{"name":"in-cluster","namespace":"argocd"},"project":"cluster","source":{"path":"apps/argocd","repoURL":"https://github.com/bossjones/k3d-playground.git","targetRevision":"main"},"syncPolicy":{"automated":{"allowEmpty":true,"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"20s","factor":2,"maxDuration":"15m"},"limit":-1},"syncOptions":["Validate=true","CreateNamespace=true","PrunePropagationPolicy=foreground","PruneLast=true","ApplyOutOfSyncOnly=false","Prune=true"]}}}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-25T00:59:28Z"
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    generation: 697
+    name: argocd
+    namespace: argocd
+    resourceVersion: "10619"
+    uid: 7a363a9a-dadf-4ed6-b093-c4d23755f3f9
+  spec:
+    destination:
+      name: in-cluster
+      namespace: argocd
+    project: cluster
+    source:
+      path: apps/argocd
+      repoURL: https://github.com/bossjones/k3d-playground.git
+      targetRevision: main
+    syncPolicy:
+      automated:
+        allowEmpty: true
+        prune: true
+        selfHeal: true
+      retry:
+        backoff:
+          duration: 20s
+          factor: 2
+          maxDuration: 15m
+        limit: -1
+      syncOptions:
+      - Validate=true
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+      - ApplyOutOfSyncOnly=false
+      - Prune=true
+  status:
+    controllerNamespace: argocd
+    health:
+      status: Healthy
+    history:
+    - deployStartedAt: "2024-01-25T00:59:59Z"
+      deployedAt: "2024-01-25T01:00:01Z"
+      id: 0
+      revision: 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      source:
+        path: apps/argocd
+        repoURL: https://github.com/bossjones/k3d-playground.git
+        targetRevision: main
+    - deployStartedAt: "2024-01-25T01:02:47Z"
+      deployedAt: "2024-01-25T01:02:51Z"
+      id: 1
+      revision: 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      source:
+        path: apps/argocd
+        repoURL: https://github.com/bossjones/k3d-playground.git
+        targetRevision: main
+    operationState:
+      finishedAt: "2024-01-25T01:12:24Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          backoff:
+            duration: 20s
+            factor: 2
+            maxDuration: 15m
+          limit: -1
+        sync:
+          prune: true
+          resources:
+          - group: argoproj.io
+            kind: Application
+            name: ingress-nginx
+          revision: 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+          syncOptions:
+          - Validate=true
+          - CreateNamespace=true
+          - PrunePropagationPolicy=foreground
+          - PruneLast=true
+          - ApplyOutOfSyncOnly=false
+          - Prune=true
+      phase: Succeeded
+      startedAt: "2024-01-25T01:12:23Z"
+      syncResult:
+        resources:
+        - group: argoproj.io
+          hookPhase: Running
+          kind: Application
+          message: application.argoproj.io/ingress-nginx configured
+          name: ingress-nginx
+          namespace: argocd
+          status: Synced
+          syncPhase: Sync
+          version: v1alpha1
+        revision: 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+        source:
+          path: apps/argocd
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+    reconciledAt: "2024-01-25T01:12:24Z"
+    resources:
+    - kind: ConfigMap
+      name: argocd-cm
+      namespace: argocd
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: argocd-cmd-params-cm
+      namespace: argocd
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: argocd-gpg-keys-cm
+      namespace: argocd
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: argocd-notifications-cm
+      namespace: argocd
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: argocd-rbac-cm
+      namespace: argocd
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: argocd-ssh-known-hosts-cm
+      namespace: argocd
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: argocd-tls-certs-cm
+      namespace: argocd
+      status: Synced
+      version: v1
+    - kind: Secret
+      name: argocd-notifications-secret
+      namespace: argocd
+      status: Synced
+      version: v1
+    - kind: Secret
+      name: argocd-secret
+      namespace: argocd
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: argocd-applicationset-controller
+      namespace: argocd
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: argocd-dex-server
+      namespace: argocd
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: argocd-metrics
+      namespace: argocd
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: argocd-notifications-controller-metrics
+      namespace: argocd
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: argocd-redis
+      namespace: argocd
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: argocd-repo-server
+      namespace: argocd
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: argocd-server
+      namespace: argocd
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: argocd-server-metrics
+      namespace: argocd
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: argocd-application-controller
+      namespace: argocd
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: argocd-applicationset-controller
+      namespace: argocd
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: argocd-dex-server
+      namespace: argocd
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: argocd-notifications-controller
+      namespace: argocd
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: argocd-redis
+      namespace: argocd
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: argocd-repo-server
+      namespace: argocd
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: argocd-server
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: applications.argoproj.io
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: applicationsets.argoproj.io
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: appprojects.argoproj.io
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: argocdextensions.argoproj.io
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: argocd-applicationset-controller
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: argocd-dex-server
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: argocd-notifications-controller
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: argocd-redis
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: argocd-repo-server
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: argocd-server
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        message: 'partitioned roll out complete: 1 new pods have been updated...'
+        status: Healthy
+      kind: StatefulSet
+      name: argocd-application-controller
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: argoproj.io
+      kind: AppProject
+      name: apps
+      namespace: argocd
+      status: Synced
+      version: v1alpha1
+    - group: argoproj.io
+      kind: AppProject
+      name: cluster
+      namespace: argocd
+      status: Synced
+      version: v1alpha1
+    - group: argoproj.io
+      kind: AppProject
+      name: core
+      namespace: argocd
+      status: Synced
+      version: v1alpha1
+    - group: argoproj.io
+      kind: AppProject
+      name: monitoring
+      namespace: argocd
+      status: Synced
+      version: v1alpha1
+    - group: argoproj.io
+      kind: AppProject
+      name: networking
+      namespace: argocd
+      status: Synced
+      version: v1alpha1
+    - group: argoproj.io
+      kind: Application
+      name: argo-rollouts
+      namespace: argocd
+      status: Synced
+      version: v1alpha1
+    - group: argoproj.io
+      kind: Application
+      name: argocd
+      namespace: argocd
+      status: Synced
+      version: v1alpha1
+    - group: argoproj.io
+      kind: Application
+      name: example-app
+      namespace: argocd
+      status: Synced
+      version: v1alpha1
+    - group: argoproj.io
+      kind: Application
+      name: ingress-nginx
+      namespace: argocd
+      status: Synced
+      version: v1alpha1
+    - group: argoproj.io
+      kind: Application
+      name: k8s-event-logger
+      namespace: argocd
+      status: Synced
+      version: v1alpha1
+    - group: argoproj.io
+      kind: Application
+      name: kube-prometheus-stack
+      namespace: argocd
+      status: Synced
+      version: v1alpha1
+    - group: argoproj.io
+      kind: Application
+      name: loki-distributed
+      namespace: argocd
+      status: Synced
+      version: v1alpha1
+    - group: argoproj.io
+      kind: Application
+      name: metrics-server
+      namespace: argocd
+      status: Synced
+      version: v1alpha1
+    - group: argoproj.io
+      kind: Application
+      name: postgres
+      namespace: argocd
+      status: Synced
+      version: v1alpha1
+    - group: argoproj.io
+      kind: Application
+      name: rancher
+      namespace: argocd
+      status: Synced
+      version: v1alpha1
+    - group: argoproj.io
+      kind: Application
+      name: reflector-app
+      namespace: argocd
+      status: Synced
+      version: v1alpha1
+    - group: argoproj.io
+      kind: Application
+      name: reloader
+      namespace: argocd
+      status: Synced
+      version: v1alpha1
+    - group: argoproj.io
+      kind: Application
+      name: template-app
+      namespace: argocd
+      status: Synced
+      version: v1alpha1
+    - group: argoproj.io
+      kind: Application
+      name: vector
+      namespace: argocd
+      status: Synced
+      version: v1alpha1
+    - group: networking.k8s.io
+      health:
+        status: Healthy
+      kind: Ingress
+      name: argocd-ingress
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: argocd-application-controller
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: argocd-server
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: argocd-application-controller
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: argocd-server
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: Role
+      name: argocd-application-controller
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: Role
+      name: argocd-applicationset-controller
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: Role
+      name: argocd-dex-server
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: Role
+      name: argocd-notifications-controller
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: Role
+      name: argocd-server
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: Role
+      name: argocd-server-extensions
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: RoleBinding
+      name: argocd-application-controller
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: RoleBinding
+      name: argocd-applicationset-controller
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: RoleBinding
+      name: argocd-dex-server
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: RoleBinding
+      name: argocd-notifications-controller
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: RoleBinding
+      name: argocd-server
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: RoleBinding
+      name: argocd-server-extensions
+      namespace: argocd
+      status: Synced
+      version: v1
+    sourceType: Kustomize
+    summary:
+      externalURLs:
+      - https://argocd.k8s.localhost/
+      images:
+      - ghcr.io/argoproj-labs/argocd-extensions:latest
+      - ghcr.io/dexidp/dex:v2.37.0
+      - quay.io/argoproj/argocd:v2.8.0
+      - redis:7.0.11-alpine
+    sync:
+      comparedTo:
+        destination:
+          name: in-cluster
+          namespace: argocd
+        source:
+          path: apps/argocd
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+      revision: 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      status: Synced
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: argocd:argoproj.io/Application:argocd/ingress-nginx
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"argocd:argoproj.io/Application:argocd/ingress-nginx","reloader.stakater.com/auto":"true"},"name":"ingress-nginx","namespace":"argocd"},"spec":{"destination":{"namespace":"kube-system","server":"https://kubernetes.default.svc"},"project":"cluster","sources":[{"chart":"ingress-nginx","helm":{"valueFiles":["$values/apps/argocd/base/core/ingress-nginx/app/values.yaml"]},"repoURL":"https://kubernetes.github.io/ingress-nginx/","targetRevision":"4.9.0"},{"path":"apps/argocd/base/core/ingress-nginx","ref":"values","repoURL":"https://github.com/bossjones/k3d-playground.git","targetRevision":"main"}],"syncPolicy":{"automated":{"prune":true,"selfHeal":true},"syncOptions":["CreateNamespace=false"]}}}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-25T00:59:28Z"
+    generation: 581
+    name: ingress-nginx
+    namespace: argocd
+    resourceVersion: "10626"
+    uid: 344552be-67c7-4e1d-a97c-7f3b1a871db3
+  spec:
+    destination:
+      namespace: kube-system
+      server: https://kubernetes.default.svc
+    project: cluster
+    sources:
+    - chart: ingress-nginx
+      helm:
+        valueFiles:
+        - $values/apps/argocd/base/core/ingress-nginx/app/values.yaml
+      repoURL: https://kubernetes.github.io/ingress-nginx/
+      targetRevision: 4.9.0
+    - path: apps/argocd/base/core/ingress-nginx
+      ref: values
+      repoURL: https://github.com/bossjones/k3d-playground.git
+      targetRevision: main
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      syncOptions:
+      - CreateNamespace=false
+  status:
+    conditions:
+    - lastTransitionTime: "2024-01-25T01:12:25Z"
+      message: Application/ingress-nginx is part of applications argocd/ingress-nginx
+        and argocd
+      type: SharedResourceWarning
+    controllerNamespace: argocd
+    health:
+      status: Healthy
+    history:
+    - deployStartedAt: "2024-01-25T01:00:44Z"
+      deployedAt: "2024-01-25T01:04:10Z"
+      id: 0
+      revisions:
+      - 4.9.0
+      - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      source:
+        repoURL: ""
+      sources:
+      - chart: ingress-nginx
+        helm:
+          valueFiles:
+          - $values/apps/argocd/base/core/ingress-nginx/app/values.yaml
+        repoURL: https://kubernetes.github.io/ingress-nginx/
+        targetRevision: 4.9.0
+      - path: apps/argocd/base/core/ingress-nginx
+        ref: values
+        repoURL: https://github.com/bossjones/k3d-playground.git
+        targetRevision: main
+    operationState:
+      finishedAt: "2024-01-25T01:12:23Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          limit: 5
+        sync:
+          prune: true
+          resources:
+          - group: argoproj.io
+            kind: Application
+            name: ingress-nginx
+          revisions:
+          - 4.9.0
+          - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+          syncOptions:
+          - CreateNamespace=false
+      phase: Succeeded
+      startedAt: "2024-01-25T01:12:22Z"
+      syncResult:
+        resources:
+        - group: argoproj.io
+          hookPhase: Running
+          kind: Application
+          message: application.argoproj.io/ingress-nginx configured
+          name: ingress-nginx
+          namespace: argocd
+          status: Synced
+          syncPhase: Sync
+          version: v1alpha1
+        revision: ""
+        revisions:
+        - 4.9.0
+        - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+        source:
+          repoURL: ""
+        sources:
+        - chart: ingress-nginx
+          helm:
+            valueFiles:
+            - $values/apps/argocd/base/core/ingress-nginx/app/values.yaml
+          repoURL: https://kubernetes.github.io/ingress-nginx/
+          targetRevision: 4.9.0
+        - path: apps/argocd/base/core/ingress-nginx
+          ref: values
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+    reconciledAt: "2024-01-25T01:12:23Z"
+    resources:
+    - kind: ConfigMap
+      name: ingress-nginx-controller
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: ingress-nginx-controller
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: ingress-nginx-controller-admission
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: ingress-nginx-controller-metrics
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - health:
+        status: Healthy
+      kind: Service
+      name: ingress-nginx-defaultbackend
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: ingress-nginx
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: ingress-nginx-backend
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      name: ingress-nginx-admission
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: ingress-nginx-controller
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - group: apps
+      health:
+        status: Healthy
+      kind: Deployment
+      name: ingress-nginx-defaultbackend
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - group: argoproj.io
+      kind: Application
+      name: ingress-nginx
+      namespace: argocd
+      status: OutOfSync
+      version: v1alpha1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: ingress-nginx-controller
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - group: networking.k8s.io
+      kind: IngressClass
+      name: nginx
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: ingress-nginx
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: ingress-nginx
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: Role
+      name: ingress-nginx
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: RoleBinding
+      name: ingress-nginx
+      namespace: kube-system
+      status: Synced
+      version: v1
+    sourceTypes:
+    - Helm
+    - Kustomize
+    summary:
+      images:
+      - ghcr.io/tarampampam/error-pages:2.26.0
+      - registry.k8s.io/ingress-nginx/controller:v1.9.5@sha256:b3aba22b1da80e7acfc52b115cae1d4c687172cbf2b742d5b502419c25ff340e
+    sync:
+      comparedTo:
+        destination:
+          namespace: kube-system
+          server: https://kubernetes.default.svc
+        source:
+          repoURL: ""
+        sources:
+        - chart: ingress-nginx
+          helm:
+            valueFiles:
+            - $values/apps/argocd/base/core/ingress-nginx/app/values.yaml
+          repoURL: https://kubernetes.github.io/ingress-nginx/
+          targetRevision: 4.9.0
+        - path: apps/argocd/base/core/ingress-nginx
+          ref: values
+          repoURL: https://github.com/bossjones/k3d-playground.git
+          targetRevision: main
+      revisions:
+      - 4.9.0
+      - 7974796fb3aab1a2fcae2e34d68d69eb0b694577
+      status: OutOfSync
+kind: List
+metadata:
+  resourceVersion: ""

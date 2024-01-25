@@ -1,0 +1,525 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:13Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:13Z"}]}'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"creationTimestamp":null,"name":"argo-rollouts"},"spec":{},"status":{}}
+      lifecycle.cattle.io/create.namespace-auth: "true"
+    creationTimestamp: "2024-01-25T01:02:51Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      kubernetes.io/metadata.name: argo-rollouts
+    name: argo-rollouts
+    resourceVersion: "6020"
+    uid: fbf2b7d6-b14f-4217-bb89-4c551b97347a
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:13Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:13Z"}]}'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"creationTimestamp":null,"name":"development"},"spec":{},"status":{}}
+      lifecycle.cattle.io/create.namespace-auth: "true"
+    creationTimestamp: "2024-01-25T01:02:44Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      kubernetes.io/metadata.name: development
+    name: development
+    resourceVersion: "6089"
+    uid: edb22e5b-a0c0-4adf-bf34-1c5059ac5f4b
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:13Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:14Z"}]}'
+      lifecycle.cattle.io/create.namespace-auth: "true"
+    creationTimestamp: "2024-01-25T01:04:43Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      kubernetes.io/metadata.name: local
+    name: local
+    ownerReferences:
+    - apiVersion: management.cattle.io/v3
+      kind: Cluster
+      name: local
+      uid: 240e5e0e-8253-41c2-92f3-02bf82302468
+    resourceVersion: "6143"
+    uid: db27a36c-a945-494b-8a12-7e12ecc99f64
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: kube-prometheus-stack:/Namespace:monitoring/monitoring
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:13Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:14Z"}]}'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"creationTimestamp":null,"name":"monitoring"},"spec":{},"status":{}}
+      lifecycle.cattle.io/create.namespace-auth: "true"
+    creationTimestamp: "2024-01-25T01:02:46Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      kubernetes.io/metadata.name: monitoring
+      monitoring: prometheus
+      prometheus: main
+    name: monitoring
+    resourceVersion: "6153"
+    uid: 0e344323-959d-469b-9367-f5f73b1b350f
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:13Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:14Z"}]}'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"creationTimestamp":null,"name":"databases"},"spec":{},"status":{}}
+      lifecycle.cattle.io/create.namespace-auth: "true"
+    creationTimestamp: "2024-01-25T01:00:51Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      kubernetes.io/metadata.name: databases
+    name: databases
+    resourceVersion: "6159"
+    uid: 53d03f26-5a6d-4610-9b7e-442c98ae13bd
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:13Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:14Z"}]}'
+      lifecycle.cattle.io/create.namespace-auth: "true"
+    creationTimestamp: "2024-01-25T00:59:22Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      kubernetes.io/metadata.name: argocd
+    name: argocd
+    resourceVersion: "6162"
+    uid: 4c055ab7-81dd-4012-b93b-823aed8bc519
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:13Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:14Z"}]}'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"creationTimestamp":null,"name":"example"},"spec":{},"status":{}}
+      lifecycle.cattle.io/create.namespace-auth: "true"
+    creationTimestamp: "2024-01-25T01:01:32Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      kubernetes.io/metadata.name: example
+    name: example
+    resourceVersion: "6173"
+    uid: 754093d3-2972-43af-88ec-d3448f83e9df
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:13Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:14Z"}]}'
+      lifecycle.cattle.io/create.namespace-auth: "true"
+      management.cattle.io/no-default-sa-token: "true"
+      management.cattle.io/system-namespace: "true"
+    creationTimestamp: "2024-01-25T01:04:53Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      kubernetes.io/metadata.name: p-krwzd
+    name: p-krwzd
+    resourceVersion: "6182"
+    uid: ddaeb2c6-38b2-4d85-90d0-cf5bab267854
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:13Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:15Z"}]}'
+      lifecycle.cattle.io/create.namespace-auth: "true"
+      management.cattle.io/no-default-sa-token: "true"
+      management.cattle.io/system-namespace: "true"
+    creationTimestamp: "2024-01-25T01:04:53Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      kubernetes.io/metadata.name: p-xrh2t
+    name: p-xrh2t
+    resourceVersion: "6218"
+    uid: 8a69b46e-12c6-4181-b228-6c60b1742e83
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:13Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:18Z"}]}'
+      field.cattle.io/projectId: local:p-krwzd
+      lifecycle.cattle.io/create.namespace-auth: "true"
+      management.cattle.io/no-default-sa-token: "true"
+    creationTimestamp: "2024-01-25T01:04:44Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      cattle.io/creator: norman
+      field.cattle.io/projectId: p-krwzd
+      kubernetes.io/metadata.name: cattle-global-data
+    name: cattle-global-data
+    resourceVersion: "6261"
+    uid: 41bb5886-ee17-4d6e-9919-99a75b4b493a
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:13Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:18Z"}]}'
+      field.cattle.io/projectId: local:p-krwzd
+      lifecycle.cattle.io/create.namespace-auth: "true"
+      management.cattle.io/no-default-sa-token: "true"
+    creationTimestamp: "2024-01-25T01:04:07Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      field.cattle.io/projectId: p-krwzd
+      kubernetes.io/metadata.name: fleet-local
+    name: fleet-local
+    resourceVersion: "6263"
+    uid: ebc2c817-9d2f-44fd-afa7-1ff3e871a6ba
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:13Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:18Z"}]}'
+      field.cattle.io/projectId: local:p-krwzd
+      lifecycle.cattle.io/create.namespace-auth: "true"
+    creationTimestamp: "2024-01-25T00:59:02Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      field.cattle.io/projectId: p-krwzd
+      kubernetes.io/metadata.name: kube-system
+    name: kube-system
+    resourceVersion: "6264"
+    uid: 20a182ce-c645-4669-97b8-c44d16d53133
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:13Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:18Z"}]}'
+      field.cattle.io/projectId: local:p-krwzd
+      lifecycle.cattle.io/create.namespace-auth: "true"
+      management.cattle.io/no-default-sa-token: "true"
+    creationTimestamp: "2024-01-25T01:04:44Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      cattle.io/creator: norman
+      field.cattle.io/projectId: p-krwzd
+      kubernetes.io/metadata.name: cattle-global-nt
+    name: cattle-global-nt
+    resourceVersion: "6272"
+    uid: 2ff433d8-e41f-46b7-bd25-4a858107ed52
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:13Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:18Z"}]}'
+      field.cattle.io/projectId: local:p-krwzd
+      lifecycle.cattle.io/create.namespace-auth: "true"
+      management.cattle.io/no-default-sa-token: "true"
+    creationTimestamp: "2024-01-25T00:59:02Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      field.cattle.io/projectId: p-krwzd
+      kubernetes.io/metadata.name: kube-public
+    name: kube-public
+    resourceVersion: "6274"
+    uid: fe897a8e-e73b-4933-8710-fb6abd1da1d1
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:13Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:18Z"}]}'
+      field.cattle.io/projectId: local:p-krwzd
+      lifecycle.cattle.io/create.namespace-auth: "true"
+      management.cattle.io/no-default-sa-token: "true"
+    creationTimestamp: "2024-01-25T00:59:02Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      field.cattle.io/projectId: p-krwzd
+      kubernetes.io/metadata.name: kube-node-lease
+    name: kube-node-lease
+    resourceVersion: "6275"
+    uid: 0d37cdd7-8288-4462-931a-e1b2a2715223
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:13Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:19Z"}]}'
+      field.cattle.io/projectId: local:p-xrh2t
+      lifecycle.cattle.io/create.namespace-auth: "true"
+    creationTimestamp: "2024-01-25T00:59:01Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      field.cattle.io/projectId: p-xrh2t
+      kubernetes.io/metadata.name: default
+    name: default
+    resourceVersion: "6276"
+    uid: 7f63d6bc-789e-4b91-aeb8-a19a9648ddf0
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:13Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:19Z"}]}'
+      field.cattle.io/projectId: local:p-krwzd
+      lifecycle.cattle.io/create.namespace-auth: "true"
+      management.cattle.io/no-default-sa-token: "true"
+      objectset.rio.cattle.io/applied: H4sIAAAAAAAA/4yQvU7DQBCEXwVtfTHYluP4JFoaWiTq9d0kOXI/lm+dFJbfHR00FIDS7Uoz8+3OSgHCloVJr8QxJmFxKeaypvEDRjKkml2qDIt4VC49Okuabmm+5IkNSP0pTLeIeXe6XkhT4MgnBET5Ibi26uHVRfv84gF5vzsycgBpOhbXzuLIi5e7TN/xmmhTZGZ8/frmArJwmEjHxXtFnkf4fxs4cz6Tph49uOkbPsB2A9eG9+C6O/Rm7Dq7H9qxHdr6qSm0X0/eFOUJhvRaJmFZCnbbPgMAAP//qGc0XpcBAAA
+      objectset.rio.cattle.io/id: workspace
+      objectset.rio.cattle.io/owner-gvk: management.cattle.io/v3, Kind=FleetWorkspace
+      objectset.rio.cattle.io/owner-name: fleet-default
+      objectset.rio.cattle.io/owner-namespace: ""
+    creationTimestamp: "2024-01-25T01:04:48Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      field.cattle.io/projectId: p-krwzd
+      kubernetes.io/metadata.name: fleet-default
+      objectset.rio.cattle.io/hash: 7e7ea272a8ed59a1ca6ea1587cb55d693b393102
+    name: fleet-default
+    resourceVersion: "6280"
+    uid: c47c99b3-d354-4491-8dae-52de528dd8fe
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: rancher:/Namespace:cattle-system/cattle-system
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:14Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:19Z"}]}'
+      field.cattle.io/projectId: local:p-krwzd
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"rancher:/Namespace:cattle-system/cattle-system"},"labels":{"monitoring":"prometheus","prometheus":"main"},"name":"cattle-system"}}
+      lifecycle.cattle.io/create.namespace-auth: "true"
+      management.cattle.io/no-default-sa-token: "true"
+    creationTimestamp: "2024-01-25T01:02:46Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      field.cattle.io/projectId: p-krwzd
+      kubernetes.io/metadata.name: cattle-system
+      monitoring: prometheus
+      prometheus: main
+    name: cattle-system
+    resourceVersion: "6281"
+    uid: b466061d-ab3b-4909-a35d-4c883ce92959
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:14Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:20Z"}]}'
+      field.cattle.io/projectId: local:p-krwzd
+      lifecycle.cattle.io/create.namespace-auth: "true"
+      management.cattle.io/no-default-sa-token: "true"
+    creationTimestamp: "2024-01-25T01:05:12Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      authz.cluster.cattle.io/impersonator: "true"
+      cattle.io/creator: norman
+      field.cattle.io/projectId: p-krwzd
+      kubernetes.io/metadata.name: cattle-impersonation-system
+    name: cattle-impersonation-system
+    resourceVersion: "6282"
+    uid: 3ee5eef0-7c1c-4185-904e-9b4251f36eb5
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:21Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:05:26Z"}]}'
+      field.cattle.io/projectId: local:p-krwzd
+      lifecycle.cattle.io/create.namespace-auth: "true"
+      management.cattle.io/no-default-sa-token: "true"
+      objectset.rio.cattle.io/applied: H4sIAAAAAAAA/3zOS26EMAyA4bt4DZQUmkLO0Qs4wRGp8kDYLEaIu48C+9nZsvT9PiGR4IKCYE7AnIughJK5rsX+kxMm6fZQOocikbpQvsICBnwkktaWIiw7bu1tXA24nW7hLyRiwbSByUeMDUS0FD+6K/IKBsYf1Q/94NVstbPo3dwPSo2TVZPWXmn3bekX8a5lTAQGHqN9fuIXC6V65Y0cmLNOgnLU+HW9AwAA///+sh4F8wAAAA
+      objectset.rio.cattle.io/id: fleet-bootstrap-data
+    creationTimestamp: "2024-01-25T01:05:20Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      field.cattle.io/projectId: p-krwzd
+      kubernetes.io/metadata.name: cattle-fleet-system
+      objectset.rio.cattle.io/hash: 4510303f19b6cbafc9031148b1866f16c2be7aaa
+    name: cattle-fleet-system
+    resourceVersion: "6675"
+    uid: 6b383233-9eda-4636-b520-b80b0b3c6f3b
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:06:05Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:06:11Z"}]}'
+      field.cattle.io/projectId: local:p-krwzd
+      lifecycle.cattle.io/create.namespace-auth: "true"
+      management.cattle.io/no-default-sa-token: "true"
+      objectset.rio.cattle.io/applied: H4sIAAAAAAAA/3zOTW6DQAyG4bt4HShTUprMOXoBj2OUqeYH4Y9Fhbh7NWSfnS1Zj9+dsoIfDCa/E5dSwYi1WFtr+FWBKfo11l4YSNrH+hEf5GlOquhCrTCsvHSncVxIVj2Fn5jVwHkhX7aULpQ4aHrrPtme5On65YZxGGd3D5MEnuU+jM5db8Hdpml2k3wG/WY+vxXOSp5eRvdqkrQZdLXO/gya25ktKuT3NoGxtYrj+A8AAP//GNBA4fwAAAA
+      objectset.rio.cattle.io/id: fleet-bootstrap-data
+    creationTimestamp: "2024-01-25T01:06:04Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      field.cattle.io/projectId: p-krwzd
+      kubernetes.io/metadata.name: cattle-fleet-clusters-system
+      objectset.rio.cattle.io/hash: 4510303f19b6cbafc9031148b1866f16c2be7aaa
+    name: cattle-fleet-clusters-system
+    resourceVersion: "6772"
+    uid: 44f8ac98-ae60-4826-ad1f-47081a1a23b1
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:06:07Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:06:12Z"}]}'
+      field.cattle.io/projectId: local:p-krwzd
+      fleet.cattle.io/cluster: local
+      fleet.cattle.io/cluster-namespace: fleet-local
+      lifecycle.cattle.io/create.namespace-auth: "true"
+      management.cattle.io/no-default-sa-token: "true"
+    creationTimestamp: "2024-01-25T01:06:05Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      field.cattle.io/projectId: p-krwzd
+      fleet.cattle.io/managed: "true"
+      kubernetes.io/metadata.name: cluster-fleet-local-local-1a3d67d0a899
+    name: cluster-fleet-local-local-1a3d67d0a899
+    resourceVersion: "6786"
+    uid: 680e2930-92da-4687-a58a-25746c777bf4
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:06:58Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2024-01-25T01:06:58Z"}]}'
+      lifecycle.cattle.io/create.namespace-auth: "true"
+    creationTimestamp: "2024-01-25T01:06:56Z"
+    finalizers:
+    - controller.cattle.io/namespace-auth
+    labels:
+      kubernetes.io/metadata.name: cattle-provisioning-capi-system
+    name: cattle-provisioning-capi-system
+    resourceVersion: "7317"
+    uid: 2510ab26-a760-41c2-98a2-dc2f66d16266
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+kind: List
+metadata:
+  resourceVersion: ""
