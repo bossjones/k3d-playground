@@ -27,6 +27,7 @@ spec:
   syncPolicy:
     automated:
       prune: true
+      # selfHeal: true
     syncOptions:
       - CreateNamespace=true
       # Needed because our kubectl apply exceeds thresholds

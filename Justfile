@@ -259,7 +259,7 @@ get-audit2rbac:
 
 # generate rbac using audit2rbac
 gen-rbac:
-  audit2rbac -f audit/audit.log --serviceaccount=default:doc-controller \
+  audit2rbac -f audit/audit.log --serviceaccount=argocd:doc-controller \
     --generate-labels="" --generate-annotations="" --generate-name=doc-controller
 
 # get some backups of the current system to see what's going on
@@ -286,3 +286,7 @@ split-dump:
 # use kustomize and helm to build the manifests
 render:
   ./scripts/render.sh "apps/argocd/base/monitoring/kube-prometheus-stack"
+
+# generate rbac using audit2rbac
+gen-rbac-all:
+  scripts/gen-serviceaccount-rbac.sh
