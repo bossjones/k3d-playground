@@ -476,12 +476,12 @@ customConfig:
         job: vector
         application: "vector"
         # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/vector/templates/vector-application.yaml
-        app: {{ `'{{ "{{" }} custom_app_name  {{ "}}" }}'` }}
-        stream: {{ `'{{ "{{" }} stream {{ "}}" }}'` }}
-        node: {{ `'{{ "{{" }} kubernetes.pod_node_name {{ "}}" }}'` }}
-        pod: {{ `'{{ "{{" }} kubernetes.pod_name {{ "}}" }}'` }}
-        namespace: {{ `'{{ "{{" }} kubernetes.pod_namespace {{ "}}" }}'` }}
-        container: {{ `'{{ "{{" }} kubernetes.container_name {{ "}}" }}'` }}
+        app: {{ '{{ "{{" }} custom_app_name  {{ "}}" }}' }}
+        stream: {{ '{{ "{{" }} stream {{ "}}" }}' }}
+        node: {{ '{{ "{{" }} kubernetes.pod_node_name {{ "}}" }}' }}
+        pod: {{ '{{ "{{" }} kubernetes.pod_name {{ "}}" }}' }}
+        namespace: {{ '{{ "{{" }} kubernetes.pod_namespace {{ "}}" }}' }}
+        container: {{ '{{ "{{" }} kubernetes.container_name {{ "}}" }}' }}
         source: kubernetes
         ############################################################################
       out_of_order_action: accept
