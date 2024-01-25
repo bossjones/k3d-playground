@@ -28,3 +28,7 @@ spec:
       prune: true
     syncOptions:
       - CreateNamespace=true
+      # Needed because our kubectl apply exceeds thresholds
+      # EXAMPLE: CustomResourceDefinition.apiextensions.k8s.io "prometheuses.monitoring.coreos.com" is invalid: metadata.annotations: Too long: must have at most 262144 bytes
+      # SOURCE: https://github.com/prometheus-operator/prometheus-operator/issues/4355
+      - ServerSideApply=true
