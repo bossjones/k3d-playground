@@ -6,6 +6,7 @@ metadata:
     app.kubernetes.io/name: argocd-cm
     app.kubernetes.io/part-of: argocd
 data:
-  application.resourceTrackingMethod: annotation
+  # application.resourceTrackingMethod: annotation
   statusbadge.enabled: "true"
   exec.enabled: "true"
+  kustomize.buildOptions: "--enable-alpha-plugins --enable-exec"

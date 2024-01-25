@@ -8,7 +8,7 @@ metadata:
 data:
   policy.default: role:admin
   policy.csv: |
-    p, role:admin, exec, create, */*, allow
+    p, role:admin, exec, get, create, */*, allow
     g, ext, role:extension
     p, role:extension, applications, get, default/httpbin-app, allow
     p, role:extension, extensions, invoke, httpbin, allow
