@@ -1,0 +1,165 @@
+# ---
+# ~/dev/bossjones/k3d-playground main 30m 35s
+# ❯ k -n monitoring get ingresses.networking.k8s.io
+# NAME                                   CLASS   HOSTS                        ADDRESS      PORTS   AGE
+# kube-prometheus-stack-prometheus       nginx   prometheus.k8s.localhost     172.22.0.5   80      15m
+# kube-prometheus-stack-alertmanager     nginx   alertmanager.k8s.localhost   172.22.0.5   80      15m
+# kube-prometheus-stack-grafana          nginx   grafana.k8s.localhost        172.22.0.5   80      15m
+# kube-prometheus-stack-thanos-gateway   nginx   *                            172.22.0.5   80      15m
+# ---
+apiVersion: v1
+items:
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: kube-prometheus-stack:networking.k8s.io/Ingress:monitoring/kube-prometheus-stack-prometheus
+      field.cattle.io/publicEndpoints: '[{"addresses":["172.22.0.5"],"port":80,"protocol":"HTTP","serviceName":"monitoring:kube-prometheus-stack-prometheus","ingressName":"monitoring:kube-prometheus-stack-prometheus","hostname":"prometheus.k8s.localhost","path":"/","allNodes":false}]'
+      ingress.kubernetes.io/ssl-redirect: "false"
+    creationTimestamp: "2024-01-25T00:13:25Z"
+    generation: 1
+    labels:
+      app: kube-prometheus-stack-prometheus
+      app.kubernetes.io/instance: kube-prometheus-stack
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/part-of: kube-prometheus-stack
+      app.kubernetes.io/version: 48.2.2
+      chart: kube-prometheus-stack-48.2.2
+      heritage: Helm
+      release: kube-prometheus-stack
+    name: kube-prometheus-stack-prometheus
+    namespace: monitoring
+    resourceVersion: "3798"
+    uid: 362ac3e8-dfa6-479f-9c79-4664279aa60b
+  spec:
+    ingressClassName: nginx
+    rules:
+    - host: prometheus.k8s.localhost
+      http:
+        paths:
+        - backend:
+            service:
+              name: kube-prometheus-stack-prometheus
+              port:
+                number: 9090
+          path: /
+          pathType: Prefix
+  status:
+    loadBalancer:
+      ingress:
+      - ip: 172.22.0.5
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: kube-prometheus-stack:networking.k8s.io/Ingress:monitoring/kube-prometheus-stack-alertmanager
+      field.cattle.io/publicEndpoints: '[{"addresses":["172.22.0.5"],"port":80,"protocol":"HTTP","serviceName":"monitoring:kube-prometheus-stack-alertmanager","ingressName":"monitoring:kube-prometheus-stack-alertmanager","hostname":"alertmanager.k8s.localhost","path":"/","allNodes":false}]'
+      ingress.kubernetes.io/ssl-redirect: "false"
+    creationTimestamp: "2024-01-25T00:13:25Z"
+    generation: 1
+    labels:
+      app: kube-prometheus-stack-alertmanager
+      app.kubernetes.io/instance: kube-prometheus-stack
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/part-of: kube-prometheus-stack
+      app.kubernetes.io/version: 48.2.2
+      chart: kube-prometheus-stack-48.2.2
+      heritage: Helm
+      release: kube-prometheus-stack
+    name: kube-prometheus-stack-alertmanager
+    namespace: monitoring
+    resourceVersion: "3920"
+    uid: eaecc702-4aa2-4609-b28c-77143e2ee762
+  spec:
+    ingressClassName: nginx
+    rules:
+    - host: alertmanager.k8s.localhost
+      http:
+        paths:
+        - backend:
+            service:
+              name: kube-prometheus-stack-alertmanager
+              port:
+                number: 9093
+          path: /
+          pathType: Prefix
+  status:
+    loadBalancer:
+      ingress:
+      - ip: 172.22.0.5
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: kube-prometheus-stack:networking.k8s.io/Ingress:monitoring/kube-prometheus-stack-grafana
+      field.cattle.io/publicEndpoints: '[{"addresses":["172.22.0.5"],"port":80,"protocol":"HTTP","serviceName":"monitoring:kube-prometheus-stack-grafana","ingressName":"monitoring:kube-prometheus-stack-grafana","hostname":"grafana.k8s.localhost","path":"/","allNodes":false}]'
+      ingress.kubernetes.io/ssl-redirect: "false"
+    creationTimestamp: "2024-01-25T00:13:25Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/instance: kube-prometheus-stack
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: grafana
+      app.kubernetes.io/version: 10.0.2
+      helm.sh/chart: grafana-6.58.6
+    name: kube-prometheus-stack-grafana
+    namespace: monitoring
+    resourceVersion: "3933"
+    uid: 1bdc33a5-7cfd-4d6c-a0a1-608031df8adc
+  spec:
+    ingressClassName: nginx
+    rules:
+    - host: grafana.k8s.localhost
+      http:
+        paths:
+        - backend:
+            service:
+              name: kube-prometheus-stack-grafana
+              port:
+                number: 80
+          path: /
+          pathType: Prefix
+  status:
+    loadBalancer:
+      ingress:
+      - ip: 172.22.0.5
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: kube-prometheus-stack:networking.k8s.io/Ingress:monitoring/kube-prometheus-stack-thanos-gateway
+      field.cattle.io/publicEndpoints: '[{"addresses":["172.22.0.5"],"port":80,"protocol":"HTTP","serviceName":"monitoring:kube-prometheus-stack-prometheus","ingressName":"monitoring:kube-prometheus-stack-thanos-gateway","path":"/","allNodes":false},{"addresses":["172.22.0.5"],"port":443,"protocol":"HTTPS","serviceName":"monitoring:kube-prometheus-stack-prometheus","ingressName":"monitoring:kube-prometheus-stack-thanos-gateway","path":"/","allNodes":false}]'
+    creationTimestamp: "2024-01-25T00:13:25Z"
+    generation: 1
+    labels:
+      app: kube-prometheus-stack-prometheus
+      app.kubernetes.io/instance: kube-prometheus-stack
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/part-of: kube-prometheus-stack
+      app.kubernetes.io/version: 48.2.2
+      chart: kube-prometheus-stack-48.2.2
+      heritage: Helm
+      release: kube-prometheus-stack
+    name: kube-prometheus-stack-thanos-gateway
+    namespace: monitoring
+    resourceVersion: "3959"
+    uid: 8567453b-9b06-4d94-a253-81b661fb9aa8
+  spec:
+    ingressClassName: nginx
+    rules:
+    - http:
+        paths:
+        - backend:
+            service:
+              name: kube-prometheus-stack-prometheus
+              port:
+                number: 10901
+          path: /
+          pathType: Prefix
+  status:
+    loadBalancer:
+      ingress:
+      - ip: 172.22.0.5
+kind: List
+metadata:
+  resourceVersion: ""
