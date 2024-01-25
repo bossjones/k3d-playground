@@ -190,3 +190,4 @@ manifests/*.yaml
 postgres/*
 storage/*
 utilities/*
+dump/*

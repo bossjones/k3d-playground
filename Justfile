@@ -262,6 +262,7 @@ gen-rbac:
   audit2rbac -f audit/audit.log --serviceaccount=default:doc-controller \
     --generate-labels="" --generate-annotations="" --generate-name=doc-controller
 
+# get some backups of the current system to see what's going on
 dump-everything:
   kubectl get serviceaccounts --all-namespaces -o yaml > dump/serviceaccounts.yaml
   kubectl -n argocd get applications -o yaml > dump/argocd_applications.yaml
@@ -273,3 +274,15 @@ dump-everything:
   kubectl get prometheuses.monitoring.coreos.com --all-namespaces > dump/prometheuses.monitoring.coreos.com.txt
   kubectl get prometheusrules.monitoring.coreos.com --all-namespaces > dump/prometheusrules.monitoring.coreos.com.txt
   kubectl get ns -o yaml > dump/ns.yaml
+  kubectl -n monitoring get all -o yaml > dump/monitoring-all.yaml
+
+# use kubectl-slice to split the dump into individual files
+split-dump:
+  kubectl-slice --input-file=dump/rendered/rendered.yaml --output-dir=dump/split
+# -t "{{.kind | lower}}/{{.metadata.name | alphanumdash}}.yaml"
+
+# kustomize build . --enable-helm | kubectl-slice -o base/resources -t "{{.kind | lower}}/{{.metadata.name | alphanumdash}}.yaml"
+
+# use kustomize and helm to build the manifests
+render:
+  ./scripts/render.sh "apps/argocd/base/monitoring/kube-prometheus-stack"

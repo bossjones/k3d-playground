@@ -691,13 +691,13 @@ alertmanager:
     ## Storage is the definition of how storage will be used by the Alertmanager instances.
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/storage.md
     ##
-    storage:
-      volumeClaimTemplate:
-        spec:
-          storageClassName: local-path
-          resources:
-            requests:
-              storage: 1Gi
+    storage: {}
+      # volumeClaimTemplate:
+      #   spec:
+      #     storageClassName: local-path
+      #     resources:
+      #       requests:
+      #         storage: 1Gi
     # volumeClaimTemplate:
     #   spec:
     #     storageClassName: gluster
@@ -1342,7 +1342,7 @@ kubeApiServer:
   enabled: true
   tlsConfig:
     serverName: kubernetes
-    insecureSkipVerify: false
+    insecureSkipVerify: true
   serviceMonitor:
     ## Scrape interval. If not set, the Prometheus default scrape interval is used.
     ##
@@ -1382,12 +1382,25 @@ kubeApiServer:
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
     ##
     metricRelabelings:
-      # Drop excessively noisy apiserver buckets.
+      # SOURCE: https://github.com/onedr0p/home-ops/blob/main/kubernetes/main/apps/observability/kube-prometheus-stack/app/helmrelease.yaml
+      # Remove duplicate labels provided by k3s
+      - action: keep
+        sourceLabels: ["__name__"]
+        regex: (aggregator_openapi|aggregator_unavailable|apiextensions_openapi|apiserver_admission|apiserver_audit|apiserver_cache|apiserver_cel|apiserver_client|apiserver_crd|apiserver_current|apiserver_envelope|apiserver_flowcontrol|apiserver_init|apiserver_kube|apiserver_longrunning|apiserver_request|apiserver_requested|apiserver_response|apiserver_selfrequest|apiserver_storage|apiserver_terminated|apiserver_tls|apiserver_watch|apiserver_webhooks|authenticated_user|authentication|disabled_metric|etcd_bookmark|etcd_lease|etcd_request|field_validation|get_token|go|grpc_client|hidden_metric|kube_apiserver|kubernetes_build|kubernetes_feature|node_authorizer|pod_security|process_cpu|process_max|process_open|process_resident|process_start|process_virtual|registered_metric|rest_client|scrape_duration|scrape_samples|scrape_series|serviceaccount_legacy|serviceaccount_stale|serviceaccount_valid|watch_cache|workqueue)_(.+)
+      # Drop high cardinality labels
       - action: drop
-        regex: apiserver_request_duration_seconds_bucket;(0.15|0.2|0.3|0.35|0.4|0.45|0.6|0.7|0.8|0.9|1.25|1.5|1.75|2|3|3.5|4|4.5|6|7|8|9|15|25|40|50)
-        sourceLabels:
-          - __name__
-          - le
+        sourceLabels: ["__name__"]
+        regex: (apiserver|etcd|rest_client)_request(|_sli|_slo)_duration_seconds_bucket
+      - action: drop
+        sourceLabels: ["__name__"]
+        regex: (apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket)
+      # SOURCE: https://github.com/onedr0p/home-ops/blob/main/kubernetes/main/apps/observability/kube-prometheus-stack/app/helmrelease.yaml
+      # Drop excessively noisy apiserver buckets.
+      # - action: drop
+      #   regex: apiserver_request_duration_seconds_bucket;(0.15|0.2|0.3|0.35|0.4|0.45|0.6|0.7|0.8|0.9|1.25|1.5|1.75|2|3|3.5|4|4.5|6|7|8|9|15|25|40|50)
+      #   sourceLabels:
+      #     - __name__
+      #     - le
       - sourceLabels: [__name__]
         regex: '(.+)'
         replacement: 'k3d'
@@ -1575,10 +1588,38 @@ kubelet:
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
     ##
     metricRelabelings:
+    # k3s exposes all metrics on all endpoints, relabel jobs that belong to other components
+    # SOURCE: https://github.com/k3s-io/k3s/issues/3619#issuecomment-1425852034
+    - sourceLabels: [__name__]
+      regex: "scheduler_(.+)"
+      targetLabel: "job"
+      replacement: "kube-scheduler"
+    - sourceLabels: [__name__]
+      regex: "kubeproxy_(.+)"
+      targetLabel: "job"
+      replacement: "kube-proxy"
+    # SOURCE: https://github.com/k3s-io/k3s/issues/3619#issuecomment-1425852034
     - sourceLabels: [__name__]
       regex: '(.+)'
       replacement: 'k3d'
       targetLabel: cluster
+    # SOURCE: https://github.com/onedr0p/home-ops/blob/main/kubernetes/main/apps/observability/kube-prometheus-stack/app/helmrelease.yaml
+    # Remove duplicate labels provided by k3s
+    - action: keep
+      sourceLabels: ["__name__"]
+      regex: (apiserver_audit|apiserver_client|apiserver_delegated|apiserver_envelope|apiserver_storage|apiserver_webhooks|authentication_token|cadvisor_version|container_blkio|container_cpu|container_fs|container_last|container_memory|container_network|container_oom|container_processes|container|csi_operations|disabled_metric|get_token|go|hidden_metric|kubelet_certificate|kubelet_cgroup|kubelet_container|kubelet_containers|kubelet_cpu|kubelet_device|kubelet_graceful|kubelet_http|kubelet_lifecycle|kubelet_managed|kubelet_node|kubelet_pleg|kubelet_pod|kubelet_run|kubelet_running|kubelet_runtime|kubelet_server|kubelet_started|kubelet_volume|kubernetes_build|kubernetes_feature|machine_cpu|machine_memory|machine_nvm|machine_scrape|node_namespace|plugin_manager|prober_probe|process_cpu|process_max|process_open|process_resident|process_start|process_virtual|registered_metric|rest_client|scrape_duration|scrape_samples|scrape_series|storage_operation|volume_manager|volume_operation|workqueue)_(.+)
+    - action: replace
+      sourceLabels: ["node"]
+      targetLabel: instance
+    # Drop high cardinality labels
+    - action: labeldrop
+      regex: (uid)
+    - action: labeldrop
+      regex: (id|name)
+    - action: drop
+      sourceLabels: ["__name__"]
+      regex: (rest_client_request_duration_seconds_bucket|rest_client_request_duration_seconds_sum|rest_client_request_duration_seconds_count)
+    # SOURCE: https://github.com/onedr0p/home-ops/blob/main/kubernetes/main/apps/observability/kube-prometheus-stack/app/helmrelease.yaml
     # - sourceLabels: [__name__, image]
     #   separator: ;
     #   regex: container_([a-z_]+);
@@ -1673,10 +1714,10 @@ kubeControllerManager:
     ## Requires proper certs (not self-signed) and delegated authentication/authorization checks.
     ## If null or unset, the value is determined dynamically based on target Kubernetes version.
     ##
-    https: null
+    https: true
 
     # Skip TLS certificate validation when scraping
-    insecureSkipVerify: null
+    insecureSkipVerify: true
 
     # Name of the server to use when validating TLS certificate
     serverName: null
@@ -1689,6 +1730,12 @@ kubeControllerManager:
       regex: '(.+)'
       replacement: 'k3d'
       targetLabel: cluster
+    # SOURCE: https://github.com/onedr0p/home-ops/blob/main/kubernetes/main/apps/observability/kube-prometheus-stack/app/helmrelease.yaml
+    # Remove duplicate labels provided by k3s
+    - action: keep
+      sourceLabels: ["__name__"]
+      regex: "(apiserver_audit|apiserver_client|apiserver_delegated|apiserver_envelope|apiserver_storage|apiserver_webhooks|attachdetach_controller|authenticated_user|authentication|cronjob_controller|disabled_metric|endpoint_slice|ephemeral_volume|garbagecollector_controller|get_token|go|hidden_metric|job_controller|kubernetes_build|kubernetes_feature|leader_election|node_collector|node_ipam|process_cpu|process_max|process_open|process_resident|process_start|process_virtual|pv_collector|registered_metric|replicaset_controller|rest_client|retroactive_storageclass|root_ca|running_managed|scrape_duration|scrape_samples|scrape_series|service_controller|storage_count|storage_operation|ttl_after|volume_operation|workqueue)_(.+)"
+    # SOURCE: https://github.com/onedr0p/home-ops/blob/main/kubernetes/main/apps/observability/kube-prometheus-stack/app/helmrelease.yaml
     # - action: keep
     #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
     #   sourceLabels: [__name__]
@@ -1905,7 +1952,7 @@ kubeEtcd:
   ##
   ## serviceMonitor:
   ##   scheme: https
-  ##   insecureSkipVerify: false
+  ##   insecureSkipVerify: true
   ##   serverName: localhost
   ##   caFile: /etc/prometheus/secrets/etcd-client-cert/etcd-ca
   ##   certFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client
@@ -1941,7 +1988,7 @@ kubeEtcd:
     ##
     proxyUrl: ""
     scheme: http
-    insecureSkipVerify: false
+    insecureSkipVerify: true
     serverName: ""
     caFile: ""
     certFile: ""
@@ -2037,10 +2084,10 @@ kubeScheduler:
     ## Requires proper certs (not self-signed) and delegated authentication/authorization checks.
     ## If null or unset, the value is determined dynamically based on target Kubernetes version.
     ##
-    https: null
+    https: true
 
     ## Skip TLS certificate validation when scraping
-    insecureSkipVerify: null
+    insecureSkipVerify: true
 
     ## Name of the server to use when validating TLS certificate
     serverName: null
@@ -2053,6 +2100,13 @@ kubeScheduler:
       regex: '(.+)'
       replacement: 'k3d'
       targetLabel: cluster
+    # SOURCE: https://github.com/onedr0p/home-ops/blob/main/kubernetes/main/apps/observability/kube-prometheus-stack/app/helmrelease.yaml
+    # Remove duplicate labels provided by k3s
+    - action: keep
+      sourceLabels: ["__name__"]
+      regex: "(apiserver_audit|apiserver_client|apiserver_delegated|apiserver_envelope|apiserver_storage|apiserver_webhooks|authenticated_user|authentication|disabled_metric|go|hidden_metric|kubernetes_build|kubernetes_feature|leader_election|process_cpu|process_max|process_open|process_resident|process_start|process_virtual|registered_metric|rest_client|scheduler|scrape_duration|scrape_samples|scrape_series|workqueue)_(.+)"
+    # SOURCE: https://github.com/onedr0p/home-ops/blob/main/kubernetes/main/apps/observability/kube-prometheus-stack/app/helmrelease.yaml
+
     # - action: keep
     #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
     #   sourceLabels: [__name__]
@@ -2336,6 +2390,12 @@ prometheus-node-exporter:
         regex: '(.+)'
         replacement: 'k3d'
         targetLabel: cluster
+      - action: replace
+        regex: (.*)
+        replacement: $1
+        sourceLabels:
+          - __meta_kubernetes_pod_node_name
+        targetLabel: kubernetes_node
 
       # - sourceLabels: [__meta_kubernetes_pod_node_name]
       #   separator: ;
@@ -3410,8 +3470,8 @@ prometheus:
     query: {}
 
     ## If nil, select own namespace. Namespaces to be selected for PrometheusRules discovery.
-    ruleNamespaceSelector:
-      any: true
+    ruleNamespaceSelector: {}
+      # DISABLED: # any: true
       # matchLabels:
       #   prometheus: main
     ## Example which selects PrometheusRules in namespaces with label "prometheus" set to "somelabel"
@@ -3428,9 +3488,9 @@ prometheus:
     ## PrometheusRules to be selected for target discovery.
     ## If {}, select all PrometheusRules
     ##
-    ruleSelector:
-      matchLabels:
-        prometheus: main
+    ruleSelector: {}
+      # # DISABLED: # matchLabels:
+      # # DISABLED: #   prometheus: main
     ## Example which select all PrometheusRules resources
     ## with label "prometheus" with values any of "example-rules" or "example-rules-2"
     # ruleSelector:
@@ -3459,15 +3519,15 @@ prometheus:
     ##
     # serviceMonitorSelector: {}
     ## Example which selects ServiceMonitors with label "prometheus" set to "somelabel"
-    serviceMonitorSelector:
-      matchLabels:
-        prometheus: main
+    serviceMonitorSelector: {}
+      ## DISABLED: # matchLabels:
+      ## DISABLED: #   prometheus: main
 
     ## Namespaces to be selected for ServiceMonitor discovery.
     ##
-    serviceMonitorNamespaceSelector:
-      matchLabels:
-        prometheus: main
+    serviceMonitorNamespaceSelector: {}
+      ## DISABLED: # matchLabels:
+      ## DISABLED: #   prometheus: main
     ## Example which selects ServiceMonitors in namespaces with label "prometheus" set to "somelabel"
     # serviceMonitorNamespaceSelector:
     #   matchLabels:
@@ -3482,9 +3542,9 @@ prometheus:
     ## PodMonitors to be selected for target discovery.
     ## If {}, select all PodMonitors
     ##
-    podMonitorSelector:
-      matchLabels:
-        prometheus: main
+    podMonitorSelector: {}
+      # DISABLED: # matchLabels:
+      # DISABLED: #   prometheus: main
     ## Example which selects PodMonitors with label "prometheus" set to "somelabel"
     # podMonitorSelector:
     #   matchLabels:
@@ -3506,9 +3566,9 @@ prometheus:
     ## Probes to be selected for target discovery.
     ## If {}, select all Probes
     ##
-    probeSelector:
-      matchLabels:
-        prometheus: main
+    probeSelector: {}
+      # # DISABLED: # matchLabels:
+      # # DISABLED: #   prometheus: main
     ## Example which selects Probes with label "prometheus" set to "somelabel"
     # probeSelector:
     #   matchLabels:
@@ -3530,9 +3590,9 @@ prometheus:
     ## scrapeConfigs to be selected for target discovery.
     ## If {}, select all scrapeConfigs
     ##
-    scrapeConfigSelector:
-      matchLabels:
-        prometheus: main
+    scrapeConfigSelector: {}
+      # DISABLED: # # matchLabels:
+      # DISABLED: # #   prometheus: main
     ## Example which selects scrapeConfigs with label "prometheus" set to "somelabel"
     # scrapeConfig:
     #   matchLabels:
@@ -3653,13 +3713,13 @@ prometheus:
     ## Prometheus StorageSpec for persistent data
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/storage.md
     ##
-    storageSpec:
-      volumeClaimTemplate:
-        spec:
-          storageClassName: local-path
-          resources:
-            requests:
-              storage: 1Gi
+    storageSpec: {}
+      # volumeClaimTemplate:
+      #   spec:
+      #     storageClassName: local-path
+      #     resources:
+      #       requests:
+      #         storage: 1Gi
     ## Using PersistentVolumeClaim
     ##
     #  volumeClaimTemplate:
@@ -4035,7 +4095,7 @@ prometheus:
 
           ## Skip certificate verification
           ##
-          # insecureSkipVerify: false
+          # insecureSkipVerify: true
 
           ## Path to client key file
           ##
