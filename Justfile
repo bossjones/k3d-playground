@@ -275,12 +275,26 @@ dump-everything:
   kubectl get prometheusrules.monitoring.coreos.com --all-namespaces > dump/prometheusrules.monitoring.coreos.com.txt
   kubectl get ns -o yaml > dump/ns.yaml
   kubectl -n monitoring get all -o yaml > dump/monitoring-all.yaml
+
+
   kubectl -n argocd get clusterrolebindings.rbac.authorization.k8s.io > dump/argocd-clusterrolebindings.txt
   kubectl -n argocd get clusterrolebindings.rbac.authorization.k8s.io -o yaml > dump/argocd-clusterrolebindings.yaml
   kubectl -n argocd get clusterroles.rbac.authorization.k8s.io -o yaml > dump/argocd-clusterroles.yaml
+
+  kubectl -n argocd get roles.rbac.authorization.k8s.io > dump/argocd-roles.txt
+  kubectl -n argocd get roles.rbac.authorization.k8s.io -o yaml > dump/argocd-roles.yaml
+  kubectl -n argocd get rolebindings.rbac.authorization.k8s.io -o yaml > dump/argocd-rolebindings.yaml
+  # kubectl -n argocd get roles.rbac.authorization.k8s.io
+
+
   kubectl -n monitoring get clusterrolebindings.rbac.authorization.k8s.io > dump/monitoring-clusterrolebindings.txt
   kubectl -n monitoring get clusterrolebindings.rbac.authorization.k8s.io -o yaml > dump/monitoring-clusterrolebindings.yaml
   kubectl -n monitoring get clusterroles.rbac.authorization.k8s.io -o yaml > dump/monitoring-clusterroles.yaml
+
+
+  kubectl -n monitoring get roles.rbac.authorization.k8s.io > dump/monitoring-roles.txt
+  kubectl -n monitoring get roles.rbac.authorization.k8s.io -o yaml > dump/monitoring-roles.yaml
+  kubectl -n monitoring get rolebindings.rbac.authorization.k8s.io -o yaml > dump/monitoring-rolebindings.yaml
 
 
 # use kubectl-slice to split the dump into individual files

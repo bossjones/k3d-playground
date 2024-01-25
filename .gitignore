@@ -191,3 +191,7 @@ postgres/*
 storage/*
 utilities/*
 dump/*
+
+!dump/*clusterrole*
+!dump/*role*
+!dump/*serviceaccounts*
