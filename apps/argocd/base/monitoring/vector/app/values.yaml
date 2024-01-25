@@ -258,16 +258,28 @@ serviceHeadless:
 # Configuration for Vector's Ingress.
 ingress:
   # ingress.enabled -- If true, create and use an Ingress resource.
-  enabled: false
+  enabled: true
   # ingress.className -- Specify the [ingressClassName](https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress),
   # requires Kubernetes >= 1.18
-  className: ""
+  className: "nginx"
   # ingress.annotations -- Set annotations on the Ingress.
-  annotations: {}
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   # ingress.hosts -- Configure the hosts and paths for the Ingress.
-  hosts: []
+  # hosts: []
+  hosts:
+      - host: vector.k8s.localhost
+        paths:
+          - path: /
+            pathType: Prefix
+            # Specify the port name or number on the Service
+            # Using name requires Kubernetes >=1.19
+            port:
+              name: "http"
+              number: "9090"
+
   #  - host: chart-example.local
   #    paths:
   #      - path: /
@@ -278,7 +290,10 @@ ingress:
   #          name: ""
   #          number: ""
   # ingress.tls -- Configure TLS for the Ingress.
-  tls: []
+  tls:
+  - secretName: tls-secret
+    hosts:
+    - vector.k8s.localhost
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
