@@ -119,7 +119,14 @@ serviceAccount:
 podAnnotations: {}
 
 # podLabels -- Set labels on Vector Pods.
+# podLabels:
+#   vector.dev/exclude: "true"
+# SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/vector/templates/vector-application.yaml
+# podLabels -- Set labels on Vector Pods.
 podLabels:
+  # this pod needs access to the api server
+  # allow-apiserver-policy: "true"
+  # allow-http-egress-policy: "true"
   vector.dev/exclude: "true"
 
 # podPriorityClassName -- Set the [priorityClassName](https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/#priorityclass)
@@ -314,7 +321,7 @@ customConfig:
   data_dir: /var/lib/vector
   api:
     enabled: true
-    address: 127.0.0.1:8686
+    address: 0.0.0.0:8686
     playground: false
   sources:
     # SOURCE: https://medium.com/@guilmont.romain/observing-k8s-events-in-grafana-an-easy-way-a47efcb395c1
@@ -324,6 +331,7 @@ customConfig:
       extra_label_selector: "app.kubernetes.io/name=k8s-event-logger"
     kubernetes_logs:
       type: kubernetes_logs
+      read_from: end
     host_metrics:
       filesystem:
         devices:
@@ -358,6 +366,64 @@ customConfig:
               } else {
                 . |= object!(parsed)
               }
+
+
+      # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/vector/templates/vector-application.yaml
+      kubernetes_strip_ansi:
+        type: remap
+        inputs:
+          - kubernetes_logs
+        source: |
+          .message = strip_ansi_escape_codes(string!(.message))
+
+      kubernetes_parse_filter_annotation:
+        type: remap
+        inputs:
+          - kubernetes_strip_ansi
+        source: |
+          if (is_null(.filtered) && !is_null(.kubernetes.pod_annotations) && !is_empty(object!(.kubernetes.pod_annotations)) && is_string(.message)) {
+            message_str, msg_err = string(.message)
+            if (is_null(msg_err)) {
+              filtered = false
+              for_each(object!(.kubernetes.pod_annotations)) -> |annotation, value| {
+                if !filtered && contains(string(annotation), "filter.kube.logging.io/") {
+                  parts = split(annotation, ".")
+                  if (length(parts) == 6) {
+                    stream = parts[0]
+                    container = parts[1]
+                    if (stream == .stream && container == .kubernetes.container_name) {
+                      pattern_str, err = string(value)
+                      if (is_null(err)) {
+                        pattern, err = to_regex(pattern_str)
+                        if (is_null(err) && match(message_str, pattern)) {
+                          filtered = true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+
+              .filtered = filtered
+            }
+          }
+
+      kubernetes_filter:
+        type: filter
+        inputs:
+          - kubernetes_parse_filter_annotation
+        condition:
+          type: vrl
+          source: |
+            (is_null(.filtered) || !to_bool!(.filtered)) && !is_empty(strip_whitespace(string!(.message)))
+
+      kubernetes_standardize_app:
+        type: remap
+        inputs:
+          - kubernetes_filter
+        source: |
+          # Standardize 'app' index
+          .custom_app_name = .kubernetes.pod_labels."app.kubernetes.io/name" || .kubernetes.pod_labels.app || .kubernetes.pod_labels."k8s-app" || "unknown"
   # transforms:
   #   my_remap_id:
   #     type: remap
@@ -389,7 +455,7 @@ customConfig:
       address: 0.0.0.0:9090
     stdout:
       type: console
-      inputs: [kubernetes_logs]
+      inputs: [kubernetes_standardize_app]
       encoding:
         codec: json
 # https://vector.dev/docs/reference/configuration/sinks/loki/#label-expansion
@@ -398,7 +464,10 @@ customConfig:
       inputs:
         # - "my_remap_id"
         - "parse_k8s_events"
-        - "kubernetes_logs"
+        - "kubernetes_standardize_app"
+      # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/vector/templates/vector-application.yaml
+      batch:
+        max_bytes: 2049000
       endpoint: http://loki-loki-distributed-gateway.monitoring.svc.cluster.local
       labels:
         forwarder: vector
@@ -406,9 +475,19 @@ customConfig:
         host: "k3d-playground"
         job: vector
         application: "vector"
+        # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/vector/templates/vector-application.yaml
+        app: {{ `'{{ "{{" }} custom_app_name  {{ "}}" }}'` }}
+        stream: {{ `'{{ "{{" }} stream {{ "}}" }}'` }}
+        node: {{ `'{{ "{{" }} kubernetes.pod_node_name {{ "}}" }}'` }}
+        pod: {{ `'{{ "{{" }} kubernetes.pod_name {{ "}}" }}'` }}
+        namespace: {{ `'{{ "{{" }} kubernetes.pod_namespace {{ "}}" }}'` }}
+        container: {{ `'{{ "{{" }} kubernetes.container_name {{ "}}" }}'` }}
+        source: kubernetes
+        ############################################################################
       out_of_order_action: accept
       remove_timestamp: true
-      remove_label_fields: false
+      # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/vector/templates/vector-application.yaml
+      remove_label_fields: true
       tenant_id: docker
       healthcheck:
         enabled: true
@@ -419,6 +498,36 @@ customConfig:
       encoding:
         codec: "json"
         timestamp_format: "rfc3339"
+      # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/vector/templates/vector-application.yaml
+      except_fields:
+        # - file
+        # - kubernetes.container_id
+        # - kubernetes.container_image
+        - kubernetes.namespace_labels."kubernetes.io/metadata.name"
+        # - kubernetes.node_labels
+        # - kubernetes.pod_ip
+        # - kubernetes.pod_ips
+        # - kubernetes.pod_owner
+        # - kubernetes.pod_uid
+        # - kubernetes.pod_name
+        # - kubernetes.pod_namespace
+        # - kubernetes.container_name
+        # - kubernetes.pod_annotations
+        # - kubernetes.container_name
+        - kubernetes.pod_labels."app.kubernetes.io/managed-by"
+        - kubernetes.pod_labels."controller-revision-hash"
+        - kubernetes.pod_labels."pod-template-generation"
+        - kubernetes.pod_labels."pod-template-hash"
+        # - source_type
+        # - stream
+        # - timestamp_end
+      only_fields:
+        - kubernetes.namespace_labels
+        - kubernetes.pod_labels
+        - message
+        # - geoip
+        - src_ip
+        - parsed
       auth:
         strategy: "basic"
         user: ""
@@ -569,12 +678,27 @@ podMonitor:
   relabelings: []
   # podMonitor.metricRelabelings -- [MetricRelabelConfigs](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#metric_relabel_configs)
   # to apply to samples before ingestion.
-  metricRelabelings: []
+  # metricRelabelings: []
+  # podMonitor.metricRelabelings -- [MetricRelabelConfigs](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#metric_relabel_configs)
+  # to apply to samples before ingestion
+  # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/vector/templates/vector-application.yaml
+  metricRelabelings:
+    # Drop metrics that are unset, high cardinality, or extraneous
+    - sourceLabels: [__name__]
+      action: drop
+      regex: ^vector_files_.*
+    - sourceLabels: [__name__]
+      action: drop
+      regex: ^vector_checksum_.*
+  # podMonitor.additionalLabels -- Adds additional labels to the PodMonitor.
   # podMonitor.podTargetLabels -- [podTargetLabels](https://prometheus-operator.dev/docs/operator/api/#monitoring.coreos.com/v1.PodMonitorSpec)
   # transfers labels on the Kubernetes Pod onto the target.
   podTargetLabels: []
   # podMonitor.additionalLabels -- Adds additional labels to the PodMonitor.
-  additionalLabels: {}
+  # additionalLabels: {}
+  # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/vector/templates/vector-application.yaml
+  additionalLabels:
+    prometheus: cluster
   # podMonitor.honorLabels -- If true, honor_labels is set to true in the [scrape config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config).
   honorLabels: false
   # podMonitor.honorTimestamps -- If true, honor_timestamps is set to true in the [scrape config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config).
