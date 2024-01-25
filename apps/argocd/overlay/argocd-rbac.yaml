@@ -7,8 +7,19 @@ metadata:
   name: argocd-rbac-cm
 data:
   policy.default: role:admin
+  # SOURCE: https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/
+  # RBAC Permission Structure¶
+  # Breaking down the permissions definition differs slightly between applications and every other resource type in Argo CD.
+
+  # All resources except application-specific permissions (see next bullet):
+
+  # p, <role/user/group>, <resource>, <action>, <object>
+
+  # Applications, applicationsets, logs, and exec (which belong to an AppProject):
+
+  # p, <role/user/group>, <resource>, <action>, <appproject>/<object>
   policy.csv: |
-    p, role:admin, exec, get, create, */*, allow
+    p, role:admin, exec, create, */*, allow
     g, ext, role:extension
     p, role:extension, applications, get, default/httpbin-app, allow
     p, role:extension, extensions, invoke, httpbin, allow

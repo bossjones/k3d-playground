@@ -9,6 +9,7 @@ rules:
   resources:
   - secrets
   - configmaps
+  - events
   verbs:
   - create
   - get
@@ -23,6 +24,7 @@ rules:
   - applications
   - appprojects
   - applicationsets
+  - argocdextensions
   verbs:
   - create
   - get
@@ -31,13 +33,6 @@ rules:
   - update
   - delete
   - patch
-- apiGroups:
-  - ""
-  resources:
-  - events
-  verbs:
-  - create
-  - list
 - apiGroups:
   - ""
   resources:
