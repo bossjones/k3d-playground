@@ -254,3 +254,10 @@ tail-audit:
 
 get-audit2rbac:
   wget https://github.com/liggitt/audit2rbac/releases/download/v0.10.0/audit2rbac-darwin-arm64.tar.gz -O - | tar -xz
+  mv audit2rbac ~/.bin/audit2rbac
+  chmod +x ~/.bin/audit2rbac
+
+# generate rbac using audit2rbac
+gen-rbac:
+  audit2rbac -f audit/audit.log --serviceaccount=default:doc-controller \
+    --generate-labels="" --generate-annotations="" --generate-name=doc-controller

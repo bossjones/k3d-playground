@@ -13,6 +13,7 @@ including:
 - [MetalLB](https://github.com/metallb/metallb) network load-balancer implementation
 - [OpenFaaS](https://github.com/openfaas/faas) serverless functions made simple
 - [Prometheus](https://github.com/prometheus/prometheus) monitoring system and time series database
+- [Audit2rbac](https://github.com/liggitt/audit2rbac) create proper rbac from audit logs
 
 ## Requirements
 

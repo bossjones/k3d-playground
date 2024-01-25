@@ -1,39 +1,58 @@
 # SOURCE: https://github.com/manno/fleet-dev-tools/blob/ae58f3d6ec25f42466bafb541027edc6bdf64580/bin/setup-k3d-audit.sh#L29
-apiVersion: audit.k8s.io/v1
-kind: Policy
-omitStages:
-- "RequestReceived"
-rules:
-- level: Metadata
-  resources:
-  - group: ""
-    resources: ["pods"]
-  namespaces: ["monitoring"]
-- level: Metadata
-  resources:
-  - group: ""
-    resources: ["pods"]
-  namespaces: ["cattle-fleet-system"]
-- level: None
-  resources:
-  - group: "apps"
-    resources: ["deployments"]
-  namespaces: ["kube-system"]
-- level: RequestResponse
-  resources:
-  - group: "apps"
-    resources: ["deployments"]
-- level: None
-
-# # SOURCE: https://github.com/anasinnyk/oslo.rs/blob/52725a20a5794b58a2924d9f278b8d749eda8c3a/justfile#L97
-# kind: "Policy"
-# apiVersion: "audit.k8s.io/v1"
+# apiVersion: audit.k8s.io/v1
+# kind: Policy
+# omitStages:
+# - "RequestReceived"
 # rules:
 # - level: Metadata
-#   users:
-#   - system:admin
-#   - system:serviceaccount:default:doc-controller
-#   omitStages:
-#   - RequestReceived
-#   - ResponseStarted
-#   - Panic
+#   resources:
+#   - group: ""
+#     resources: ["pods"]
+#   namespaces: ["monitoring"]
+# - level: Metadata
+#   resources:
+#   - group: ""
+#     resources: ["pods"]
+#   namespaces: ["cattle-fleet-system"]
+# - level: None
+#   resources:
+#   - group: "apps"
+#     resources: ["deployments"]
+#   namespaces: ["kube-system"]
+# - level: RequestResponse
+#   resources:
+#   - group: "apps"
+#     resources: ["deployments"]
+# - level: None
+
+# SOURCE: https://github.com/liggitt/audit2rbac/blob/master/testdata/demo-policy.yaml
+# # SOURCE: https://github.com/anasinnyk/oslo.rs/blob/52725a20a5794b58a2924d9f278b8d749eda8c3a/justfile#L97
+kind: "Policy"
+apiVersion: "audit.k8s.io/v1"
+rules:
+- level: Metadata
+  users:
+  - system:admin
+  - system:serviceaccount:default:doc-controller
+  - system:serviceaccount:monitoring:prometheus-k8s
+  - system:serviceaccount:monitoring:kube-prometheus-stack-prometheus
+  - system:serviceaccount:monitoring:kube-prometheus-stack-operator
+  - system:serviceaccount:monitoring:kube-prometheus-stack-kube-state-metrics
+  - system:serviceaccount:monitoring:kube-prometheus-stack-prometheus-node-exporter
+  - system:serviceaccount:monitoring:kube-prometheus-stack-grafana
+  - system:serviceaccount:monitoring:loki-distributed
+  - system:serviceaccount:kube-system:ingress-nginx-backend
+  - system:serviceaccount:kube-system:ingress-nginx
+  - system:serviceaccount:argocd:argocd-notifications-controller
+  - system:serviceaccount:argocd:argocd-application-controller
+  - system:serviceaccount:argocd:argocd-dex-server
+  - system:serviceaccount:argocd:argocd-applicationset-controller
+  - system:serviceaccount:argocd:argocd-repo-server
+  - system:serviceaccount:argocd:argocd-server
+  - system:serviceaccount:argocd:argocd-redis
+  - system:serviceaccount:argo-rollouts:default
+  - system:serviceaccount:argo-rollouts:argo-rollouts
+  omitStages:
+  - RequestReceived
+  - ResponseStarted
+  - Panic
