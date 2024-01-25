@@ -483,20 +483,31 @@ customConfig:
         # pod: "`{{ kubernetes.pod_name  }}`"
         # namespace: "`{{ kubernetes.pod_namespace }}`"
         # container: "`{{ kubernetes.container_name }}`"
+
+        # ############################################################
+        # #YAML
+        # ############################################################
+        # Block Scalars
+        # A block scalar header has three parts:
+
+        # Block Style Indicator: The block style indicates how newlines inside the block should behave. If you would like them to be kept as newlines, use the literal style, indicated by a pipe (|). If instead you want them to be replaced by spaces, use the folded style, indicated by a right angle bracket (>). (To get a newline using the folded style, leave a blank line by putting two newlines in. Lines with extra indentation are also not folded.)
+
+        # Block Chomping Indicator: The chomping indicator controls what should happen with newlines at the end of the string. The default, clip, puts a single newline at the end of the string. To remove all newlines, strip them by putting a minus sign (-) after the style indicator. Both clip and strip ignore how many newlines are actually at the end of the block; to keep them all put a plus sign (+) after the style indicator.
+
         #Below key useed printf() to escape Helm interprets {{ }}
         # SOURCE: https://github.com/helm/helm/issues/2798#issuecomment-890478869
         app:  >-
           {{ printf "{{ custom_app_name }}" }}
-        # stream: >-
-        #   {{ printf "{{ stream }}" }}
-        # node:  >-
-        #   {{ printf "{{ kubernetes.pod_node_name }}" }}
-        # pod:  >-
-        #   {{ printf "{{ kubernetes.pod_name }}" }}
-        # namespace:  >-
-        #   {{ printf "{{ kubernetes.pod_namespace }}" }}
-        # container:  >-
-        #   {{ printf "{{ kubernetes.container_name }}" }}
+        stream: >-
+          {{ printf "{{ stream }}" }}
+        node:  >-
+          {{ printf "{{ kubernetes.pod_node_name }}" }}
+        pod:  >-
+          {{ printf "{{ kubernetes.pod_name }}" }}
+        namespace:  >-
+          {{ printf "{{ kubernetes.pod_namespace }}" }}
+        container:  >-
+          {{ printf "{{ kubernetes.container_name }}" }}
         source: kubernetes
         ############################################################################
       out_of_order_action: accept
@@ -513,36 +524,36 @@ customConfig:
       encoding:
         codec: "json"
         timestamp_format: "rfc3339"
-      # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/vector/templates/vector-application.yaml
-      except_fields:
-        # - file
-        # - kubernetes.container_id
-        # - kubernetes.container_image
-        - kubernetes.namespace_labels."kubernetes.io/metadata.name"
-        # - kubernetes.node_labels
-        # - kubernetes.pod_ip
-        # - kubernetes.pod_ips
-        # - kubernetes.pod_owner
-        # - kubernetes.pod_uid
-        # - kubernetes.pod_name
-        # - kubernetes.pod_namespace
-        # - kubernetes.container_name
-        # - kubernetes.pod_annotations
-        # - kubernetes.container_name
-        - kubernetes.pod_labels."app.kubernetes.io/managed-by"
-        - kubernetes.pod_labels."controller-revision-hash"
-        - kubernetes.pod_labels."pod-template-generation"
-        - kubernetes.pod_labels."pod-template-hash"
-        # - source_type
-        # - stream
-        # - timestamp_end
-      only_fields:
-        - kubernetes.namespace_labels
-        - kubernetes.pod_labels
-        - message
-        # - geoip
-        - src_ip
-        - parsed
+        # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/vector/templates/vector-application.yaml
+        except_fields:
+          # - file
+          # - kubernetes.container_id
+          # - kubernetes.container_image
+          - kubernetes.namespace_labels."kubernetes.io/metadata.name"
+          # - kubernetes.node_labels
+          # - kubernetes.pod_ip
+          # - kubernetes.pod_ips
+          # - kubernetes.pod_owner
+          # - kubernetes.pod_uid
+          # - kubernetes.pod_name
+          # - kubernetes.pod_namespace
+          # - kubernetes.container_name
+          # - kubernetes.pod_annotations
+          # - kubernetes.container_name
+          - kubernetes.pod_labels."app.kubernetes.io/managed-by"
+          - kubernetes.pod_labels."controller-revision-hash"
+          - kubernetes.pod_labels."pod-template-generation"
+          - kubernetes.pod_labels."pod-template-hash"
+          # - source_type
+          # - stream
+          # - timestamp_end
+        only_fields:
+          - kubernetes.namespace_labels
+          - kubernetes.pod_labels
+          - message
+          # - geoip
+          - src_ip
+          - parsed
       auth:
         strategy: "basic"
         user: ""
