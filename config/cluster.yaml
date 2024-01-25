@@ -24,6 +24,31 @@ ports:
   nodeFilters:
     - loadbalancer
 
+# - port: 30000:30000
+#   nodeFilters:
+#     - loadbalancer
+# - port: 8080:8080
+#   nodeFilters:
+#     - loadbalancer
+# - port: 9201:9201
+#   nodeFilters:
+#     - loadbalancer
+# - port: 80:80
+#   nodeFilters:
+#     - loadbalancer
+# - port: 443:443
+#   nodeFilters:
+#     - loadbalancer
+# - port: 9090:9090
+#   nodeFilters:
+#     - loadbalancer
+# - port: 8081:8081
+#   nodeFilters:
+#     - loadbalancer
+# - port: 9091:9091
+#   nodeFilters:
+#     - loadbalancer
+
 # #
 # #%{ if expose_azurite == true }
 # - port: 10000:10000 # same as `--port '10000:10000@loadbalancer'`
