@@ -208,21 +208,21 @@ options:
       nodeFilters:
       - server:*
       - agent:*
-    - arg: --kube-scheduler-arg=bind-address=0.0.0.0
-      nodeFilters:
-      - server:*
-    - arg: --kube-scheduler-arg=address=0.0.0.0
-      nodeFilters:
-      - server:*
-    - arg: --kube-controller-manager-arg=bind-address=0.0.0.0
-      nodeFilters:
-      - server:*
-    - arg: --etcd-expose-metrics=true
-      nodeFilters:
-      - server:*
-    - arg: --kube-controller-manager-arg=address=0.0.0.0
-      nodeFilters:
-      - server:*
+    # FIXME: I think we need to re-enable these but I need help doing it # - arg: --kube-scheduler-arg=bind-address=0.0.0.0
+    # FIXME: I think we need to re-enable these but I need help doing it #   nodeFilters:
+    # FIXME: I think we need to re-enable these but I need help doing it #   - server:*
+    # FIXME: I think we need to re-enable these but I need help doing it # - arg: --kube-scheduler-arg=address=0.0.0.0
+    # FIXME: I think we need to re-enable these but I need help doing it #   nodeFilters:
+    # FIXME: I think we need to re-enable these but I need help doing it #   - server:*
+    # FIXME: I think we need to re-enable these but I need help doing it # - arg: --kube-controller-manager-arg=bind-address=0.0.0.0
+    # FIXME: I think we need to re-enable these but I need help doing it #   nodeFilters:
+    # FIXME: I think we need to re-enable these but I need help doing it #   - server:*
+    # FIXME: I think we need to re-enable these but I need help doing it # - arg: --etcd-expose-metrics=true
+    # FIXME: I think we need to re-enable these but I need help doing it #   nodeFilters:
+    # FIXME: I think we need to re-enable these but I need help doing it #   - server:*
+    # FIXME: I think we need to re-enable these but I need help doing it # - arg: --kube-controller-manager-arg=address=0.0.0.0
+    # FIXME: I think we need to re-enable these but I need help doing it #   nodeFilters:
+    # FIXME: I think we need to re-enable these but I need help doing it #   - server:*
     - arg: --kubelet-arg=node-status-update-frequency=4s
       nodeFilters:
       - server:*
