@@ -275,6 +275,11 @@ dump-everything:
   kubectl get prometheusrules.monitoring.coreos.com --all-namespaces > dump/prometheusrules.monitoring.coreos.com.txt
   kubectl get ns -o yaml > dump/ns.yaml
   kubectl -n monitoring get all -o yaml > dump/monitoring-all.yaml
+  kubectl -n argocd get clusterrolebindings.rbac.authorization.k8s.io > dump/argocd-clusterrolebindings.txt
+  kubectl -n argocd get clusterrolebindings.rbac.authorization.k8s.io -o yaml > dump/argocd-clusterrolebindings.yaml
+  kubectl -n argocd get clusterroles.rbac.authorization.k8s.io -o yaml > dump/argocd-clusterroles.yaml
+
+
 
 # use kubectl-slice to split the dump into individual files
 split-dump:
