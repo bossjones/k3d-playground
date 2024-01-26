@@ -50,11 +50,11 @@ spec:
   #   jqPathExpressions:
   #   - .spec.endpoints[]?.relabelings[]?.action
   # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/loki/templates/loki-application.yaml
-  # ignoreDifferences:
-  # - group: apps
-  #   kind: StatefulSet
-  #   jsonPointers:
-  #     - /spec/persistentVolumeClaimRetentionPolicy
+  ignoreDifferences:
+  - group: apps
+    kind: StatefulSet
+    jsonPointers:
+      - /spec/persistentVolumeClaimRetentionPolicy
 
 # # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/loki/templates/loki-application.yaml
 # ---
