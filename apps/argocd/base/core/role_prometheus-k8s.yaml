@@ -1,4 +1,5 @@
 ---
+# NOTE: https://grafana.com/blog/2023/01/19/how-to-monitor-kubernetes-clusters-with-the-prometheus-operator/ <- look at this
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:

@@ -19,6 +19,12 @@ rules:
   - update
   - patch # supports `argocd app patch`
   - delete # supports deletion a live object in UI
+- nonResourceURLs:
+  - '*'
+  verbs:
+  - get
+  - list
+  - watch
 #########################################################
 # SOURCE: https://github.com/argoproj/argo-cd/blob/master/manifests/cluster-rbac/server/argocd-server-clusterrole.yaml
 - apiGroups:
@@ -57,6 +63,74 @@ rules:
   - workflows
   verbs:
   - create   # supports triggering workflows from UI
+############################################################
+# SOURCE: ethos clusterrole-argocd-manager
+# cluster-wide get/list/watch required for argocd to function properly
+# all non-core resources
+- apiGroups:
+  - admissionregistration.k8s.io
+  - apiextensions.k8s.io
+  - apiregistration.k8s.io
+  - apps
+  - authentication.k8s.io
+  - authorization.k8s.io
+  - autoscaling
+  - autoscaling.k8s.io
+  - batch
+  - beat.k8s.elastic.co
+  - certificates.k8s.io
+  - discovery.k8s.io
+  - events.k8s.io
+  - extensions
+  - external.metrics.k8s.io
+  - flowcontrol.apiserver.k8s.io
+  - helm.fluxcd.io
+  - helm.toolkit.fluxcd.io
+  - kafka.banzaicloud.io
+  - keda.sh
+  - kibana.k8s.elastic.co
+  - metrics.k8s.io
+  - monitoring.coreos.com
+  - mutatingwebhookconfigurations.admissionregistration.k8s.io
+  - networking.k8s.io
+  - node.k8s.io
+  - opentelemetry.io
+  - podsecuritypolicies.policy
+  - policy
+  - projectcontour.io
+  - ray.io
+  - rbac.authorization.k8s.io
+  - ricoberger.de
+  - scheduling.k8s.io
+  - storage.k8s.io
+  - velero.io
+  resources:
+  - '*'
+  verbs:
+  - get
+  - list
+  - watch
+# required for 'argocd cluster rotate-auth' command
+- apiGroups:
+  - ''
+  resources:
+  - serviceaccounts
+  verbs:
+  - create
+  - update
+  - patch
+  - delete
+# all argocd / argo rollouts
+- apiGroups:
+  - argoproj.io
+  - ray.io
+  resources:
+  - '*'
+  verbs:
+  - create
+  - update
+  - patch
+  - delete
 # work
 # - apiGroups:
 #   - '*'
