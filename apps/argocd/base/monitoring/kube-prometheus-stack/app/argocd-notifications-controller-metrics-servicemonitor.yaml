@@ -4,6 +4,8 @@ metadata:
   name: argocd-notifications-controller-metrics
   labels:
     release: kube-prometheus-stack
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   selector:
     matchLabels:

@@ -278,7 +278,8 @@ serviceMonitor:
   # -- Namespace selector for ServiceMonitor resources
   namespaceSelector: {}
   # -- ServiceMonitor annotations
-  annotations: {}
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   # -- Additional ServiceMonitor labels
   # labels: {}
   labels:
@@ -410,7 +411,9 @@ ingester:
   # -- Labels for ingester pods
   podLabels: {}
   # -- Annotations for ingester pods
-  podAnnotations: {}
+  # podAnnotations: {}
+  podAnnotations:
+    reloader.stakater.com/auto: "true"
   # -- Labels for ingestor service
   serviceLabels:
     prometheus: monitoring
@@ -1597,7 +1600,8 @@ indexGateway:
     # set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
     storageClass: local-path
     # -- Annotations for index gateway PVCs
-    annotations: {}
+    annotations:
+      argocd.argoproj.io/sync-options: Delete=false
 
 memcached:
   readinessProbe:
