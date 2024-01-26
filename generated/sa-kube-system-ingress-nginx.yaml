@@ -5,6 +5,14 @@ metadata:
   namespace: kube-system
 rules:
 - apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
   - coordination.k8s.io
   resourceNames:
   - ingress-nginx-leader
@@ -30,6 +38,20 @@ rules:
   - get
   - list
   - watch
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+- apiGroups:
+  - ""
+  resourceNames:
+  - k3d-demo-agent-1
+  resources:
+  - nodes
+  verbs:
+  - get
 - apiGroups:
   - discovery.k8s.io
   resources:

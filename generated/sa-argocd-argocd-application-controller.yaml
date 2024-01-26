@@ -20,6 +20,113 @@ rules:
   - update
 ---
 apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: argocd-application-controller
+  namespace: kube-system
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - serviceaccounts
+  verbs:
+  - create
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  verbs:
+  - create
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: argocd-application-controller
+  namespace: monitoring
+rules:
+- apiGroups:
+  - ""
+  resourceNames:
+  - monitoring
+  resources:
+  - namespaces
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apps
+  resources:
+  - daemonsets
+  - statefulsets
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - monitoring.coreos.com
+  resourceNames:
+  - kube-prometheus-stack-alertmanager
+  resources:
+  - alertmanagers
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - monitoring.coreos.com
+  resourceNames:
+  - vector
+  resources:
+  - podmonitors
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - monitoring.coreos.com
+  resourceNames:
+  - kube-prometheus-stack-prometheus
+  resources:
+  - prometheuses
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - monitoring.coreos.com
+  resources:
+  - prometheusrules
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingresses
+  verbs:
+  - get
+  - patch
+  - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: argocd-application-controller
@@ -28,6 +135,16 @@ rules:
   - ""
   resources:
   - configmaps
+  - services
+  verbs:
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
   - endpoints
   - limitranges
   - namespaces
@@ -39,11 +156,20 @@ rules:
   - replicationcontrollers
   - resourcequotas
   - secrets
-  - serviceaccounts
-  - services
   verbs:
   - get
   - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - serviceaccounts
+  verbs:
+  - delete
+  - get
+  - list
+  - patch
+  - update
   - watch
 - apiGroups:
   - acid.zalan.do
@@ -55,12 +181,31 @@ rules:
   - watch
 - apiGroups:
   - admissionregistration.k8s.io
+  resourceNames:
+  - kube-prometheus-stack-admission
   resources:
   - mutatingwebhookconfigurations
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - admissionregistration.k8s.io
+  resources:
+  - mutatingwebhookconfigurations
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - admissionregistration.k8s.io
+  resources:
   - validatingwebhookconfigurations
   verbs:
   - get
   - list
+  - patch
+  - update
   - watch
 - apiGroups:
   - apiextensions.k8s.io
@@ -69,7 +214,19 @@ rules:
   verbs:
   - get
   - list
+  - patch
+  - update
   - watch
+- apiGroups:
+  - apiregistration.k8s.io
+  resourceNames:
+  - v1beta1.metrics.k8s.io
+  resources:
+  - apiservices
+  verbs:
+  - get
+  - patch
+  - update
 - apiGroups:
   - apiregistration.k8s.io
   resources:
@@ -83,12 +240,21 @@ rules:
   resources:
   - controllerrevisions
   - daemonsets
-  - deployments
   - replicasets
   - statefulsets
   verbs:
   - get
   - list
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - get
+  - list
+  - patch
+  - update
   - watch
 - apiGroups:
   - argoproj.io
@@ -118,8 +284,16 @@ rules:
   - batch
   resources:
   - cronjobs
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - batch
+  resources:
   - jobs
   verbs:
+  - delete
   - get
   - list
   - watch
@@ -176,11 +350,20 @@ rules:
   - prometheuses
   - prometheusrules
   - scrapeconfigs
-  - servicemonitors
   - thanosrulers
   verbs:
   - get
   - list
+  - watch
+- apiGroups:
+  - monitoring.coreos.com
+  resources:
+  - servicemonitors
+  verbs:
+  - get
+  - list
+  - patch
+  - update
   - watch
 - apiGroups:
   - networking.k8s.io
@@ -192,6 +375,16 @@ rules:
   - get
   - list
   - watch
+- apiGroups:
+  - networking.k8s.io
+  resourceNames:
+  - nginx
+  resources:
+  - ingressclasses
+  verbs:
+  - get
+  - patch
+  - update
 - apiGroups:
   - node.k8s.io
   resources:
@@ -216,8 +409,12 @@ rules:
   - rolebindings
   - roles
   verbs:
+  - create
+  - delete
   - get
   - list
+  - patch
+  - update
   - watch
 - apiGroups:
   - scheduling.k8s.io
@@ -245,6 +442,34 @@ kind: RoleBinding
 metadata:
   name: argocd-application-controller
   namespace: argocd
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: argocd-application-controller
+subjects:
+- kind: ServiceAccount
+  name: argocd-application-controller
+  namespace: argocd
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: argocd-application-controller
+  namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: argocd-application-controller
+subjects:
+- kind: ServiceAccount
+  name: argocd-application-controller
+  namespace: argocd
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: argocd-application-controller
+  namespace: monitoring
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role

@@ -2,6 +2,64 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: kube-prometheus-stack-operator
+  namespace: monitoring
+rules:
+- apiGroups:
+  - ""
+  resourceNames:
+  - prometheus-kube-prometheus-stack-prometheus-rulefiles-0
+  resources:
+  - configmaps
+  verbs:
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - create
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - delete
+  - get
+  - patch
+  - update
+- apiGroups:
+  - monitoring.coreos.com
+  resourceNames:
+  - kube-prometheus-stack-alertmanager
+  resources:
+  - alertmanagers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - monitoring.coreos.com
+  resourceNames:
+  - kube-prometheus-stack-prometheus
+  resources:
+  - prometheuses/status
+  verbs:
+  - get
+  - patch
+  - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kube-prometheus-stack-operator
   namespace: kube-system
 rules:
 - apiGroups:
@@ -10,7 +68,6 @@ rules:
   - kube-prometheus-stack-kubelet
   resources:
   - endpoints
-  - services
   verbs:
   - get
   - patch
@@ -32,6 +89,14 @@ rules:
   - get
   - list
   - watch
+- apiGroups:
+  - ""
+  resources:
+  - services
+  verbs:
+  - get
+  - patch
+  - update
 - apiGroups:
   - apps
   resources:
@@ -57,6 +122,20 @@ rules:
   - get
   - list
   - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kube-prometheus-stack-operator
+  namespace: monitoring
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kube-prometheus-stack-operator
+subjects:
+- kind: ServiceAccount
+  name: kube-prometheus-stack-operator
+  namespace: monitoring
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
