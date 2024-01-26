@@ -1,3 +1,6 @@
+commonLabels:
+  prometheus: main
+
 controller:
   replicaCount: 1
   allowSnippetAnnotations: true
@@ -7,6 +10,9 @@ controller:
   service:
     type: LoadBalancer
     externalTrafficPolicy: Local
+    # -- Labels to be added to both controller services.
+    labels:
+      prometheus: main
   ingressClassResource:
     default: true
   config:

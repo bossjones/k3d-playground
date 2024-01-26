@@ -983,7 +983,7 @@ grafana:
           editable: true
           options:
             path: /var/lib/grafana/dashboards/unifi
-  datasources:
+  # datasources:
     # datasources.yaml:
     #   apiVersion: 1
     #   deleteDatasources:
@@ -1081,9 +1081,57 @@ grafana:
       nginx-request-handling-performance:
         url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
         datasource: Prometheus
+    # TODO: Enable this but you need to convert it from elasticsearch to loki
+    # vector:
+    #   observing-k8s-events-in-grafana-an-easy-way:
+    #       url: https://raw.githubusercontent.com/bossjones/k3d-playground/master/examples/dashboards/observing-k8s-events-in-grafana-an-easy-way.json
+    #       datasource: Prometheus
+    loki:
+      loki-chunks:
+        url: https://raw.githubusercontent.com/grafana/loki/main/production/loki-mixin-compiled/dashboards/loki-chunks.json
+        datasource: Prometheus
+      loki-deletion:
+        url: https://raw.githubusercontent.com/grafana/loki/main/production/loki-mixin-compiled/dashboards/loki-deletion.json
+        datasource: Prometheus
+      loki-logs:
+        url: https://raw.githubusercontent.com/grafana/loki/main/production/loki-mixin-compiled/dashboards/loki-logs.json
+        datasource: Prometheus
+      loki-mixin-recording-rules:
+        url: https://raw.githubusercontent.com/grafana/loki/main/production/loki-mixin-compiled/dashboards/loki-mixin-recording-rules.json
+        datasource: Prometheus
+      loki-operational:
+        url: https://raw.githubusercontent.com/grafana/loki/main/production/loki-mixin-compiled/dashboards/loki-operational.json
+        datasource: Prometheus
+      loki-reads-resources:
+        url: https://raw.githubusercontent.com/grafana/loki/main/production/loki-mixin-compiled/dashboards/loki-reads-resources.json
+        datasource: Prometheus
+      loki-reads:
+        url: https://raw.githubusercontent.com/grafana/loki/main/production/loki-mixin-compiled/dashboards/loki-reads.json
+        datasource: Prometheus
+      loki-retention:
+        url: https://raw.githubusercontent.com/grafana/loki/main/production/loki-mixin-compiled/dashboards/loki-retention.json
+        datasource: Prometheus
+      loki-writes-resources:
+        url: https://raw.githubusercontent.com/grafana/loki/main/production/loki-mixin-compiled/dashboards/loki-writes-resources.json
+        datasource: Prometheus
+      loki-writes:
+        url: https://raw.githubusercontent.com/grafana/loki/main/production/loki-mixin-compiled/dashboards/loki-writes.json
+        datasource: Prometheus
     argo:
       argocd-dashboard:
         url: https://raw.githubusercontent.com/argoproj/argo-cd/master/examples/dashboard.json
+        datasource: Prometheus
+      argocd-application-overview:
+        gnetId: 19974
+        revision: 1
+        datasource: Prometheus
+      argocd-operational-overview:
+        gnetId: 19993
+        revision: 1
+        datasource: Prometheus
+      argocd-notifications-overview:
+        gnetId: 19975
+        revision: 1
         datasource: Prometheus
     unifi:
       unifi-insights:
@@ -1187,6 +1235,7 @@ grafana:
   - natel-discrete-panel
   - pr0ps-trackmap-panel
   - vonage-status-panel
+  - grafana-googlesheets-datasource
   persistence:
     enabled: false
   testFramework:

@@ -152,3 +152,51 @@ Whenever you want to restart from scratch and create a new cluster, just type `t
 [argocd-localhost]: https://argocd.k8s.localhost
 [vault-localhost]: https://vault.k8s.localhost
 [dbs-localhost]: https://dbs.k8s.localhost
+
+
+# k3d-pv.yaml and k3d-pvc.yaml
+
+```
+# SOURCE: https://blogops.mixinet.net/posts/k8s_static_content_server/
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: scs-pv
+  labels:
+    app.kubernetes.io/name: scs
+spec:
+  capacity:
+    storage: 8Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  claimRef:
+    name: scs-pvc
+  storageClassName: local-storage
+  local:
+    path: /volumes/scs-pv
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node.kubernetes.io/instance-type
+          operator: In
+          values:
+          - k3s
+# The nodeAffinity section is required but in practice the current definition selects all k3d nodes.
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: scs-pvc
+  labels:
+    app.kubernetes.io/name: scs
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+  storageClassName: local-storage
+```

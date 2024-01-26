@@ -4,3 +4,9 @@ kind: Kustomization
 
 resources:
   - app
+
+# SOURCE: https://www.innoq.com/en/blog/2022/07/advanced-kustomize-features/#limitlabelsandannotationstospecificresourcesorfields
+labels:
+- pairs:
+    monitoring: prometheus
+    prometheus: main

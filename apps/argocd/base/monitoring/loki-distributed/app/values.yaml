@@ -272,7 +272,7 @@ rbac:
 # ServiceMonitor configuration
 serviceMonitor:
   # -- If enabled, ServiceMonitor resources for Prometheus Operator are created
-  enabled: false
+  enabled: true
   # -- Alternative namespace for ServiceMonitor resources
   namespace: null
   # -- Namespace selector for ServiceMonitor resources
@@ -280,7 +280,9 @@ serviceMonitor:
   # -- ServiceMonitor annotations
   annotations: {}
   # -- Additional ServiceMonitor labels
-  labels: {}
+  # labels: {}
+  labels:
+    prometheus: main
   # -- ServiceMonitor scrape interval
   interval: null
   # -- ServiceMonitor scrape timeout in Go duration format (e.g. 15s)
@@ -302,67 +304,68 @@ serviceMonitor:
 # Rules for the Prometheus Operator
 prometheusRule:
   # -- If enabled, a PrometheusRule resource for Prometheus Operator is created
-  enabled: false
+  enabled: true
   # -- Alternative namespace for the PrometheusRule resource
   namespace: null
   # -- PrometheusRule annotations
   annotations: {}
   # -- Additional PrometheusRule labels
-  labels: {}
+  labels:
+    prometheus: main
   # -- Contents of Prometheus rules file
-  groups: []
-  #  - name: loki_rules
-  #    rules:
-  #      - expr: histogram_quantile(0.99, sum(rate(loki_request_duration_seconds_bucket[1m]))
-  #          by (le, cluster, job))
-  #        record: cluster_job:loki_request_duration_seconds:99quantile
-  #      - expr: histogram_quantile(0.50, sum(rate(loki_request_duration_seconds_bucket[1m]))
-  #          by (le, cluster, job))
-  #        record: cluster_job:loki_request_duration_seconds:50quantile
-  #      - expr: sum(rate(loki_request_duration_seconds_sum[1m])) by (cluster, job) / sum(rate(loki_request_duration_seconds_count[1m]))
-  #          by (cluster, job)
-  #        record: cluster_job:loki_request_duration_seconds:avg
-  #      - expr: sum(rate(loki_request_duration_seconds_bucket[1m])) by (le, cluster, job)
-  #        record: cluster_job:loki_request_duration_seconds_bucket:sum_rate
-  #      - expr: sum(rate(loki_request_duration_seconds_sum[1m])) by (cluster, job)
-  #        record: cluster_job:loki_request_duration_seconds_sum:sum_rate
-  #      - expr: sum(rate(loki_request_duration_seconds_count[1m])) by (cluster, job)
-  #        record: cluster_job:loki_request_duration_seconds_count:sum_rate
-  #      - expr: histogram_quantile(0.99, sum(rate(loki_request_duration_seconds_bucket[1m]))
-  #          by (le, cluster, job, route))
-  #        record: cluster_job_route:loki_request_duration_seconds:99quantile
-  #      - expr: histogram_quantile(0.50, sum(rate(loki_request_duration_seconds_bucket[1m]))
-  #          by (le, cluster, job, route))
-  #        record: cluster_job_route:loki_request_duration_seconds:50quantile
-  #      - expr: sum(rate(loki_request_duration_seconds_sum[1m])) by (cluster, job, route)
-  #          / sum(rate(loki_request_duration_seconds_count[1m])) by (cluster, job, route)
-  #        record: cluster_job_route:loki_request_duration_seconds:avg
-  #      - expr: sum(rate(loki_request_duration_seconds_bucket[1m])) by (le, cluster, job,
-  #          route)
-  #        record: cluster_job_route:loki_request_duration_seconds_bucket:sum_rate
-  #      - expr: sum(rate(loki_request_duration_seconds_sum[1m])) by (cluster, job, route)
-  #        record: cluster_job_route:loki_request_duration_seconds_sum:sum_rate
-  #      - expr: sum(rate(loki_request_duration_seconds_count[1m])) by (cluster, job, route)
-  #        record: cluster_job_route:loki_request_duration_seconds_count:sum_rate
-  #      - expr: histogram_quantile(0.99, sum(rate(loki_request_duration_seconds_bucket[1m]))
-  #          by (le, cluster, namespace, job, route))
-  #        record: cluster_namespace_job_route:loki_request_duration_seconds:99quantile
-  #      - expr: histogram_quantile(0.50, sum(rate(loki_request_duration_seconds_bucket[1m]))
-  #          by (le, cluster, namespace, job, route))
-  #        record: cluster_namespace_job_route:loki_request_duration_seconds:50quantile
-  #      - expr: sum(rate(loki_request_duration_seconds_sum[1m])) by (cluster, namespace,
-  #          job, route) / sum(rate(loki_request_duration_seconds_count[1m])) by (cluster,
-  #          namespace, job, route)
-  #        record: cluster_namespace_job_route:loki_request_duration_seconds:avg
-  #      - expr: sum(rate(loki_request_duration_seconds_bucket[1m])) by (le, cluster, namespace,
-  #          job, route)
-  #        record: cluster_namespace_job_route:loki_request_duration_seconds_bucket:sum_rate
-  #      - expr: sum(rate(loki_request_duration_seconds_sum[1m])) by (cluster, namespace,
-  #          job, route)
-  #        record: cluster_namespace_job_route:loki_request_duration_seconds_sum:sum_rate
-  #      - expr: sum(rate(loki_request_duration_seconds_count[1m])) by (cluster, namespace,
-  #          job, route)
-  #        record: cluster_namespace_job_route:loki_request_duration_seconds_count:sum_rate
+  groups:
+  - name: loki_rules
+    rules:
+      - expr: histogram_quantile(0.99, sum(rate(loki_request_duration_seconds_bucket[1m]))
+          by (le, cluster, job))
+        record: cluster_job:loki_request_duration_seconds:99quantile
+      - expr: histogram_quantile(0.50, sum(rate(loki_request_duration_seconds_bucket[1m]))
+          by (le, cluster, job))
+        record: cluster_job:loki_request_duration_seconds:50quantile
+      - expr: sum(rate(loki_request_duration_seconds_sum[1m])) by (cluster, job) / sum(rate(loki_request_duration_seconds_count[1m]))
+          by (cluster, job)
+        record: cluster_job:loki_request_duration_seconds:avg
+      - expr: sum(rate(loki_request_duration_seconds_bucket[1m])) by (le, cluster, job)
+        record: cluster_job:loki_request_duration_seconds_bucket:sum_rate
+      - expr: sum(rate(loki_request_duration_seconds_sum[1m])) by (cluster, job)
+        record: cluster_job:loki_request_duration_seconds_sum:sum_rate
+      - expr: sum(rate(loki_request_duration_seconds_count[1m])) by (cluster, job)
+        record: cluster_job:loki_request_duration_seconds_count:sum_rate
+      - expr: histogram_quantile(0.99, sum(rate(loki_request_duration_seconds_bucket[1m]))
+          by (le, cluster, job, route))
+        record: cluster_job_route:loki_request_duration_seconds:99quantile
+      - expr: histogram_quantile(0.50, sum(rate(loki_request_duration_seconds_bucket[1m]))
+          by (le, cluster, job, route))
+        record: cluster_job_route:loki_request_duration_seconds:50quantile
+      - expr: sum(rate(loki_request_duration_seconds_sum[1m])) by (cluster, job, route)
+          / sum(rate(loki_request_duration_seconds_count[1m])) by (cluster, job, route)
+        record: cluster_job_route:loki_request_duration_seconds:avg
+      - expr: sum(rate(loki_request_duration_seconds_bucket[1m])) by (le, cluster, job,
+          route)
+        record: cluster_job_route:loki_request_duration_seconds_bucket:sum_rate
+      - expr: sum(rate(loki_request_duration_seconds_sum[1m])) by (cluster, job, route)
+        record: cluster_job_route:loki_request_duration_seconds_sum:sum_rate
+      - expr: sum(rate(loki_request_duration_seconds_count[1m])) by (cluster, job, route)
+        record: cluster_job_route:loki_request_duration_seconds_count:sum_rate
+      - expr: histogram_quantile(0.99, sum(rate(loki_request_duration_seconds_bucket[1m]))
+          by (le, cluster, namespace, job, route))
+        record: cluster_namespace_job_route:loki_request_duration_seconds:99quantile
+      - expr: histogram_quantile(0.50, sum(rate(loki_request_duration_seconds_bucket[1m]))
+          by (le, cluster, namespace, job, route))
+        record: cluster_namespace_job_route:loki_request_duration_seconds:50quantile
+      - expr: sum(rate(loki_request_duration_seconds_sum[1m])) by (cluster, namespace,
+          job, route) / sum(rate(loki_request_duration_seconds_count[1m])) by (cluster,
+          namespace, job, route)
+        record: cluster_namespace_job_route:loki_request_duration_seconds:avg
+      - expr: sum(rate(loki_request_duration_seconds_bucket[1m])) by (le, cluster, namespace,
+          job, route)
+        record: cluster_namespace_job_route:loki_request_duration_seconds_bucket:sum_rate
+      - expr: sum(rate(loki_request_duration_seconds_sum[1m])) by (cluster, namespace,
+          job, route)
+        record: cluster_namespace_job_route:loki_request_duration_seconds_sum:sum_rate
+      - expr: sum(rate(loki_request_duration_seconds_count[1m])) by (cluster, namespace,
+          job, route)
+        record: cluster_namespace_job_route:loki_request_duration_seconds_count:sum_rate
 
 # Configuration for the ingester
 ingester:
@@ -409,7 +412,8 @@ ingester:
   # -- Annotations for ingester pods
   podAnnotations: {}
   # -- Labels for ingestor service
-  serviceLabels: {}
+  serviceLabels:
+    prometheus: monitoring
   # -- Additional CLI args for the ingester
   extraArgs: []
   # -- Environment variables to add to the ingester pods
@@ -471,20 +475,20 @@ ingester:
   livenessProbe: {}
   persistence:
     # -- Enable creating PVCs which is required when using boltdb-shipper
-    enabled: false
+    enabled: true
     # -- Use emptyDir with ramdisk for storage. **Please note that all data in ingester will be lost on pod restart**
     inMemory: false
       # -- List of the ingester PVCs
       # @notationType -- list
     claims:
       - name: data
-        size: 10Gi
+        size: 2Gi
         #   -- Storage class to be used.
         #   If defined, storageClassName: <storageClass>.
         #   If set to "-", storageClassName: "", which disables dynamic provisioning.
         #   If empty or set to null, no storageClassName spec is
         #   set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
-        storageClass: null
+        storageClass: local-path
       # - name: wal
       #   size: 150Gi
 
@@ -536,7 +540,8 @@ distributor:
   # -- Annotations for distributor pods
   podAnnotations: {}
   # -- Labels for distributor service
-  serviceLabels: {}
+  serviceLabels:
+    prometheus: monitoring
   # -- Additional CLI args for the distributor
   extraArgs: []
   # -- Environment variables to add to the distributor pods
@@ -625,7 +630,8 @@ querier:
   # -- Annotations for querier pods
   podAnnotations: {}
   # -- Labels for querier service
-  serviceLabels: {}
+  serviceLabels:
+    prometheus: monitoring
   # -- Additional CLI args for the querier
   extraArgs: []
   # -- Environment variables to add to the querier pods
@@ -689,7 +695,7 @@ querier:
     # If set to "-", storageClassName: "", which disables dynamic provisioning.
     # If empty or set to null, no storageClassName spec is
     # set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
-    storageClass: null
+    storageClass: local-path
     # -- Annotations for querier PVCs
     annotations: {}
   # -- Adds the appProtocol field to the querier service. This allows querier to work with istio protocol selection.
@@ -740,7 +746,8 @@ queryFrontend:
   # -- Annotations for query-frontend pods
   podAnnotations: {}
   # -- Labels for query-frontend service
-  serviceLabels: {}
+  serviceLabels:
+    prometheus: monitoring
   # -- Additional CLI args for the query-frontend
   extraArgs: []
   # -- Environment variables to add to the query-frontend pods
@@ -811,7 +818,8 @@ queryScheduler:
   # -- Annotations for query-scheduler pods
   podAnnotations: {}
   # -- Labels for query-scheduler service
-  serviceLabels: {}
+  serviceLabels:
+    prometheus: monitoring
   # -- Additional CLI args for the query-scheduler
   extraArgs: []
   # -- Environment variables to add to the query-scheduler pods
@@ -876,7 +884,8 @@ tableManager:
   # -- Annotations for table-manager pods
   podAnnotations: {}
   # -- Labels for table-manager service
-  serviceLabels: {}
+  serviceLabels:
+    prometheus: monitoring
   # -- Additional CLI args for the table-manager
   extraArgs: []
   # -- Environment variables to add to the table-manager pods
@@ -1301,7 +1310,8 @@ compactor:
                 {{- include "loki.compactorSelectorLabels" . | nindent 12 }}
             topologyKey: failure-domain.beta.kubernetes.io/zone
   # -- Labels for compactor service
-  serviceLabels: {}
+  serviceLabels:
+    prometheus: monitoring
   # -- Additional CLI args for the compactor
   extraArgs: []
   # -- Environment variables to add to the compactor pods
@@ -1331,17 +1341,17 @@ compactor:
     # -- Enable creating PVCs for the compactor
     enabled: false
     # -- Size of persistent disk
-    size: 10Gi
+    size: 1Gi
     # -- Storage class to be used.
     # If defined, storageClassName: <storageClass>.
     # If set to "-", storageClassName: "", which disables dynamic provisioning.
     # If empty or set to null, no storageClassName spec is
     # set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
-    storageClass: null
+    storageClass: local-path
     # -- Annotations for compactor PVCs
     annotations: {}
   serviceAccount:
-    create: false
+    create: true
     # -- The name of the ServiceAccount to use for the compactor.
     # If not set and create is true, a name is generated by appending
     # "-compactor" to the common ServiceAccount.
@@ -1382,7 +1392,8 @@ ruler:
   # -- Annotations for ruler pods
   podAnnotations: {}
   # -- Labels for ruler service
-  serviceLabels: {}
+  serviceLabels:
+    prometheus: monitoring
   # -- Additional CLI args for the ruler
   extraArgs: []
   # -- Environment variables to add to the ruler pods
@@ -1435,7 +1446,7 @@ ruler:
     # If set to "-", storageClassName: "", which disables dynamic provisioning.
     # If empty or set to null, no storageClassName spec is
     # set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
-    storageClass: null
+    storageClass: local-path
     # -- Annotations for ruler PVCs
     annotations: {}
   # -- Directories containing rules files
@@ -1530,7 +1541,8 @@ indexGateway:
   # -- Annotations for index-gateway pods
   podAnnotations: {}
   # -- Labels for index-gateway service
-  serviceLabels: {}
+  serviceLabels:
+    prometheus: monitoring
   # -- Additional CLI args for the index-gateway
   extraArgs: []
   # -- Environment variables to add to the index-gateway pods
@@ -1573,17 +1585,17 @@ indexGateway:
   tolerations: []
   persistence:
     # -- Enable creating PVCs which is required when using boltdb-shipper
-    enabled: false
+    enabled: true
     # -- Use emptyDir with ramdisk for storage. **Please note that all data in indexGateway will be lost on pod restart**
     inMemory: false
     # -- Size of persistent or memory disk
-    size: 10Gi
+    size: 1Gi
     # -- Storage class to be used.
     # If defined, storageClassName: <storageClass>.
     # If set to "-", storageClassName: "", which disables dynamic provisioning.
     # If empty or set to null, no storageClassName spec is
     # set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
-    storageClass: null
+    storageClass: local-path
     # -- Annotations for index gateway PVCs
     annotations: {}
 
@@ -1667,7 +1679,8 @@ memcachedChunks:
   # -- Annotations for memcached-chunks pods
   podAnnotations: {}
   # -- Labels for memcached-chunks service
-  serviceLabels: {}
+  serviceLabels:
+    prometheus: monitoring
   # -- Additional CLI args for memcached-chunks
   extraArgs:
     - -I 32m
@@ -1713,7 +1726,7 @@ memcachedChunks:
     # If set to "-", storageClassName: "", which disables dynamic provisioning.
     # If empty or set to null, no storageClassName spec is
     # set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
-    storageClass: null
+    storageClass: local-path
 
 memcachedFrontend:
   # -- Specifies whether the Memcached frontend cache should be enabled
@@ -1732,7 +1745,8 @@ memcachedFrontend:
   # -- Annotations for memcached-frontend pods
   podAnnotations: {}
   # -- Labels for memcached-frontend service
-  serviceLabels: {}
+  serviceLabels:
+    prometheus: monitoring
   # -- Additional CLI args for memcached-frontend
   extraArgs:
     - -I 32m
@@ -1778,7 +1792,7 @@ memcachedFrontend:
     # If set to "-", storageClassName: "", which disables dynamic provisioning.
     # If empty or set to null, no storageClassName spec is
     # set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
-    storageClass: null
+    storageClass: local-path
 
 memcachedIndexQueries:
   # -- Specifies whether the Memcached index queries cache should be enabled
@@ -1797,7 +1811,8 @@ memcachedIndexQueries:
   # -- Annotations for memcached-index-queries pods
   podAnnotations: {}
   # -- Labels for memcached-index-queries service
-  serviceLabels: {}
+  serviceLabels:
+    prometheus: monitoring
   # -- Additional CLI args for memcached-index-queries
   extraArgs:
     - -I 32m
@@ -1843,7 +1858,7 @@ memcachedIndexQueries:
     # If set to "-", storageClassName: "", which disables dynamic provisioning.
     # If empty or set to null, no storageClassName spec is
     # set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
-    storageClass: null
+    storageClass: local-path
 
 memcachedIndexWrites:
   # -- Specifies whether the Memcached index writes cache should be enabled
@@ -1862,7 +1877,8 @@ memcachedIndexWrites:
   # -- Annotations for memcached-index-writes pods
   podAnnotations: {}
   # -- Labels for memcached-index-writes service
-  serviceLabels: {}
+  serviceLabels:
+    prometheus: monitoring
   # -- Additional CLI args for memcached-index-writes
   extraArgs:
     - -I 32m
@@ -1908,7 +1924,7 @@ memcachedIndexWrites:
     # If set to "-", storageClassName: "", which disables dynamic provisioning.
     # If empty or set to null, no storageClassName spec is
     # set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
-    storageClass: null
+    storageClass: local-path
 
 networkPolicy:
   # -- Specifies whether Network Policies should be created

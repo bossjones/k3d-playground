@@ -7,3 +7,7 @@ resources:
 - namespace.yaml
 - k8s-rbac-prometheus-k8s.yaml
 - app.yaml
+- argocd-metrics-servicemonitor.yaml
+- argocd-server-metrics-servicemonitor.yaml
+- argocd-repo-server-metrics-servicemonitor.yaml
+- argocd-notifications-controller-metrics-servicemonitor.yaml
