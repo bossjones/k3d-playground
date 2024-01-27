@@ -472,13 +472,13 @@ customConfig:
       inputs: [kubernetes_standardize_app]
       encoding:
         codec: json
-# https://vector.dev/docs/reference/configuration/sinks/loki/#label-expansion
+    # https://vector.dev/docs/reference/configuration/sinks/loki/#label-expansion
     loki:
       type: loki
       inputs:
         # - "my_remap_id"
         - "parse_k8s_events"
-        - "kubernetes_standardize_app"
+        # - "kubernetes_standardize_app"
       # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/vector/templates/vector-application.yaml
       batch:
         max_bytes: 2049000
