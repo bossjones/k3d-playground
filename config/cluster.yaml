@@ -266,6 +266,18 @@ options:
     - arg: --kube-apiserver-arg=audit-log-path=/var/log/kubernetes/audit/audit.log
       nodeFilters:
       - server:*
+    - arg: --kube-apiserver-arg=-v=3
+      nodeFilters:
+      - server:*
+    - arg: --kube-scheduler-arg=-v=3
+      nodeFilters:
+      - server:*
+    # - arg: --kube-proxy-arg=-v=3
+    #   nodeFilters:
+    #   - server:*
+    # - arg: --kube-controller-manager-arg=-v=3
+    #   nodeFilters:
+    #   - server:*
 
     # https://github.com/chainguard-dev/actions/blob/ce8f95bff0df14286adebc33bf1617f91288caea/setup-k3d/action.yaml#L78
     # # This is needed in order to support projected volumes with service account tokens.
