@@ -463,7 +463,8 @@ customConfig:
       # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/vector/templates/vector-application.yaml
       batch:
         max_bytes: 2049000
-      endpoint: http://loki-loki-distributed-gateway.monitoring.svc.cluster.local
+      # endpoint: http://loki-loki-distributed-gateway.monitoring.svc.cluster.local
+      endpoint: http://loki-gateway.logging.svc.cluster.local
       labels:
         forwarder: vector
         cluster: k3d
