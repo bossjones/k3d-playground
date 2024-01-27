@@ -10,7 +10,7 @@ spec:
   sources:
   - repoURL: 'https://prometheus-community.github.io/helm-charts'
     chart: kube-prometheus-stack
-    targetRevision: 48.2.2
+    targetRevision: 56.2.0
     helm:
       releaseName: kube-prometheus-stack
       # Helm values files for overriding values in the helm chart

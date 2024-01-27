@@ -228,7 +228,8 @@ alertmanager:
 
   ## Annotations for Alertmanager
   ##
-  annotations: {}
+  annotations:
+    reloader.stakater.com/auto: "true"
 
   ## Api that prometheus will use to communicate with alertmanager. Possible values are v1, v2
   ##
@@ -2941,7 +2942,8 @@ prometheusOperator:
 
   ## Annotations to add to the operator deployment
   ##
-  annotations: {}
+  annotations:
+    reloader.stakater.com/auto: "true"
 
   ## Labels to add to the operator pod
   ##
@@ -3216,7 +3218,8 @@ prometheus:
 
   ## Annotations for Prometheus
   ##
-  annotations: {}
+  annotations:
+    reloader.stakater.com/auto: "true"
 
   ## Configure network policy for the prometheus
   networkPolicy:
@@ -3256,7 +3259,8 @@ prometheus:
   # (Please remember to change ${kube-prometheus-stack.fullname} and ${namespace}. Not just copy and paste!)
   thanosService:
     enabled: false
-    annotations: {}
+    annotations:
+      reloader.stakater.com/auto: "true"
     labels: {}
       # prometheus: main
 
@@ -4508,7 +4512,8 @@ thanosRuler:
 
   ## Annotations for ThanosRuler
   ##
-  annotations: {}
+  annotations:
+    reloader.stakater.com/auto: "true"
 
   ## Service account for ThanosRuler to use.
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
