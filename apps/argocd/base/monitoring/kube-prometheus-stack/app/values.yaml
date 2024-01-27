@@ -1443,8 +1443,16 @@ grafana:
   - name: Loki
     access: proxy
     basicAuth: false
+    # SOURCE: https://grafana.com/docs/grafana/latest/administration/provisioning/#json-data
+    # Since not all data sources have the same configuration settings, we include only the most common ones as fields. To provision the rest of a data source's settings, include them as a JSON blob in the jsonData field.
     jsonData:
       httpHeaderName1: "X-Scope-OrgID"
+      maxLines: 1000
+      timeout: 360
+      # Manage alerts via Alerting UI
+      # manageAlerts
+      # UID of Alert Manager that manages Alert for this data source.
+      # alertmanagerUid
     secureJsonData:
       httpHeaderValue1: "docker"
     editable: true
