@@ -377,45 +377,45 @@ customConfig:
               # .container = .kubernetes.container_name
 
 
-      # # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/vector/templates/vector-application.yaml
-      # kubernetes_strip_ansi:
-      #   type: remap
-      #   inputs:
-      #     - kubernetes_logs
-      #   source: |
-      #     .message = strip_ansi_escape_codes(string!(.message))
+      # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/vector/templates/vector-application.yaml
+      kubernetes_strip_ansi:
+        type: remap
+        inputs:
+          - kubernetes_logs
+        source: |
+          .message = strip_ansi_escape_codes(string!(.message))
 
-      # kubernetes_parse_filter_annotation:
-      #   type: remap
-      #   inputs:
-      #     - kubernetes_strip_ansi
-      #   source: |
-      #     if (is_null(.filtered) && !is_null(.kubernetes.pod_annotations) && !is_empty(object!(.kubernetes.pod_annotations)) && is_string(.message)) {
-      #       message_str, msg_err = string(.message)
-      #       if (is_null(msg_err)) {
-      #         filtered = false
-      #         for_each(object!(.kubernetes.pod_annotations)) -> |annotation, value| {
-      #           if !filtered && contains(string(annotation), "filter.kube.logging.io/") {
-      #             parts = split(annotation, ".")
-      #             if (length(parts) == 6) {
-      #               stream = parts[0]
-      #               container = parts[1]
-      #               if (stream == .stream && container == .kubernetes.container_name) {
-      #                 pattern_str, err = string(value)
-      #                 if (is_null(err)) {
-      #                   pattern, err = to_regex(pattern_str)
-      #                   if (is_null(err) && match(message_str, pattern)) {
-      #                     filtered = true
-      #                   }
-      #                 }
-      #               }
-      #             }
-      #           }
-      #         }
+      kubernetes_parse_filter_annotation:
+        type: remap
+        inputs:
+          - kubernetes_strip_ansi
+        source: |
+          if (is_null(.filtered) && !is_null(.kubernetes.pod_annotations) && !is_empty(object!(.kubernetes.pod_annotations)) && is_string(.message)) {
+            message_str, msg_err = string(.message)
+            if (is_null(msg_err)) {
+              filtered = false
+              for_each(object!(.kubernetes.pod_annotations)) -> |annotation, value| {
+                if !filtered && contains(string(annotation), "filter.kube.logging.io/") {
+                  parts = split(annotation, ".")
+                  if (length(parts) == 6) {
+                    stream = parts[0]
+                    container = parts[1]
+                    if (stream == .stream && container == .kubernetes.container_name) {
+                      pattern_str, err = string(value)
+                      if (is_null(err)) {
+                        pattern, err = to_regex(pattern_str)
+                        if (is_null(err) && match(message_str, pattern)) {
+                          filtered = true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
 
-      #         .filtered = filtered
-      #       }
-      #     }
+              .filtered = filtered
+            }
+          }
 
       # kubernetes_filter:
       #   type: filter
