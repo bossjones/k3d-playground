@@ -1,0 +1,35 @@
+installCRDs: true
+
+extraArgs:
+  - --dns01-recursive-nameservers=8.8.8.8:53,1.1.1.1:53
+
+prometheus:
+  servicemonitor:
+    enabled: true
+    prometheusInstance: cluster
+    annotations:
+      argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 2000
+  runAsGroup: 2000
+
+# podLabels:
+#   # this pod needs access to the api server
+#   allow-apiserver-policy: "true"
+
+# cainjector:
+#   podLabels:
+#     # this pod needs access to the api server
+#     allow-apiserver-policy: "true"
+
+# startupapicheck:
+#   podLabels:
+#     # this pod needs access to the api server
+#     allow-apiserver-policy: "true"
+
+# webhook:
+#   podLabels:
+#     # this pod needs access to the api server
+#     allow-apiserver-policy: "true"

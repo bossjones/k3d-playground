@@ -28,6 +28,7 @@ resources:
 - base/monitoring/argo-rollouts/app/app.yaml
 - base/monitoring/loki/app/app.yaml
 - base/monitoring/prometheus-adaptor/app/app.yaml
+- base/monitoring/cert-manager/app/app.yaml
 - https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.0/manifests/install.yaml
 # - base/core/role_prometheus-k8s.yaml
 # - base/core/rolebinding_prometheus-k8s.yaml
