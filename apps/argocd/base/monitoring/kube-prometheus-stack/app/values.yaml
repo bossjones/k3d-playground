@@ -1247,7 +1247,11 @@ grafana:
       k3s-kine:
         gnetId: 20323
         revision: 1
-        datasource: Prometheus
+        datasource:
+        - name: DS_PROMETHEUS
+          value: Prometheus
+        - name: DS_LOKI
+          value: Loki2
 
     argo:
       argocd-dashboard:
