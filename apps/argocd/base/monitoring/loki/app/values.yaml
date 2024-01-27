@@ -119,7 +119,7 @@ ingress:
 # Configuration for network policies
 networkPolicy:
   # -- Specifies whether Network Policies should be created
-  enabled: true
+  enabled: false
   alertmanager:
     # -- Specify the alertmanager port used for alerting
     port: 9093

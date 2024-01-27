@@ -508,14 +508,14 @@ customConfig:
           {{ printf "{{ custom_app_name }}" }}
         stream: >-
           {{ printf "{{ stream }}" }}
-        node:  >-
-          {{ printf "{{ kubernetes.pod_node_name }}" }}
-        pod:  >-
-          {{ printf "{{ kubernetes.pod_name }}" }}
-        namespace:  >-
-          {{ printf "{{ kubernetes.pod_namespace }}" }}
-        container:  >-
-          {{ printf "{{ kubernetes.container_name }}" }}
+        # node:  >-
+        #   {{ printf "{{ kubernetes.pod_node_name }}" }}
+        # pod:  >-
+        #   {{ printf "{{ kubernetes.pod_name }}" }}
+        # namespace:  >-
+        #   {{ printf "{{ kubernetes.pod_namespace }}" }}
+        # container:  >-
+        #   {{ printf "{{ kubernetes.container_name }}" }}
         source: kubernetes
         ############################################################################
       out_of_order_action: accept
