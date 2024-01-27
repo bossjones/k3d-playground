@@ -366,7 +366,7 @@ customConfig:
               } else {
                 . |= object!(parsed)
               }
-              .custom_app_name = "k8s-events"
+              # .custom_app_name = "k8s-events"
               # # Since we have 2 different sources, need to include this by default
               # .node = .kubernetes.pod_node_name
               # .pod = .kubernetes.pod_name
@@ -510,10 +510,10 @@ customConfig:
 
         #Below key useed printf() to escape Helm interprets {{ }}
         # SOURCE: https://github.com/helm/helm/issues/2798#issuecomment-890478869
-        app:  >-
-          {{ printf "{{ custom_app_name }}" }}
-        stream: >-
-          {{ printf "{{ stream }}" }}
+        # app:  >-
+        #   {{ printf "{{ custom_app_name }}" }}
+        # stream: >-
+        #   {{ printf "{{ stream }}" }}
         # node:  >-
         #   {{ printf "{{ kubernetes.pod_node_name }}" }}
         # pod:  >-
