@@ -311,3 +311,7 @@ render:
 # generate rbac using audit2rbac
 gen-rbac-all:
   scripts/gen-serviceaccount-rbac.sh
+
+# get k8s logs
+get-k8s-logs:
+  scripts/get-k8s-logs.sh
