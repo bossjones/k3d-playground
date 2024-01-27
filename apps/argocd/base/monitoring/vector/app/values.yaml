@@ -141,7 +141,10 @@ podHostNetwork: false
 podSecurityContext: {}
 
 # workloadResourceAnnotations -- Set annotations on the Vector DaemonSet, Deployment or StatefulSet.
-workloadResourceAnnotations: {}
+# workloadResourceAnnotations: {}
+# SOURCE: https://github.com/stakater/Reloader
+workloadResourceAnnotations:
+  reloader.stakater.com/auto: "true"
 
 # securityContext -- Specify securityContext on Vector containers.
 securityContext: {}
