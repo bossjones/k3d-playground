@@ -523,6 +523,8 @@ customConfig:
         codec: "json"
         timestamp_format: "rfc3339"
         # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/vector/templates/vector-application.yaml
+        # Encode all fields except the ones listed.
+        # Remove this field now and save some bytes
         except_fields:
           # - file
           # - kubernetes.container_id
@@ -545,6 +547,7 @@ customConfig:
           # - source_type
           # - stream
           # - timestamp_end
+        #  Encode only the fields listed.
         only_fields:
           - kubernetes.namespace_labels
           - kubernetes.pod_labels
