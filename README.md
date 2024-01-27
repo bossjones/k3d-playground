@@ -19,6 +19,14 @@ including:
 - [ntfy](https://ntfy.sh) Notification service to send notifications to your phone or desktop
 - [Renovate](https://www.whitesourcesoftware.com/free-developer-tools/renovate) Automatically update dependencies
 - [Woodpecker CI](https://woodpecker-ci.org) Simple yet powerful CI/CD engine with great extensibility
+- [Gatus](https://gatus.io/) The automated status page that you deserve. If your infrastructure went down right now, how long would it take for you to know? (see https://github.com/onedr0p/home-ops/blob/main/kubernetes/main/apps/observability/gatus/app/helmrelease.yaml)
+- node-feature-discovery
+- [synology-csi](https://github.com/SynologyOpenSource/synology-csi): The official Container Storage Interface driver for Synology NAS. (https://github.com/JefeDavis/k8s-HomeOps/blob/main/README.md?plain=1)
+- [sops](https://toolkit.fluxcd.io/guides/mozilla-sops/): Managed secrets for Kubernetes, Ansible and Terraform which are commited to Git.
+- [system-upgrade-controller](https://github.com/rancher/system-upgrade-controller) Automatically updates kubernetes based off of a plan.
+- [actions-runner-controller](https://github.com/actions/actions-runner-controller): Self-hosted Github runners.
+- [external-dns](https://github.com/kubernetes-sigs/external-dns): Automatically manages DNS records for my cluster.
+- [metallb](https://metallb.universe.tf/): Bare-Metal Load-balancer
 
 ## Requirements
 
