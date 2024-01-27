@@ -2,28 +2,28 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: metrics-server
+  name: prometheus-adapter
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: cluster
   sources:
-  - repoURL: 'https://kubernetes-sigs.github.io/metrics-server/'
-    chart: metrics-server
-    targetRevision: 3.11.0
+  - repoURL: 'https://prometheus-community.github.io/helm-charts'
+    chart: prometheus-adapter
+    targetRevision: 4.8.1
     helm:
-      releaseName: metrics-server
+      releaseName: prometheus-adapter
       valueFiles:
-        - $values/apps/argocd/base/monitoring/metrics-server/app/values.yaml
+        - $values/apps/argocd/base/monitoring/prometheus-adapter/app/values.yaml
   - repoURL: 'https://github.com/bossjones/k3d-playground.git'
     targetRevision: main
-    path: apps/argocd/base/monitoring/metrics-server
+    path: apps/argocd/base/monitoring/prometheus-adapter
     ref: values
   destination:
     # server: "https://kubernetes.default.svc"
     name: in-cluster
-    namespace: kube-system
+    namespace: monitoring
   syncPolicy:
     automated:
       prune: true
