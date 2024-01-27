@@ -14,6 +14,11 @@ including:
 - [OpenFaaS](https://github.com/openfaas/faas) serverless functions made simple
 - [Prometheus](https://github.com/prometheus/prometheus) monitoring system and time series database
 - [Audit2rbac](https://github.com/liggitt/audit2rbac) create proper rbac from audit logs
+- [gitea](https://gitea.com) Self-hosted Git service
+- [Kanidm](https://kanidm.com) Modern and simple identity management platform
+- [ntfy](https://ntfy.sh) Notification service to send notifications to your phone or desktop
+- [Renovate](https://www.whitesourcesoftware.com/free-developer-tools/renovate) Automatically update dependencies
+- [Woodpecker CI](https://woodpecker-ci.org) Simple yet powerful CI/CD engine with great extensibility
 
 ## Requirements
 

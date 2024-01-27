@@ -38,9 +38,10 @@ spec:
     # SOURCE: https://github.com/prometheus-operator/prometheus-operator/issues/4355
     - ServerSideApply=true
     # - PrunePropagationPolicy=foreground
-    # - PruneLast=false
+    - PruneLast=true
     # - ApplyOutOfSyncOnly=false
     # - Prune=true
+    - SkipDryRunOnMissingResource=true
       #     --resource stringArray                  Sync only specific resources as GROUP:KIND:NAME or !GROUP:KIND:NAME. Fields may be blank and '*' can be used. This option may be specified repeatedly
       # --retry-backoff-duration duration       Retry backoff base duration. Input needs to be a duration (e.g. 2m, 1h) (default 5s)
       # --retry-backoff-factor int              Factor multiplies the base duration after each failed retry (default 2)
