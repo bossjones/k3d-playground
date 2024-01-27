@@ -199,6 +199,82 @@ write:
 minio:
   enabled: true
 
+  metrics:
+    serviceMonitor:
+      enabled: true
+      # scrape each node/pod individually for additional metrics
+      includeNode: false
+      public: true
+      additionalLabels:
+        prometheus: main
+      annotations: {}
+      # for node metrics
+      relabelConfigs: {}
+      # for cluster metrics
+      relabelConfigsCluster: {}
+        # metricRelabelings:
+        #   - regex: (server|pod)
+        #     action: labeldrop
+      namespace: ~
+      # Scrape interval, for example `interval: 30s`
+      interval: ~
+      # Scrape timeout, for example `scrapeTimeout: 10s`
+      scrapeTimeout: ~
+
+
+  ## Configure Ingress based on the documentation here: https://kubernetes.io/docs/concepts/services-networking/ingress/
+  ##
+
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    labels: {}
+      # node-role.kubernetes.io/ingress: platform
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+      # kubernetes.io/ingress.allow-http: "false"
+      # kubernetes.io/ingress.global-static-ip-name: ""
+      # nginx.ingress.kubernetes.io/secure-backends: "true"
+      # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      # nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
+    path: /
+    hosts:
+      - minio.k8s.localhost
+    # tls: []
+    tls:
+    - secretName: tls-secret
+      hosts:
+      - minio.k8s.localhost
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  consoleIngress:
+    enabled: true
+    ingressClassName: nginx
+    labels: {}
+      # node-role.kubernetes.io/ingress: platform
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+      # kubernetes.io/ingress.allow-http: "false"
+      # kubernetes.io/ingress.global-static-ip-name: ""
+      # nginx.ingress.kubernetes.io/secure-backends: "true"
+      # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      # nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
+    path: /
+    hosts:
+      - minio-console.k8s.localhost
+    # tls: []
+    tls:
+    - secretName: tls-secret
+      hosts:
+      - minio-console.k8s.localhost
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
   ## minio mode, i.e. standalone or distributed
   mode: standalone
 
@@ -213,6 +289,7 @@ minio:
   ## .data.rootUser and .data.rootPassword are mandatory,
   ## others depend on enabled status of corresponding sections.
   # existingSecret: *lokiSecretName
+
 
   # These are used as replacements for loki chart's minio auto configuration
   # rootUser: "${MINIO_ROOT_USER}"
@@ -264,7 +341,7 @@ minio:
       memory: 128Mi
 
   networkPolicy:
-    enabled: true
+    enabled: false
     allowExternal: true
 
   makeBucketJob: &minioJobDefaults
