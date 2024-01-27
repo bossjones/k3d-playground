@@ -91,7 +91,7 @@ spec:
 
 ```bash
 - Kubernetes Version: v1.27.4-k3s1
-- ArgoCD Version: v2.8.0
+- ArgoCD Version: v2.8.9
 - k3d tested using v5.6 with v1alpha5 config file
 ```
 ### Avaliable Kubernetes services:

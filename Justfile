@@ -124,9 +124,9 @@ proxy-grafana:
 
 # Generate argocd jsonschema
 argocd-schema:
-  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.0/manifests/crds/application-crd.yaml
-  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.0/manifests/crds/applicationset-crd.yaml
-  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.0/manifests/crds/appproject-crd.yaml
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/crds/application-crd.yaml
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/crds/applicationset-crd.yaml
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/crds/appproject-crd.yaml
 
 # Starts your local k3d cluster.
 k3d-demo:
