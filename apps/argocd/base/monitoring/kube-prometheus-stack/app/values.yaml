@@ -1120,7 +1120,7 @@ grafana:
     # #   observing-k8s-events-in-grafana-an-easy-way:
     # #       url: https://raw.githubusercontent.com/bossjones/k3d-playground/master/examples/dashboards/observing-k8s-events-in-grafana-an-easy-way.json
     # #       datasource: Prometheus
-    # loki:
+    loki-oss:
 
     #   # SOURCE: https://github.com/grafana/helm-charts/tree/main/charts/grafana
     #   # EXAMPLE:
@@ -1160,50 +1160,58 @@ grafana:
     #   #       url: https://raw.githubusercontent.com/user/repository/master/dashboards/dashboard.json
     #   # ************************************************************************
     #   # FIXME: Some of these need to include the datasource: Loki.
-    #   # loki-stack-monitoring-promtail-loki:
-    #   #   gnetId: 14055
-    #   #   revision: 5
-    #   #   datasource: Prometheus
-    #   # logs-app:
-    #   #   gnetId: 13639
-    #   #   revision: 2
-    #   #   datasource: Loki
-    #   # loki2-0-global-metrics:
-    #   #   gnetId: 13407
-    #   #   revision: 2
-    #   #   datasource: Prometheus
-    #   # loki-promtail:
-    #   #   gnetId: 10880
-    #   #   revision: 1
-    #   #   datasource: Prometheus
-    #   # logging-dashboard-via-loki:
-    #   #   gnetId: 12611
-    #   #   revision: 1
-    #   #   datasource: Loki
-    #   # kubernetes-service-logs:
-    #   #   gnetId: 15141
-    #   #   revision: 1
-    #   #   datasource: Loki
-    #   # container-log-quick-search:
-    #   #   gnetId: 16970
-    #   #   revision: 1
-    #   #   datasource: Loki
-    #   # loki-metrics-dashboard:
-    #   #   gnetId: 17781
-    #   #   revision: 1
-    #   #   datasource: Prometheus
-    #   # traefik-via-loki:
-    #   #   gnetId: 13713
-    #   #   revision: 1
-    #   #   datasource: Loki
-    #   # kubernetes-events-dashboard:
-    #   #   gnetId: 16967
-    #   #   revision: 1
-    #   #   datasource: Loki
-    #   # loki-kubernetes-logs:
-    #   #   gnetId: 20010
-    #   #   revision: 1
-    #   #   datasource: Loki
+      loki-stack-monitoring-promtail-loki:
+        gnetId: 14055
+        revision: 5
+        datasource:
+          - name: DS_PROMETHEUS
+            value: Prometheus
+          - name: DS_LOKI
+            value: Loki2
+      logs-app:
+        gnetId: 13639
+        revision: 2
+        # datasource: Loki
+        datasource:
+          - name: DS_LOKI
+            value: Loki2
+
+      # loki2-0-global-metrics:
+      #   gnetId: 13407
+      #   revision: 2
+      #   datasource: Prometheus
+      # loki-promtail:
+      #   gnetId: 10880
+      #   revision: 1
+      #   datasource: Prometheus
+      # logging-dashboard-via-loki:
+      #   gnetId: 12611
+      #   revision: 1
+      #   datasource: Loki
+      # kubernetes-service-logs:
+      #   gnetId: 15141
+      #   revision: 1
+      #   datasource: Loki
+      # container-log-quick-search:
+      #   gnetId: 16970
+      #   revision: 1
+      #   datasource: Loki
+      # loki-metrics-dashboard:
+      #   gnetId: 17781
+      #   revision: 1
+      #   datasource: Prometheus
+      # traefik-via-loki:
+      #   gnetId: 13713
+      #   revision: 1
+      #   datasource: Loki
+      # kubernetes-events-dashboard:
+      #   gnetId: 16967
+      #   revision: 1
+      #   datasource: Loki
+      # loki-kubernetes-logs:
+      #   gnetId: 20010
+      #   revision: 1
+      #   datasource: Loki
     #   # ************************************************************************
     #   loki-chunks:
     #     url: https://raw.githubusercontent.com/grafana/loki/main/production/loki-mixin-compiled/dashboards/loki-chunks.json
@@ -1235,11 +1243,11 @@ grafana:
     #   loki-writes:
     #     url: https://raw.githubusercontent.com/grafana/loki/main/production/loki-mixin-compiled/dashboards/loki-writes.json
     #     datasource: Prometheus
-    # # k3s:
-    # #   k3s-kine:
-    # #     gnetId: 20323
-    # #     revision: 1
-    # #     datasource: Prometheus
+    k3s:
+      k3s-kine:
+        gnetId: 20323
+        revision: 1
+        datasource: Prometheus
 
     argo:
       argocd-dashboard:
