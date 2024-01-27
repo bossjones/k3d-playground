@@ -12,7 +12,7 @@ data:
   # TLS is handled by the ingressroute instead of Argo CD
   server.insecure: "true"
   # # Enable GZIP compression for Argo CD API server
-  # server.enable.gzip: "true"
+  server.enable.gzip: "true"
   # #
   # ########################################
   # # argocd-repo-server settings
@@ -23,7 +23,7 @@ data:
   # # https://argo-cd.readthedocs.io/en/stable/operator-manual/server-commands/argocd-repo-server/
   # # https://github.com/argoproj/argo-cd/blob/95987d8bea5ea59f877e24a2bc5d4c891204cbaf/cmd/argocd-repo-server/commands/argocd_repo_server.go#L209
   # # number based off historical Goroutines count
-  # reposerver.parallelism.limit: "10"
+  reposerver.parallelism.limit: "10"
   # #
   # # enable this later after verifying above are working properly
   # # https://argo-cd.readthedocs.io/en/stable/operator-manual/security/#limiting-directory-app-memory-usage
@@ -32,14 +32,14 @@ data:
   # ########################################
   # # argocd-application-controller settings
   # #
-  # controller.status.processors: "140"
-  # controller.operation.processors: "70"
-  # controller.self.heal.timeout.seconds: "600"
-  # controller.repo.server.timeout.seconds: "92"
-  # controller.resource.health.persist: "false"
+  controller.status.processors: "140"
+  controller.operation.processors: "70"
+  controller.self.heal.timeout.seconds: "600"
+  controller.repo.server.timeout.seconds: "92"
+  controller.resource.health.persist: "false"
   # ########################################
   # # redis settings
   # #
   # # Enable compression for data sent to Redis with the required compression algorithm
-  # redis.compression: gzip
+  redis.compression: gzip
   # # Required starting with v2.7.x
