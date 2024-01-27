@@ -362,7 +362,7 @@ customConfig:
         # Remove useless fields. In this case, we are only interested
         # about the output of the application, we don't want to monitor
         # the pod itself
-              del(.kubernetes)
+              # NOTE: I commented this out # del(.kubernetes)
               parsed, err = parse_json(string!(.message))
               if err != null {
                 .log_parsing_error = err
@@ -375,6 +375,8 @@ customConfig:
               # .pod = .kubernetes.pod_name
               # .namespace = .kubernetes.pod_namespace
               # .container = .kubernetes.container_name
+              # Standardize 'app' index
+              .custom_app_name = .kubernetes.pod_labels."app.kubernetes.io/name" || .kubernetes.pod_labels.app || .kubernetes.pod_labels."k8s-app" || "unknown"
 
 
     # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/vector/templates/vector-application.yaml
@@ -496,15 +498,15 @@ customConfig:
           {{ printf "{{ custom_app_name }}" }}
         stream: >-
           {{ printf "{{ stream }}" }}
-        # node:  >-
-        #   {{ printf "{{ kubernetes.pod_node_name }}" }}
-        # pod:  >-
-        #   {{ printf "{{ kubernetes.pod_name }}" }}
-        # namespace:  >-
-        #   {{ printf "{{ kubernetes.pod_namespace }}" }}
-        # container:  >-
-        #   {{ printf "{{ kubernetes.container_name }}" }}
-        # source: kubernetes
+        node:  >-
+          {{ printf "{{ kubernetes.pod_node_name }}" }}
+        pod:  >-
+          {{ printf "{{ kubernetes.pod_name }}" }}
+        namespace:  >-
+          {{ printf "{{ kubernetes.pod_namespace }}" }}
+        container:  >-
+          {{ printf "{{ kubernetes.container_name }}" }}
+        source: kubernetes
         ############################################################################
       out_of_order_action: accept
       remove_timestamp: true
@@ -521,35 +523,35 @@ customConfig:
         codec: "json"
         timestamp_format: "rfc3339"
         # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/vector/templates/vector-application.yaml
-        # except_fields:
-        #   # - file
-        #   # - kubernetes.container_id
-        #   # - kubernetes.container_image
-        #   - kubernetes.namespace_labels."kubernetes.io/metadata.name"
-        #   # - kubernetes.node_labels
-        #   # - kubernetes.pod_ip
-        #   # - kubernetes.pod_ips
-        #   # - kubernetes.pod_owner
-        #   # - kubernetes.pod_uid
-        #   # - kubernetes.pod_name
-        #   # - kubernetes.pod_namespace
-        #   # - kubernetes.container_name
-        #   # - kubernetes.pod_annotations
-        #   # - kubernetes.container_name
-        #   - kubernetes.pod_labels."app.kubernetes.io/managed-by"
-        #   - kubernetes.pod_labels."controller-revision-hash"
-        #   - kubernetes.pod_labels."pod-template-generation"
-        #   - kubernetes.pod_labels."pod-template-hash"
-        #   # - source_type
-        #   # - stream
-        #   # - timestamp_end
-        # only_fields:
-        #   - kubernetes.namespace_labels
-        #   - kubernetes.pod_labels
-        #   - message
-        #   # - geoip
-        #   - src_ip
-        #   - parsed
+        except_fields:
+          # - file
+          # - kubernetes.container_id
+          # - kubernetes.container_image
+          - kubernetes.namespace_labels."kubernetes.io/metadata.name"
+          # - kubernetes.node_labels
+          # - kubernetes.pod_ip
+          # - kubernetes.pod_ips
+          # - kubernetes.pod_owner
+          # - kubernetes.pod_uid
+          # - kubernetes.pod_name
+          # - kubernetes.pod_namespace
+          # - kubernetes.container_name
+          # - kubernetes.pod_annotations
+          # - kubernetes.container_name
+          - kubernetes.pod_labels."app.kubernetes.io/managed-by"
+          - kubernetes.pod_labels."controller-revision-hash"
+          - kubernetes.pod_labels."pod-template-generation"
+          - kubernetes.pod_labels."pod-template-hash"
+          # - source_type
+          # - stream
+          # - timestamp_end
+        only_fields:
+          - kubernetes.namespace_labels
+          - kubernetes.pod_labels
+          - message
+          # - geoip
+          # - src_ip
+          - parsed
       auth:
         strategy: "basic"
         user: ""
