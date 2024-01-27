@@ -1,9 +1,36 @@
 args:
+  ################################################################################
+  # Kubernetes metrics-server to serve cpu and memory stats to the HPA
+  # https://github.com/kubernetes-sigs/metrics-server
+  ################################################################################
+  # enable this if you have self-signed certificates, see: https://github.com/kubernetes-incubator/metrics-server
   - --kubelet-insecure-tls
+  # tell metrics-server to try using internal ip before hostname
   - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+  # Use the port in the node status.
   - --kubelet-use-node-status-port
+  # lower the time interval for stats default 60s
   - --metric-resolution=15s
 metrics:
   enabled: true
 serviceMonitor:
   enabled: true
+  additionalLabels:
+    prometheus: cluster
+  metricRelabelings:
+    # Drop metrics that are unset, high cardinality, or extraneous
+    - sourceLabels: [__name__]
+      separator: ;
+      regex: ^(apiserver_request_sli_|apiserver_request_slo_).*
+      replacement: $1
+      action: drop
+
+tolerations:
+  - key: CriticalAddonsOnly
+    operator: Exists
+
+replicas: 2
+
+podDisruptionBudget:
+  enabled: true
+  maxUnavailable: 1

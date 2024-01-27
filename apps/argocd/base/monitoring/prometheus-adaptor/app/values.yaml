@@ -1,0 +1,22 @@
+################################################################################
+# An implementation of the custom.metrics.k8s.io API using Prometheus
+# https://github.com/kubernetes-sigs/prometheus-adapter
+################################################################################
+logLevel: 2
+
+metricsRelistInterval: 10m
+
+prometheus:
+  url: http://kube-prometheus-stack-prometheus.monitoring.svc
+
+# use rules from operator
+# rules:
+#   default: false
+#   custom: true
+#   existing: prometheus-adapter-config
+
+deploymentAnnotations:
+  reloader.stakater.com/auto: "true"
+
+podAnnotations:
+  stderr.prometheus-adapter.filter.kube.logging.io/1: 'GET /healthz'

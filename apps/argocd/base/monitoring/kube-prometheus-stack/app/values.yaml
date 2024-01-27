@@ -1136,7 +1136,7 @@ grafana:
     # #   observing-k8s-events-in-grafana-an-easy-way:
     # #       url: https://raw.githubusercontent.com/bossjones/k3d-playground/master/examples/dashboards/observing-k8s-events-in-grafana-an-easy-way.json
     # #       datasource: Prometheus
-    loki-oss:
+    loki2:
 
     #   # SOURCE: https://github.com/grafana/helm-charts/tree/main/charts/grafana
     #   # EXAMPLE:
