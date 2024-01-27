@@ -886,6 +886,8 @@ alertmanager:
 ##
 grafana:
   enabled: true
+  imageRenderer:
+    enabled: true
   env:
     # GF_AUTH_GENERIC_OAUTH_API_URL: https://auth.porkboi.io/api/oidc/userinfo
     # GF_AUTH_GENERIC_OAUTH_AUTH_URL: https://auth.porkboi.io/api/oidc/authorization
@@ -897,7 +899,7 @@ grafana:
     GF_FEATURE_TOGGLES_ENABLE: publicDashboards
     GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel
     # GF_SECURITY_COOKIE_SAMESITE: grafana
-    # GF_SERVER_ROOT_URL: https://grafana.porkboi.io
+    GF_SERVER_ROOT_URL: https://grafana.k8s.localhost
     # https://grafana.com/docs/grafana/latest/administration/configuration/#allowed_origins
     GF_LIVE_ALLOWED_ORIGINS: "*"
   grafana.ini:
@@ -1356,6 +1358,8 @@ grafana:
       defaultDatasourceEnabled: true
       isDefaultDatasource: true
       searchNamespace: ALL
+      skipReload: false
+      reloadURL: http://kube-prometheus-stack-grafana.monitoring.svc.cluster.local/api/admin/provisioning/datasources/reload
 
       uid: prometheus
 
