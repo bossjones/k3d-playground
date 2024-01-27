@@ -1,0 +1,276 @@
+loki:
+  revisionHistoryLimit: 2
+
+  commonConfig:
+    replication_factor: 1
+
+  storage:
+    type: s3
+
+  analytics:
+    reporting_enabled: false
+
+  # Should authentication be enabled
+  auth_enabled: false
+
+  chunk_store_config:
+    max_look_back_period: &retentionPeriod 1440h # 60d = 24h x 60
+
+  # -- Limits config
+  limits_config:
+    enforce_metric_name: false
+    reject_old_samples: true
+    reject_old_samples_max_age: 168h
+    max_cache_freshness_per_query: 10m
+    split_queries_by_interval: 15m
+    retention_period: *retentionPeriod
+    shard_streams:
+      enabled: true
+
+  compactor:
+    compaction_interval: 1h
+    retention_enabled: true
+    retention_delete_delay: 2h
+    retention_delete_worker_count: 150
+
+  table_manager:
+    retention_deletes_enabled: true
+    retention_period: *retentionPeriod
+
+  ## Pod Annotations
+  podAnnotations:
+    terminating-pod-cleaner/delete: "1"
+    reloader.stakater.com/auto: "true"
+
+  rulerConfig:
+    enable_api: true
+    enable_alertmanager_v2: true
+    alertmanager_url: http://kube-prometheus-stack-alertmanager.monitoring.svc:9093
+    storage:
+      type: local
+      local:
+        directory: /rules
+    rule_path: /tmp/scratch
+    ring:
+      kvstore:
+        store: memberlist
+
+# -- Section for configuring optional Helm test
+test:
+  enabled: false
+
+# Monitoring section determines which monitoring features to enable
+monitoring:
+  # Dashboards for monitoring Loki
+  dashboards:
+    # -- Additional labels for the dashboards ConfigMap
+    labels:
+      grafana_dashboard: "1"
+      prometheus: main
+
+  # Recording rules for monitoring Loki, required for some dashboards
+  rules:
+    # -- If enabled, create PrometheusRule resource with Loki recording rules
+    enabled: true
+    # -- Include alerting rules
+    alerting: true
+    # -- Additional labels for the rules PrometheusRule resource
+    labels:
+      prometheus: main
+
+  # ServiceMonitor configuration
+  serviceMonitor:
+    # -- If enabled, ServiceMonitor resources for Prometheus Operator are created
+    enabled: true
+    # -- Additional ServiceMonitor labels
+    labels:
+      prometheus: main
+    # -- If defined, will create a MetricsInstance for the Grafana Agent Operator.
+    metricsInstance:
+      # -- Additional MetricsInstance labels
+      labels:
+        prometheus: main
+
+  # Self monitoring determines whether Loki should scrape it's own logs.
+  # This feature currently relies on the Grafana Agent Operator being installed,
+  # which is installed by default using the grafana-agent-operator sub-chart.
+  # It will create custom resources for GrafanaAgent, LogsInstance, and PodLogs to configure
+  # scrape configs to scrape it's own logs with the labels expected by the included dashboards.
+  selfMonitoring:
+    enabled: false
+    grafanaAgent:
+      installOperator: false
+
+  # The Loki canary pushes logs to and queries from this loki installation to test
+  # that it's working correctly
+  lokiCanary:
+    enabled: false
+
+# Configuration for the single binary node(s)
+singleBinary:
+  enabled: false
+
+# Use either this ingress or the gateway, but not both at once.
+# If you enable this, make sure to disable the gateway.
+# You'll need to supply authn configuration for your ingress controller.
+ingress:
+  enabled: false
+
+# Configuration for network policies
+networkPolicy:
+  # -- Specifies whether Network Policies should be created
+  enabled: true
+  alertmanager:
+    # -- Specify the alertmanager port used for alerting
+    port: 9093
+    # -- Specifies the alertmanager Pods.
+    # As this is cross-namespace communication, you also need the namespaceSelector.
+    podSelector:
+      app.kubernetes.io/instance: kube-prometheus-stack-alertmanager
+      app.kubernetes.io/name: alertmanager
+    # -- Specifies the namespace the alertmanager is running in
+    namespaceSelector:
+      kubernetes.io/metadata.name: monitoring
+
+# Configuration for the gateway
+gateway:
+  # -- Specifies whether the gateway should be enabled
+  enabled: true
+  replicas: 1
+
+ruler: {}
+
+read:
+  enabled: true
+  replicas: 1
+  extraArgs: &lokiCommonExtraArgs
+    - -config.expand-env=true
+  extraEnv: &extraEnv
+    - name: MINIO_ROOT_USER
+      value: admin
+    - name: MINIO_ROOT_PASSWORD
+      value: password
+  extraVolumeMounts: &lokiExtraVolumeMounts
+    - name: loki-rules
+      mountPath: /rules/fake
+    - name: loki-rules-tmp
+      mountPath: /tmp/scratch
+    - name: loki-tmp
+      mountPath: /tmp/loki-tmp
+  extraVolumes: &lokiExtraVolumes
+    - name: loki-rules
+      configMap:
+        name: loki-alerting-rules
+        optional: true
+    - name: loki-rules-tmp
+      emptyDir: {}
+    - name: loki-tmp
+      emptyDir: {}
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 2Gi
+
+backend:
+  enabled: true
+  replicas: 1
+  extraArgs: *lokiCommonExtraArgs
+  extraEnv: *extraEnv
+  extraVolumeMounts: *lokiExtraVolumeMounts
+  extraVolumes: *lokiExtraVolumes
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 2Gi
+
+write:
+  enabled: true
+  replicas: 1
+  extraArgs: *lokiCommonExtraArgs
+  extraEnv: *extraEnv
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 2Gi
+
+# -------------------------------------
+# Configuration for `minio` child chart
+# -------------------------------------
+minio:
+  enabled: true
+
+  ## minio mode, i.e. standalone or distributed
+  mode: standalone
+
+  ## Use existing Secret that store following variables:
+  ##
+  ## | Chart var             | .data.<key> in Secret    |
+  ## |:----------------------|:-------------------------|
+  ## | rootUser              | rootUser                 |
+  ## | rootPassword          | rootPassword             |
+  ##
+  ## All mentioned variables will be ignored in values file.
+  ## .data.rootUser and .data.rootPassword are mandatory,
+  ## others depend on enabled status of corresponding sections.
+  # existingSecret: *lokiSecretName
+
+  # These are used as replacements for loki chart's minio auto configuration
+  rootUser: "${MINIO_ROOT_USER}"
+  rootPassword: "${MINIO_ROOT_PASSWORD}"
+
+  # Number of MinIO containers running
+  replicas: 1
+  # Number of drives attached to a node
+  drivesPerNode: 1
+
+  ## Enable persistence using Persistent Volume Claims
+  ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+  ##
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 5Gi
+    # this is required as minio has issues when it is working on a root nfs mount
+    subPath: minio
+
+  ## Add stateful containers to have security context, if enabled MinIO will run as this
+  ## user and group NOTE: securityContext is only enabled if persistence.enabled=true
+  securityContext:
+    enabled: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    fsGroupChangePolicy: OnRootMismatch
+
+  ## Expose the MinIO service to be accessed from outside the cluster (LoadBalancer service).
+  ## or access it from within the cluster (ClusterIP service). Set the service type and the port to serve it.
+  ## ref: http://kubernetes.io/docs/user-guide/services/
+  ##
+  service:
+    type: ClusterIP
+    clusterIP: ~
+    nodePort: ~
+
+  consoleService:
+    type: ClusterIP
+    clusterIP: ~
+    nodePort: ~
+
+  resources:
+    requests:
+      memory: 128Mi
+
+  networkPolicy:
+    enabled: true
+    allowExternal: true
+
+  makeBucketJob: &minioJobDefaults
+    annotations:
+      argocd.argoproj.io/hook: Sync
+    resources:
+      requests:
+        memory: 32Mi
+  makePolicyJob: *minioJobDefaults
+  makeUserJob: *minioJobDefaults
+  customCommandJob: *minioJobDefaults
+  postJob: *minioJobDefaults

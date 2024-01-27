@@ -315,3 +315,7 @@ gen-rbac-all:
 # get k8s logs
 get-k8s-logs:
   scripts/get-k8s-logs.sh
+
+# get k8s logs
+find-invalid-utf8-characters:
+  scripts/find-invalid-utf8-characters.sh
