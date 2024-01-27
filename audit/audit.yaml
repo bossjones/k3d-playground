@@ -33,33 +33,55 @@ rules:
 - level: Metadata
   users:
   - system:admin
-  - system:serviceaccount:argo-rollouts:argo-rollouts
-  - system:serviceaccount:argo-rollouts:default
-  - system:serviceaccount:argocd:argocd-application-controller
-  - system:serviceaccount:argocd:argocd-applicationset-controller
-  - system:serviceaccount:argocd:argocd-dex-server
+  - system:serviceaccount:default:doc-controller
+  - system:serviceaccount:monitoring:prometheus-k8s
+  - system:serviceaccount:monitoring:kube-prometheus-stack-prometheus
+  - system:serviceaccount:monitoring:kube-prometheus-stack-operator
+  - system:serviceaccount:monitoring:kube-prometheus-stack-kube-state-metrics
+  - system:serviceaccount:monitoring:kube-prometheus-stack-prometheus-node-exporter
+  - system:serviceaccount:monitoring:kube-prometheus-stack-grafana
+  - system:serviceaccount:monitoring:loki-distributed
+  - system:serviceaccount:kube-system:ingress-nginx-backend
+  - system:serviceaccount:kube-system:ingress-nginx
   - system:serviceaccount:argocd:argocd-notifications-controller
-  - system:serviceaccount:argocd:argocd-redis
+  - system:serviceaccount:argocd:argocd-application-controller
+  - system:serviceaccount:argocd:argocd-dex-server
+  - system:serviceaccount:argocd:argocd-applicationset-controller
   - system:serviceaccount:argocd:argocd-repo-server
   - system:serviceaccount:argocd:argocd-server
-  - system:serviceaccount:argocd:default
-  - system:serviceaccount:default:doc-controller
-  - system:serviceaccount:kube-system:ingress-nginx
-  - system:serviceaccount:kube-system:ingress-nginx-backend
-  - system:serviceaccount:kube-system:local-path-provisioner-service-account
-  - system:serviceaccount:kube-system:metrics-server
-  - system:serviceaccount:monitoring:default
-  - system:serviceaccount:monitoring:k8s-event-logger
-  - system:serviceaccount:monitoring:kube-prometheus-stack-alertmanager
-  - system:serviceaccount:monitoring:kube-prometheus-stack-grafana
-  - system:serviceaccount:monitoring:kube-prometheus-stack-kube-state-metrics
-  - system:serviceaccount:monitoring:kube-prometheus-stack-operator
-  - system:serviceaccount:monitoring:kube-prometheus-stack-prometheus
-  - system:serviceaccount:monitoring:kube-prometheus-stack-prometheus-node-exporter
-  - system:serviceaccount:monitoring:loki-distributed
-  - system:serviceaccount:monitoring:loki-loki-distributed
-  - system:serviceaccount:monitoring:prometheus-k8s
-  - system:serviceaccount:monitoring:vector
+  - system:serviceaccount:argocd:argocd-redis
+  - system:serviceaccount:argo-rollouts:default
+  - system:serviceaccount:argo-rollouts:argo-rollouts
+  ######################################################################
+  # FIXME: Figure out what it doesn't like here
+  # - system:admin
+  # - system:serviceaccount:argo-rollouts:argo-rollouts
+  # - system:serviceaccount:argo-rollouts:default
+  # - system:serviceaccount:argocd:argocd-application-controller
+  # - system:serviceaccount:argocd:argocd-applicationset-controller
+  # - system:serviceaccount:argocd:argocd-dex-server
+  # - system:serviceaccount:argocd:argocd-notifications-controller
+  # - system:serviceaccount:argocd:argocd-redis
+  # - system:serviceaccount:argocd:argocd-repo-server
+  # - system:serviceaccount:argocd:argocd-server
+  # - system:serviceaccount:argocd:default
+  # - system:serviceaccount:default:doc-controller
+  # - system:serviceaccount:kube-system:ingress-nginx
+  # - system:serviceaccount:kube-system:ingress-nginx-backend
+  # # - system:serviceaccount:kube-system:local-path-provisioner-service-account
+  # # - system:serviceaccount:kube-system:metrics-server
+  # # - system:serviceaccount:monitoring:default
+  # # - system:serviceaccount:monitoring:k8s-event-logger
+  # - system:serviceaccount:monitoring:kube-prometheus-stack-alertmanager
+  # - system:serviceaccount:monitoring:kube-prometheus-stack-grafana
+  # - system:serviceaccount:monitoring:kube-prometheus-stack-kube-state-metrics
+  # - system:serviceaccount:monitoring:kube-prometheus-stack-operator
+  # - system:serviceaccount:monitoring:kube-prometheus-stack-prometheus
+  # - system:serviceaccount:monitoring:kube-prometheus-stack-prometheus-node-exporter
+  # - system:serviceaccount:monitoring:loki-distributed
+  # - system:serviceaccount:monitoring:loki-loki-distributed
+  # - system:serviceaccount:monitoring:prometheus-k8s
+  # # - system:serviceaccount:monitoring:vector
   omitStages:
   - RequestReceived
   - ResponseStarted
