@@ -1201,28 +1201,28 @@ grafana:
       loki-writes:
         url: https://raw.githubusercontent.com/grafana/loki/main/production/loki-mixin-compiled/dashboards/loki-writes.json
         datasource: Prometheus
-    k3s:
-      k3s-kine:
-        gnetId: 20323
-        revision: 1
-        datasource: Prometheus
+    # k3s:
+    #   k3s-kine:
+    #     gnetId: 20323
+    #     revision: 1
+    #     datasource: Prometheus
 
     argo:
       argocd-dashboard:
         url: https://raw.githubusercontent.com/argoproj/argo-cd/master/examples/dashboard.json
         datasource: Prometheus
-      argocd-application-overview:
-        gnetId: 19974
-        revision: 1
-        datasource: Prometheus
-      argocd-operational-overview:
-        gnetId: 19993
-        revision: 1
-        datasource: Prometheus
-      argocd-notifications-overview:
-        gnetId: 19975
-        revision: 1
-        datasource: Prometheus
+      # argocd-application-overview:
+      #   gnetId: 19974
+      #   revision: 1
+      #   datasource: Prometheus
+      # argocd-operational-overview:
+      #   gnetId: 19993
+      #   revision: 1
+      #   datasource: Prometheus
+      # argocd-notifications-overview:
+      #   gnetId: 19975
+      #   revision: 1
+      #   datasource: Prometheus
     unifi:
       unifi-insights:
         # renovate: depName="UniFi-Poller: Client Insights - Prometheus"
@@ -1325,7 +1325,7 @@ grafana:
   - natel-discrete-panel
   - pr0ps-trackmap-panel
   - vonage-status-panel
-  - grafana-googlesheets-datasource
+  # - grafana-googlesheets-datasource
   persistence:
     enabled: false
   testFramework:
