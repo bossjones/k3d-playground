@@ -533,35 +533,35 @@ customConfig:
         codec: "json"
         timestamp_format: "rfc3339"
         # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/vector/templates/vector-application.yaml
-        except_fields:
-          # - file
-          # - kubernetes.container_id
-          # - kubernetes.container_image
-          - kubernetes.namespace_labels."kubernetes.io/metadata.name"
-          # - kubernetes.node_labels
-          # - kubernetes.pod_ip
-          # - kubernetes.pod_ips
-          # - kubernetes.pod_owner
-          # - kubernetes.pod_uid
-          # - kubernetes.pod_name
-          # - kubernetes.pod_namespace
-          # - kubernetes.container_name
-          # - kubernetes.pod_annotations
-          # - kubernetes.container_name
-          - kubernetes.pod_labels."app.kubernetes.io/managed-by"
-          - kubernetes.pod_labels."controller-revision-hash"
-          - kubernetes.pod_labels."pod-template-generation"
-          - kubernetes.pod_labels."pod-template-hash"
-          # - source_type
-          # - stream
-          # - timestamp_end
-        only_fields:
-          - kubernetes.namespace_labels
-          - kubernetes.pod_labels
-          - message
-          # - geoip
-          - src_ip
-          - parsed
+        # except_fields:
+        #   # - file
+        #   # - kubernetes.container_id
+        #   # - kubernetes.container_image
+        #   - kubernetes.namespace_labels."kubernetes.io/metadata.name"
+        #   # - kubernetes.node_labels
+        #   # - kubernetes.pod_ip
+        #   # - kubernetes.pod_ips
+        #   # - kubernetes.pod_owner
+        #   # - kubernetes.pod_uid
+        #   # - kubernetes.pod_name
+        #   # - kubernetes.pod_namespace
+        #   # - kubernetes.container_name
+        #   # - kubernetes.pod_annotations
+        #   # - kubernetes.container_name
+        #   - kubernetes.pod_labels."app.kubernetes.io/managed-by"
+        #   - kubernetes.pod_labels."controller-revision-hash"
+        #   - kubernetes.pod_labels."pod-template-generation"
+        #   - kubernetes.pod_labels."pod-template-hash"
+        #   # - source_type
+        #   # - stream
+        #   # - timestamp_end
+        # only_fields:
+        #   - kubernetes.namespace_labels
+        #   - kubernetes.pod_labels
+        #   - message
+        #   # - geoip
+        #   - src_ip
+        #   - parsed
       auth:
         strategy: "basic"
         user: ""
