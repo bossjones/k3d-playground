@@ -366,6 +366,12 @@ customConfig:
               } else {
                 . |= object!(parsed)
               }
+              .custom_app_name = "k8s-events"
+              # # Since we have 2 different sources, need to include this by default
+              # .node = .kubernetes.pod_node_name
+              # .pod = .kubernetes.pod_name
+              # .namespace = .kubernetes.pod_namespace
+              # .container = .kubernetes.container_name
 
 
       # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/vector/templates/vector-application.yaml
@@ -425,12 +431,12 @@ customConfig:
           # Standardize 'app' index
           .custom_app_name = .kubernetes.pod_labels."app.kubernetes.io/name" || .kubernetes.pod_labels.app || .kubernetes.pod_labels."k8s-app" || "unknown"
 
-
-          # # Since we have 2 different sources, need to include this by default
-          # .node = .kubernetes.pod_node_name
-          # .pod = .kubernetes.pod_name
-          # .namespace = .kubernetes.pod_namespace
-          # .container = .kubernetes.container_name
+  # .custom_app_name = .kubernetes.pod_labels."app.kubernetes.io/name" || .kubernetes.pod_labels.app || .kubernetes.pod_labels."k8s-app" || "unknown"
+  # # # Since we have 2 different sources, need to include this by default
+  # # .node = .kubernetes.pod_node_name
+  # # .pod = .kubernetes.pod_name
+  # # .namespace = .kubernetes.pod_namespace
+  # # .container = .kubernetes.container_name
 
   # transforms:
   #   my_remap_id:
