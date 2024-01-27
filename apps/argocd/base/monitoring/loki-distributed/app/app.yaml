@@ -56,7 +56,54 @@ spec:
     kind: StatefulSet
     jsonPointers:
       - /spec/persistentVolumeClaimRetentionPolicy
-
+  - group: apps
+    kind: StatefulSet
+    jqPathExpressions:
+      - .spec.volumeClaimTemplates[]?.apiVersion
+      - .spec.volumeClaimTemplates[]?.kind
+  # SOURCE: https://github.com/ant0ncuranz/homelab/blob/4205ed9e6e3519e3c7440f623ab76d3f7d153e48/bootstrap/root/templates/stack.yaml#L41
+  # - group: apps
+  #   kind: StatefulSet
+  #   jqPathExpressions:
+  #     - '.spec.volumeClaimTemplates[]?'
+  # - group: storage.k8s.io
+  #   kind: CSIDriver
+  #   jqPathExpressions:
+  #     - '.spec.seLinuxMount'
+  # - group: deviceplugin.intel.com
+  #   kind: GpuDevicePlugin
+  #   jqPathExpressions:
+  #     - '.metadata.annotations'
+  #     - '.spec.resourceManager'
+  # - group: external-secrets.io
+  #   kind: ExternalSecret
+  #   jqPathExpressions:
+  #     - '.spec.data[].remoteRef.conversionStrategy'
+  #     - '.spec.data[].remoteRef.decodingStrategy'
+  #     - '.spec.data[].remoteRef.metadataPolicy'
+  #     - '.spec.dataFrom[].extract.conversionStrategy'
+  #     - '.spec.dataFrom[].extract.decodingStrategy'
+  #     - '.spec.dataFrom[].extract.metadataPolicy'
+  # - group: cert-manager.io
+  #   kind: Certificate
+  #   jqPathExpressions:
+  #     - '.spec.duration'
+  # - group: "apiextensions.k8s.io"
+  #   kind: CustomResourceDefinition
+  #   name: bgppeers.metallb.io
+  #   jsonPointers:
+  #     - /spec/conversion/webhook/clientConfig/caBundle
+  # - group: "apiextensions.k8s.io"
+  #   kind: CustomResourceDefinition
+  #   name: addresspools.metallb.io
+  #   jsonPointers:
+  #     - /spec/conversion/webhook/clientConfig/caBundle
+  # SOURCE: https://github.com/ant0ncuranz/homelab/blob/4205ed9e6e3519e3c7440f623ab76d3f7d153e48/bootstrap/root/templates/stack.yaml#L41
+  - kind: PersistentVolume
+    jsonPointers:
+      - /spec/claimRef/resourceVersion
+      - /spec/claimRef/uid
+      - /status/lastPhaseTransitionTime
 # # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/loki/templates/loki-application.yaml
 # ---
 # apiVersion: argoproj.io/v1alpha1

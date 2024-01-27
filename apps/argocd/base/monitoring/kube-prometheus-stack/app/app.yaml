@@ -71,6 +71,11 @@ spec:
       kind: MutatingWebhookConfiguration
       jsonPointers:
         - /webhooks/0/failurePolicy
+    - kind: PersistentVolume
+      jsonPointers:
+        - /spec/claimRef/resourceVersion
+        - /spec/claimRef/uid
+        - /status/lastPhaseTransitionTime
     # SOURCE: https://github.com/rogerrum/k8s-gitops/blob/578d7a8cdd89dd940060e005942e567814dcf9f6/main/monitoring/values.yaml#L24
     # SOURCE: https://github.com/search?q=jqpathexpressions+metricRelabelings&type=code
     # - kind: MutatingWebhookConfiguration

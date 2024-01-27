@@ -48,3 +48,8 @@ spec:
     kind: DaemonSet
     jsonPointers:
       - /metadata/annotations
+  - kind: PersistentVolume
+    jsonPointers:
+      - /spec/claimRef/resourceVersion
+      - /spec/claimRef/uid
+      - /status/lastPhaseTransitionTime
