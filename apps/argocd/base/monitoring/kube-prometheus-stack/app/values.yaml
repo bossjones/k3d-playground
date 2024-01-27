@@ -1017,6 +1017,22 @@ grafana:
           editable: true
           options:
             path: /var/lib/grafana/dashboards/unifi
+        - name: k3s
+          orgId: 1
+          folder: k3s
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/k3s
+        - name: loki2
+          orgId: 1
+          folder: Loki2
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/loki2
   # datasources:
     # datasources.yaml:
     #   apiVersion: 1
@@ -1176,42 +1192,66 @@ grafana:
           - name: DS_LOKI
             value: Loki2
 
-      # loki2-0-global-metrics:
-      #   gnetId: 13407
-      #   revision: 2
-      #   datasource: Prometheus
-      # loki-promtail:
-      #   gnetId: 10880
-      #   revision: 1
-      #   datasource: Prometheus
-      # logging-dashboard-via-loki:
-      #   gnetId: 12611
-      #   revision: 1
-      #   datasource: Loki
-      # kubernetes-service-logs:
-      #   gnetId: 15141
-      #   revision: 1
-      #   datasource: Loki
-      # container-log-quick-search:
-      #   gnetId: 16970
-      #   revision: 1
-      #   datasource: Loki
-      # loki-metrics-dashboard:
-      #   gnetId: 17781
-      #   revision: 1
-      #   datasource: Prometheus
-      # traefik-via-loki:
-      #   gnetId: 13713
-      #   revision: 1
-      #   datasource: Loki
-      # kubernetes-events-dashboard:
-      #   gnetId: 16967
-      #   revision: 1
-      #   datasource: Loki
-      # loki-kubernetes-logs:
-      #   gnetId: 20010
-      #   revision: 1
-      #   datasource: Loki
+      loki2-0-global-metrics:
+        gnetId: 13407
+        revision: 2
+        datasource: Prometheus
+      loki-promtail:
+        gnetId: 10880
+        revision: 1
+        datasource: Prometheus
+      logging-dashboard-via-loki:
+        gnetId: 12611
+        revision: 1
+        datasource:
+          - name: DS_PROMETHEUS
+            value: Prometheus
+          - name: DS_LOKI
+            value: Loki2
+      kubernetes-service-logs:
+        gnetId: 15141
+        revision: 1
+        datasource:
+          - name: DS_PROMETHEUS
+            value: Prometheus
+          - name: DS_LOKI
+            value: Loki2
+      container-log-quick-search:
+        gnetId: 16970
+        revision: 1
+        datasource:
+          - name: DS_PROMETHEUS
+            value: Prometheus
+          - name: DS_LOKI
+            value: Loki2
+      loki-metrics-dashboard:
+        gnetId: 17781
+        revision: 1
+        datasource: Prometheus
+      traefik-via-loki:
+        gnetId: 13713
+        revision: 1
+        datasource:
+          - name: DS_PROMETHEUS
+            value: Prometheus
+          - name: DS_LOKI
+            value: Loki2
+      kubernetes-events-dashboard:
+        gnetId: 16967
+        revision: 1
+        datasource:
+          - name: DS_PROMETHEUS
+            value: Prometheus
+          - name: DS_LOKI
+            value: Loki2
+      loki-kubernetes-logs:
+        gnetId: 20010
+        revision: 1
+        datasource:
+          - name: DS_PROMETHEUS
+            value: Prometheus
+          - name: DS_LOKI
+            value: Loki2
     #   # ************************************************************************
     #   loki-chunks:
     #     url: https://raw.githubusercontent.com/grafana/loki/main/production/loki-mixin-compiled/dashboards/loki-chunks.json
@@ -1243,15 +1283,15 @@ grafana:
     #   loki-writes:
     #     url: https://raw.githubusercontent.com/grafana/loki/main/production/loki-mixin-compiled/dashboards/loki-writes.json
     #     datasource: Prometheus
-    # k3s:
-    #   k3s-kine:
-    #     gnetId: 20323
-    #     revision: 1
-    #     datasource:
-    #     - name: DS_PROMETHEUS
-    #       value: Prometheus
-    #     - name: DS_LOKI
-    #       value: Loki2
+    k3s:
+      k3s-kine:
+        gnetId: 20323
+        revision: 1
+        datasource:
+        - name: DS_PROMETHEUS
+          value: Prometheus
+        - name: DS_LOKI
+          value: Loki2
 
     argo:
       argocd-dashboard:
