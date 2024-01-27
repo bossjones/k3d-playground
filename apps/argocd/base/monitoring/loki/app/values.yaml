@@ -215,8 +215,11 @@ minio:
   # existingSecret: *lokiSecretName
 
   # These are used as replacements for loki chart's minio auto configuration
-  rootUser: "${MINIO_ROOT_USER}"
-  rootPassword: "${MINIO_ROOT_PASSWORD}"
+  # rootUser: "${MINIO_ROOT_USER}"
+  # rootPassword: "${MINIO_ROOT_PASSWORD}"
+  # These are used as replacements for loki chart's minio auto configuration
+  rootUser: admin
+  rootPassword: password
 
   # Number of MinIO containers running
   replicas: 1
