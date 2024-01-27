@@ -266,16 +266,16 @@ options:
     - arg: --kube-apiserver-arg=audit-log-path=/var/log/kubernetes/audit/audit.log
       nodeFilters:
       - server:*
-    - arg: --kube-apiserver-arg=-v=3
+    - arg: --kube-apiserver-arg=v=3
       nodeFilters:
       - server:*
-    - arg: --kube-scheduler-arg=-v=3
+    - arg: --kube-scheduler-arg=v=3
       nodeFilters:
       - server:*
-    # - arg: --kube-proxy-arg=-v=3
+    # - arg: --kube-proxy-arg=v=3
     #   nodeFilters:
     #   - server:*
-    # - arg: --kube-controller-manager-arg=-v=3
+    # - arg: --kube-controller-manager-arg=v=3
     #   nodeFilters:
     #   - server:*
 
