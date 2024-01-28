@@ -3,7 +3,7 @@ kind: Simple
 metadata:
   name: demo
 servers: 1
-agents: 2
+agents: 3
 kubeAPI:
   host: "k8s.localhost"
   # hostIP: "127.0.0.1"
@@ -176,7 +176,6 @@ volumes:
 - volume: "${PWD}/audit/logs:/var/log/kubernetes/audit"
   nodeFilters:
   - server:*
-
 # SOURCE: https://github.com/defenseunicorns/uds-capability-confluence/blob/90b30c74d83f0aa4ec404a840b92a5956f921195/utils/k3d/k3d-config.yaml#L2
 # - volume: /etc/machine-id:/etc/machine-id
 #   nodeFilters:
@@ -193,6 +192,7 @@ hostAliases:
   - app.k8s.localhost
   - example.k8s.localhost
   - argocd.k8s.localhost
+  # - argocd.k8s.localhost
   - postgres.k8s.localhost
   - dbs.k8s.localhost
 options:
