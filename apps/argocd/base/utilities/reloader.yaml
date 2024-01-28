@@ -26,6 +26,10 @@ spec:
           logFormat: ""
           watchGlobally: true
           readOnlyRootFileSystem: false
+        serviceMonitor:
+          enabled: true
+          labels:
+            prometheus: main
 
   destination:
     namespace: kube-system
@@ -34,14 +38,17 @@ spec:
     automated:
       prune: true
       selfHeal: true
-      allowEmpty: true
+      # allowEmpty: true
     syncOptions:
-    - Validate=false
-    - CreateNamespace=false
-    - PrunePropagationPolicy=foreground
-    - PruneLast=false
-    - ApplyOutOfSyncOnly=false
-    - Prune=true
+    # - Validate=false
+    # - CreateNamespace=false
+    # - PrunePropagationPolicy=foreground
+    # - PruneLast=false
+    # - ApplyOutOfSyncOnly=false
+    # - Prune=true
+    - PruneLast=true
+    - SkipDryRunOnMissingResource=true
+    - ServerSideApply=true
     retry:
       limit: -1
       backoff:
