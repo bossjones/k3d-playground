@@ -4,7 +4,7 @@ kind: CustomResourceDefinition
 metadata:
   name: clusterworkflowtemplates.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   group: argoproj.io
   names:
@@ -43,7 +43,7 @@ kind: CustomResourceDefinition
 metadata:
   name: cronworkflows.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   group: argoproj.io
   names:
@@ -86,7 +86,7 @@ kind: CustomResourceDefinition
 metadata:
   name: workflowartifactgctasks.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   group: argoproj.io
   names:
@@ -130,7 +130,7 @@ kind: CustomResourceDefinition
 metadata:
   name: workfloweventbindings.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   group: argoproj.io
   names:
@@ -168,7 +168,7 @@ kind: CustomResourceDefinition
 metadata:
   name: workflows.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   group: argoproj.io
   names:
@@ -226,7 +226,7 @@ kind: CustomResourceDefinition
 metadata:
   name: workflowtaskresults.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   group: argoproj.io
   names:
@@ -813,7 +813,7 @@ kind: CustomResourceDefinition
 metadata:
   name: workflowtasksets.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   group: argoproj.io
   names:
@@ -857,7 +857,7 @@ kind: CustomResourceDefinition
 metadata:
   name: workflowtemplates.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   group: argoproj.io
   names:
