@@ -47,6 +47,7 @@ spec:
       # --retry-backoff-factor int              Factor multiplies the base duration after each failed retry (default 2)
       # --retry-backoff-max-duration duration   Max retry backoff duration. Input needs to be a duration (e.g. 2m, 1h) (default 3m0s)
       # --retry-limit int                       Max number of allowed sync retries
+    - ApplyOutOfSyncOnly=true
     retry:
       limit: -1  # Max number of allowed sync retries
       backoff:
