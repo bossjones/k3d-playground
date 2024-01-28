@@ -3,12 +3,12 @@ items:
 - apiVersion: v1
   kind: Namespace
   metadata:
-    creationTimestamp: "2024-01-25T17:28:51Z"
+    creationTimestamp: "2024-01-27T03:28:26Z"
     labels:
       kubernetes.io/metadata.name: default
     name: default
     resourceVersion: "5"
-    uid: 70c1abe8-e52b-43ea-a7bb-5ceeb0dfc397
+    uid: 15d528a9-fae0-447e-b08e-1fa2e69ca700
   spec:
     finalizers:
     - kubernetes
@@ -17,12 +17,12 @@ items:
 - apiVersion: v1
   kind: Namespace
   metadata:
-    creationTimestamp: "2024-01-25T17:28:51Z"
+    creationTimestamp: "2024-01-27T03:28:26Z"
     labels:
       kubernetes.io/metadata.name: kube-system
     name: kube-system
-    resourceVersion: "6"
-    uid: 48024881-a18e-4f44-a3ae-75fa8d88e09f
+    resourceVersion: "13"
+    uid: 9a48eab7-771e-4aef-9543-52ca443f4781
   spec:
     finalizers:
     - kubernetes
@@ -31,12 +31,12 @@ items:
 - apiVersion: v1
   kind: Namespace
   metadata:
-    creationTimestamp: "2024-01-25T17:28:51Z"
+    creationTimestamp: "2024-01-27T03:28:26Z"
     labels:
       kubernetes.io/metadata.name: kube-public
     name: kube-public
-    resourceVersion: "7"
-    uid: d5c1274b-112a-4261-8ecc-515cae16ade2
+    resourceVersion: "28"
+    uid: c3d30966-db08-4401-86c6-19eed56d9b63
   spec:
     finalizers:
     - kubernetes
@@ -45,12 +45,12 @@ items:
 - apiVersion: v1
   kind: Namespace
   metadata:
-    creationTimestamp: "2024-01-25T17:28:51Z"
+    creationTimestamp: "2024-01-27T03:28:26Z"
     labels:
       kubernetes.io/metadata.name: kube-node-lease
     name: kube-node-lease
-    resourceVersion: "8"
-    uid: 4f2fb1e7-cbc6-4627-b518-4706f69bd2fc
+    resourceVersion: "38"
+    uid: 6a7ee348-132a-4e41-8450-e7a8a5aa902e
   spec:
     finalizers:
     - kubernetes
@@ -59,46 +59,12 @@ items:
 - apiVersion: v1
   kind: Namespace
   metadata:
-    creationTimestamp: "2024-01-25T17:29:09Z"
+    creationTimestamp: "2024-01-27T03:28:44Z"
     labels:
       kubernetes.io/metadata.name: argocd
     name: argocd
-    resourceVersion: "405"
-    uid: f40f5a6d-da42-4925-b292-c35925cc98b8
-  spec:
-    finalizers:
-    - kubernetes
-  status:
-    phase: Active
-- apiVersion: v1
-  kind: Namespace
-  metadata:
-    annotations:
-      kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"creationTimestamp":null,"name":"databases"},"spec":{},"status":{}}
-    creationTimestamp: "2024-01-25T17:30:38Z"
-    labels:
-      kubernetes.io/metadata.name: databases
-    name: databases
-    resourceVersion: "1568"
-    uid: c46f5960-6f11-4e1f-a6c5-847f9f7a7665
-  spec:
-    finalizers:
-    - kubernetes
-  status:
-    phase: Active
-- apiVersion: v1
-  kind: Namespace
-  metadata:
-    annotations:
-      kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"creationTimestamp":null,"name":"example"},"spec":{},"status":{}}
-    creationTimestamp: "2024-01-25T17:31:22Z"
-    labels:
-      kubernetes.io/metadata.name: example
-    name: example
-    resourceVersion: "1752"
-    uid: 78a9e51b-89fe-4958-83e8-b11fe6c2a56c
+    resourceVersion: "408"
+    uid: 07f29443-d121-497b-b4ca-7a4fe8923b5e
   spec:
     finalizers:
     - kubernetes
@@ -110,12 +76,46 @@ items:
     annotations:
       kubectl.kubernetes.io/last-applied-configuration: |
         {"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"creationTimestamp":null,"name":"development"},"spec":{},"status":{}}
-    creationTimestamp: "2024-01-25T17:32:30Z"
+    creationTimestamp: "2024-01-27T03:29:24Z"
     labels:
       kubernetes.io/metadata.name: development
     name: development
-    resourceVersion: "1951"
-    uid: 3c5804b1-db9d-42d6-b0b8-701cabe62f7a
+    resourceVersion: "878"
+    uid: e97355c0-67e0-40a5-8987-da87d21a2898
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"creationTimestamp":null,"name":"databases"},"spec":{},"status":{}}
+    creationTimestamp: "2024-01-27T03:29:26Z"
+    labels:
+      kubernetes.io/metadata.name: databases
+    name: databases
+    resourceVersion: "983"
+    uid: ac27e87c-d79e-4116-be54-1cecd57cc607
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    creationTimestamp: "2024-01-27T03:29:24Z"
+    labels:
+      app.kubernetes.io/instance: kube-prometheus-stack
+      kubernetes.io/metadata.name: monitoring
+      monitoring: prometheus
+      prometheus: main
+    name: monitoring
+    resourceVersion: "1448"
+    uid: 34501398-df48-4251-949e-fb788b8c8fcf
   spec:
     finalizers:
     - kubernetes
@@ -127,12 +127,12 @@ items:
     annotations:
       kubectl.kubernetes.io/last-applied-configuration: |
         {"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"creationTimestamp":null,"name":"argo-rollouts"},"spec":{},"status":{}}
-    creationTimestamp: "2024-01-25T17:32:38Z"
+    creationTimestamp: "2024-01-27T03:31:00Z"
     labels:
       kubernetes.io/metadata.name: argo-rollouts
     name: argo-rollouts
-    resourceVersion: "2242"
-    uid: d5a274cc-e3f3-4da9-b73d-a62670719574
+    resourceVersion: "2764"
+    uid: 6ab7b72b-6194-4496-8a14-090e00b53010
   spec:
     finalizers:
     - kubernetes
@@ -141,15 +141,49 @@ items:
 - apiVersion: v1
   kind: Namespace
   metadata:
-    creationTimestamp: "2024-01-25T17:32:32Z"
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"creationTimestamp":null,"name":"example"},"spec":{},"status":{}}
+    creationTimestamp: "2024-01-27T03:31:45Z"
     labels:
-      app.kubernetes.io/instance: kube-prometheus-stack
-      kubernetes.io/metadata.name: monitoring
+      kubernetes.io/metadata.name: example
+    name: example
+    resourceVersion: "3493"
+    uid: eb9ccded-f2ab-4cc0-80c6-59be1f695bf4
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    creationTimestamp: "2024-01-27T03:29:28Z"
+    labels:
+      app.kubernetes.io/instance: loki
+      kubernetes.io/metadata.name: logging
       monitoring: prometheus
       prometheus: main
-    name: monitoring
-    resourceVersion: "2439"
-    uid: 86398a74-8c8e-4d6e-91f2-c798ef8f251d
+    name: logging
+    resourceVersion: "6622"
+    uid: 9813d994-7f75-49fe-b4da-f2374b9f5269
+  spec:
+    finalizers:
+    - kubernetes
+  status:
+    phase: Active
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    creationTimestamp: "2024-01-27T20:30:08Z"
+    labels:
+      app.kubernetes.io/instance: cert-manager
+      kubernetes.io/metadata.name: cert-manager
+      monitoring: prometheus
+      prometheus: main
+    name: cert-manager
+    resourceVersion: "98508"
+    uid: ea11d265-9a69-41dd-b42f-034783a8d2c9
   spec:
     finalizers:
     - kubernetes

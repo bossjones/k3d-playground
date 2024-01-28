@@ -1,0 +1,301 @@
+apiVersion: v1
+items:
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: Role
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{"reloader.stakater.com/auto":"true"},"labels":{"app.kubernetes.io/component":"dex-server","app.kubernetes.io/instance":"argocd","app.kubernetes.io/name":"argocd-dex-server","app.kubernetes.io/part-of":"argocd","monitoring":"prometheus","prometheus":"main"},"name":"argocd-dex-server","namespace":"argocd"},"rules":[{"apiGroups":[""],"resources":["secrets","configmaps"],"verbs":["get","list","watch"]}]}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-27T03:28:48Z"
+    labels:
+      app.kubernetes.io/component: dex-server
+      app.kubernetes.io/instance: argocd
+      app.kubernetes.io/name: argocd-dex-server
+      app.kubernetes.io/part-of: argocd
+      monitoring: prometheus
+      prometheus: main
+    name: argocd-dex-server
+    namespace: argocd
+    resourceVersion: "101751"
+    uid: 26f6a0d6-f3b0-4477-849c-cd68546bbe90
+  rules:
+  - apiGroups:
+    - ""
+    resources:
+    - secrets
+    - configmaps
+    verbs:
+    - get
+    - list
+    - watch
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: Role
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{"reloader.stakater.com/auto":"true"},"labels":{"app.kubernetes.io/component":"application-controller","app.kubernetes.io/instance":"argocd","app.kubernetes.io/name":"argocd-application-controller","app.kubernetes.io/part-of":"argocd","monitoring":"prometheus","prometheus":"main"},"name":"argocd-application-controller","namespace":"argocd"},"rules":[{"apiGroups":[""],"resources":["secrets","configmaps"],"verbs":["get","list","watch"]},{"apiGroups":["argoproj.io"],"resources":["applications","appprojects"],"verbs":["create","get","list","watch","update","patch","delete"]},{"apiGroups":[""],"resources":["events"],"verbs":["create","list"]}]}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-27T03:28:48Z"
+    labels:
+      app.kubernetes.io/component: application-controller
+      app.kubernetes.io/instance: argocd
+      app.kubernetes.io/name: argocd-application-controller
+      app.kubernetes.io/part-of: argocd
+      monitoring: prometheus
+      prometheus: main
+    name: argocd-application-controller
+    namespace: argocd
+    resourceVersion: "101752"
+    uid: 9debc886-e433-44fb-aaf5-b0844f7e0b15
+  rules:
+  - apiGroups:
+    - ""
+    resources:
+    - secrets
+    - configmaps
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - argoproj.io
+    resources:
+    - applications
+    - appprojects
+    verbs:
+    - create
+    - get
+    - list
+    - watch
+    - update
+    - patch
+    - delete
+  - apiGroups:
+    - ""
+    resources:
+    - events
+    verbs:
+    - create
+    - list
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: Role
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{"reloader.stakater.com/auto":"true"},"labels":{"app.kubernetes.io/component":"server","app.kubernetes.io/instance":"argocd","app.kubernetes.io/name":"argocd-server","app.kubernetes.io/part-of":"argocd","monitoring":"prometheus","prometheus":"main"},"name":"argocd-server","namespace":"argocd"},"rules":[{"apiGroups":[""],"resources":["secrets","configmaps","events"],"verbs":["create","get","list","watch","update","patch","delete"]},{"apiGroups":["argoproj.io"],"resources":["applications","appprojects","applicationsets","argocdextensions"],"verbs":["create","get","list","watch","update","delete","patch"]},{"apiGroups":[""],"resources":["pods/exec"],"verbs":["create"]}]}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-27T03:28:48Z"
+    labels:
+      app.kubernetes.io/component: server
+      app.kubernetes.io/instance: argocd
+      app.kubernetes.io/name: argocd-server
+      app.kubernetes.io/part-of: argocd
+      monitoring: prometheus
+      prometheus: main
+    name: argocd-server
+    namespace: argocd
+    resourceVersion: "101753"
+    uid: dd108045-137e-4076-8e35-60cd50d43e4b
+  rules:
+  - apiGroups:
+    - ""
+    resources:
+    - secrets
+    - configmaps
+    - events
+    verbs:
+    - create
+    - get
+    - list
+    - watch
+    - update
+    - patch
+    - delete
+  - apiGroups:
+    - argoproj.io
+    resources:
+    - applications
+    - appprojects
+    - applicationsets
+    - argocdextensions
+    verbs:
+    - create
+    - get
+    - list
+    - watch
+    - update
+    - delete
+    - patch
+  - apiGroups:
+    - ""
+    resources:
+    - pods/exec
+    verbs:
+    - create
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: Role
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{"reloader.stakater.com/auto":"true"},"labels":{"app.kubernetes.io/component":"server","app.kubernetes.io/instance":"argocd","app.kubernetes.io/name":"argocd-server","app.kubernetes.io/part-of":"argocd","monitoring":"prometheus","prometheus":"main"},"name":"argocd-server-extensions","namespace":"argocd"},"rules":[{"apiGroups":["argoproj.io"],"resources":["argocdextensions"],"verbs":["create","get","list","watch","update","delete","patch"]}]}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-27T03:28:49Z"
+    labels:
+      app.kubernetes.io/component: server
+      app.kubernetes.io/instance: argocd
+      app.kubernetes.io/name: argocd-server
+      app.kubernetes.io/part-of: argocd
+      monitoring: prometheus
+      prometheus: main
+    name: argocd-server-extensions
+    namespace: argocd
+    resourceVersion: "101754"
+    uid: f4becb5e-3f32-48f6-a52a-72c7a34090f4
+  rules:
+  - apiGroups:
+    - argoproj.io
+    resources:
+    - argocdextensions
+    verbs:
+    - create
+    - get
+    - list
+    - watch
+    - update
+    - delete
+    - patch
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: Role
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{"reloader.stakater.com/auto":"true"},"labels":{"app.kubernetes.io/component":"notifications-controller","app.kubernetes.io/instance":"argocd","app.kubernetes.io/name":"argocd-notifications-controller","app.kubernetes.io/part-of":"argocd","monitoring":"prometheus","prometheus":"main"},"name":"argocd-notifications-controller","namespace":"argocd"},"rules":[{"apiGroups":["argoproj.io"],"resources":["applications","appprojects"],"verbs":["get","list","watch","update","patch"]},{"apiGroups":[""],"resources":["configmaps","secrets"],"verbs":["list","watch"]},{"apiGroups":[""],"resourceNames":["argocd-notifications-cm"],"resources":["configmaps"],"verbs":["get"]},{"apiGroups":[""],"resourceNames":["argocd-notifications-secret"],"resources":["secrets"],"verbs":["get"]}]}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-27T03:28:48Z"
+    labels:
+      app.kubernetes.io/component: notifications-controller
+      app.kubernetes.io/instance: argocd
+      app.kubernetes.io/name: argocd-notifications-controller
+      app.kubernetes.io/part-of: argocd
+      monitoring: prometheus
+      prometheus: main
+    name: argocd-notifications-controller
+    namespace: argocd
+    resourceVersion: "101755"
+    uid: 37ee8038-bcd7-44e0-ab71-48163d3d92e1
+  rules:
+  - apiGroups:
+    - argoproj.io
+    resources:
+    - applications
+    - appprojects
+    verbs:
+    - get
+    - list
+    - watch
+    - update
+    - patch
+  - apiGroups:
+    - ""
+    resources:
+    - configmaps
+    - secrets
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resourceNames:
+    - argocd-notifications-cm
+    resources:
+    - configmaps
+    verbs:
+    - get
+  - apiGroups:
+    - ""
+    resourceNames:
+    - argocd-notifications-secret
+    resources:
+    - secrets
+    verbs:
+    - get
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: Role
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{"reloader.stakater.com/auto":"true"},"labels":{"app.kubernetes.io/component":"applicationset-controller","app.kubernetes.io/instance":"argocd","app.kubernetes.io/name":"argocd-applicationset-controller","app.kubernetes.io/part-of":"argocd","monitoring":"prometheus","prometheus":"main"},"name":"argocd-applicationset-controller","namespace":"argocd"},"rules":[{"apiGroups":["argoproj.io"],"resources":["applications","applicationsets","applicationsets/finalizers"],"verbs":["create","delete","get","list","patch","update","watch"]},{"apiGroups":["argoproj.io"],"resources":["appprojects"],"verbs":["get"]},{"apiGroups":["argoproj.io"],"resources":["applicationsets/status"],"verbs":["get","patch","update"]},{"apiGroups":[""],"resources":["events"],"verbs":["create","get","list","patch","watch"]},{"apiGroups":[""],"resources":["secrets","configmaps"],"verbs":["get","list","watch"]},{"apiGroups":["apps","extensions"],"resources":["deployments"],"verbs":["get","list","watch"]}]}
+      reloader.stakater.com/auto: "true"
+    creationTimestamp: "2024-01-27T03:28:48Z"
+    labels:
+      app.kubernetes.io/component: applicationset-controller
+      app.kubernetes.io/instance: argocd
+      app.kubernetes.io/name: argocd-applicationset-controller
+      app.kubernetes.io/part-of: argocd
+      monitoring: prometheus
+      prometheus: main
+    name: argocd-applicationset-controller
+    namespace: argocd
+    resourceVersion: "101756"
+    uid: 548a5bf5-d99a-49a5-a05c-00065c027e68
+  rules:
+  - apiGroups:
+    - argoproj.io
+    resources:
+    - applications
+    - applicationsets
+    - applicationsets/finalizers
+    verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - argoproj.io
+    resources:
+    - appprojects
+    verbs:
+    - get
+  - apiGroups:
+    - argoproj.io
+    resources:
+    - applicationsets/status
+    verbs:
+    - get
+    - patch
+    - update
+  - apiGroups:
+    - ""
+    resources:
+    - events
+    verbs:
+    - create
+    - get
+    - list
+    - patch
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - secrets
+    - configmaps
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - apps
+    - extensions
+    resources:
+    - deployments
+    verbs:
+    - get
+    - list
+    - watch
+kind: List
+metadata:
+  resourceVersion: ""

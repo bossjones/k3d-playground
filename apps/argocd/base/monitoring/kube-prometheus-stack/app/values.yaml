@@ -2606,6 +2606,12 @@ kube-state-metrics:
     create: true
 
   prometheus:
+    additionalRulesForClusterRole:
+    - apiGroups: [""]
+      resources:
+      - configmaps
+      verbs: ["get"]
+
     monitor:
       enabled: true
 

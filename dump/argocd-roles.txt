@@ -1,0 +1,7 @@
+NAME                               CREATED AT
+argocd-dex-server                  2024-01-27T03:28:48Z
+argocd-application-controller      2024-01-27T03:28:48Z
+argocd-server                      2024-01-27T03:28:48Z
+argocd-server-extensions           2024-01-27T03:28:49Z
+argocd-notifications-controller    2024-01-27T03:28:48Z
+argocd-applicationset-controller   2024-01-27T03:28:48Z

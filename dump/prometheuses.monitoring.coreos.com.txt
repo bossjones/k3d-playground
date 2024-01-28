@@ -1,2 +1,2 @@
 NAMESPACE    NAME                               VERSION   DESIRED   READY   RECONCILED   AVAILABLE   AGE
-monitoring   kube-prometheus-stack-prometheus   v2.45.0   1         1       True         True        4h23m
+monitoring   kube-prometheus-stack-prometheus   v2.45.0   1         1       True         True        20h

@@ -1,0 +1,3 @@
+NAME                            CREATED AT
+prometheus-k8s                  2024-01-27T03:29:44Z
+kube-prometheus-stack-grafana   2024-01-27T03:29:44Z
