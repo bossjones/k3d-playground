@@ -1938,7 +1938,7 @@ spec:
             name: argo-server
             port:
               number: 2746
-              name: web
+              # name: web
         path: /
         pathType: Prefix
   tls:
