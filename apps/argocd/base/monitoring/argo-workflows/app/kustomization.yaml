@@ -12,7 +12,7 @@ resources:
   - quick-start-postgres.yaml
   - coinflip-recursive.yaml
   - containerset.yaml
-  - dag-diamond.yaml
+  # - dag-diamond.yaml
   - debug-pause.yaml
   - hello-world.yaml
   - http-template.yaml
