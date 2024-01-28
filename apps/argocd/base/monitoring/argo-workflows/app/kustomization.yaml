@@ -13,7 +13,7 @@ resources:
   - coinflip-recursive.yaml
   - containerset.yaml
   # - dag-diamond.yaml
-  - debug-pause.yaml
+  # - debug-pause.yaml
   - hello-world.yaml
   - http-template.yaml
   - k8s-resource-output.yaml
