@@ -140,7 +140,7 @@
           "source.organizeImports": "explicit"
       }
   },
-  "window.zoomLevel": 1,
+  "window.zoomLevel": -2,
   "code-runner.runInTerminal": true,
   "rust-analyzer.cargo.loadOutDirsFromCheck": true,
   "editor.formatOnSave": true,
