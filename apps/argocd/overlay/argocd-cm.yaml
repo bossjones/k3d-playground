@@ -7,6 +7,7 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   # application.resourceTrackingMethod: annotation
+  # url: "https://argocd.k8s.localhost"
   statusbadge.enabled: "true"
   exec.enabled: "true"
   kustomize.buildOptions: "--enable-alpha-plugins --enable-exec"
