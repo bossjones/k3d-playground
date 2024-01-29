@@ -7,8 +7,8 @@ resources:
 - base/projects/monitoring.yaml
 - base/projects/networking.yaml
 - base/projects/apps.yaml
-- apps/argocd/base/kube-system/external-secrets/app/external-secrets/app.yaml
-- apps/argocd/base/kube-system/external-secrets/app/connect/app.yaml
+- base/kube-system/external-secrets/app/external-secrets/app.yaml
+- base/kube-system/external-secrets/app/connect/app.yaml
 # - base/monitoring/cilium/app/app.yaml
 - base/core/ingress-nginx/app/app.yaml
 # - base/core/nginx.yaml
