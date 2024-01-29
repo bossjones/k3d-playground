@@ -13,7 +13,7 @@ spec:
   destination:
     namespace: default
     server: {{ .Values.dest_server }}
-  project: default
+  project: cluster
   syncPolicy:
     automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
       prune: true # Specifies if resources should be pruned during auto-syncing ( false by default ).
@@ -25,7 +25,7 @@ spec:
     chart: pgadmin4
     targetRevision: "*"
     repoURL: https://helm.runix.net
-    helm : 
+    helm :
       values: |
 
         # Default values for pgAdmin4.
@@ -127,7 +127,7 @@ spec:
         ## Ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
         ingress:
           enabled: true
-          annotations: 
+          annotations:
             hajimari.io/enable: "true"
             hajimari.io/group: "Management"
             hajimari.io/icon: "database-edit"

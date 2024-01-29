@@ -1,0 +1,30 @@
+redis:
+  serviceAccountName: redis
+  masterServiceAccountName: redis-master
+  replicaServiceAccountName: redis-replica
+auth:
+  enabled: false
+  sentinel: false
+master:
+  persistence:
+    enabled: false
+  serviceAccount:
+    name: "redis-master"
+replica:
+  persistence:
+    enabled: false
+  serviceAccount:
+    name: "redis-replica"
+sentinel:
+  enabled: true
+  masterSet: redis-master
+  getMasterTimeout: 10
+  startupProbe:
+    failureThreshold: 2
+  persistence:
+    enabled: false
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    interval: 1m

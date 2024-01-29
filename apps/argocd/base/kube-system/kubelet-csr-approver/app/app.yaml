@@ -1,0 +1,31 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kubelet-csr-approver
+  namespace: argocd
+  annotations:
+    # notifications.argoproj.io/subscribe.on-deployed-github.pushover: ui6cxf78gwxa6n93zkwddw1g8s3yio
+    argocd.argoproj.io/manifest-generate-paths: /apps/argocd/base/kube-system/kubelet-csr-approver
+spec:
+  project: cluster
+  sources:
+  - repoURL: 'https://postfinance.github.io/kubelet-csr-approver'
+    chart: kubelet-csr-approver
+    targetRevision: 1.0.6
+    helm:
+      releaseName: kubelet-csr-approver
+      valueFiles:
+        - $values/apps/argocd/base/kube-system/kubelet-csr-approver/app/values.yaml
+  - repoURL: 'https://github.com/bossjones/k3d-playground'
+    targetRevision: main
+    path: apps/argocd/base/kube-system/kubelet-csr-approver
+    ref: values
+  destination:
+    name: in-cluster
+    namespace: kube-system
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

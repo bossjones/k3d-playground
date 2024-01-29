@@ -9,7 +9,7 @@ spec:
   destination:
     namespace: default
     server: {{ .Values.dest_server }}
-  project: default
+  project: cluster
   ignoreDifferences:
   - group: "admissionregistration.k8s.io/v1"
     kind: "MutatingWebhookConfiguration"
@@ -33,7 +33,7 @@ spec:
     chart: vault
     targetRevision: "0.27.0"
     repoURL: https://helm.releases.hashicorp.com
-    helm : 
+    helm :
       values: |
 
         # Copyright (c) HashiCorp, Inc.
@@ -306,7 +306,7 @@ spec:
           # This can either be a multi-line string or YAML matching the PodSpec's affinity field.
           # Commenting out or setting as empty the affinity variable, will allow
           # deployment of multiple replicas to single node services such as Minikube.
-       
+
           # Topology settings for injector pods
           # ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/
           # This should be either a multi-line string or YAML matching the topologySpreadConstraints array
@@ -422,7 +422,7 @@ spec:
             enabled: true
             labels: {}
               # traffic: external
-            annotations: 
+            annotations:
               hajimari.io/enable: "true"
               hajimari.io/group: "Management"
               hajimari.io/icon: "safe-square"
@@ -602,14 +602,14 @@ spec:
           # volumes is a list of volumes made available to all containers. These are rendered
           # via toYaml rather than pre-processed like the extraVolumes value.
           # The purpose is to make it easy to share volumes between containers.
-          volumes: 
+          volumes:
             - name: cred
               hostPath:
                 path: /home/jeank/cred
                 type: Directory
 
             - name: scripts
-              configMap: 
+              configMap:
                 name: vault-scripts
 
           # volumeMounts is a list of volumeMounts for the main server container. These are rendered
@@ -721,7 +721,7 @@ spec:
             #     PreferDualStack: Allocates IPv4 and IPv6 cluster IPs for the Service.
             #     RequireDualStack: Allocates Service .spec.ClusterIPs from both IPv4 and IPv6 address ranges.
             ipFamilyPolicy: ""
-            
+
             # Sets the families that should be supported and the order in which they should be applied to ClusterIP as well.
             # Can be IPv4 and/or IPv6.
             ipFamilies: []

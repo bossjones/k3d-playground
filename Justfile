@@ -319,3 +319,17 @@ get-k8s-logs:
 # get k8s logs
 find-invalid-utf8-characters:
   scripts/find-invalid-utf8-characters.sh
+
+# Encrypt all sops secrets
+encrypt target:
+  @echo 'Encrypting target: {{target}}…'
+  sops --encrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") --encrypted-regex '^(data|stringData)$' --in-place {{target}}
+
+# Decrypt all sops secrets
+decrypt target:
+  @echo 'Decrypting target: {{target}}…'
+  sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") --encrypted-regex '^(data|stringData)$' --in-place {{target}}
+
+# Decrypt and re-encrypt all sops secrets
+re-encrypt:
+  scripts/re-encrypt.sh

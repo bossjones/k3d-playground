@@ -195,3 +195,4 @@ dump/*
 !dump/*clusterrole*
 !dump/*role*
 !dump/*serviceaccounts*
+!externalSecret.yaml

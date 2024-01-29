@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: onepassword-token
+    namespace: kube-system
+type: Opaque
+stringData:
+    token: ENC[AES256_GCM,data:BJs5WKtl0F9wv6nWov1x24kmUyWuUjP+vxRYe+gXkazoonKMBHC+kZ3Q+fdP/m+ieW+PTfU0rrFuI38WBd3obdQUDaEOgtflPqOMQ5TIcLAnAqofpLvCdW8D4a0WskUeutsZCSeCDvFTZL91hElZLu5LjuJwlb/skLYAZFRZp2QqN4wi0HxGtO3fYEFcBFTDwBw9Zb9X5Vz2E6t/61FuzPmrg3YjG9VRH/blc1yPvq+39d97TCpqvub9+KrpVVIud+1ItU1XhLsdfum1HFjZiKcl61/Ge0e02PoO5V8AZd+4H8NvpFqdztzIKRWIb2wuxj6tkRky8cr3vl0RnBGycl0fG6rGSHt/HxKJn/qftoi8aEfliHbaWSSUU1qAchPWkUBp4KmOXbD5qM+3QyCuJLoZetoJiTShwnOWuwPQBsgLJCkePhFdwVbqW+MePPxf3wWQo+aE3xpLtycN+XF+MYY27EPi/KWxO+t6q1rYQ3yMqlT2JXZkiNJ1AUZWB2gWmB3BUOPvGlPe5M+V8kG0NpUyV3Y3EuNEoOGVtQ/v6RwusFrvOvaBQ2H765vqQpCa8RzsvqaggqYLSVjt7T5pDDi0kXI22zZfOD+XBKsZadEkVenKPfOL5j1XkvqbgsIUgSOnSyJ+nezSQV+JOJVgGBE6R9fCUFl+H7xllvrbnD0FCukx2sfBiQ7eDkSDZCs4BaRFtRhAw3COAUd/cd7jrT9prtBQ1bGjFmTAf8A0vMjbRQnZmhbdPF29zYFK3OpnmKcvLB0egwsxBd39UWOpheHvpzgoCcqADJ9gTRnX/ESdqJf35/uN5EunacOAG37+Z31RYGMg7uz+A3fHkutfaVBPxw==,iv:wSne7GE0TTcS294cuPZfPIo9XcrXPuBVYS03zo9I9iM=,tag:cJCmgoKcog2aFYc7o9q04Q==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBhWXVkRVlIMDRQQWVibm1z
+            d1ZqOVJWditheEFUWk0ySHJGcjZqL05haWpzCkM3azYzVTFGaUk1ZU1HZ1k4MDRK
+            MXorZnYyS1NYa2NEa2E2Q2RKaCs2czgKLS0tIEhQRkZ6aFlOUFZaYm8xYW1tcFA1
+            S3hJNWYrVTRxWEdpWTB5WUhKaFg4REkK9SrABxK3Kz8uqJZYIxohdy9muTJYlpNW
+            Z87dYVv4g8WQ4xDC6c2mVlnJ6jHi+oba2MLlxQdSkAKazcTBeJIOyg==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2024-01-29T02:54:16Z"
+    mac: ENC[AES256_GCM,data:YQML9nbmOAxxdB00z8vvc1drjJrq2kfGMJgpnKCF67pb3yGdspMt2IGWaTVucIT6ihIdvQOiT9gQjKt3NBVp3ZPuG+JJhJkP52YLvioPKaikx/vNXPKwNn2vf8owopil+rIl7cBKcKRHaHNnQMdVjtlke8VgiVETxYkp7BbbCCw=,iv:41qhNfqobmypmIn6p6uzjtr+LtPq775spxjpy6hT9RA=,tag:2IvDwmoo62yY7msqI/SrqQ==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.8.1

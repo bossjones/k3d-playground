@@ -4,6 +4,7 @@ metadata:
   name: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+    # SOURCE: https://github.com/rdartus/k3s-argo/blob/main/jeanKluster/templates/traefik.yml
   # annotations:
   #   argocd.argoproj.io/sync-wave: "-10"
 spec:

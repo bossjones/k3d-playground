@@ -11,7 +11,7 @@ spec:
   destination:
     namespace: metallb
     server: {{ .Values.dest_server }}
-  project: default
+  project: cluster
   ignoreDifferences:
   - group: "admissionregistration.k8s.io/v1"
     kind: "MutatingWebhookConfiguration"
@@ -34,7 +34,7 @@ spec:
     chart: metallb
     targetRevision: "0.13.12"
     repoURL: https://metallb.github.io/metallb
-    helm : 
+    helm :
       values: |
 
         # Default values for metallb.

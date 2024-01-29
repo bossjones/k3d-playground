@@ -31,7 +31,7 @@ spec:
       - /data/ca.crt
       - /data/tls.crt
       - /data/tls.key
-  project: default
+  project: cluster
   sources:
   - repoURL: 'https://helm.cilium.io/'
     chart: cilium
