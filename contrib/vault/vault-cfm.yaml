@@ -1,0 +1,153 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-scripts
+  namespace: default
+data:
+  arr-policy.json: |
+
+    path "kv-v2/data/arr/*" {
+      capabilities = ["read"]
+    }
+  ddns-updater-policy.json: |
+
+    path "kv-v2/data/ddns-updater/*" {
+      capabilities = ["read"]
+    }
+  pgsql-policy.json: |
+
+    path "kv-v2/data/postgresql/*" {
+      capabilities = ["read"]
+    }
+  pgadmin-policy.json: |
+
+    path "kv-v2/data/pgadmin/*" {
+      capabilities = ["read"]
+    }
+  demo-auth-policy-operator.json: |
+
+    path "transit/encrypt/vso-client-cache" {
+      capabilities = ["create", "update"]
+    }
+    path "transit/decrypt/vso-client-cache" {
+      capabilities = ["create", "update"]
+    }
+    path "kv-v2/*" {
+      capabilities = ["read"]
+    }
+
+  initScript.sh: |
+
+    #!/bin/sh
+    # Three scenarios
+    # * Vault is not running yet
+    # ** Just wait...
+    # * Vault is running but not initialized
+    # ** Exit, it needs to be initialized and unsealed manually
+    # * Vault is running and initialized but sealed
+    # ** Take action and unseal the vault, then exit
+    # * Vault is running, initialized and unsealed
+    # ** all is good, exit
+
+    COUNT=1
+    LIMIT=60
+    while [ 1 ]
+    do
+      echo "Checking if Vault is up and running (try $COUNT)..." &> /proc/1/fd/1
+      VAULT_STATUS=$(vault status $1 2>&1)
+      EXIT_STATUS=$?
+      echo "Initialize Vault"
+      export STATUS=$(vault status | grep 'Initialized' | awk '{print $2}')
+      echo "status vault $STATUS"
+      if [ $STATUS = "false" ]; then
+        vault operator init -key-shares=3 -key-threshold=2 | tee /config/cred/vault.init
+
+        # Store master keys in consul for operator to retrieve and remove
+        COUNTER=1
+        cat /config/cred/vault.init  | grep '^Unseal' | awk '{print $4}' | for key in $(cat -); do
+          echo  $key | tee /config/cred/vault-init-$COUNTER
+          COUNTER=$((COUNTER + 1))
+        done
+
+        export ROOT_TOKEN=$(cat /config/cred/vault.init | grep '^Initial' | awk '{print $4}')
+        echo  $ROOT_TOKEN | tee /config/cred/vault-root-token
+
+        # echo "Remove master keys from disk"
+        # shred /config/cred/vault.init
+
+        echo "Unsealing Vault"
+        vault operator unseal $(cat /config/cred/vault-init-1)
+        vault operator unseal $(cat /config/cred/vault-init-2)
+
+        echo "Vault init complete."
+
+        echo "Start configuration"
+        vault login $ROOT_TOKEN
+        vault secrets enable kv-v2
+        vault kv put kv-v2/ddns-updater/config CONFIG='{"settings":[{"provider":"ddnss","provider_ip":true,"domain":"YOUR-DOMAIN","host":"@","username":"YOUR-USERNAME","password":"YOUR-PASSWORD","ip_version":"ipv4"}]}'
+        vault kv put kv-v2/postgresql/config username="{{ .Values.db.user }}" password="{{ .Values.db.userPass }}"
+        vault kv put kv-v2/postgresql/superuser username="postgres" password="{{ .Values.db.superuserPass }}"
+        vault kv put kv-v2/pgadmin/config username="{{ .Values.db.user }}" password="{{ .Values.db.userPass }}"
+        vault kv put kv-v2/arr/config username="{{ .Values.db.user }}" password="{{ .Values.db.userPass }}"
+        vault auth enable kubernetes
+        vault write auth/kubernetes/config kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443"
+
+        vault secrets enable -path=transit transit
+        vault write -force transit/keys/vso-client-cache
+
+        vault policy write demo-auth-policy-operator /config/scripts/demo-auth-policy-operator.json
+        vault policy write plcpgsql /config/scripts/pgsql-policy.json
+        vault policy write plcpgadmin /config/scripts/pgadmin-policy.json        
+        vault policy write plcddns-updater /config/scripts/ddns-updater-policy.json        
+        vault policy write plcarr /config/scripts/arr-policy.json        
+
+        vault write auth/kubernetes/role/auth-role-operator \
+        bound_service_account_names=demo-operator \
+        bound_service_account_namespaces=default \
+        policies=demo-auth-policy-operator \
+        audience=vault\
+        ttl=24h
+
+        vault write auth/kubernetes/role/rlpgsql \
+        bound_service_account_names=cnpg-cluster \
+        bound_service_account_namespaces=cnpg \
+        policies=plcpgsql \
+        audience=vault\
+        ttl=24h
+
+        vault write auth/kubernetes/role/rlpgadmin \
+        bound_service_account_names=default \
+        bound_service_account_namespaces=default \
+        policies=plcpgadmin \
+        audience=vault\
+        ttl=24h
+
+        vault write auth/kubernetes/role/rlddns-updater \
+        bound_service_account_names=default \
+        bound_service_account_namespaces=ddns-updater \
+        policies=plcddns-updater \
+        audience=vault\
+        ttl=24h
+
+        vault write auth/kubernetes/role/rlarr \
+        bound_service_account_names=default \
+        bound_service_account_namespaces=default \
+        policies=plcarr \
+        audience=vault\
+        ttl=24h
+
+        exit 0
+      elif [ $STATUS = "true" ]; then
+        exit 0
+      elif [ $COUNT -ge $LIMIT ]; then
+        # Dont know what happened... Exiting
+        echo "$VAULT_STAUS" &> /proc/1/fd/1
+        exit 1
+      else
+        # For debugging
+        echo "$VAULT_STATUS" &> /proc/1/fd/1
+        ps aux &> /proc/1/fd/1
+      fi
+      COUNT=$((COUNT+1))
+      sleep 1
+    done

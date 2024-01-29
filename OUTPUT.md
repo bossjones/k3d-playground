@@ -238,3 +238,64 @@ Warning: docker-mac-net-connect must be run as non-root to start at user login!
 [ingress-nginx-controller-7869c84bb7-kvsmm] W0124 23:45:04.074336       6 controller.go:1214] Service "monitoring/kube-prometheus-stack-prometheus" does not have any active Endpoint.
 
 ```
+
+
+# examples of vault helm
+
+```
+~/dev 14s
+❯ rg -i "https://helm.releases.hashicorp.com"
+bossjones/k3d-playground/scripts/helm.sh
+15:helm repo add hashicorp https://helm.releases.hashicorp.com
+
+k3s-argo/jeanKluster/templates/vault/vault.yml
+35:    repoURL: https://helm.releases.hashicorp.com
+
+k3s-argo/jeanKluster/templates/vault/vault-secret-operator.yml
+38:    repoURL: https://helm.releases.hashicorp.com
+
+grafana/helm-charts/ct.yaml
+11:  - hashicorp=https://helm.releases.hashicorp.com
+
+local-gitops/Taskfile.yml
+132:      - helm repo add hashicorp https://helm.releases.hashicorp.com
+
+gitops-playground/src/main/groovy/com/cloudogu/gitops/config/ApplicationConfigurator.groovy
+140:                                            repoURL: 'https://helm.releases.hashicorp.com',
+
+gitops-playground/argocd/argocd/projects/cluster-resources.ftl.yaml
+18:  - https://helm.releases.hashicorp.com
+
+k8s-gitops/archive/vault/vault/Chart.yaml
+7:    repository: https://helm.releases.hashicorp.com
+
+k3s-gitops/extras/vault/helm-release.yaml
+11:      # renovate: registryUrl=https://helm.releases.hashicorp.com
+
+k3s-gitops/extras/consul/helm-release.yaml
+11:      # renovate: registryUrl=https://helm.releases.hashicorp.com
+
+k3s-gitops/README.md
+887:  url: https://helm.releases.hashicorp.com
+
+k3s-gitops/consul/tutorials/kubernetes-gs-deploy.mdx
+657:$ helm repo add hashicorp https://helm.releases.hashicorp.com
+750:$ helm repo add hashicorp https://helm.releases.hashicorp.com
+861:$ helm repo add hashicorp https://helm.releases.hashicorp.com
+
+k3s-gitops/cluster/base/flux-system/charts/helm/hashicorp-charts.yaml
+9:  url: https://helm.releases.hashicorp.com
+
+home-infra/kubernetes/logging/promtail/helm/helm-charts/ct.yaml
+11:  - hashicorp=https://helm.releases.hashicorp.com
+
+home-infra/kubernetes/logging/loki/helm/helm-charts/ct.yaml
+11:  - hashicorp=https://helm.releases.hashicorp.com
+
+home-infra/kubernetes/cert-manager/helm/cert-manager/test/e2e/framework/addon/vault/vault.go
+47:     vaultHelmChartRepo    = "https://helm.releases.hashicorp.com"
+
+~/dev 28s
+❯
+
+```

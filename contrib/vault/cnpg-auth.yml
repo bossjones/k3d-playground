@@ -1,0 +1,16 @@
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: cnpg-auth
+  namespace: cnpg
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  method: kubernetes
+  mount: kubernetes
+  kubernetes:
+    role: rlpgsql
+    serviceAccount: cnpg-cluster
+    audiences:
+      - vault

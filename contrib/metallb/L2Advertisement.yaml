@@ -1,0 +1,14 @@
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/sync-wave: "-10"
+  name: my-l2-advertisment
+  namespace: metallb
+spec:
+  ipAddressPools:
+  - metallb-pool
+  # interfaces:
+  # - eth0
+  # - wlan0

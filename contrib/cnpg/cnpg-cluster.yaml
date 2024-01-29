@@ -1,0 +1,46 @@
+# Example of PostgreSQL cluster
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cnpg-cluster
+  namespace: cnpg
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/sync-wave: "5"
+
+spec:
+  instances: 2
+
+  # Example of rolling update strategy:
+  # - unsupervised: automated update of the primary once all
+  #                 replicas have been upgraded (default)
+  # - supervised: requires manual supervision to perform
+  #               the switchover of the primary
+  primaryUpdateStrategy: unsupervised
+  enableSuperuserAccess: true
+  superuserSecret:
+      name: superuser-secret
+
+  bootstrap:
+    initdb:
+      database: default
+      owner: {{ .Values.db.user }}
+      secret:
+        name: pgsql-secret
+      postInitSQL:
+        - CREATE DATABASE "sonarr-log"
+        - ALTER DATABASE "sonarr-log" OWNER TO "{{ .Values.db.user }}"
+        - CREATE DATABASE "sonarr-main"
+        - ALTER DATABASE "sonarr-main" OWNER TO "{{ .Values.db.user }}"
+        - CREATE DATABASE "radarr-log"
+        - ALTER DATABASE "radarr-log" OWNER TO "{{ .Values.db.user }}"
+        - CREATE DATABASE "radarr-main"
+        - ALTER DATABASE "radarr-main" OWNER TO "{{ .Values.db.user }}"
+        - CREATE DATABASE "prowlarr-log"
+        - ALTER DATABASE "prowlarr-log" OWNER TO "{{ .Values.db.user }}"
+        - CREATE DATABASE "prowlarr-main"
+        - ALTER DATABASE "prowlarr-main" OWNER TO "{{ .Values.db.user }}"
+
+  # Require 1Gi of space
+  storage:
+    size: 1Gi
