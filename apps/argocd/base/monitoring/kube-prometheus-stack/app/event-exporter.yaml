@@ -1,0 +1,138 @@
+# Source: https://github.com/caicloud/event_exporter/blob/master/deploy/deploy.yml
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: event-exporter
+  namespace: monitoring
+  labels:
+    app: event-exporter
+  annotations:
+    core.ethos.adobe.net/chart: "bossjones-event-exporter"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: event-exporter
+  annotations:
+    core.ethos.adobe.net/chart: "bossjones-event-exporter"
+rules:
+- apiGroups: [""]
+  resources: ["events"]
+  verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: event-exporter
+  annotations:
+    core.ethos.adobe.net/chart: "bossjones-event-exporter"
+subjects:
+- kind: ServiceAccount
+  name: event-exporter
+  namespace: monitoring
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: event-exporter
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: event-exporter
+  annotations:
+    core.ethos.adobe.net/chart: "bossjones-event-exporter"
+  name: event-exporter
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: event-exporter
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: event-exporter
+    spec:
+      containers:
+      - name: event-exporter
+        # image: "caicloud/event-exporter:v1.0.0"
+        image: "bossjones/event-exporter:v1.0.0"
+        imagePullPolicy: IfNotPresent
+        args:
+        - --eventType=Warning
+        ports:
+        - containerPort: 9102
+          name: http
+        resources:
+          requests:
+            cpu: 250m
+            memory: 1G
+          limits:
+            cpu: "1"
+            memory: 2G
+      serviceAccountName: event-exporter
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: event-exporter
+  annotations:
+    core.ethos.adobe.net/chart: "bossjones-event-exporter"
+  name: event-exporter
+  namespace: monitoring
+spec:
+  ports:
+  - name: http
+    port: 9102
+    targetPort: 9102
+  selector:
+    app: event-exporter
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: event-exporter
+  namespace: monitoring
+  labels:
+    app: event-exporter
+    subsystem: k8s-b
+  annotations:
+    core.ethos.adobe.net/chart: "bossjones-event-exporter"
+spec:
+  selector:
+    matchLabels:
+      app: event-exporter
+  namespaceSelector:
+    matchNames:
+    - monitoring
+  endpoints:
+  - port: http
+    interval: 30s
+    honorLabels: true
+    path: /metrics
+  jobLabel: app
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: event-exporter-vpa
+  namespace: monitoring
+  annotations:
+    core.ethos.adobe.net/chart: "bossjones-event-exporter"
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: event-exporter
+  updatePolicy:
+    updateMode: Auto
+  resourcePolicy:
+    containerPolicies:
+    - containerName: event-exporter
+      minAllowed:
+        cpu: 250m
