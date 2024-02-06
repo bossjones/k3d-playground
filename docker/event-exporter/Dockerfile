@@ -1,3 +1,4 @@
+#syntax=docker/dockerfile:1.3
 ARG EVENT_EXPORTER_VERSION="v1.0.0"
 
 FROM caicloud/event-exporter:$EVENT_EXPORTER_VERSION as event-exporter
@@ -14,7 +15,8 @@ USER root
 
 COPY --from=event-exporter /event_exporter /event_exporter
 
-RUN apt-get update && apt-get install -y coreutils bash bash-completion
+# RUN apt-get update && apt-get install -y coreutils bash bash-completion
+# RUN apt-get update && apt-get install -y coreutils bash
 
 USER nobody
 

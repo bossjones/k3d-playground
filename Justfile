@@ -334,3 +334,8 @@ decrypt target:
 # Decrypt and re-encrypt all sops secrets
 re-encrypt:
   scripts/re-encrypt.sh
+
+install-k8s-ephemeral-storage-metrics:
+  helm repo add k8s-ephemeral-storage-metrics https://jmcgrath207.github.io/k8s-ephemeral-storage-metrics/chart
+  helm repo update
+  helm upgrade --install my-deployment k8s-ephemeral-storage-metrics/k8s-ephemeral-storage-metrics

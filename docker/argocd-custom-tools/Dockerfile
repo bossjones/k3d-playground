@@ -1,7 +1,11 @@
+#syntax=docker/dockerfile:1.3
 ARG ARGO_CD_VERSION="v2.6.7"
 # https://github.com/argoproj/argo-cd/blob/master/Dockerfile
 ARG KSOPS_VERSION="v4.3.1"
+ARG TARGETARCH
+ENV TARGETARCH=${TARGETARCH:-amd64}
 
+ENV KUBERNETES_VERSION 1.27.4
 #--------------------------------------------#
 #--------Build KSOPS and Kustomize-----------#
 #--------------------------------------------#
@@ -12,10 +16,75 @@ FROM viaductoss/ksops:$KSOPS_VERSION as ksops-builder
 #--------Build Custom Argo Image-------------#
 #--------------------------------------------#
 
-FROM argoproj/argocd:$ARGO_CD_VERSION
+FROM argoproj/argocd:$ARGO_CD_VERSION as base
 
 # Switch to root for the ability to perform install
 USER root
+
+# RUN apt-get update && apt-get install -y age
+
+RUN apt-get --yes update && \
+  apt-get --yes install curl gcc g++ git golang-go make openssl xz-utils unzip jsonnet jq age wget
+
+
+FROM base as kubeconform
+# install Kubeval for validating Kubernetes YAML or JSON configuration files
+ENV KUBECONFORM_VERSION 0.5.0
+RUN curl -Lo /srv/kubeconform-v${KUBECONFORM_VERSION}-linux-${TARGETARCH}.tar.gz https://github.com/yannh/kubeconform/releases/download/v${KUBECONFORM_VERSION}/kubeconform-linux-${TARGETARCH}.tar.gz && \
+  tar -xf /srv/kubeconform-v${KUBECONFORM_VERSION}-linux-${TARGETARCH}.tar.gz -C /srv && \
+  rm /srv/kubeconform-v${KUBECONFORM_VERSION}-linux-${TARGETARCH}.tar.gz && \
+  mv /srv/kubeconform /kubeconform
+
+FROM base as kubectl
+# install kubectl to interact with Kubernetes
+RUN curl -Lo /kubectl-${KUBERNETES_VERSION} https://storage.googleapis.com/kubernetes-release/release/v${KUBERNETES_VERSION}/bin/linux/${TARGETARCH}/kubectl && \
+  chmod +x /kubectl-${KUBERNETES_VERSION}
+
+
+FROM base as vault-cli
+ENV VAULT_VERSION 1.12.0
+RUN curl -Lo - https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_${TARGETARCH}.zip | funzip > /usr/local/bin/vault && \
+  chmod +x /usr/local/bin/vault
+
+FROM base as helm
+ENV HELM_VERSION v3.10.2
+RUN curl -Lo /srv/helm-${HELM_VERSION}-linux-${TARGETARCH}.tar.gz https://get.helm.sh/helm-${HELM_VERSION}-linux-${TARGETARCH}.tar.gz && \
+  tar -xf /srv/helm-${HELM_VERSION}-linux-${TARGETARCH}.tar.gz -C /srv && \
+  rm -f /srv/helm-${HELM_VERSION}-linux-${TARGETARCH}.tar.gz && \
+  mv /srv/linux-${TARGETARCH}/helm /helm
+
+FROM base as konstraint
+ENV KONSTRAINT_VERSION v0.30.0
+RUN curl -Lo /srv/konstraint https://github.com/plexsystems/konstraint/releases/download/${KONSTRAINT_VERSION}/konstraint-linux-${TARGETARCH} && \
+    chmod +x /srv/konstraint && \
+    mv /srv/konstraint /konstraint
+
+FROM base as kubelogin
+ENV KUBELOGIN_VERSION v0.0.29
+RUN curl -Lo - https://github.com/Azure/kubelogin/releases/download/${KUBELOGIN_VERSION}/kubelogin-linux-${TARGETARCH}.zip | funzip > /kubelogin && \
+  chmod +x /kubelogin
+
+FROM base
+
+
+
+COPY --from=kubectl /kubectl-${KUBERNETES_VERSION} /usr/local/bin/kubectl-${KUBERNETES_VERSION}
+COPY --from=kubeconform /kubeconform /usr/local/bin/kubeconform
+COPY --from=prom/prometheus:v2.30.3 /bin/promtool /usr/local/bin/promtool
+RUN ln -s /usr/local/bin/kubectl-${KUBERNETES_VERSION} /usr/local/bin/kubectl-1.23 && \
+  chmod +x /usr/local/bin/kubectl-${KUBERNETES_VERSION} && \
+  ln -s /usr/local/bin/kubectl-1.23 /usr/local/bin/kubectl-latest && \
+  ln -s /usr/local/bin/kubectl-latest /usr/local/bin/kubectl
+COPY --from=vault-cli /usr/local/bin/vault /usr/local/bin/vault
+COPY --from=helm /helm /usr/local/bin/helm
+# COPY --from=virtualenv /.venv /.venv
+# COPY --from=crane /srv/crane /usr/local/bin/crane
+COPY --from=konstraint /konstraint /usr/local/bin/konstraint
+# COPY --from=conftest /srv/conftest /usr/local/bin/conftest
+# COPY --from=argocd /argocd /usr/local/bin/argocd
+COPY --from=kubelogin /kubelogin /usr/local/bin/kubelogin
+
+
 
 ARG PKG_NAME=ksops
 

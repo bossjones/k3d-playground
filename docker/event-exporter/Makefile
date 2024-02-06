@@ -13,7 +13,7 @@ container_name := event-exporter
 IMAGE := $(username)/$(container_name)
 
 # Shortcut for building the local development container
-DOCKER_BUILD=DOCKER_BUILDKIT=1 docker buildx build --push --rm --platform linux/arm64,linux/amd64,linux/arm/v7
+DOCKER_BUILD=DOCKER_BUILDKIT=1 docker buildx build --push --rm --platform linux/arm64,linux/amd64
 
 ifndef IS_TTY
 	DOCKER_BUILD+= --progress=plain
@@ -31,12 +31,6 @@ default: help
 help: ## Print this help text
 	@awk 'BEGIN {FS = ":.*?## "}; ($$2 && !/@awk/){printf "${CYAN}%-30s${NC} %s\n", $$1, $$2}' $(lastword ${MAKEFILE_LIST})
 	@printf "\n"
-
-
-# build: ## Build the ethos-core-tools image
-# 	@DOCKER_BUILDKIT=1 docker build --rm -t $(IMAGE):$(VERSION) .
-# 	@docker tag $(IMAGE):$(VERSION) $(IMAGE):latest
-
 
 build: ## Builds the local Docker container for development
 	$(DOCKER_BUILD)
