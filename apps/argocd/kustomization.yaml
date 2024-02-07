@@ -55,7 +55,7 @@ patches:
 - path: overlay/argocd-cr.yaml
 - path: overlay/argocd-cmd-params-cm.yaml
 - path: overlay/argocd-server-role.yaml
-- path: overlay/add-resources-argocd-repo-server.yaml
+# - path: overlay/add-resources-argocd-repo-server.yaml
 - path: overlay/delete-np-argocd-redis-network-policy.yaml
   target:
     kind: NetworkPolicy
@@ -89,6 +89,191 @@ patches:
     kind: ConfigMap
     name: argocd-ssh-known-hosts-cm
 - path: overlay/patch-argocd-cm-secrets.yaml
+
+
+- target:
+    version: v1
+    kind: DaemonSet
+    name: spegel
+  patch: |
+    # ##########################################################################
+    # SOURCE: https://github.com/jimmy-ungerman/pork3s
+    # ##########################################################################
+    - op: add
+      path: "/spec/template/spec/containers/0/env"
+      value:
+      - name: XDG_CONFIG_HOME
+        value: /.config
+    - op: add
+      path: "/spec/template/spec/containers/0/env"
+      value:
+      - name: SOPS_AGE_KEY_FILE
+        value: /.config/sops/age/key.txt
+
+
+    # ##########################################################################
+    # # SOURCE: https://github.com/aggregion/argo-base/blob/03b6e39bd94f6338fe446f736a0626b7a966b455/install/helm-secrets/argocd-repo-server.yaml#L110
+    # SOURCE: https://github.com/jkroepke/helm-secrets/wiki/ArgoCD-Integration
+    # ##########################################################################
+    # #
+    # ENVS FOR MAIN CONTAINER
+    - op: add
+      path: /spec/template/spec/containers/0/env
+      value:
+        name: HELM_PLUGINS
+        value: /custom-tools/helm-plugins/
+
+    - op: add
+      path: /spec/template/spec/containers/0/env
+      value:
+        name: HELM_SECRETS_CURL_PATH
+        value: /custom-tools/curl
+
+    # - op: add
+    #   path: /spec/template/spec/containers/0/env
+    #   value:
+    #     name: HELM_SECRETS_CURL_PATH
+    #     value: /usr/bin/curl
+
+    - op: add
+      path: /spec/template/spec/containers/0/env
+      value:
+        name: HELM_SECRETS_SOPS_PATH
+        value: /custom-tools/sops
+
+    - op: add
+      path: /spec/template/spec/containers/0/env
+      value:
+        name: HELM_SECRETS_VALS_PATH
+        value: /custom-tools/vals
+
+    - op: add
+      path: /spec/template/spec/containers/0/env
+      value:
+        name: HELM_SECRETS_KUBECTL_PATH
+        value: /custom-tools/kubectl
+
+    - op: add
+      path: /spec/template/spec/containers/0/env
+      value:
+        name: HELM_SECRETS_BACKEND
+        value: sops
+
+    # https://github.com/jkroepke/helm-secrets/wiki/Security-in-shared-environments
+    - op: add
+      path: /spec/template/spec/containers/0/env
+      value:
+        name: HELM_SECRETS_VALUES_ALLOW_SYMLINKS
+        value: "false"
+
+    - op: add
+      path: /spec/template/spec/containers/0/env
+      value:
+        name: HELM_SECRETS_VALUES_ALLOW_ABSOLUTE_PATH
+        value: "true"
+
+    - op: add
+      path: /spec/template/spec/containers/0/env
+      value:
+        name: HELM_SECRETS_VALUES_ALLOW_PATH_TRAVERSAL
+        value: "false"
+
+    - op: add
+      path: /spec/template/spec/containers/0/env
+      value:
+        name: HELM_SECRETS_WRAPPER_ENABLED
+        value: "true"
+
+    - op: add
+      path: /spec/template/spec/containers/0/env
+      value:
+        name: HELM_SECRETS_HELM_PATH
+        value: /usr/local/bin/helm
+
+    - op: add
+      path: /spec/template/spec/containers/0/env
+      value:
+        name: HELM_SECRETS_LOAD_GPG_KEYS
+        # Multiple keys can be separated by space
+        value: /helm-secrets-private-keys/key.asc
+
+    # VOLUMES
+    - op: add
+      path: /spec/template/spec/volumes
+      value:
+        name: custom-tools
+        emptyDir: {}
+
+    - op: add
+      path: /spec/template/spec/volumes
+      value:
+        name: helm-secrets-private-keys
+        secret:
+          secretName: helm-secrets-private-keys
+
+    # VOLUME MOUNTS FOR MAIN CONTAINER
+    - op: add
+      path: /spec/template/spec/containers/0/volumeMounts
+      value:
+        mountPath: /custom-tools
+        name: custom-tools
+
+    - op: add
+      path: /spec/template/spec/containers/0/volumeMounts
+      value:
+        mountPath: /usr/local/sbin/helm
+        subPath: helm
+        name: custom-tools
+
+    - op: add
+      path: /spec/template/spec/containers/0/volumeMounts
+      value:
+        mountPath: /helm-secrets-private-keys/
+        name: helm-secrets-private-keys
+
+    # INIT CONTAINER
+    - op: add
+      path: /spec/template/spec/initContainers
+      value:
+        name: download-tools
+        image: registry.aggregion.com/helm-secrets-argocd:0.0.1
+        imagePullPolicy: IfNotPresent
+        command: [sh, -ec]
+        env:
+        - name: HELM_SECRETS_VERSION
+          value: "4.4.2"
+        - name: KUBECTL_VERSION
+          value: "1.27.4"
+        - name: VALS_VERSION
+          value: "0.24.0"
+        - name: SOPS_VERSION
+          value: "3.8.1"
+        - name: MAIN_PATH
+          value: "/custom-tools"
+        volumeMounts:
+        - mountPath: /custom-tools
+          name: custom-tools
+
+    # ##########################################################################
+    # # SOURCE: https://github.com/aggregion/argo-base/blob/03b6e39bd94f6338fe446f736a0626b7a966b455/install/helm-secrets/argocd-repo-server.yaml#L110
+    # ##########################################################################
+    ######################################################################
+    ######################################################################
+    ######################################################################
+    ######################################################################
+    ######################################################################
+    ######################################################################
+    ######################################################################
+    ######################################################################
+    ######################################################################
+    # - op: add
+    #   path: /spec/template/metadata/labels/egress.home.arpa~1apiserver
+    #   value: allow
+    # - op: add
+    #   path: /spec/template/metadata/labels/egress.home.arpa~1world
+    #   value: allow
+    # - op: add
+    #   path: /spec/template/metadata/labels/egress.home.arpa~1kubedns
 
 labels:
 - pairs:
