@@ -93,19 +93,22 @@ patches:
 
 - target:
     version: v1
-    kind: DaemonSet
-    name: spegel
-  patch: |
+    group: apps
+    kind: Deployment
+    name: argocd-repo-server
+  # Strip
+  # Stripping is specified by the "-"" chomping indicator. In this case, the final line break and any trailing empty lines are excluded from the scalar's content.
+  patch: |-
     # ##########################################################################
     # SOURCE: https://github.com/jimmy-ungerman/pork3s
     # ##########################################################################
     - op: add
-      path: "/spec/template/spec/containers/0/env"
+      path: /spec/template/spec/containers/0/env
       value:
       - name: XDG_CONFIG_HOME
         value: /.config
     - op: add
-      path: "/spec/template/spec/containers/0/env"
+      path: /spec/template/spec/containers/0/env
       value:
       - name: SOPS_AGE_KEY_FILE
         value: /.config/sops/age/key.txt
@@ -204,6 +207,14 @@ patches:
         name: custom-tools
         emptyDir: {}
 
+    # pork3s
+    - op: add
+      path: /spec/template/spec/volumes
+      value:
+        name: sops-age
+        secret:
+          secretName: sops-age
+
     - op: add
       path: /spec/template/spec/volumes
       value:
@@ -211,7 +222,9 @@ patches:
         secret:
           secretName: helm-secrets-private-keys
 
+    ##############################################################################################################
     # VOLUME MOUNTS FOR MAIN CONTAINER
+    ##############################################################################################################
     - op: add
       path: /spec/template/spec/containers/0/volumeMounts
       value:
@@ -231,14 +244,44 @@ patches:
         mountPath: /helm-secrets-private-keys/
         name: helm-secrets-private-keys
 
+
+    ##############################################################################################################
+    # bossjones via pork3s
+    ##############################################################################################################
+
+    - op: add
+      path: /spec/template/spec/containers/0/volumeMounts
+      value:
+        mountPath: /usr/local/bin/kustomize
+        name: custom-tools
+        subPath: kustomize
+
+    - op: add
+      path: /spec/template/spec/containers/0/volumeMounts
+      value:
+        mountPath: /.config/kustomize/plugin/viaduct.ai/v1/ksops/ksops
+        name: custom-tools
+        subPath: ksops
+
+    - op: add
+      path: /spec/template/spec/containers/0/volumeMounts
+      value:
+        mountPath: /.config/sops/age
+        name: sops-age
+
     # INIT CONTAINER
     - op: add
       path: /spec/template/spec/initContainers
       value:
         name: download-tools
-        image: registry.aggregion.com/helm-secrets-argocd:0.0.1
+        # image: registry.aggregion.com/helm-secrets-argocd:0.0.1
+        # image: viaductoss/ksops:v4.3.1
+        image: bossjones/argocd-custom-tools:0.0.1
         imagePullPolicy: IfNotPresent
-        command: [sh, -ec]
+        # command: [sh, -ec]
+        command: ["/bin/sh", "-c"]
+        args:
+        - 'echo "Installing KSOPS..."; mv /usr/local/bin/ksops /custom-tools/; mv /usr/local/bin/kustomize /custom-tools/; echo "Done.";'
         env:
         - name: HELM_SECRETS_VERSION
           value: "4.4.2"

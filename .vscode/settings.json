@@ -125,6 +125,9 @@
       "https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml": [
           "alertmanager_rules.yaml"
       ],
+      "https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/kustomization.json": [
+          "kustomize.yaml"
+      ],
   },
   "editor.insertSpaces": true,
   "editor.tabSize": 2,

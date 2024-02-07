@@ -8,7 +8,7 @@
 # https://www.reinteractive.net/posts/167-ansible-real-life-good-practices
 #
 # File should be .git/hooks/pre-commit and executable
-FILES_PATTERN='.*sops.*\.*$|digital_ocean\.ini|do_env\.sh'
+FILES_PATTERN='(?!.*\.sops\.yaml$).*\w+.sops.*\.*$|digital_ocean\.ini|do_env\.sh'
 REQUIRED='AES256_GCM'
 
 EXIT_STATUS=0
@@ -17,7 +17,7 @@ yellow='\033[1;33m'
 # carriage return hack. Leave it on 2 lines.
 cr='
 '
-for f in $(git diff --cached --name-only | grep -E "$FILES_PATTERN")
+for f in $(git diff --cached --name-only | grep -P "$FILES_PATTERN")
 do
   # test for the presence of the required bit.
   MATCH=$(head -n1 "$f" | grep --no-messages $REQUIRED)
@@ -29,7 +29,7 @@ do
 done
 if [ ! $EXIT_STATUS = 0 ] ; then
   echo '# COMMIT REJECTED'
-  echo '# Looks like unencrypted ansible-vault files are part of the commit:'
+  echo '# Looks like unencrypted sops files are part of the commit:'
   echo '#'
   while read -r line; do
     if [ -n "$line" ]; then
@@ -37,7 +37,7 @@ if [ ! $EXIT_STATUS = 0 ] ; then
     fi
   done <<< "$UNENCRYPTED_FILES"
   echo '#'
-  echo "# Please encrypt them with 'ansible-vault encrypt <file>'"
+  echo "# Please encrypt them with 'sops encrypt <file>'"
   echo "#   (or force the commit with '--no-verify')."
   exit $EXIT_STATUS
 fi
