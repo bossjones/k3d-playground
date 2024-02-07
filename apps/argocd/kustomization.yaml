@@ -49,7 +49,7 @@ commonAnnotations:
   reloader.stakater.com/auto: "true"
 
 generators:
-- base/core/age.sops.yaml
+- base/core/SopsSecretGenerator.yaml
 
 patches:
 - path: overlay/argocd-svc.yaml
@@ -116,24 +116,26 @@ patches:
         name: SOPS_AGE_KEY_FILE
         value: /.config/sops/age/key.txt
 
-
+    # ##########################################################################
+    # Further configuration by https://github.com/goabout/kustomize-sopssecretgenerator/blob/master/docs/argocd.md
+    # SOURCE: https://github.com/goabout/kustomize-sopssecretgenerator/blob/master/docs/argocd.md for sopsSecretsGenerator.yaml
     # ##########################################################################
     # # SOURCE: https://github.com/aggregion/argo-base/blob/03b6e39bd94f6338fe446f736a0626b7a966b455/install/helm-secrets/argocd-repo-server.yaml#L110
     # SOURCE: https://github.com/jkroepke/helm-secrets/wiki/ArgoCD-Integration
     # ##########################################################################
     # #
     # ENVS FOR MAIN CONTAINER
-    - op: add
-      path: /spec/template/spec/containers/0/env/-
-      value:
-        name: HELM_PLUGINS
-        value: /custom-tools/helm-plugins/
+    # - op: add
+    #   path: /spec/template/spec/containers/0/env/-
+    #   value:
+    #     name: HELM_PLUGINS
+    #     value: /custom-tools/helm-plugins/
 
-    - op: add
-      path: /spec/template/spec/containers/0/env/-
-      value:
-        name: HELM_SECRETS_CURL_PATH
-        value: /custom-tools/curl
+    # - op: add
+    #   path: /spec/template/spec/containers/0/env/-
+    #   value:
+    #     name: HELM_SECRETS_CURL_PATH
+    #     value: /custom-tools/curl
 
     # - op: add
     #   path: /spec/template/spec/containers/0/env/-
@@ -141,60 +143,60 @@ patches:
     #     name: HELM_SECRETS_CURL_PATH
     #     value: /usr/bin/curl
 
-    - op: add
-      path: /spec/template/spec/containers/0/env/-
-      value:
-        name: HELM_SECRETS_SOPS_PATH
-        value: /custom-tools/sops
+    # - op: add
+    #   path: /spec/template/spec/containers/0/env/-
+    #   value:
+    #     name: HELM_SECRETS_SOPS_PATH
+    #     value: /custom-tools/sops
 
-    - op: add
-      path: /spec/template/spec/containers/0/env/-
-      value:
-        name: HELM_SECRETS_VALS_PATH
-        value: /custom-tools/vals
+    # - op: add
+    #   path: /spec/template/spec/containers/0/env/-
+    #   value:
+    #     name: HELM_SECRETS_VALS_PATH
+    #     value: /custom-tools/vals
 
-    - op: add
-      path: /spec/template/spec/containers/0/env/-
-      value:
-        name: HELM_SECRETS_KUBECTL_PATH
-        value: /custom-tools/kubectl
+    # - op: add
+    #   path: /spec/template/spec/containers/0/env/-
+    #   value:
+    #     name: HELM_SECRETS_KUBECTL_PATH
+    #     value: /custom-tools/kubectl
 
-    - op: add
-      path: /spec/template/spec/containers/0/env/-
-      value:
-        name: HELM_SECRETS_BACKEND
-        value: sops
+    # - op: add
+    #   path: /spec/template/spec/containers/0/env/-
+    #   value:
+    #     name: HELM_SECRETS_BACKEND
+    #     value: sops
 
-    # https://github.com/jkroepke/helm-secrets/wiki/Security-in-shared-environments
-    - op: add
-      path: /spec/template/spec/containers/0/env/-
-      value:
-        name: HELM_SECRETS_VALUES_ALLOW_SYMLINKS
-        value: "false"
+    # # https://github.com/jkroepke/helm-secrets/wiki/Security-in-shared-environments
+    # - op: add
+    #   path: /spec/template/spec/containers/0/env/-
+    #   value:
+    #     name: HELM_SECRETS_VALUES_ALLOW_SYMLINKS
+    #     value: "false"
 
-    - op: add
-      path: /spec/template/spec/containers/0/env/-
-      value:
-        name: HELM_SECRETS_VALUES_ALLOW_ABSOLUTE_PATH
-        value: "true"
+    # - op: add
+    #   path: /spec/template/spec/containers/0/env/-
+    #   value:
+    #     name: HELM_SECRETS_VALUES_ALLOW_ABSOLUTE_PATH
+    #     value: "true"
 
-    - op: add
-      path: /spec/template/spec/containers/0/env/-
-      value:
-        name: HELM_SECRETS_VALUES_ALLOW_PATH_TRAVERSAL
-        value: "false"
+    # - op: add
+    #   path: /spec/template/spec/containers/0/env/-
+    #   value:
+    #     name: HELM_SECRETS_VALUES_ALLOW_PATH_TRAVERSAL
+    #     value: "false"
 
-    - op: add
-      path: /spec/template/spec/containers/0/env/-
-      value:
-        name: HELM_SECRETS_WRAPPER_ENABLED
-        value: "true"
+    # - op: add
+    #   path: /spec/template/spec/containers/0/env/-
+    #   value:
+    #     name: HELM_SECRETS_WRAPPER_ENABLED
+    #     value: "true"
 
-    - op: add
-      path: /spec/template/spec/containers/0/env/-
-      value:
-        name: HELM_SECRETS_HELM_PATH
-        value: /usr/local/bin/helm
+    # - op: add
+    #   path: /spec/template/spec/containers/0/env/-
+    #   value:
+    #     name: HELM_SECRETS_HELM_PATH
+    #     value: /usr/local/bin/helm
 
     # - op: add
     #   path: /spec/template/spec/containers/0/env/-
@@ -259,12 +261,20 @@ patches:
         name: custom-tools
         subPath: kustomize
 
+    # add SopsSecretGenerator plugin
     - op: add
       path: /spec/template/spec/containers/0/volumeMounts/-
       value:
-        mountPath: /.config/kustomize/plugin/viaduct.ai/v1/ksops/ksops
+        mountPath: /.config/kustomize/plugin/goabout.com/v1beta1/sopssecretgenerator/SopsSecretGenerator
         name: custom-tools
-        subPath: ksops
+        subPath: SopsSecretGenerator
+
+    # - op: add
+    #   path: /spec/template/spec/containers/0/volumeMounts/-
+    #   value:
+    #     mountPath: /.config/kustomize/plugin/viaduct.ai/v1/ksops/ksops
+    #     name: custom-tools
+    #     subPath: ksops
 
     - op: add
       path: /spec/template/spec/containers/0/volumeMounts/-
@@ -283,8 +293,20 @@ patches:
         imagePullPolicy: IfNotPresent
         # command: [sh, -ec]
         command: ["/bin/sh", "-c"]
+        # args:
+        # - 'echo "Installing KSOPS..."; mv /usr/local/bin/ksops /custom-tools/; mv /usr/local/bin/kustomize /custom-tools/; echo "Done.";'
         args:
-        - 'echo "Installing KSOPS..."; mv /usr/local/bin/ksops /custom-tools/; mv /usr/local/bin/kustomize /custom-tools/; echo "Done.";'
+        - echo "Installing goabout kustomize sops...";
+          set -e;
+          set -x;
+          get_os="$(uname -s | tr '[:upper:]' '[:lower:]')";
+          get_arch="$(uname -m | tr '[:upper:]' '[:lower:]')";
+          VERSION=1.6.0 PLATFORM="$(get_os)" ARCH="$(get_arch)";
+          wget -O /custom-tools/SopsSecretGenerator https://github.com/goabout/kustomize-sopssecretgenerator/releases/download/v${VERSION}/SopsSecretGenerator_${VERSION}_${PLATFORM}_${ARCH};
+          chmod -v +x /custom-tools/SopsSecretGenerator;
+          mv /usr/local/bin/kustomize /custom-tools/;
+          set +x;
+          echo "Done.";
         env:
         - name: HELM_SECRETS_VERSION
           value: "4.4.2"

@@ -7,4 +7,5 @@ resources:
   - app-connect.yaml
 
 generators:
-  - secretGenerator.yaml
+  # - secretGenerator.yaml
+  - SopsSecretGenerator.yaml

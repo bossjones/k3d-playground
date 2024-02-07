@@ -230,17 +230,25 @@ open-argocd:
 
 proxy-argocd: open-argocd argocd-proxy
 
+# install secret-0
+install-secret-0:
+  scripts/upload-secret-0.sh
+
+# install-secretgenerator
+install-secretgenerator:
+  scripts/upload-install-secretgenerator.sh
+
 # bring up k3d-demo cluster
 demo: nuke-cluster helm k3d-demo argocd-install certs argocd-secret templates argocd-password argocd-bridge
 
 # demo-prebuilt: nuke-cluster k3d-demo argocd-install certs-only argocd-secret templates monitoring-install argocd-password argocd-bridge
 # bring up k3d-demo cluster but skip some steps
-demo-prebuilt: nuke-cluster k3d-demo argocd-install certs-only argocd-secret templates argocd-password argocd-bridge
+demo-prebuilt: nuke-cluster k3d-demo argocd-install certs-only argocd-secret install-secret-0 templates argocd-password argocd-bridge
 
 # bring up k3d-demo cluster but skip some steps
-demo-prebuilt-no-nuke: argocd-install certs-only argocd-secret templates argocd-password argocd-bridge
+demo-prebuilt-no-nuke: argocd-install certs-only argocd-secret install-secret-0 templates argocd-password argocd-bridge
 
-demo-prebuilt-cilium: nuke-cluster k3d-demo-cilium argocd-install certs-only argocd-secret templates argocd-password argocd-bridge
+demo-prebuilt-cilium: nuke-cluster k3d-demo-cilium argocd-install certs-only argocd-secret install-secret-0 templates argocd-password argocd-bridge
 
 # fix network policies in all namespaces
 fix-network-policies:
@@ -248,7 +256,7 @@ fix-network-policies:
 
 fix-np: fix-network-policies
 
-demo-update: argocd-install certs-only argocd-secret templates argocd-password install fix-np argocd-bridge
+demo-update: argocd-install certs-only argocd-secret templates argocd-password install-secret-0 install fix-np argocd-bridge
 
 get-apps:
   kubectl -n argocd get applications.argoproj.io
