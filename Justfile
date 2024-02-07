@@ -353,3 +353,7 @@ install-pre-commit: unencrypted-detection
 
 run-pre-commit:
   pre-commit run --all-files
+
+# install ksops
+install-ksops:
+  scripts/install-ksops.sh
