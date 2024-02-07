@@ -15,6 +15,7 @@ ports:
 - port: 80:80
   nodeFilters:
   - loadbalancer
+# FIXME: Try this - port: 0.0.0.0:443:443
 - port: 443:443
   nodeFilters:
   - loadbalancer
@@ -154,6 +155,26 @@ ports:
 # - port: 8080:8080
 #   nodeFilters:
 #   - loadbalancer
+###########################################################################################
+# SOURCE: https://k3d.io/v5.6.0//usage/registries/#creating-a-registry-proxy-pull-through-registry-via-configfile
+# Creating a registry proxy / pull-through registry via configfile
+# apiVersion: k3d.io/v1alpha5
+# kind: Simple
+# metadata:
+#   name: test-regcache
+# registries:
+#   create:
+#     name: docker-io # name of the registry container
+#     proxy:
+#       remoteURL: https://registry-1.docker.io # proxy DockerHub
+#     volumes:
+#       - /tmp/reg:/var/lib/registry # persist data locally in /tmp/reg
+#   config: | # tell K3s to use this registry when pulling from DockerHub
+#     mirrors:
+#       "docker.io":
+#         endpoint:
+#           - http://docker-io:5000
+###########################################################################################
 registries:
   create:
     name: registry.localhost

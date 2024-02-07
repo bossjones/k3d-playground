@@ -289,7 +289,7 @@ patches:
         name: download-tools
         # image: registry.aggregion.com/helm-secrets-argocd:0.0.1
         # image: viaductoss/ksops:v4.3.1
-        image: bossjones/argocd-custom-tools:0.0.1
+        image: registry.localhost/bossjones/argocd-custom-tools:0.0.1
         imagePullPolicy: IfNotPresent
         # command: [sh, -ec]
         command: ["/bin/sh", "-c"]

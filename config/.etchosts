@@ -15,3 +15,5 @@
 127.0.0.1 thanosruler.k8s.localhost
 127.0.0.1 loki-gateway.k8s.localhost
 127.0.0.1 vector.k8s.localhost
+127.0.0.1 registry.localhost
+::1       registry.localhost

@@ -11,6 +11,7 @@ VERSION := $(shell cat VERSION | tr -d '\n')
 username := index.docker.io/bossjones
 container_name := argocd-custom-tools
 IMAGE := $(username)/$(container_name)
+IMAGE_SHORT := bossjones/$(container_name)
 
 # Shortcut for building the local development container
 # DOCKER_BUILD=DOCKER_BUILDKIT=1 docker buildx build --push --rm --platform linux/arm64,linux/amd64
@@ -45,3 +46,9 @@ build-and-push: build push  ## Perform both build of the ethos-core-tools image 
 
 cli:
 	docker run --rm -it --entrypoint /bin/bash $(IMAGE):latest
+
+push-private-registry:
+	docker tag $(IMAGE):$(VERSION) localhost:5002/$(IMAGE_SHORT):$(VERSION)
+	docker tag $(IMAGE):latest localhost:5002/$(IMAGE_SHORT):latest
+	docker push localhost:5002/$(IMAGE_SHORT):$(VERSION)
+	docker push localhost:5002/$(IMAGE_SHORT):latest
