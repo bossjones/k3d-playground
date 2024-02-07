@@ -1,73 +1,80 @@
 #syntax=docker/dockerfile:1.3
-ARG ARGO_CD_VERSION="v2.6.7"
+ARG ARGO_CD_VERSION="v2.8.9"
 # https://github.com/argoproj/argo-cd/blob/master/Dockerfile
 ARG KSOPS_VERSION="v4.3.1"
-ARG TARGETARCH
-ENV TARGETARCH=${TARGETARCH:-amd64}
+ARG TARGETARCH="arm64"
+# ENV TARGETARCH ${TARGETARCH:-amd64}
+# ENV TARGETARCH=64
+
+
+#--------------------------------------------#
+#--------Build Custom Argo Image-------------#
+#--------------------------------------------#
+
+# quay.io/argoproj/argocd:v2.7.0
+FROM quay.io/argoproj/argocd:$ARGO_CD_VERSION as base
+
+# Switch to root for the ability to perform install
+USER root
 
 ENV KUBERNETES_VERSION 1.27.4
+# RUN apt-get update && apt-get install -y age
+
+RUN apt-get --yes update && \
+  apt-get --yes install curl gcc g++ git golang-go make openssl xz-utils unzip jsonnet jq age wget pass gnupg
+
+
+FROM base as kubeconform
+# install Kubeval for validating Kubernetes YAML or JSON configuration files
+ENV KUBECONFORM_VERSION 0.6.4
+RUN curl -Lo /srv/kubeconform-v${KUBECONFORM_VERSION}-linux-amd64.tar.gz https://github.com/yannh/kubeconform/releases/download/v${KUBECONFORM_VERSION}/kubeconform-linux-amd64.tar.gz && \
+  tar -xf /srv/kubeconform-v${KUBECONFORM_VERSION}-linux-amd64.tar.gz -C /srv && \
+  rm /srv/kubeconform-v${KUBECONFORM_VERSION}-linux-amd64.tar.gz && \
+  mv /srv/kubeconform /kubeconform
+
+FROM base as kubectl
+# install kubectl to interact with Kubernetes
+RUN curl -Lo /kubectl-${KUBERNETES_VERSION} https://storage.googleapis.com/kubernetes-release/release/v${KUBERNETES_VERSION}/bin/linux/amd64/kubectl && \
+  chmod +x /kubectl-${KUBERNETES_VERSION}
+
+
+FROM base as vault-cli
+ENV VAULT_VERSION 1.12.0
+RUN curl -Lo - https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip | funzip > /usr/local/bin/vault && \
+  chmod +x /usr/local/bin/vault
+
+FROM base as helm
+ENV HELM_VERSION v3.10.2
+RUN curl -Lo /srv/helm-${HELM_VERSION}-linux-amd64.tar.gz https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz && \
+  tar -xf /srv/helm-${HELM_VERSION}-linux-amd64.tar.gz -C /srv && \
+  rm -f /srv/helm-${HELM_VERSION}-linux-amd64.tar.gz && \
+  mv /srv/linux-amd64/helm /helm
+
+FROM base as konstraint
+ENV KONSTRAINT_VERSION v0.30.0
+RUN curl -Lo /srv/konstraint https://github.com/plexsystems/konstraint/releases/download/${KONSTRAINT_VERSION}/konstraint-linux-amd64 && \
+    chmod +x /srv/konstraint && \
+    mv /srv/konstraint /konstraint
+
+FROM base as kubelogin
+ENV KUBELOGIN_VERSION v0.0.29
+RUN curl -Lo - https://github.com/Azure/kubelogin/releases/download/${KUBELOGIN_VERSION}/kubelogin-linux-amd64.zip | funzip > /kubelogin && \
+  chmod +x /kubelogin
+
+FROM base as sops
+ENV SOPS_VERSION 3.7.3
+RUN curl -Lo - https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.amd64 && \
+  mv amd64-v${SOPS_VERSION}.linux.amd64 /usr/local/bin/sops && \
+  chmod +x /usr/local/bin/sops
+
+
 #--------------------------------------------#
 #--------Build KSOPS and Kustomize-----------#
 #--------------------------------------------#
 
 FROM viaductoss/ksops:$KSOPS_VERSION as ksops-builder
 
-#--------------------------------------------#
-#--------Build Custom Argo Image-------------#
-#--------------------------------------------#
-
-FROM argoproj/argocd:$ARGO_CD_VERSION as base
-
-# Switch to root for the ability to perform install
-USER root
-
-# RUN apt-get update && apt-get install -y age
-
-RUN apt-get --yes update && \
-  apt-get --yes install curl gcc g++ git golang-go make openssl xz-utils unzip jsonnet jq age wget
-
-
-FROM base as kubeconform
-# install Kubeval for validating Kubernetes YAML or JSON configuration files
-ENV KUBECONFORM_VERSION 0.5.0
-RUN curl -Lo /srv/kubeconform-v${KUBECONFORM_VERSION}-linux-${TARGETARCH}.tar.gz https://github.com/yannh/kubeconform/releases/download/v${KUBECONFORM_VERSION}/kubeconform-linux-${TARGETARCH}.tar.gz && \
-  tar -xf /srv/kubeconform-v${KUBECONFORM_VERSION}-linux-${TARGETARCH}.tar.gz -C /srv && \
-  rm /srv/kubeconform-v${KUBECONFORM_VERSION}-linux-${TARGETARCH}.tar.gz && \
-  mv /srv/kubeconform /kubeconform
-
-FROM base as kubectl
-# install kubectl to interact with Kubernetes
-RUN curl -Lo /kubectl-${KUBERNETES_VERSION} https://storage.googleapis.com/kubernetes-release/release/v${KUBERNETES_VERSION}/bin/linux/${TARGETARCH}/kubectl && \
-  chmod +x /kubectl-${KUBERNETES_VERSION}
-
-
-FROM base as vault-cli
-ENV VAULT_VERSION 1.12.0
-RUN curl -Lo - https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_${TARGETARCH}.zip | funzip > /usr/local/bin/vault && \
-  chmod +x /usr/local/bin/vault
-
-FROM base as helm
-ENV HELM_VERSION v3.10.2
-RUN curl -Lo /srv/helm-${HELM_VERSION}-linux-${TARGETARCH}.tar.gz https://get.helm.sh/helm-${HELM_VERSION}-linux-${TARGETARCH}.tar.gz && \
-  tar -xf /srv/helm-${HELM_VERSION}-linux-${TARGETARCH}.tar.gz -C /srv && \
-  rm -f /srv/helm-${HELM_VERSION}-linux-${TARGETARCH}.tar.gz && \
-  mv /srv/linux-${TARGETARCH}/helm /helm
-
-FROM base as konstraint
-ENV KONSTRAINT_VERSION v0.30.0
-RUN curl -Lo /srv/konstraint https://github.com/plexsystems/konstraint/releases/download/${KONSTRAINT_VERSION}/konstraint-linux-${TARGETARCH} && \
-    chmod +x /srv/konstraint && \
-    mv /srv/konstraint /konstraint
-
-FROM base as kubelogin
-ENV KUBELOGIN_VERSION v0.0.29
-RUN curl -Lo - https://github.com/Azure/kubelogin/releases/download/${KUBELOGIN_VERSION}/kubelogin-linux-${TARGETARCH}.zip | funzip > /kubelogin && \
-  chmod +x /kubelogin
-
 FROM base
-
-
-
 COPY --from=kubectl /kubectl-${KUBERNETES_VERSION} /usr/local/bin/kubectl-${KUBERNETES_VERSION}
 COPY --from=kubeconform /kubeconform /usr/local/bin/kubeconform
 COPY --from=prom/prometheus:v2.30.3 /bin/promtool /usr/local/bin/promtool
@@ -93,6 +100,16 @@ COPY --from=ksops-builder /usr/local/bin/kustomize /usr/local/bin/kustomize
 
 # Add ksops executable to path
 COPY --from=ksops-builder /usr/local/bin/ksops /usr/local/bin/ksops
+
+ENV MAIN_PATH=/custom-tools
+ENV HELM_SECRETS_VERSION=4.4.2
+ENV VALS_VERSION=0.24.0
+
+RUN mkdir -p $MAIN_PATH/helm-plugins
+RUN wget -qO- https://github.com/jkroepke/helm-secrets/releases/download/v${HELM_SECRETS_VERSION}/helm-secrets.tar.gz | tar -C $MAIN_PATH/helm-plugins -xzf-;
+RUN wget -qO- https://github.com/helmfile/vals/releases/download/v${VALS_VERSION}/vals_${VALS_VERSION}_linux_amd64.tar.gz | tar -xzf- -C $MAIN_PATH/ vals;
+RUN cp $MAIN_PATH/helm-plugins/helm-secrets/scripts/wrapper/helm.sh $MAIN_PATH/helm
+RUN chmod +x $MAIN_PATH/*
 
 # Switch back to non-root user
 USER argocd

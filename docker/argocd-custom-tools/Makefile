@@ -12,16 +12,30 @@ username := index.docker.io/bossjones
 container_name := argocd-custom-tools
 IMAGE := $(username)/$(container_name)
 
+# Shortcut for building the local development container
+# DOCKER_BUILD=DOCKER_BUILDKIT=1 docker buildx build --push --rm --platform linux/arm64,linux/amd64
+DOCKER_BUILD=DOCKER_BUILDKIT=1 docker buildx build --push --rm --platform linux/arm64
+
+ifndef IS_TTY
+	DOCKER_BUILD+= --progress=plain
+endif
+
+ifneq ($(DOCKERFILE_LOC),)
+	DOCKER_BUILD+= -f $(DOCKERFILE_LOC) -t $(IMAGE):latest $$(dirname $$DOCKERFILE_LOC)
+else
+	DOCKER_BUILD+= -t $(IMAGE):latest -t  $(IMAGE):$(VERSION) .
+endif
+
+TARGETARCH := arm64
+
 default: help
 
 help: ## Print this help text
 	@awk 'BEGIN {FS = ":.*?## "}; ($$2 && !/@awk/){printf "${CYAN}%-30s${NC} %s\n", $$1, $$2}' $(lastword ${MAKEFILE_LIST})
 	@printf "\n"
 
-
-build: ## Build the ethos-core-tools image
-	@DOCKER_BUILDKIT=1 docker build --rm -t $(IMAGE):$(VERSION) .
-	@docker tag $(IMAGE):$(VERSION) $(IMAGE):latest
+build: ## Builds the local Docker container for development
+	$(DOCKER_BUILD)
 
 push: ## Push the ethos-core-tools image to the internal docker registry
 	@docker push $(IMAGE):$(VERSION)
