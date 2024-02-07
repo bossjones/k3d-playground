@@ -62,11 +62,10 @@ RUN curl -Lo - https://github.com/Azure/kubelogin/releases/download/${KUBELOGIN_
   chmod +x /kubelogin
 
 FROM base as sops
-ENV SOPS_VERSION 3.7.3
-RUN curl -Lo - https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.amd64 && \
-  mv amd64-v${SOPS_VERSION}.linux.amd64 /usr/local/bin/sops && \
+ENV SOPS_VERSION 3.8.1
+RUN curl -LO https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.amd64 && \
+  mv sops-v${SOPS_VERSION}.linux.amd64 /usr/local/bin/sops && \
   chmod +x /usr/local/bin/sops
-
 
 #--------------------------------------------#
 #--------Build KSOPS and Kustomize-----------#
@@ -100,15 +99,18 @@ COPY --from=ksops-builder /usr/local/bin/kustomize /usr/local/bin/kustomize
 
 # Add ksops executable to path
 COPY --from=ksops-builder /usr/local/bin/ksops /usr/local/bin/ksops
+COPY --from=sops /usr/local/bin/sops /usr/local/bin/sops
 
 ENV MAIN_PATH=/custom-tools
 ENV HELM_SECRETS_VERSION=4.4.2
 ENV VALS_VERSION=0.24.0
 ENV KUBECTL_VERSION=${KUBERNETES_VERSION}
+ENV SOPS_VERSION 3.8.1
 
 RUN mkdir -p $MAIN_PATH/helm-plugins
 RUN wget -qO- https://github.com/jkroepke/helm-secrets/releases/download/v${HELM_SECRETS_VERSION}/helm-secrets.tar.gz | tar -C $MAIN_PATH/helm-plugins -xzf-;
-RUN wget -qO $MAIN_PATH/sops https://github.com/mozilla/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux
+RUN wget -qO $MAIN_PATH/sops https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.amd64
+# COPY --from=sops /usr/local/bin/sops /custom-tools/sops
 RUN wget -qO $MAIN_PATH/kubectl https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl
 RUN wget -qO- https://github.com/helmfile/vals/releases/download/v${VALS_VERSION}/vals_${VALS_VERSION}_linux_amd64.tar.gz | tar -xzf- -C $MAIN_PATH/ vals;
 RUN wget -qO $MAIN_PATH/curl https://github.com/moparisthebest/static-curl/releases/latest/download/curl-amd64
@@ -126,7 +128,7 @@ USER argocd
 # ENV HELM_SECRETS_VERSION=4.4.2
 # ENV KUBECTL_VERSION=1.26.1
 # ENV VALS_VERSION=0.24.0
-# ENV SOPS_VERSION=3.7.3
+# ENV SOPS_VERSION=3.8.1
 
 # RUN mkdir -p $MAIN_PATH/helm-plugins
 # RUN wget -qO- https://github.com/jkroepke/helm-secrets/releases/download/v${HELM_SECRETS_VERSION}/helm-secrets.tar.gz | tar -C $MAIN_PATH/helm-plugins -xzf-;
