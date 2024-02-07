@@ -1,0 +1,264 @@
+# SOURCE: https://gitlab.com/cloud-oss/k8s-cd-tools/-/blob/master/build/Dockerfile?ref_type=heads
+ARG ALPINE
+ARG GOLANG
+
+# --------------------------------
+# BUILDER: kustomize
+
+FROM docker.io/library/golang:${GOLANG}-alpine${ALPINE} AS build-kustomize
+
+RUN set -eux; \
+    apk update --quiet; \
+    apk add --no-cache --no-progress --quiet --upgrade \
+    make \
+    gcc \
+    musl-dev \
+    git \
+    ncurses
+
+WORKDIR /go/src/github.com/kubernetes-sigs/kustomize
+
+ARG KUSTOMIZE
+
+RUN set -eux; \
+    git config --global advice.detachedHead false; \
+    git clone --quiet --depth 1 --branch kustomize/v"$KUSTOMIZE" https://github.com/kubernetes-sigs/kustomize.git .; \
+    sed -i 's/false/true/g' kustomize/commands/build/flagenableplugins.go; \
+    sed -r -i 's/^(\s+&theFlags\.fnOptions\.EnableExec,\s"enable-exec",)\sfalse,$/\1 true,/g' kustomize/commands/build/flagsforfunctions.go
+
+ENV GOOS="linux" \
+    GOARCH="amd64" \
+    GO111MODULE="on"
+
+WORKDIR /go/src/github.com/kubernetes-sigs/kustomize/kustomize
+
+RUN set -eux; \
+    go build -o /usr/local/bin/kustomize -ldflags "\
+           -X sigs.k8s.io/kustomize/api/provenance.version=${KUSTOMIZE} \
+           -X sigs.k8s.io/kustomize/api/provenance.buildDate=$(date -I) \
+           -X sigs.k8s.io/kustomize/api/provenance.gitCommit=$(git rev-parse HEAD)"; \
+    chown root.root /usr/local/bin/kustomize; \
+    chmod 0755 /usr/local/bin/kustomize; \
+    /usr/local/bin/kustomize version
+
+RUN set -eu; \
+    set +x; \
+    echo "RUNTIME DEPENDENCIES"; \
+    PKGNAME=$(scanelf --needed --nobanner /usr/local/bin/kustomize \
+        | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
+        | xargs -r apk info --installed --no-network); \
+    for ITEM in $PKGNAME; \
+    do \
+        DEPENDENCY=$(apk list --installed "$ITEM" | sed -r "s/(${ITEM})-(\S+)\s.*/\1=\2/"); \
+        echo "$DEPENDENCY" | tee -a /usr/local/share/rundeps; \
+    done
+
+
+# --------------------------------
+# BUILDER: ksops
+
+FROM docker.io/library/alpine:${ALPINE} AS build-ksops
+
+ARG KSOPS
+ARG SOURCE="https://github.com/viaduct-ai/kustomize-sops/releases/download/v${KSOPS}/ksops_${KSOPS}_Linux_x86_64.tar.gz"
+ARG XDG_CONFIG_HOME="/usr/local/share"
+
+WORKDIR /usr/src/ksops
+
+# new
+RUN set -eux; \
+    wget -q "$SOURCE"; \
+    tar x -zf ksops_"$KSOPS"_Linux_x86_64.tar.gz; \
+    cp ksops /usr/local/bin/; \
+    chown root.root /usr/local/bin/ksops; \
+    chmod 0755 /usr/local/bin/ksops
+
+# legacy
+RUN set -eux; \
+    mkdir -p "$XDG_CONFIG_HOME"/kustomize/plugin/viaduct.ai/v1/ksops/; \
+    cp ksops "$XDG_CONFIG_HOME"/kustomize/plugin/viaduct.ai/v1/ksops/; \
+    chown root.root "$XDG_CONFIG_HOME"/kustomize/plugin/viaduct.ai/v1/ksops/ksops; \
+    chmod 0755 "$XDG_CONFIG_HOME"/kustomize/plugin/viaduct.ai/v1/ksops/ksops
+
+
+# --------------------------------
+# BUILDER: kubectl
+
+FROM docker.io/library/alpine:${ALPINE} AS build-kubectl
+
+ARG KUBERNETES_VERSION
+ARG SOURCE="https://dl.k8s.io/release/v${KUBERNETES_VERSION}/bin/linux/amd64/kubectl"
+
+WORKDIR /usr/src/kubectl
+
+RUN set -eux; \
+    wget -q "$SOURCE"; \
+    cp kubectl /usr/local/bin/kubectl; \
+    chown root.root /usr/local/bin/kubectl; \
+    chmod 0755 /usr/local/bin/kubectl; \
+    /usr/local/bin/kubectl version --client=true
+
+
+# --------------------------------
+# BUILDER: sops
+
+FROM docker.io/library/alpine:${ALPINE} AS build-sops
+
+ARG SOPS
+ARG SOURCE="https://github.com/getsops/sops/releases/download/v${SOPS}/sops-v${SOPS}.linux.amd64"
+
+WORKDIR /usr/src/sops
+
+RUN set -eux; \
+    wget -q "$SOURCE"; \
+    cp sops-v${SOPS}.linux.amd64 /usr/local/bin/sops; \
+    chown root.root /usr/local/bin/sops; \
+    chmod 0755 /usr/local/bin/sops; \
+    /usr/local/bin/sops --version
+
+
+# --------------------------------
+# BUILDER: age
+
+FROM docker.io/library/alpine:${ALPINE} AS build-age
+
+ARG AGE
+ARG SOURCE="https://github.com/FiloSottile/age/releases/download/v${AGE}/age-v${AGE}-linux-amd64.tar.gz"
+
+WORKDIR /usr/src/age
+
+RUN set -eux; \
+    wget -q "$SOURCE"; \
+    tar x -zf age-v${AGE}-linux-amd64.tar.gz --strip-components=1; \
+    cp age /usr/local/bin/age; \
+    cp age-keygen /usr/local/bin/age-keygen; \
+    chown root.root /usr/local/bin/age*; \
+    chmod 0755 /usr/local/bin/age*; \
+    /usr/local/bin/age --version
+
+
+# --------------------------------
+# BUILDER: kubeconform
+
+FROM docker.io/library/alpine:${ALPINE} AS build-kubeconform
+
+ARG KUBECONFORM
+ARG SOURCE="https://github.com/yannh/kubeconform/releases/download/v${KUBECONFORM}/kubeconform-linux-amd64.tar.gz"
+
+WORKDIR /usr/src/kubeconform
+
+RUN set -eux; \
+    wget -q "$SOURCE"; \
+    tar x -zf kubeconform-linux-amd64.tar.gz; \
+    cp kubeconform /usr/local/bin/kubeconform; \
+    chown root.root /usr/local/bin/kubeconform; \
+    chmod 0755 /usr/local/bin/kubeconform; \
+    /usr/local/bin/kubeconform -v
+
+RUN set -eux; \
+    wget -q -O /usr/local/bin/openapi2jsonschema.py https://raw.githubusercontent.com/yannh/kubeconform/master/scripts/openapi2jsonschema.py; \
+    chown root.root /usr/local/bin/openapi2jsonschema.py; \
+    chmod 0755 /usr/local/bin/openapi2jsonschema.py
+
+
+# --------------------------------
+# BUILDER: json-schema
+
+FROM docker.io/library/alpine:${ALPINE} AS build-jsonschema
+
+RUN set -eux; \
+    apk update --quiet; \
+    apk add --no-cache --no-progress --quiet --upgrade \
+    git
+
+ARG KUBERNETES_VERSION
+
+WORKDIR /usr/src/kubernetes-json-schema
+
+RUN set -eux; \
+    git init --quiet .; \
+    git remote add -f origin https://github.com/yannh/kubernetes-json-schema; \
+    git config core.sparseCheckout true; \
+    echo "v$KUBERNETES_VERSION-standalone-strict" >> .git/info/sparse-checkout; \
+    git pull --quiet origin master; \
+    rm -rf .git
+
+
+# --------------------------------
+# BUILDER: tools
+
+FROM docker.io/library/alpine:${ALPINE} AS build-tools
+
+COPY ./hooks /hooks
+COPY --from=build-kustomize /usr/local/share/rundeps /usr/local/share/rundeps
+
+RUN set -eux; \
+    chmod 0755 /hooks/*.sh
+
+RUN set -eux; \
+    apk update --quiet; \
+    apk add --no-cache --no-progress --quiet --upgrade --virtual .rundeps \
+        tzdata \
+        ca-certificates \
+        git \
+        yq \
+        py3-yaml \
+        py3-pytest \
+        bash \
+        bash-completion
+
+RUN set -eu; \
+    set +x; \
+    echo "RUNTIME DEPENDENCIES"; \
+    PKGNAME=$(apk info --quiet --depends .rundeps | sed -r 's/^(.*)\~.*/\1/g'); \
+    for ITEM in $PKGNAME; \
+    do \
+        DEPENDENCY=$(apk list --installed "$ITEM" | sed -r "s/(${ITEM})-(\S+)\s.*/\1=\2/"); \
+        echo "$DEPENDENCY" | tee -a /usr/local/share/rundeps; \
+    done
+
+
+# --------------------------------
+# FINAL IMAGE
+
+FROM docker.io/library/alpine:${ALPINE}
+
+ARG KUBECTL
+ARG SOPS
+ARG KSOPS
+ARG KUSTOMIZE
+ARG AGE
+ARG KUBECONFORM
+ARG KUBERNETES_VERSION
+
+ENV SOPS="$SOPS" \
+    AGE="$AGE" \
+    KUSTOMIZE="$KUSTOMIZE" \
+    KSOPS="$KSOPS" \
+    KUBECONFORM="$KUBECONFORM" \
+    KUBERNETES_VERSION="$KUBERNETES_VERSION" \
+    XDG_CONFIG_HOME="/usr/local/share" \
+    HISTCONTROL="ignoreboth:erasedups"
+
+COPY --from=build-tools     /usr/local/share/rundeps /usr/local/share/rundeps-tools
+
+RUN set -eux; \
+    cat /usr/local/share/rundeps-* | xargs apk add --no-cache --no-progress --quiet --upgrade --virtual .rundeps
+
+COPY --from=build-kustomize   /usr/local/bin/kustomize        /usr/local/bin/
+COPY --from=build-kubectl     /usr/local/bin/kubectl          /usr/local/bin/
+COPY --from=build-sops        /usr/local/bin/sops             /usr/local/bin/
+COPY --from=build-ksops       /usr/local/bin/ksops            /usr/local/bin/
+COPY --from=build-ksops       /usr/local/share/kustomize      /usr/local/share/kustomize
+COPY --from=build-tools       /hooks                          /hooks
+COPY --from=build-jsonschema  /usr/src/kubernetes-json-schema /schemas/k8s
+COPY --from=build-kubeconform /usr/local/bin/kubeconform /usr/local/bin/openapi2jsonschema.py /usr/local/bin/
+
+RUN set -eux; \
+    kubectl completion bash > /usr/share/bash-completion/completions/kubectl; \
+    kustomize completion bash > /usr/share/bash-completion/completions/kustomize
+
+ENTRYPOINT ["/bin/bash"]
+CMD ["--init-file","/etc/profile"]
+
+LABEL org.opencontainers.image.title="Kubernetes Deployment Tools"

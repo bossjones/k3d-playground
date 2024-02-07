@@ -10,9 +10,9 @@ if [ $# -lt 1 ]; then
 fi
 
 cd "${1}"
-kustomize build | kubectl apply -f -
+kustomize build --enable-alpha-plugins --enable-exec | kubectl apply -f -
 sleep 10
-kustomize build | kubectl apply -f -
+kustomize build --enable-alpha-plugins --enable-exec | kubectl apply -f -
 echo ""
 cd -
 
@@ -23,8 +23,8 @@ sleep 30
 kubectx k3d-demo
 
 cd "${1}"
-kustomize build | kubectl apply -f -
+kustomize build --enable-alpha-plugins --enable-exec | kubectl apply -f -
 sleep 10
-kustomize build | kubectl apply -f -
+kustomize build --enable-alpha-plugins --enable-exec | kubectl apply -f -
 echo ""
 cd -

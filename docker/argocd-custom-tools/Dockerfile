@@ -21,7 +21,7 @@ ENV KUBERNETES_VERSION 1.27.4
 # RUN apt-get update && apt-get install -y age
 
 RUN apt-get --yes update && \
-  apt-get --yes install curl gcc g++ git golang-go make openssl xz-utils unzip jsonnet jq age wget pass gnupg
+  apt-get --yes install curl gcc g++ git golang-go make openssl xz-utils unzip jsonnet jq wget pass gnupg
 
 
 FROM base as kubeconform
@@ -67,6 +67,20 @@ RUN curl -LO https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/
   mv sops-v${SOPS_VERSION}.linux.amd64 /usr/local/bin/sops && \
   chmod +x /usr/local/bin/sops
 
+###########
+FROM base as age
+ENV AGE_VERSION 1.1.1
+RUN set -eux; \
+    wget -O /usr/src/age/age-v${AGE_VERSION}-linux-amd64.tar.gz -q "https://github.com/FiloSottile/age/releases/download/v${AGE_VERSION}/age-v${AGE_VERSION}-linux-amd64.tar.gz"; \
+    tar x -zf age-v${AGE_VERSION}-linux-amd64.tar.gz --strip-components=1; \
+    cp age /usr/local/bin/age; \
+    cp age-keygen /usr/local/bin/age-keygen; \
+    chown root.root /usr/local/bin/age*; \
+    chmod 0755 /usr/local/bin/age*; \
+    mv /usr/src/age /age; \
+    /usr/local/bin/age --version
+
+
 #--------------------------------------------#
 #--------Build KSOPS and Kustomize-----------#
 #--------------------------------------------#
@@ -88,7 +102,8 @@ COPY --from=helm /helm /usr/local/bin/helm
 COPY --from=konstraint /konstraint /usr/local/bin/konstraint
 # COPY --from=conftest /srv/conftest /usr/local/bin/conftest
 # COPY --from=argocd /argocd /usr/local/bin/argocd
-COPY --from=kubelogin /kubelogin /usr/local/bin/kubelogin
+COPY --from=age /usr/local/bin/age /usr/local/bin/age
+COPY --from=age /usr/local/bin/age-keygen /usr/local/bin/age-keygen
 
 
 

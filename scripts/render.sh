@@ -10,4 +10,4 @@ if [ $# -lt 1 ]; then
 fi
 
 cd "${1}"
-kustomize build . --enable-helm >~/dev/bossjones/k3d-playground/dump/rendered/rendered.yaml
+kustomize build . --enable-helm --enable-alpha-plugins --enable-exec >~/dev/bossjones/k3d-playground/dump/rendered/rendered.yaml
