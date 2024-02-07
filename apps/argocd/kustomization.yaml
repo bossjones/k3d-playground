@@ -87,6 +87,7 @@ patches:
   target:
     kind: ConfigMap
     name: argocd-ssh-known-hosts-cm
+- path: overlay/patch-argocd-cm-secrets.yaml
 
 labels:
 - pairs:

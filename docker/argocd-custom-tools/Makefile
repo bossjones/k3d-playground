@@ -42,3 +42,6 @@ push: ## Push the ethos-core-tools image to the internal docker registry
 	@docker push $(IMAGE):latest
 
 build-and-push: build push  ## Perform both build of the ethos-core-tools image and push it to the registry
+
+cli:
+	docker run --rm -it --entrypoint /bin/bash $(IMAGE):latest
