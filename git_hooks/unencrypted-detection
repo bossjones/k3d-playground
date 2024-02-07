@@ -8,6 +8,47 @@
 # https://www.reinteractive.net/posts/167-ansible-real-life-good-practices
 #
 # File should be .git/hooks/pre-commit and executable
+
+# SOURCE: https://rtx.pub/install.sh
+#region environment setup
+get_os() {
+  os="$(uname -s)"
+  if [ "$os" = Darwin ]; then
+    echo "macos"
+  elif [ "$os" = Linux ]; then
+    echo "linux"
+  else
+    error "unsupported OS: $os"
+  fi
+}
+
+# SOURCE: https://rtx.pub/install.sh
+get_arch() {
+  arch="$(uname -m)"
+  if [ "$arch" = x86_64 ]; then
+    echo "x64"
+  elif [ "$arch" = aarch64 ] || [ "$arch" = arm64 ]; then
+    echo "arm64"
+  else
+    error "unsupported architecture: $arch"
+  fi
+}
+
+CURRENT_OS="$(get_os)"
+# shellcheck disable=SC2034  # Unused variables left for readability
+CURRENT_ARCH="$(get_arch)"
+
+get_system() {
+  os="$(get_os)"
+  arch="$(get_arch)"
+}
+
+if [ "$CURRENT_OS" != "macos" ]; then
+  bin_grep='grep -E'
+else
+  bin_grep='ggrep -P'
+fi
+
 FILES_PATTERN='(?!.*\.sops\.yaml$).*\w+.sops.*\.*$|digital_ocean\.ini|do_env\.sh'
 REQUIRED='AES256_GCM'
 
@@ -17,7 +58,7 @@ yellow='\033[1;33m'
 # carriage return hack. Leave it on 2 lines.
 cr='
 '
-for f in $(git diff --cached --name-only | grep -E "$FILES_PATTERN")
+for f in $(git diff --cached --name-only | $bin_grep "$FILES_PATTERN")
 do
   # test for the presence of the required bit.
   MATCH=$(head -n1 "$f" | grep --no-messages $REQUIRED)
