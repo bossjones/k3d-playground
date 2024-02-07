@@ -1,34 +1,41 @@
 ---
+# 3. Configure SOPS via .sops.yaml
+# For this example and testing, KSOPS relies on the SOPS creation rules defined in .sops.yaml. To make encrypted secrets more readable, we suggest using the following encryption regex to only encrypt data and stringData values. This leaves non-sensitive fields, like the secret's name, unencrypted and human readable.
+
+# Note: You only have to modify .sops.yaml if you want to use your key management service in this example instead of the default PGP key imported in the previous step.
 creation_rules:
   - path_regex: ansible/.*\.sops\.ya?ml
+    unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
     key_groups:
       - age:
           - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
-  # - path_regex: kubernetes/apps/default/authelia/config/.*\.sops\.y?ml
-  #   key_groups:
-  #     - age:
-  #         - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
   - path_regex: kubernetes/.*\.sops\.ya?ml
+    unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
     key_groups:
       - age:
           - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
   - path_regex: apps/.*\.sops\.ya?ml
+    unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
     key_groups:
       - age:
           - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
   - path_regex: kubernetes/.*\.sops\.ini
+    unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
     key_groups:
       - age:
           - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
   - path_regex: kubernetes/.*\.sops\.toml
+    unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
     key_groups:
       - age:
           - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
   - path_regex: kubernetes/.*\.sops\.json
+    unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
     key_groups:
       - age:
           - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
   - path_regex: infra/.*\.sops\.yaml
+    unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
     key_groups:
       - age:
           - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
