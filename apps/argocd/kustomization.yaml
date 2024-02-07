@@ -48,6 +48,9 @@ images:
 commonAnnotations:
   reloader.stakater.com/auto: "true"
 
+generators:
+- base/core/age.sops.yaml
+
 patches:
 - path: overlay/argocd-svc.yaml
 - path: overlay/argocd-rbac.yaml
