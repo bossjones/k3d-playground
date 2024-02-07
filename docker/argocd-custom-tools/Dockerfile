@@ -70,16 +70,21 @@ RUN curl -LO https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/
 ###########
 FROM base as age
 ENV AGE_VERSION 1.1.1
+# RUN set -eux; \
+#     mkdir -p /usr/src/age/; \
+#     wget -O /usr/src/age/age-v${AGE_VERSION}-linux-amd64.tar.gz -q "https://github.com/FiloSottile/age/releases/download/v${AGE_VERSION}/age-v${AGE_VERSION}-linux-amd64.tar.gz"; \
+#     tar x -zf age-v${AGE_VERSION}-linux-amd64.tar.gz --strip-components=1; \
+#     cp age /usr/local/bin/age; \
+#     cp age-keygen /usr/local/bin/age-keygen; \
+#     chown root.root /usr/local/bin/age*; \
+#     chmod 0755 /usr/local/bin/age*; \
+#     mv /usr/src/age /age; \
+#     /usr/local/bin/age --version
 RUN set -eux; \
-    wget -O /usr/src/age/age-v${AGE_VERSION}-linux-amd64.tar.gz -q "https://github.com/FiloSottile/age/releases/download/v${AGE_VERSION}/age-v${AGE_VERSION}-linux-amd64.tar.gz"; \
-    tar x -zf age-v${AGE_VERSION}-linux-amd64.tar.gz --strip-components=1; \
-    cp age /usr/local/bin/age; \
-    cp age-keygen /usr/local/bin/age-keygen; \
-    chown root.root /usr/local/bin/age*; \
-    chmod 0755 /usr/local/bin/age*; \
-    mv /usr/src/age /age; \
-    /usr/local/bin/age --version
-
+    curl -Lo /srv/age-v${AGE_VERSION}-linux-amd64.tar.gz https://github.com/FiloSottile/age/releases/download/v${AGE_VERSION}/age-v${AGE_VERSION}-linux-amd64.tar.gz && \
+    tar -xf /srv/age-v${AGE_VERSION}-linux-amd64.tar.gz -C /srv && \
+    rm /srv/age-v${AGE_VERSION}-linux-amd64.tar.gz && \
+    mv /srv/age /age
 
 #--------------------------------------------#
 #--------Build KSOPS and Kustomize-----------#
@@ -102,8 +107,8 @@ COPY --from=helm /helm /usr/local/bin/helm
 COPY --from=konstraint /konstraint /usr/local/bin/konstraint
 # COPY --from=conftest /srv/conftest /usr/local/bin/conftest
 # COPY --from=argocd /argocd /usr/local/bin/argocd
-COPY --from=age /usr/local/bin/age /usr/local/bin/age
-COPY --from=age /usr/local/bin/age-keygen /usr/local/bin/age-keygen
+COPY --from=age /age /usr/local/bin/age
+COPY --from=age /age /usr/local/bin/age-keygen
 
 
 
