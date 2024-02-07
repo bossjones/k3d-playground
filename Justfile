@@ -236,7 +236,7 @@ install-secret-0:
 
 # install-secretgenerator
 install-secretgenerator:
-  scripts/upload-install-secretgenerator.sh
+  scripts/install-secretgenerator.sh
 
 # bring up k3d-demo cluster
 demo: nuke-cluster helm k3d-demo argocd-install certs argocd-secret templates argocd-password argocd-bridge
