@@ -2,6 +2,10 @@
 set -e
 set -x
 
+kubectx k3d-demo
+
+kubectl create namespace argocd || true
+
 # SOURCE: https://github.com/viaduct-ai/kustomize-sops/blob/master/scripts/install-ksops.sh
 
 # Require $XDG_CONFIG_HOME to be set
