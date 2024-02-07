@@ -13,6 +13,9 @@
 #       cpu: 1
 #       memory: 256Mi
 
+# ##########################################################################
+# SOURCE: https://github.com/jimmy-ungerman/pork3s
+# ##########################################################################
 - op: add
   path: "/spec/template/spec/containers/0/env"
   value:
