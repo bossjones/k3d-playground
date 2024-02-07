@@ -11,7 +11,7 @@ metadata:
     app.kubernetes.io/component: Agent
     app.kubernetes.io/version: "0.35.0-distroless-libc"
     app.kubernetes.io/managed-by: Helm
-    
+
 automountServiceAccountToken: true
 ---
 # Source: vector/templates/configmap.yaml
@@ -26,7 +26,7 @@ metadata:
     app.kubernetes.io/component: Agent
     app.kubernetes.io/version: "0.35.0-distroless-libc"
     app.kubernetes.io/managed-by: Helm
-    
+
 data:
   vector.yaml: |
     api:
@@ -127,7 +127,7 @@ metadata:
     app.kubernetes.io/component: Agent
     app.kubernetes.io/version: "0.35.0-distroless-libc"
     app.kubernetes.io/managed-by: Helm
-    
+
 rules:
   - apiGroups:
       - ""
@@ -151,7 +151,7 @@ metadata:
     app.kubernetes.io/component: Agent
     app.kubernetes.io/version: "0.35.0-distroless-libc"
     app.kubernetes.io/managed-by: Helm
-    
+
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -173,7 +173,7 @@ metadata:
     app.kubernetes.io/component: Agent
     app.kubernetes.io/version: "0.35.0-distroless-libc"
     app.kubernetes.io/managed-by: Helm
-    
+
   annotations:
 spec:
   clusterIP: None
@@ -198,7 +198,7 @@ metadata:
     app.kubernetes.io/component: Agent
     app.kubernetes.io/version: "0.35.0-distroless-libc"
     app.kubernetes.io/managed-by: Helm
-    
+
   annotations:
 spec:
   ports:
@@ -222,7 +222,7 @@ metadata:
     app.kubernetes.io/component: Agent
     app.kubernetes.io/version: "0.35.0-distroless-libc"
     app.kubernetes.io/managed-by: Helm
-    
+
   annotations:
     {}
 spec:
@@ -270,7 +270,7 @@ spec:
               value: "/host/sys"
             - name: VECTOR_LOG
               value: "info"
-          ports:      
+          ports:
             - name: api
               containerPort: 8686
               protocol: TCP

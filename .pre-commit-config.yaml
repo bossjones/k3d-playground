@@ -23,14 +23,7 @@ repos:
     rev: 0.2.0
     hooks:
       - id: fix-smartquotes
-  - repo: https://github.com/k8s-at-home/sops-pre-commit
-    rev: v2.1.1
-    hooks:
-      - id: forbid-secrets
-  # - repo: https://github.com/igorshubovych/markdownlint-cli
-  #   rev: v0.28.1
+  # - repo: https://github.com/k8s-at-home/sops-pre-commit
+  #   rev: v2.1.1
   #   hooks:
-  #     - id: markdownlint
-  #       args:
-  #         - --config
-  #         - ".github/lint/.markdownlint.yaml"
+  #     - id: forbid-secrets

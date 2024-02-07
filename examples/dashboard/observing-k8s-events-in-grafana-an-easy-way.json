@@ -107,7 +107,7 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "# Kubernetes Events\n\nKubernetes events provide a rich source of information. These objects can be used to monitor your application and cluster state, respond to failures, and perform diagnostics. The events are generated when the cluster’s resources — such as pods, deployments, or nodes — change state.\n\nWhenever something happens inside your cluster, it produces an events object that provides visibility into your cluster",
+        "content": "# Kubernetes Events\n\nKubernetes events provide a rich source of information. These objects can be used to monitor your application and cluster state, respond to failures, and perform diagnostics. The events are generated when the cluster's resources — such as pods, deployments, or nodes — change state.\n\nWhenever something happens inside your cluster, it produces an events object that provides visibility into your cluster",
         "mode": "markdown"
       },
       "pluginVersion": "9.5.2",

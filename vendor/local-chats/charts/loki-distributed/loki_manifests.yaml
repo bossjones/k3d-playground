@@ -141,45 +141,45 @@ data:
     error_log  /dev/stderr;
     pid        /tmp/nginx.pid;
     worker_rlimit_nofile 8192;
-    
+
     events {
       worker_connections  4096;  ## Default: 1024
     }
-    
+
     http {
       client_body_temp_path /tmp/client_temp;
       proxy_temp_path       /tmp/proxy_temp_path;
       fastcgi_temp_path     /tmp/fastcgi_temp;
       uwsgi_temp_path       /tmp/uwsgi_temp;
       scgi_temp_path        /tmp/scgi_temp;
-    
+
       proxy_http_version    1.1;
-    
+
       default_type application/octet-stream;
       log_format   main '$remote_addr - $remote_user [$time_local]  $status '
             '"$request" $body_bytes_sent "$http_referer" '
             '"$http_user_agent" "$http_x_forwarded_for"';
       access_log   /dev/stderr  main;
-    
+
       sendfile     on;
       tcp_nopush   on;
       resolver kube-dns.kube-system.svc.cluster.local;
-    
+
       server {
         listen             8080;
-    
+
         location = / {
           return 200 'OK';
           auth_basic off;
           access_log off;
         }
-    
+
         location = /api/prom/push {
           set $api_prom_push_backend http://loki-loki-distributed-distributor.monitoring.svc.cluster.local;
           proxy_pass       $api_prom_push_backend:3100$request_uri;
           proxy_http_version 1.1;
         }
-    
+
         location = /api/prom/tail {
           set $api_prom_tail_backend http://loki-loki-distributed-querier.monitoring.svc.cluster.local;
           proxy_pass       $api_prom_tail_backend:3100$request_uri;
@@ -187,7 +187,7 @@ data:
           proxy_set_header Connection "upgrade";
           proxy_http_version 1.1;
         }
-    
+
         # Ruler
         location ~ /prometheus/api/v1/alerts.* {
           proxy_pass       http://loki-loki-distributed-ruler.monitoring.svc.cluster.local:3100$request_uri;
@@ -201,19 +201,19 @@ data:
         location ~ /api/prom/alerts.* {
           proxy_pass       http://loki-loki-distributed-ruler.monitoring.svc.cluster.local:3100$request_uri;
         }
-    
+
         location ~ /api/prom/.* {
           set $api_prom_backend http://loki-loki-distributed-query-frontend-headless.monitoring.svc.cluster.local;
           proxy_pass       $api_prom_backend:3100$request_uri;
           proxy_http_version 1.1;
         }
-    
+
         location = /loki/api/v1/push {
           set $loki_api_v1_push_backend http://loki-loki-distributed-distributor.monitoring.svc.cluster.local;
           proxy_pass       $loki_api_v1_push_backend:3100$request_uri;
           proxy_http_version 1.1;
         }
-    
+
         location = /loki/api/v1/tail {
           set $loki_api_v1_tail_backend http://loki-loki-distributed-querier.monitoring.svc.cluster.local;
           proxy_pass       $loki_api_v1_tail_backend:3100$request_uri;
@@ -221,7 +221,7 @@ data:
           proxy_set_header Connection "upgrade";
           proxy_http_version 1.1;
         }
-    
+
         location ~ /loki/api/.* {
           set $loki_api_backend http://loki-loki-distributed-query-frontend-headless.monitoring.svc.cluster.local;
           proxy_pass       $loki_api_backend:3100$request_uri;
@@ -244,7 +244,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 data:
   runtime.yaml: |
-    
+
     {}
 ---
 # Source: loki-distributed/templates/distributor/service-distributor.yaml
@@ -562,7 +562,7 @@ spec:
         prometheus: main
     spec:
       serviceAccountName: loki-loki-distributed
-      
+
       securityContext:
         fsGroup: 10001
         runAsGroup: 10001
@@ -628,7 +628,7 @@ spec:
                     app.kubernetes.io/instance: loki
                     app.kubernetes.io/component: distributor
                 topologyKey: failure-domain.beta.kubernetes.io/zone
-        
+
       volumes:
         - name: config
           configMap:
@@ -671,7 +671,7 @@ spec:
         prometheus: main
     spec:
       serviceAccountName: loki-loki-distributed
-      
+
       securityContext:
         fsGroup: 101
         runAsGroup: 101
@@ -730,7 +730,7 @@ spec:
                     app.kubernetes.io/instance: loki
                     app.kubernetes.io/component: gateway
                 topologyKey: failure-domain.beta.kubernetes.io/zone
-        
+
       volumes:
         - name: config
           configMap:
@@ -779,7 +779,7 @@ spec:
         prometheus: main
     spec:
       serviceAccountName: loki-loki-distributed
-      
+
       securityContext:
         fsGroup: 10001
         runAsGroup: 10001
@@ -842,7 +842,7 @@ spec:
                     app.kubernetes.io/instance: loki
                     app.kubernetes.io/component: query-frontend
                 topologyKey: failure-domain.beta.kubernetes.io/zone
-        
+
       volumes:
         - name: config
           configMap:
@@ -901,9 +901,9 @@ spec:
               app.kubernetes.io/name: loki-distributed
               app.kubernetes.io/instance: loki
               app.kubernetes.io/component: ingester
-        
+
       serviceAccountName: loki-loki-distributed
-      
+
       securityContext:
         fsGroup: 10001
         runAsGroup: 10001
@@ -933,14 +933,14 @@ spec:
               drop:
               - ALL
             readOnlyRootFilesystem: true
-          
+
           readinessProbe:
             httpGet:
               path: /ready
               port: http
             initialDelaySeconds: 30
             timeoutSeconds: 1
-          
+
           livenessProbe:
             httpGet:
               path: /ready
@@ -971,7 +971,7 @@ spec:
                     app.kubernetes.io/instance: loki
                     app.kubernetes.io/component: ingester
                 topologyKey: failure-domain.beta.kubernetes.io/zone
-        
+
       volumes:
         - name: config
           configMap:
@@ -1032,9 +1032,9 @@ spec:
               app.kubernetes.io/name: loki-distributed
               app.kubernetes.io/instance: loki
               app.kubernetes.io/component: querier
-        
+
       serviceAccountName: loki-loki-distributed
-      
+
       securityContext:
         fsGroup: 10001
         runAsGroup: 10001
@@ -1102,7 +1102,7 @@ spec:
                     app.kubernetes.io/instance: loki
                     app.kubernetes.io/component: querier
                 topologyKey: failure-domain.beta.kubernetes.io/zone
-        
+
       volumes:
         - name: config
           configMap:

@@ -181,7 +181,7 @@ spec:
         checksum/secret: eb2bdba68cee61b4b2c26f33b8a753ebd65bf1a93ca2e3a0c09443c529549f64
         kubectl.kubernetes.io/default-container: grafana
     spec:
-      
+
       serviceAccountName: grafana
       automountServiceAccountToken: true
       securityContext:

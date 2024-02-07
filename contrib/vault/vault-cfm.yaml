@@ -97,9 +97,9 @@ data:
 
         vault policy write demo-auth-policy-operator /config/scripts/demo-auth-policy-operator.json
         vault policy write plcpgsql /config/scripts/pgsql-policy.json
-        vault policy write plcpgadmin /config/scripts/pgadmin-policy.json        
-        vault policy write plcddns-updater /config/scripts/ddns-updater-policy.json        
-        vault policy write plcarr /config/scripts/arr-policy.json        
+        vault policy write plcpgadmin /config/scripts/pgadmin-policy.json
+        vault policy write plcddns-updater /config/scripts/ddns-updater-policy.json
+        vault policy write plcarr /config/scripts/arr-policy.json
 
         vault write auth/kubernetes/role/auth-role-operator \
         bound_service_account_names=demo-operator \

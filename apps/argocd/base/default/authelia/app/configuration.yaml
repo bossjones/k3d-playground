@@ -78,7 +78,7 @@ access_control:
       resources: ["^/api.*$"]
       policy: bypass
     - domain: ["sonarr.porkboi.io"]
-      resources: ["^/api.*$"] 
+      resources: ["^/api.*$"]
       policy: bypass
     - domain: ["prowlarr.porkboi.io"]
       resources: ["^/api.*$"]

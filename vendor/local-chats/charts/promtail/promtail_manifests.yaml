@@ -32,16 +32,16 @@ stringData:
       log_level: info
       log_format: logfmt
       http_listen_port: 3101
-      
-    
+
+
     clients:
       - external_labels:
           cluster: k3d
         url: http://loki-loki-distributed-gateway.monitoring.svc.cluster.local/loki/api/v1/push
-    
+
     positions:
       filename: /run/promtail/positions.yaml
-    
+
     scrape_configs:
       # See also https://github.com/grafana/loki/blob/master/production/ksonnet/promtail/scrape_config.libsonnet for reference
       - job_name: kubernetes-pods
@@ -114,12 +114,12 @@ stringData:
             - __meta_kubernetes_pod_annotation_kubernetes_io_config_hash
             - __meta_kubernetes_pod_container_name
             target_label: __path__
-      
-      
-    
+
+
+
     limits_config:
-      
-    
+
+
     tracing:
       enabled: false
 ---
