@@ -24,4 +24,4 @@ fi
 
 cat "${SOPS_AGE_KEY_FILE}" | kubectl create secret generic sops-age \
 --namespace=argocd \
---from-file=key.txt=/dev/stdin
+--from-file=key.txt=/dev/stdin || true
