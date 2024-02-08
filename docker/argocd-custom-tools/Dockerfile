@@ -115,11 +115,11 @@ COPY --from=age /age /usr/local/bin/age-keygen
 ARG PKG_NAME=ksops
 
 # Override the default kustomize executable with the Go built version
-COPY --from=ksops-builder /usr/local/bin/kustomize /usr/local/bin/kustomize
+COPY --from=ksops-builder --chown=argocd /usr/local/bin/kustomize /usr/local/bin/kustomize
 
 # Add ksops executable to path
-COPY --from=ksops-builder /usr/local/bin/ksops /usr/local/bin/ksops
-COPY --from=sops /usr/local/bin/sops /usr/local/bin/sops
+COPY --from=ksops-builder --chown=argocd /usr/local/bin/ksops /usr/local/bin/ksops
+COPY --from=sops --chown=argocd /usr/local/bin/sops /usr/local/bin/sops
 
 ENV MAIN_PATH=/custom-tools
 ENV HELM_SECRETS_VERSION=4.4.2
