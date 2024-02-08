@@ -297,10 +297,10 @@ patches:
         # args:
         # - 'echo "Installing KSOPS..."; mv /usr/local/bin/ksops /custom-tools/; mv /usr/local/bin/kustomize /custom-tools/; echo "Done.";'
         args:
+        # mv /usr/local/bin/kustomize /custom-tools/;
         - echo "Installing goabout kustomize sops...";
           set -e;
           set -x;
-          mv /usr/local/bin/kustomize /custom-tools/;
           set +x;
           echo "Done.";
         # args:
