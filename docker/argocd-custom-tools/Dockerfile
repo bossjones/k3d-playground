@@ -143,8 +143,9 @@ RUN wget -qO $MAIN_PATH/kubectl https://dl.k8s.io/release/v${KUBECTL_VERSION}/bi
 RUN wget -qO- https://github.com/helmfile/vals/releases/download/v${VALS_VERSION}/vals_${VALS_VERSION}_linux_amd64.tar.gz | tar -xzf- -C $MAIN_PATH/ vals;
 RUN wget -qO $MAIN_PATH/curl https://github.com/moparisthebest/static-curl/releases/latest/download/curl-amd64
 RUN cp $MAIN_PATH/helm-plugins/helm-secrets/scripts/wrapper/helm.sh $MAIN_PATH/helm
-RUN cp -a /usr/local/bin/kustomize $MAIN_PATH/kustomize
-RUN chmod +x $MAIN_PATH/*
+RUN cp -a /usr/local/bin/kustomize $MAIN_PATH/kustomize && ls -lta $MAIN_PATH
+RUN cp -a /usr/local/bin/SopsSecretGenerator $MAIN_PATH/SopsSecretGenerator && ls -lta $MAIN_PATH
+RUN chown -Rv argocd:argocd $MAIN_PATH && chmod +x $MAIN_PATH/* && ls -lta $MAIN_PATH
 
 # Switch back to non-root user
 USER argocd
