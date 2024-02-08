@@ -289,7 +289,7 @@ patches:
         name: download-tools
         # image: registry.aggregion.com/helm-secrets-argocd:0.0.1
         # image: viaductoss/ksops:v4.3.1
-        image: docker.io/bossjones/argocd-custom-tools:0.0.4
+        image: docker.io/bossjones/argocd-custom-tools:0.0.5
         # image: docker.io/bossjones/argocd-custom-tools:0.0.1
         imagePullPolicy: Always
         # command: [sh, -ec]
@@ -301,6 +301,7 @@ patches:
         - echo "Installing goabout kustomize sops...";
           set -e;
           set -x;
+          cp -av /custom-tools-tmp/* /custom-tools/;
           set +x;
           echo "Done.";
         # args:

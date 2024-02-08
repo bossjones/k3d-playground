@@ -129,7 +129,7 @@ COPY --from=ksops-builder --chown=argocd /usr/local/bin/kustomize /usr/local/bin
 COPY --from=ksops-builder --chown=argocd /usr/local/bin/ksops /usr/local/bin/ksops
 COPY --from=sops --chown=argocd /usr/local/bin/sops /usr/local/bin/sops
 
-ENV MAIN_PATH=/custom-tools
+ENV MAIN_PATH=/custom-tools-tmp
 ENV HELM_SECRETS_VERSION=4.4.2
 ENV VALS_VERSION=0.24.0
 ENV KUBECTL_VERSION=${KUBERNETES_VERSION}
