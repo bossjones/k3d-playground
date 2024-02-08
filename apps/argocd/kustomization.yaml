@@ -254,12 +254,12 @@ patches:
     # bossjones via pork3s
     ##############################################################################################################
 
-    - op: add
-      path: /spec/template/spec/containers/0/volumeMounts/-
-      value:
-        mountPath: /usr/local/bin/kustomize
-        name: custom-tools
-        subPath: kustomize
+    # - op: add
+    #   path: /spec/template/spec/containers/0/volumeMounts/-
+    #   value:
+    #     mountPath: /usr/local/bin/kustomize
+    #     name: custom-tools
+    #     subPath: kustomize
 
     # add SopsSecretGenerator plugin
     - op: add
