@@ -10,4 +10,5 @@ data:
   # url: "https://argocd.k8s.localhost"
   statusbadge.enabled: "true"
   exec.enabled: "true"
-  kustomize.buildOptions: "--enable-alpha-plugins --enable-exec"
+  # kustomize.buildOptions: "--enable-alpha-plugins --enable-exec"
+  kustomize.buildOptions: "--enable-alpha-plugins"
