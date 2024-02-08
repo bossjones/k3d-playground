@@ -68,7 +68,7 @@ RUN curl -LO https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/
   chmod +x /usr/local/bin/sops
 
 FROM base as sopssecretgenerator
-RUN set -x; VERSION=1.6.0 PLATFORM="$(uname -s | tr '[:upper:]' '[:lower:]')" ARCH="arm64" && \
+RUN set -x; VERSION=1.6.0 PLATFORM="$(uname -s | tr '[:upper:]' '[:lower:]')" ARCH="amd64" && \
     wget -O /srv/SopsSecretGenerator https://github.com/goabout/kustomize-sopssecretgenerator/releases/download/v${VERSION}/SopsSecretGenerator_${VERSION}_${PLATFORM}_${ARCH} && \
     chown argocd:argocd /srv/SopsSecretGenerator && \
     chmod +x /srv/SopsSecretGenerator && \
