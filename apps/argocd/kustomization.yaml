@@ -289,9 +289,9 @@ patches:
         name: download-tools
         # image: registry.aggregion.com/helm-secrets-argocd:0.0.1
         # image: viaductoss/ksops:v4.3.1
-        image: docker.io/bossjones/argocd-custom-tools:0.0.1
+        image: docker.io/bossjones/argocd-custom-tools:0.0.2
         # image: docker.io/bossjones/argocd-custom-tools:0.0.1
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         # command: [sh, -ec]
         command: ["/bin/sh", "-c"]
         # args:
@@ -300,14 +300,20 @@ patches:
         - echo "Installing goabout kustomize sops...";
           set -e;
           set -x;
-          get_os="$(uname -s | tr '[:upper:]' '[:lower:]')";
-          get_arch="$(uname -m | tr '[:upper:]' '[:lower:]')";
-          VERSION=1.6.0 PLATFORM="$(uname -s | tr '[:upper:]' '[:lower:]')" ARCH="arm64";
-          wget -O /custom-tools/SopsSecretGenerator https://github.com/goabout/kustomize-sopssecretgenerator/releases/download/v${VERSION}/SopsSecretGenerator_${VERSION}_${PLATFORM}_${ARCH};
-          chmod -v +x /custom-tools/SopsSecretGenerator;
-          mv /usr/local/bin/kustomize /custom-tools/;
           set +x;
           echo "Done.";
+        # args:
+        # - echo "Installing goabout kustomize sops...";
+        #   set -e;
+        #   set -x;
+        #   get_os="$(uname -s | tr '[:upper:]' '[:lower:]')";
+        #   get_arch="$(uname -m | tr '[:upper:]' '[:lower:]')";
+        #   VERSION=1.6.0 PLATFORM="$(uname -s | tr '[:upper:]' '[:lower:]')" ARCH="arm64";
+        #   wget -O /custom-tools/SopsSecretGenerator https://github.com/goabout/kustomize-sopssecretgenerator/releases/download/v${VERSION}/SopsSecretGenerator_${VERSION}_${PLATFORM}_${ARCH};
+        #   chmod -v +x /custom-tools/SopsSecretGenerator;
+        #   mv /usr/local/bin/kustomize /custom-tools/;
+        #   set +x;
+        #   echo "Done.";
         env:
         - name: HELM_SECRETS_VERSION
           value: "4.4.2"

@@ -67,6 +67,13 @@ RUN curl -LO https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/
   mv sops-v${SOPS_VERSION}.linux.amd64 /usr/local/bin/sops && \
   chmod +x /usr/local/bin/sops
 
+FROM base as sopssecretgenerator
+RUN set -x; VERSION=1.6.0 PLATFORM="$(uname -s | tr '[:upper:]' '[:lower:]')" ARCH="arm64" && \
+    wget -O /srv/SopsSecretGenerator https://github.com/goabout/kustomize-sopssecretgenerator/releases/download/v${VERSION}/SopsSecretGenerator_${VERSION}_${PLATFORM}_${ARCH} && \
+    chown argocd:argocd /srv/SopsSecretGenerator && \
+    chmod +x /srv/SopsSecretGenerator && \
+    mv /srv/SopsSecretGenerator /SopsSecretGenerator
+
 ###########
 FROM base as age
 ENV AGE_VERSION 1.1.1
@@ -109,6 +116,7 @@ COPY --from=konstraint /konstraint /usr/local/bin/konstraint
 # COPY --from=argocd /argocd /usr/local/bin/argocd
 COPY --from=age /age /usr/local/bin/age
 COPY --from=age /age /usr/local/bin/age-keygen
+COPY --from=sopssecretgenerator --chown=argocd /SopsSecretGenerator /usr/local/bin/SopsSecretGenerator
 
 
 
@@ -135,6 +143,7 @@ RUN wget -qO $MAIN_PATH/kubectl https://dl.k8s.io/release/v${KUBECTL_VERSION}/bi
 RUN wget -qO- https://github.com/helmfile/vals/releases/download/v${VALS_VERSION}/vals_${VALS_VERSION}_linux_amd64.tar.gz | tar -xzf- -C $MAIN_PATH/ vals;
 RUN wget -qO $MAIN_PATH/curl https://github.com/moparisthebest/static-curl/releases/latest/download/curl-amd64
 RUN cp $MAIN_PATH/helm-plugins/helm-secrets/scripts/wrapper/helm.sh $MAIN_PATH/helm
+RUN cp -a /usr/local/bin/kustomize $MAIN_PATH/kustomize
 RUN chmod +x $MAIN_PATH/*
 
 # Switch back to non-root user
