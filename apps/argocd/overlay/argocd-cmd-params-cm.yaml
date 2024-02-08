@@ -43,3 +43,11 @@ data:
   # # Enable compression for data sent to Redis with the required compression algorithm
   redis.compression: gzip
   # # Required starting with v2.7.x
+
+  # SOURCE: https://github.com/motoki317/manifest/blob/acea7744b5fd3e9fe69bda2d626e255aad1b15f9/argocd/argocd-cmd-params-cm.yaml
+  # controller.log.level: "warn"
+  # server.insecure: "true"
+  # server.log.level: "warn"
+  # reposerver.log.level: "warn"
+  # applicationsetcontroller.log.level: "warn"
+  # notificationscontroller.log.level: "warn"
