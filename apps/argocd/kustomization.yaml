@@ -302,7 +302,7 @@ patches:
           set -x;
           get_os="$(uname -s | tr '[:upper:]' '[:lower:]')";
           get_arch="$(uname -m | tr '[:upper:]' '[:lower:]')";
-          VERSION=1.6.0 PLATFORM="$(get_os)" ARCH="$(get_arch)";
+          VERSION=1.6.0 PLATFORM="$get_os" ARCH="$get_arch";
           wget -O /custom-tools/SopsSecretGenerator https://github.com/goabout/kustomize-sopssecretgenerator/releases/download/v${VERSION}/SopsSecretGenerator_${VERSION}_${PLATFORM}_${ARCH};
           chmod -v +x /custom-tools/SopsSecretGenerator;
           mv /usr/local/bin/kustomize /custom-tools/;
