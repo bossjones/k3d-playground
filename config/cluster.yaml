@@ -16,7 +16,7 @@ ports:
   nodeFilters:
   - loadbalancer
 # FIXME: Try this - port: 0.0.0.0:443:443
-- port: 443:443
+- port: 0.0.0.0:443:443
   nodeFilters:
   - loadbalancer
 
