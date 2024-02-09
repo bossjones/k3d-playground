@@ -136,11 +136,12 @@ ENV KUBECTL_VERSION=${KUBERNETES_VERSION}
 ENV SOPS_VERSION 3.8.1
 
 # RUN mkdir -p $MAIN_PATH/helm-plugins
+RUN mkdir -p $MAIN_PATH
 # RUN wget -qO- https://github.com/jkroepke/helm-secrets/releases/download/v${HELM_SECRETS_VERSION}/helm-secrets.tar.gz | tar -C $MAIN_PATH/helm-plugins -xzf-;
 RUN wget -qO $MAIN_PATH/sops https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.amd64
 # COPY --from=sops /usr/local/bin/sops /custom-tools/sops
 RUN wget -qO $MAIN_PATH/kubectl https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl
-RUN wget -qO- https://github.com/helmfile/vals/releases/download/v${VALS_VERSION}/vals_${VALS_VERSION}_linux_amd64.tar.gz | tar -xzf- -C $MAIN_PATH/vals;
+# RUN wget -qO- https://github.com/helmfile/vals/releases/download/v${VALS_VERSION}/vals_${VALS_VERSION}_linux_amd64.tar.gz | tar -xzf- -C $MAIN_PATH/ vals;
 RUN wget -qO $MAIN_PATH/curl https://github.com/moparisthebest/static-curl/releases/latest/download/curl-amd64
 # RUN cp $MAIN_PATH/helm-plugins/helm-secrets/scripts/wrapper/helm.sh $MAIN_PATH/helm
 RUN cp -a /usr/local/bin/kustomize $MAIN_PATH/kustomize && ls -lta $MAIN_PATH
