@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euxo pipefail
 
-export GIT_URI=$(git config --get remote.origin.url)
+# export GIT_URI=$(git config --get remote.origin.url)
+export GIT_URI="https://github.com/bossjones/k3d-playground"
 
 kubectx k3d-demo
 
