@@ -11,4 +11,4 @@ data:
   statusbadge.enabled: "true"
   exec.enabled: "true"
   # kustomize.buildOptions: "--enable-alpha-plugins --enable-exec"
-  kustomize.buildOptions: "--enable-alpha-plugins"
+  kustomize.buildOptions: "--enable-alpha-plugins --enable-exec"
