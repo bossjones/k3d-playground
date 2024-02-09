@@ -44,7 +44,7 @@ RUN curl -Lo - https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAU
   chmod +x /usr/local/bin/vault
 
 FROM base as helm
-ENV HELM_VERSION v3.10.2
+ENV HELM_VERSION v3.12.1
 RUN curl -Lo /srv/helm-${HELM_VERSION}-linux-amd64.tar.gz https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz && \
   tar -xf /srv/helm-${HELM_VERSION}-linux-amd64.tar.gz -C /srv && \
   rm -f /srv/helm-${HELM_VERSION}-linux-amd64.tar.gz && \
