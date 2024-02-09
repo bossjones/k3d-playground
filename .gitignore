@@ -196,3 +196,4 @@ dump/*
 !dump/*role*
 !dump/*serviceaccounts*
 !externalSecret.yaml
+.decrypted*
