@@ -48,6 +48,6 @@ data:
   # controller.log.level: "warn"
   # server.insecure: "true"
   # server.log.level: "warn"
-  # reposerver.log.level: "warn"
+  reposerver.log.level: "debug"
   # applicationsetcontroller.log.level: "warn"
   # notificationscontroller.log.level: "warn"
