@@ -13,7 +13,14 @@
 127.0.0.1 grafana.k8s.localhost
 127.0.0.1 prometheus.k8s.localhost
 127.0.0.1 thanosruler.k8s.localhost
+127.0.0.1 thano-gateway.k8s.localhost
 127.0.0.1 loki-gateway.k8s.localhost
 127.0.0.1 vector.k8s.localhost
+127.0.0.1 argo.k8s.localhost
+127.0.0.1 argocd.k8s.localhost
+127.0.0.1 argocd-grpc.k8s.localhost
+127.0.0.1 workflows.k8s.localhost
+127.0.0.1 whoami.k8s.localhost
+127.0.0.1 minio.k8s.localhost
 127.0.0.1 registry.localhost
 ::1       registry.localhost
