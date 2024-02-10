@@ -200,7 +200,7 @@ templates:
   bash scripts/templates.sh
 
 # install argocd
-argocd-install: argocd-secret install-secret-0
+argocd-install: argocd-secret install-secret-0 install-mandatory-manifests
   bash scripts/argocd-install.sh
 
 # install argocd secrets
@@ -372,3 +372,19 @@ install-ksops:
 #   password="$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
 #   argocd login --port-forward --port-forward-namespace argocd --username=admin --password="${password}"
 #   argocd --port-forward --port-forward-namespace=argocd cluster list
+
+install-mandatory-manifests:
+  kubectl create namespace monitoring || true
+  kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.0/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
+  kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.0/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
+  kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.0/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
+  kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.0/example/prometheus-operator-crd/monitoring.coreos.com_probes.yaml
+  kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.0/example/prometheus-operator-crd/monitoring.coreos.com_prometheusagents.yaml
+  kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.0/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml
+  kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.0/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
+  kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.0/example/prometheus-operator-crd/monitoring.coreos.com_scrapeconfigs.yaml
+  kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.0/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
+  kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.0/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
+# kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/monitoring/kube-prometheus-stack/app | kubectl apply -f -
+# kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/kube-system/external-secrets/app | kubectl apply -f -
+# kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/core/ingress-nginx/app | kubectl apply -f -
