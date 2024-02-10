@@ -17,7 +17,7 @@ spec:
       valueFiles:
         - $values/kubernetes/apps/default/lldap/app/values.yaml
   - repoURL: 'https://github.com/bossjones/k3d-playground'
-    targetRevision: main
+    targetRevision: HEAD
     path: kubernetes/apps/default/lldap
     ref: values
   destination:

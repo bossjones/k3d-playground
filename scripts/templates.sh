@@ -20,7 +20,7 @@ spec:
   source:
     repoURL: '$GIT_URI'
     path: apps/argocd
-    targetRevision: main
+    targetRevision: HEAD
   destination:
     namespace: argocd
     name: in-cluster
@@ -58,7 +58,7 @@ spec:
   source:
     repoURL: '$GIT_URI'
     path: apps/argocd
-    targetRevision: main
+    targetRevision: HEAD
   destination:
     namespace: argocd
     name: in-cluster
@@ -95,7 +95,7 @@ spec:
   source:
     repoURL: '$GIT_URI'
     path: apps/databases/zalando
-    targetRevision: main
+    targetRevision: HEAD
   destination:
     namespace: databases
     name: in-cluster
@@ -133,7 +133,7 @@ spec:
   source:
     repoURL: '$GIT_URI'
     path: apps/example
-    targetRevision: main
+    targetRevision: HEAD
   destination:
     namespace: example
     name: in-cluster

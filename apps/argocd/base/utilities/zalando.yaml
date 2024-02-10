@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: 'https://github.com/bossjones/k3d-playground'
     path: apps/databases/zalando
-    targetRevision: main
+    targetRevision: HEAD
   destination:
     namespace: databases
     name: in-cluster

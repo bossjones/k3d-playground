@@ -18,7 +18,7 @@ spec:
       valueFiles:
         - $values/kubernetes/apps/kube-system/multus/app/values.yaml
   - repoURL: 'https://github.com/bossjones/k3d-playground'
-    targetRevision: main
+    targetRevision: HEAD
     path: kubernetes/apps/kube-system/multus
     ref: values
   destination:

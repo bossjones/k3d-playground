@@ -9,7 +9,7 @@
 #   source:
 #     repoURL: 'https://github.com/bitnami/charts.git'
 #     # targetRevision: HEAD
-#     targetRevision: main
+#     targetRevision: HEAD
 #     path: bitnami/nginx-ingress-controller
 #     helm:
 #       releaseName: nginx

@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: 'https://github.com/bossjones/k3d-playground.git'
     path: apps/argocd
-    targetRevision: main
+    targetRevision: HEAD
   destination:
     namespace: argocd
     name: in-cluster

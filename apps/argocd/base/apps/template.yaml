@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: 'https://github.com/bossjones/k3d-playground.git'
     path: apps/template
-    targetRevision: main
+    targetRevision: HEAD
   destination:
     namespace: development
     name: in-cluster

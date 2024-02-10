@@ -17,7 +17,7 @@ spec:
       valueFiles:
         - $values/apps/argocd/base/monitoring/cert-manager/app/values.yaml
   - repoURL: 'https://github.com/bossjones/k3d-playground.git'
-    targetRevision: main
+    targetRevision: HEAD
     path: apps/argocd/base/monitoring/cert-manager
     ref: values
   destination:

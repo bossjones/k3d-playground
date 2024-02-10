@@ -23,6 +23,6 @@ spec:
   source:
     path: localApps/ddns-updater
     repoURL: https://github.com/rdartus/k3s-argo.git
-    targetRevision: main
+    targetRevision: HEAD
     # helm :
     #   values: |

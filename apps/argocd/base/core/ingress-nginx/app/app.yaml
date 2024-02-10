@@ -19,7 +19,7 @@ spec:
         # - $values/kubernetes/apps/networking/ingress-nginx/app/values.yaml
         - $values/apps/argocd/base/core/ingress-nginx/app/values.yaml
   - repoURL: 'https://github.com/bossjones/k3d-playground.git'
-    targetRevision: main
+    targetRevision: HEAD
     path: apps/argocd/base/core/ingress-nginx
     ref: values
   destination:

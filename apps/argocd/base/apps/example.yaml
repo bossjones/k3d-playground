@@ -20,7 +20,7 @@ spec:
     # This has no meaning for Helm charts pulled directly from a Helm repo instead of git.
     path: apps/example
     # For Helm, this refers to the chart version.
-    targetRevision: main
+    targetRevision: HEAD
   # Destination cluster and namespace to deploy the application
   destination:
     namespace: example

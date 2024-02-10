@@ -19,7 +19,7 @@ spec:
       valueFiles:
         - $values/apps/argocd/base/kube-system/external-secrets/app/external-secrets/values.yaml
   - repoURL: 'https://github.com/bossjones/k3d-playground'
-    targetRevision: main
+    targetRevision: HEAD
     # path: apps/argocd/base/kube-system/external-secrets/app/external-secrets
     path: apps/argocd/base/kube-system/external-secrets/app/external-secrets
     ref: values

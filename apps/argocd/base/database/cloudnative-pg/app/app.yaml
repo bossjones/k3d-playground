@@ -17,7 +17,7 @@ spec:
       valueFiles:
         - $values/kubernetes/apps/database/cloudnative-pg/app/operator/values.yaml
   - repoURL: 'https://github.com/bossjones/k3d-playground'
-    targetRevision: main
+    targetRevision: HEAD
     path: kubernetes/apps/database/cloudnative-pg
     ref: values
   destination:
