@@ -188,11 +188,23 @@ registries:
     name: registry.localhost
     host: "0.0.0.0"
     hostPort: "5002"
+    proxy:
+      remoteURL: https://registry-1.docker.io
+    volumes:
+      - ${PWD}/storage/k3d-cache-registry:/var/lib/registry
   config: |
     mirrors:
       "registry.localhost":
         endpoint:
           - http://registry.local.gd:5002
+      "docker.io":
+        endpoint:
+          - http://docker-io:5000
+
+    configs:
+      ""registry.localhost":
+          tls:
+            insecure_skip_verify: true
 
 volumes:
 - volume: "${PWD}/storage:/var/lib/rancher/k3s/storage"

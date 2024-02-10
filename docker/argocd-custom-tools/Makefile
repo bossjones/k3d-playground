@@ -48,7 +48,7 @@ cli:
 	docker run --rm -it --entrypoint /bin/bash $(IMAGE):latest
 
 push-private-registry:
-	docker tag $(IMAGE):$(VERSION) localhost:5002/$(IMAGE_SHORT):$(VERSION)
+	docker tag $(IMAGE_SHORT):$(VERSION) localhost:5002/$(IMAGE_SHORT):$(VERSION)
 	docker tag $(IMAGE):latest localhost:5002/$(IMAGE_SHORT):latest
 	docker push localhost:5002/$(IMAGE_SHORT):$(VERSION)
 	docker push localhost:5002/$(IMAGE_SHORT):latest
