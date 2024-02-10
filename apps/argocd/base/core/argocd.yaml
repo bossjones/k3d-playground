@@ -38,3 +38,13 @@ spec:
         duration: 20s
         factor: 2
         maxDuration: 3m
+  # SOURCE: https://github.com/argoproj/argo-cd/issues/11074
+  ignoreDifferences:
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      jqPathExpressions:
+      - .spec.endpoints[]?.relabelings[]?.action
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      jqPathExpressions:
+      - .spec.endpoints[]?.metricRelabelings[]?.action
