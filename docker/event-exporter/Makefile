@@ -13,8 +13,7 @@ container_name := event-exporter
 IMAGE := $(username)/$(container_name)
 
 # Shortcut for building the local development container
-DOCKER_BUILD=DOCKER_BUILDKIT=1 docker buildx build --push --rm --platform linux/arm64,linux/amd64
-
+DOCKER_BUILD=DOCKER_BUILDKIT=1 docker buildx build --push --rm --platform linux/arm64
 ifndef IS_TTY
 	DOCKER_BUILD+= --progress=plain
 endif
@@ -22,7 +21,7 @@ endif
 ifneq ($(DOCKERFILE_LOC),)
 	DOCKER_BUILD+= -f $(DOCKERFILE_LOC) -t $(IMAGE):latest $$(dirname $$DOCKERFILE_LOC)
 else
-	DOCKER_BUILD+= -t $(IMAGE):latest -t  $(IMAGE):$(VERSION) .
+	DOCKER_BUILD+= -t $(IMAGE):latest -t  $(IMAGE):v$(VERSION) .
 endif
 
 
@@ -36,7 +35,7 @@ build: ## Builds the local Docker container for development
 	$(DOCKER_BUILD)
 
 push: ## Push the ethos-core-tools image to the internal docker registry
-	@docker push $(IMAGE):$(VERSION)
+	@docker push $(IMAGE):v$(VERSION)
 	@docker push $(IMAGE):latest
 
 build-and-push: build push  ## Perform both build of the ethos-core-tools image and push it to the registry
