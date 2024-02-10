@@ -116,23 +116,23 @@ spec:
     honorLabels: true
     path: /metrics
   jobLabel: app
----
-apiVersion: autoscaling.k8s.io/v1
-kind: VerticalPodAutoscaler
-metadata:
-  name: event-exporter-vpa
-  namespace: monitoring
-  annotations:
-    core.ethos.adobe.net/chart: "bossjones-event-exporter"
-spec:
-  targetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: event-exporter
-  updatePolicy:
-    updateMode: Auto
-  resourcePolicy:
-    containerPolicies:
-    - containerName: event-exporter
-      minAllowed:
-        cpu: 250m
+# ---
+# apiVersion: autoscaling.k8s.io/v1
+# kind: VerticalPodAutoscaler
+# metadata:
+#   name: event-exporter-vpa
+#   namespace: monitoring
+#   annotations:
+#     core.ethos.adobe.net/chart: "bossjones-event-exporter"
+# spec:
+#   targetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: event-exporter
+#   updatePolicy:
+#     updateMode: Auto
+#   resourcePolicy:
+#     containerPolicies:
+#     - containerName: event-exporter
+#       minAllowed:
+#         cpu: 250m
