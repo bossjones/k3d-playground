@@ -365,3 +365,10 @@ run-pre-commit:
 # install ksops
 install-ksops:
   scripts/install-ksops.sh
+
+# via personal-cloud
+# argocd-login:
+#   # Login and check that it is working
+#   password="$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
+#   argocd login --port-forward --port-forward-namespace argocd --username=admin --password="${password}"
+#   argocd --port-forward --port-forward-namespace=argocd cluster list
