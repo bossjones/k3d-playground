@@ -6,10 +6,10 @@ kubectx k3d-demo
 
 # cd apps/argocd
 kubectl create namespace argocd || true
-kustomize build --enable-alpha-plugins --enable-exec apps/argocd | kubectl apply --server-side -f -
+kustomize build --enable-alpha-plugins --enable-exec apps/argocd | kubectl apply -f -
 sleep 10
 kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/core/ingress-nginx | kubectl apply --server-side  -f -
-kustomize build --enable-alpha-plugins --enable-exec apps/argocd | kubectl apply --server-side -f -
+kustomize build --enable-alpha-plugins --enable-exec apps/argocd | kubectl apply -f -
 kubectl wait deploy/argocd-server -n argocd --for condition=available --timeout=600s
 echo ""
 # cd -
@@ -22,9 +22,9 @@ kubectx k3d-demo
 
 # cd apps/argocd
 kubectl create namespace argocd || true
-kustomize build --enable-alpha-plugins --enable-exec apps/argocd | kubectl apply --server-side -f -
+kustomize build --enable-alpha-plugins --enable-exec apps/argocd | kubectl apply -f -
 sleep 10
-kustomize build --enable-alpha-plugins --enable-exec apps/argocd | kubectl apply --server-side -f -
+kustomize build --enable-alpha-plugins --enable-exec apps/argocd | kubectl apply -f -
 kubectl wait deploy/argocd-server -n argocd --for condition=available --timeout=600s
 echo ""
 # cd -
