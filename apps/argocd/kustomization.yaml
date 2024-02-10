@@ -48,8 +48,8 @@ images:
 commonAnnotations:
   reloader.stakater.com/auto: "true"
 
-generators:
-- base/core/SopsSecretGenerator.yaml
+# generators:
+# - base/core/SopsSecretGenerator.yaml
 
 patches:
 - path: overlay/argocd-svc.yaml
