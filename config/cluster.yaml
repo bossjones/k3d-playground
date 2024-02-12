@@ -185,28 +185,37 @@ ports:
 ###########################################################################################
 registries:
   create:
-    name: registry.localhost
+    # name: registry.localhost
+    name: docker-io
     host: "0.0.0.0"
     hostPort: "5002"
     proxy:
       remoteURL: https://registry-1.docker.io
+      username: "$DOCKER_USERNAME"
+      password: "$DOCKER_PASSWORD"
     volumes:
       - ${PWD}/storage/k3d-cache-registry:/var/lib/registry
   # SOURCE: https://github.com/uselagoon/lagoon/blob/90604833072aef568b32db7b0cf173570ea6e625/k3d.config.yaml.tpl#L13
   # NOTE: https://github.com/DoD-Platform-One/bigbang/blob/f8999019da783ce008b0470968c01208a4a7b6b3/docs/guides/airgap/k3d.md?plain=1#L30
   config: |
     mirrors:
-      "registry.localhost":
-        endpoint:
-          - http://registry.local.gd:5002
       "docker.io":
         endpoint:
-          - http://registry.local.gd:5002
+          - http://docker-io:5000
+      # "registry.localhost":
+      #   endpoint:
+      #     - http://registry.local.gd:5002
+      # "docker.io":
+      #   endpoint:
+      #     - http://registry.local.gd:5002
 
-    # configs:
-    #   "registry.localhost":
-    #       tls:
-    #         insecure_skip_verify: true
+    configs:
+      "docker.io":
+        auth:
+          username: "$DOCKER_USERNAME"
+          password: "$DOCKER_PASSWORD"
+          # tls:
+          #   insecure_skip_verify: true
 
 volumes:
 - volume: "${PWD}/storage:/var/lib/rancher/k3s/storage"
