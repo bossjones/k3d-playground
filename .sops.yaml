@@ -4,38 +4,38 @@
 
 # Note: You only have to modify .sops.yaml if you want to use your key management service in this example instead of the default PGP key imported in the previous step.
 creation_rules:
-  - path_regex: ansible/.*\.sops\.ya?ml
-    unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
-    key_groups:
-      - age:
-          - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
-  - path_regex: kubernetes/.*\.sops\.ya?ml
-    unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
-    key_groups:
-      - age:
-          - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
+  # - path_regex: ansible/.*\.sops\.ya?ml
+  #   # unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
+  #   key_groups:
+  #     - age:
+  #         - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
+  # - path_regex: kubernetes/.*\.sops\.ya?ml
+  #   # unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
+  #   key_groups:
+  #     - age:
+  #         - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
   - path_regex: apps/.*\.sops\.ya?ml
     unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
     key_groups:
       - age:
           - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
-  - path_regex: kubernetes/.*\.sops\.ini
-    unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
-    key_groups:
-      - age:
-          - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
-  - path_regex: kubernetes/.*\.sops\.toml
-    unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
-    key_groups:
-      - age:
-          - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
-  - path_regex: kubernetes/.*\.sops\.json
-    unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
-    key_groups:
-      - age:
-          - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
-  - path_regex: infra/.*\.sops\.yaml
-    unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
-    key_groups:
-      - age:
-          - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
+  # - path_regex: kubernetes/.*\.sops\.ini
+  #   unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
+  #   key_groups:
+  #     - age:
+  #         - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
+  # - path_regex: kubernetes/.*\.sops\.toml
+  #   unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
+  #   key_groups:
+  #     - age:
+  #         - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
+  # - path_regex: kubernetes/.*\.sops\.json
+  #   unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
+  #   key_groups:
+  #     - age:
+  #         - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
+  # - path_regex: infra/.*\.sops\.yaml
+  #   unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
+  #   key_groups:
+  #     - age:
+  #         - age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat

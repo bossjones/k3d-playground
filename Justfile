@@ -11,7 +11,7 @@ CURRENT_DIR := "$(pwd)"
 PATH_TO_TRAEFIK_CONFIG := CURRENT_DIR / "mounts/var/lib/rancer/k3s/server/manifests/traefik-config.yaml"
 
 base64_cmd := if "{{os()}}" == "macos" { "base64 -w 0 -i cert.pem -o ca.pem" } else { "base64 -b 0 -i cert.pem -o ca.pem" }
-grep_cmd := if "{{os()}}" == "macos" { "ggrep" } else { "grep" }
+grep_cmd := if "{{os()}}" =~ "macos" { "ggrep" } else { "grep" }
 
 
 _default:
@@ -335,12 +335,12 @@ find-invalid-utf8-characters:
 # Encrypt all sops secrets
 encrypt target:
   @echo 'Encrypting target: {{target}}…'
-  sops --encrypt --age $(cat $SOPS_AGE_KEY_FILE |{{grep_cmd}} -oP "public key: \K(.*)") --encrypted-regex '^(data|stringData)$' --in-place {{target}}
+  sops --encrypt --age $(cat $SOPS_AGE_KEY_FILE |ggrep -oP "public key: \K(.*)") --in-place {{target}}
 
 # Decrypt all sops secrets
 decrypt target:
   @echo 'Decrypting target: {{target}}…'
-  sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |{{grep_cmd}} -oP "public key: \K(.*)") --encrypted-regex '^(data|stringData)$' --in-place {{target}}
+  sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |ggrep -oP "public key: \K(.*)") --in-place {{target}}
 
 # Decrypt and re-encrypt all sops secrets
 re-encrypt:
