@@ -386,4 +386,10 @@ install-mandatory-manifests:
   kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
   kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
   # kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/monitoring/kube-prometheus-stack/app | kubectl apply --server-side -f -
+  sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |ggrep -oP "public key: \K(.*)") --in-place apps/argocd/base/kube-system/external-secrets/app/connect/1passwordCredentials.sops.yaml
+  sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |ggrep -oP "public key: \K(.*)") --in-place apps/argocd/base/kube-system/external-secrets/app/connect/accessToken.sops.yaml
+  kubectl -n kube-system apply --server-side -f apps/argocd/base/kube-system/external-secrets/app/connect/1passwordCredentials.sops.yaml
+  kubectl -n kube-system apply --server-side -f apps/argocd/base/kube-system/external-secrets/app/connect/accessToken.sops.yaml
+  git restore apps/argocd/base/kube-system/external-secrets/app/connect/1passwordCredentials.sops.yaml
+  git restore apps/argocd/base/kube-system/external-secrets/app/connect/accessToken.sops.yaml
   # kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/kube-system/external-secrets | kubectl apply --server-side -f -
