@@ -586,6 +586,7 @@ alertmanager:
   ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#alertmanagerspec
   ##
   alertmanagerSpec:
+    externalUrl: "https://alertmanager.k8s.localhost/"
     ## Standard object's metadata. More info: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#metadata
     ## Metadata Labels and Annotations gets propagated to the Alertmanager pods.
     ##
@@ -1434,12 +1435,12 @@ grafana:
       annotations: {}
       multicluster:
         global:
-          enabled: false
+          enabled: true
         etcd:
           enabled: false
     datasources:
       enabled: true
-      defaultDatasourceEnabled: true
+      defaultDatasourceEnabled: false
       isDefaultDatasource: true
       searchNamespace: ALL
       skipReload: false
@@ -1497,6 +1498,12 @@ grafana:
   ## ref: http://docs.grafana.org/administration/provisioning/#datasources
   # additionalDataSources: []
   additionalDataSources:
+  ## Set default datasource to the thanos query frontend
+  - name: Prometheus
+    type: prometheus
+    url: http://thanos-query-frontend:9090/
+    access: proxy
+    isDefault: true
   - name: Loki
     access: proxy
     basicAuth: false
@@ -3316,7 +3323,7 @@ prometheus:
   # Thanos sidecar on prometheus nodes
   # (Please remember to change ${kube-prometheus-stack.fullname} and ${namespace}. Not just copy and paste!)
   thanosService:
-    enabled: false
+    enabled: true
     annotations:
       reloader.stakater.com/auto: "true"
     labels: {}
@@ -3352,7 +3359,7 @@ prometheus:
   # ServiceMonitor to scrape Sidecar metrics
   # Needs thanosService to be enabled as well
   thanosServiceMonitor:
-    enabled: false
+    enabled: true
     interval: "5s"
 
     ## Additional labels
@@ -3852,7 +3859,7 @@ prometheus:
 
     ## External URL at which Prometheus will be reachable.
     ##
-    externalUrl: ""
+    externalUrl: "https://prometheus.k8s.localhost"
 
     ## Define which Nodes the Pods are scheduled on.
     ## ref: https://kubernetes.io/docs/user-guide/node-selection/
@@ -4014,6 +4021,7 @@ prometheus:
 
     ## How long to retain metrics
     ##
+    # retention: 10d
     retention: 10d
 
     ## Maximum size of metrics
@@ -4124,7 +4132,8 @@ prometheus:
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/storage.md
     ##
 
-    storageSpec: {}
+    storageSpec:
+      emptyDir: {}
       # volumeClaimTemplate:
       #   spec:
       #     storageClassName: local-path
@@ -4146,6 +4155,32 @@ prometheus:
     ##
     #  emptyDir:
     #    medium: Memory
+
+    ## Migration from pure prometheus to thanos
+    # disableCompaction: true
+    # containers:
+    #   - name: thanos-sidecar
+    #     args:
+    #       - sidecar
+    #       - '--prometheus.url=http://127.0.0.1:9090/'
+    #       - '--grpc-address=[$(POD_IP)]:10901'
+    #       - '--http-address=[$(POD_IP)]:10902'
+    #       - '--objstore.config=$(OBJSTORE_CONFIG)'
+    #       - '--tsdb.path=/prometheus'
+    #       - '--log.level=debug'
+    #       - '--log.format=logfmt'
+    #       - '--shipper.upload-compacted'
+
+    thanos:
+      image: quay.io/thanos/thanos:v0.30.1
+      # renovate: datasource=docker depName=quay.io/thanos/thanos
+      version: v0.32.5
+      objectStorageConfig:
+        existingSecret:
+          key: objstore.yml
+          name: thanos-secret
+      logLevel: info
+
 
     # Additional volumes on the output StatefulSet definition.
     volumes: []

@@ -1,0 +1,98 @@
+existingObjstoreSecret: thanos-secret
+
+commonLabels:
+  prometheus: main
+
+query:
+  enabled: true
+  replicaCount: 1
+  # podAntiAffinityPreset: hard
+  replicaLabel:
+    - __replica__
+    - replica
+    - prometheus_replica
+  dnsDiscovery:
+    sidecarsService: kube-prometheus-stack-thanos-discovery
+    sidecarsNamespace: monitoring
+  extraFlags: # extra args
+    - --query.auto-downsampling
+
+queryFrontend:
+  enabled: true
+  extraFlags: [] # extra args
+  ingress:
+    enabled: true
+    hostname: thanos.k8s.localhost
+    ingressClassName: "nginx"
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+
+bucketweb:
+  enabled: true
+  refresh: 30m
+  extraFlags: [] # extra args
+  replicaCount: 1
+
+compactor:
+  enabled: true
+  # How long to retain raw samples in bucket. 0d - disables this retention
+  retentionResolutionRaw: 7d
+  # How long to retain samples of resolution 1 (5 minutes) in bucket. 0d - disables this retention
+  retentionResolution5m: 60d
+  # How long to retain samples of resolution 2 (1 hour) in bucket. 0d - disables this retention
+  retentionResolution1h: 180d
+  consistencyDelay: 30m
+  extraFlags: # extra args
+    # - --compact.concurrency=1
+    - --debug.accept-malformed-index
+
+storegateway:
+  enabled: true
+  extraFlags: [] # extra args
+  persistence:
+    annotations: {}
+  podAnnotations:
+    terminating-pod-cleaner/delete: "1"
+
+ruler:
+  enabled: false
+
+receive:
+  enabled: false
+
+receiveDistributor:
+  enabled: false
+
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    # setup with commonLabels
+    # labels:
+    #   prometheus: main
+  prometheusRule:
+    enabled: true
+    default:
+      # create: false
+      absent_rules: true
+      compaction: true
+      query: true
+      receive: false
+      replicate: true
+      ruler: true
+      sidecar: true
+      store_gateway: true
+      disabled:
+        ThanosReceiveIsDown: true
+        ThanosRuleIsDown: true
+        ThanosSidecarIsDown: true
+    # the template for this has indent issues
+    # additionalLabels:
+    #   prometheus: main
+
+minio:
+  enabled: false
+
+networkPolicy:
+  enabled: false

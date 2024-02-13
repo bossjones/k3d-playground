@@ -11,6 +11,8 @@ resources:
 - base/monitoring/kube-prometheus-stack/app/app.yaml
 - base/kube-system/external-secrets/app/external-secrets/app.yaml
 - base/kube-system/external-secrets/app/connect/app-connect.yaml
+- base/monitoring/thanos-minio/app/app.yaml
+- base/monitoring/thanos/app/app.yaml
 # - base/monitoring/cilium/app/app.yaml
 - base/core/ingress-nginx/app/app.yaml
 # - base/core/nginx.yaml

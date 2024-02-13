@@ -1,0 +1,224 @@
+## minio mode, i.e. standalone or distributed
+mode: standalone
+
+## Use existing Secret that store following variables:
+##
+## | Chart var             | .data.<key> in Secret    |
+## |:----------------------|:-------------------------|
+## | rootUser              | rootUser                 |
+## | rootPassword          | rootPassword             |
+##
+## All mentioned variables will be ignored in values file.
+## .data.rootUser and .data.rootPassword are mandatory,
+## others depend on enabled status of corresponding sections.
+existingSecret: thanos-secret
+
+# Number of MinIO containers running
+replicas: 1
+
+## Enable persistence using Persistent Volume Claims
+## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+##
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 1Gi
+  # this is required as minio has issues when it is working on a root nfs mount
+  subPath: minio
+
+## Expose the MinIO service to be accessed from outside the cluster (LoadBalancer service).
+## or access it from within the cluster (ClusterIP service). Set the service type and the port to serve it.
+## ref: http://kubernetes.io/docs/user-guide/services/
+##
+service:
+  type: ClusterIP
+  clusterIP: ~
+  nodePort: ~
+
+consoleService:
+  type: ClusterIP
+  clusterIP: ~
+  nodePort: ~
+
+## Add stateful containers to have security context, if enabled MinIO will run as this
+## user and group NOTE: securityContext is only enabled if persistence.enabled=true
+securityContext:
+  enabled: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  # fsGroupChangePolicy: OnRootMismatch
+
+# Additational pod annotations
+podAnnotations: {}
+
+# Additional pod labels
+podLabels: {}
+
+## Configure resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+##
+resources:
+  requests:
+    memory: 32Mi
+
+## List of policies to be created after minio install
+##
+## In addition to default policies [readonly|readwrite|writeonly|consoleAdmin|diagnostics]
+## you can define additional policies with custom supported actions and resources
+policies: []
+## writeexamplepolicy policy grants creation or deletion of buckets with name
+## starting with example. In addition, grants objects write permissions on buckets starting with
+## example.
+# - name: writeexamplepolicy
+#   statements:
+#     - resources:
+#         - 'arn:aws:s3:::example*/*'
+#       actions:
+#         - "s3:AbortMultipartUpload"
+#         - "s3:GetObject"
+#         - "s3:DeleteObject"
+#         - "s3:PutObject"
+#         - "s3:ListMultipartUploadParts"
+#     - resources:
+#         - 'arn:aws:s3:::example*'
+#       actions:
+#         - "s3:CreateBucket"
+#         - "s3:DeleteBucket"
+#         - "s3:GetBucketLocation"
+#         - "s3:ListBucket"
+#         - "s3:ListBucketMultipartUploads"
+## readonlyexamplepolicy policy grants access to buckets with name starting with example.
+## In addition, grants objects read permissions on buckets starting with example.
+# - name: readonlyexamplepolicy
+#   statements:
+#     - resources:
+#         - 'arn:aws:s3:::example*/*'
+#       actions:
+#         - "s3:GetObject"
+#     - resources:
+#         - 'arn:aws:s3:::example*'
+#       actions:
+#         - "s3:GetBucketLocation"
+#         - "s3:ListBucket"
+#         - "s3:ListBucketMultipartUploads"
+## conditionsexample policy creates all access to example bucket with aws:username="johndoe" and source ip range 10.0.0.0/8 and 192.168.0.0/24 only
+# - name: conditionsexample
+#   statements:
+#     - resources:
+#       - 'arn:aws:s3:::example/*'
+#       actions:
+#       - 's3:*'
+#       conditions:
+#         - StringEquals: '"aws:username": "johndoe"'
+#         - IpAddress: |
+#             "aws:SourceIp": [
+#               "10.0.0.0/8",
+#               "192.168.0.0/24"
+#             ]
+#
+## Additional Annotations for the Kubernetes Job makePolicyJob
+makePolicyJob:
+  resources:
+    requests:
+      memory: 32Mi
+
+## List of users to be created after minio install
+##
+users: []
+  ## Username, password and policy to be assigned to the user
+  ## Default policies are [readonly|readwrite|writeonly|consoleAdmin|diagnostics]
+  ## Add new policies as explained here https://min.io/docs/minio/kubernetes/upstream/administration/identity-access-management.html#access-management
+  ## NOTE: this will fail if LDAP is enabled in your MinIO deployment
+  ## make sure to disable this if you are using LDAP.
+  # - accessKey: console
+  #   secretKey: console123
+  #   policy: consoleAdmin
+  # Or you can refer to specific secret
+  # - accessKey: externalSecret
+  #   existingSecret: my-secret
+  #   existingSecretKey: password
+  #   policy: readonly
+
+## Additional Annotations for the Kubernetes Job makeUserJob
+makeUserJob:
+  resources:
+    requests:
+      memory: 32Mi
+
+## List of service accounts to be created after minio install
+##
+svcaccts: []
+#   # accessKey, secretKey and parent user to be assigned to the service accounts
+#   # Add new service accounts as explained here https://min.io/docs/minio/kubernetes/upstream/administration/identity-access-management/minio-user-management.html#service-accounts
+#   - accessKey: console-svcacct
+#     secretKey: console123
+#     user: console
+#   # Or you can refer to specific secret
+#   - accessKey: externalSecret
+#     existingSecret: my-secret
+#     existingSecretKey: password
+#     user: console
+#   # You also can pass custom policy
+#   - accessKey: console-svcacct
+#     secretKey: console123
+#     user: console
+#     policy:
+#       statements:
+#         - resources:
+#             - 'arn:aws:s3:::example*/*'
+#           actions:
+#             - "s3:AbortMultipartUpload"
+#             - "s3:GetObject"
+#             - "s3:DeleteObject"
+#             - "s3:PutObject"
+#             - "s3:ListMultipartUploadParts"
+
+makeServiceAccountJob:
+  resources:
+    requests:
+      memory: 32Mi
+
+## List of buckets to be created after minio install
+##
+buckets:
+  #   # Name of the bucket
+  # - name: bucket1
+  #   # Policy to be set on the
+  #   # bucket [none|download|upload|public]
+  #   policy: none
+  #   # Purge if bucket exists already
+  #   purge: false
+  #   # set versioning for
+  #   # bucket [true|false]
+  #   versioning: false
+  #   # set objectlocking for
+  #   # bucket [true|false] NOTE: versioning is enabled by default if you use locking
+  #   objectlocking: false
+  - name: thanos
+    policy: none
+    purge: false
+    versioning: false
+    objectlocking: false
+
+## Additional Annotations for the Kubernetes Job makeBucketJob
+makeBucketJob:
+  resources:
+    requests:
+      memory: 32Mi
+
+## List of command to run after minio install
+## NOTE: the mc command TARGET is always "myminio"
+customCommands: []
+  # - command: "admin policy set myminio consoleAdmin group='cn=ops,cn=groups,dc=example,dc=com'"
+  # - command: "retention set --default GOVERNANCE 30d myminio/thanos"
+
+## Additional Annotations for the Kubernetes Job customCommandJob
+customCommandJob:
+  resources:
+    requests:
+      memory: 32Mi
+
+networkPolicy:
+  enabled: false
+  allowExternal: true

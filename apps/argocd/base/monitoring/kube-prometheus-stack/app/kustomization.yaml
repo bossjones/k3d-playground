@@ -22,3 +22,7 @@ resources:
 - argocd-repo-server-metrics-servicemonitor.yaml
 - argocd-notifications-controller-metrics-servicemonitor.yaml
 - event-exporter.yaml
+
+
+generators:
+  - SopsSecretGenerator.yaml

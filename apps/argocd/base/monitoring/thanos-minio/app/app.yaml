@@ -1,0 +1,59 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: thanos-minio
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: cluster
+  sources:
+  - repoURL: 'https://charts.min.io/'
+    chart: minio
+    targetRevision: 5.0.14
+    helm:
+      releaseName: thanos-minio
+      valueFiles:
+        - $values/apps/argocd/base/monitoring/thanos-minio/app/values.yaml
+  - repoURL: 'https://github.com/bossjones/k3d-playground.git'
+    targetRevision: HEAD
+    path: apps/argocd/base/monitoring/thanos-minio
+    ref: values
+  destination:
+    name: in-cluster
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - PruneLast=true
+      - SkipDryRunOnMissingResource=true
+      - CreateNamespace=true
+      # Needed because our kubectl apply exceeds thresholds
+      # EXAMPLE: CustomResourceDefinition.apiextensions.k8s.io "prometheuses.monitoring.coreos.com" is invalid: metadata.annotations: Too long: must have at most 262144 bytes
+      # SOURCE: https://github.com/prometheus-operator/prometheus-operator/issues/4355
+      - ServerSideApply=true
+    retry:
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 2
+  # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/thanos-minio/templates/thanos-minio-application.yaml#L32
+  ignoreDifferences:
+  - group: apps
+    kind: DaemonSet
+    jsonPointers:
+      - /metadata/annotations
+  - kind: PersistentVolume
+    jsonPointers:
+      - /spec/claimRef/resourceVersion
+      - /spec/claimRef/uid
+      - /status/lastPhaseTransitionTime
+  - group: apps
+    kind: StatefulSet
+    jsonPointers:
+      - /spec/volumeClaimTemplates/0/apiVersion
+      - /spec/volumeClaimTemplates/0/kind
