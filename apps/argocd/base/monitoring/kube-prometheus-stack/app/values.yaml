@@ -1441,7 +1441,7 @@ grafana:
     datasources:
       enabled: true
       defaultDatasourceEnabled: false
-      isDefaultDatasource: true
+      # isDefaultDatasource: true
       searchNamespace: ALL
       skipReload: false
       reloadURL: http://kube-prometheus-stack-grafana.monitoring.svc.cluster.local/api/admin/provisioning/datasources/reload
@@ -1508,8 +1508,6 @@ grafana:
       httpMethod: POST
       timeInterval: 30s
     uid: prometheus
-
-
   # - name: Prometheus
   #   type: prometheus
   #   uid: prometheus
@@ -3874,7 +3872,7 @@ prometheus:
 
     ## External URL at which Prometheus will be reachable.
     ##
-    externalUrl: "https://prometheus.k8s.localhost"
+    externalUrl: "http://prometheus.k8s.localhost"
 
     ## Define which Nodes the Pods are scheduled on.
     ## ref: https://kubernetes.io/docs/user-guide/node-selection/
