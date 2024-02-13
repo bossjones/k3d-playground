@@ -115,7 +115,8 @@ service:
     ipFamilyPolicy:
     ipFamilies:
     loadBalancerSourceRanges: [ ]
-    annotations: { }
+    annotations:
+      reloader.stakater.com/auto: "true"
   ## @param service.ssh.type Kubernetes service type for ssh traffic
   ## @param service.ssh.port Port number for ssh traffic
   ## @param service.ssh.clusterIP ClusterIP setting for ssh autosetup for deployment is None
@@ -140,7 +141,8 @@ service:
     ipFamilies:
     hostPort:
     loadBalancerSourceRanges: [ ]
-    annotations: { }
+    annotations:
+      reloader.stakater.com/auto: "true"
 
 ## @section Ingress
 ## @param ingress.enabled Enable ingress
@@ -154,8 +156,10 @@ service:
 ingress:
   enabled: true
   # className: nginx
-  className: traefik
+  className: nginx
   annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+    reloader.stakater.com/auto: "true"
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "Gitea"
     gethomepage.dev/group: "CI/CD"
@@ -227,7 +231,8 @@ deployment:
   #   value: my-value
   terminationGracePeriodSeconds: 60
   labels: { }
-  annotations: { }
+  annotations:
+    reloader.stakater.com/auto: "true"
 
 ## @section ServiceAccount
 
