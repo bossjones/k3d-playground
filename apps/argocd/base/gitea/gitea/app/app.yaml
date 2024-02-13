@@ -1,0 +1,82 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gitea
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: cluster
+  sources:
+  # SOURCE: homelab-automation
+  # setup-gitea:
+  #   desc: Setup Gitea
+  #   dir: gitea
+  #   cmds:
+  #     - kubectl apply -f namespace.yaml
+  #     - kubectl apply -f configmap.yaml
+  #     - >
+  #       helm upgrade --install gitea gitea/gitea
+  #       --namespace gitea
+  #       --create-namespace
+  #       --values values.yaml
+  #       --set gitea.admin.username={{.GITEA_ADMIN_USERNAME}}
+  #       --set gitea.admin.password={{.GITEA_ADMIN_PASSWORD}}
+  #       --set gitea.admin.email={{.GITEA_ADMIN_EMAIL}}
+  #       --set postgresql.auth.database={{.GITEA_POSTGRES_DATABASE}}
+  #       --set postgresql.auth.password={{.GITEA_POSTGRES_PASSWORD}}
+  #       --set postgresql.auth.username={{.GITEA_POSTGRES_USERNAME}}
+  #     - kubectl apply -f ingress.yaml
+  - repoURL: 'https://dl.gitea.com/charts/'
+    chart: gitea
+    targetRevision: 10.1.1
+    helm:
+      releaseName: gitea
+      valueFiles:
+        - $values/apps/argocd/base/gitea/gitea/app/values.yaml
+  - repoURL: 'https://github.com/bossjones/k3d-playground.git'
+    targetRevision: HEAD
+    path: apps/argocd/base/gitea/gitea
+    ref: values
+  destination:
+    # server: "https://kubernetes.default.svc"
+    name: in-cluster
+    namespace: gitea
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      # - PruneLast=true
+      - SkipDryRunOnMissingResource=true
+      - CreateNamespace=true
+      # Needed because our kubectl apply exceeds thresholds
+      # EXAMPLE: CustomResourceDefinition.apiextensions.k8s.io "prometheuses.gitea.coreos.com" is invalid: metadata.annotations: Too long: must have at most 262144 bytes
+      # SOURCE: https://github.com/prometheus-operator/prometheus-operator/issues/4355
+      - ServerSideApply=true
+
+    # NOTE: 2/12/2024 - IF THIS BREAKS, CONFIGURE IN THESE VALUES AND COMMENT OUT THE OTHER RETRY BLOCK
+    # retry:
+    #   limit: -1  # Max number of allowed sync retries
+    #   backoff:
+    #     duration: 20s # Retry backoff base duration. Input needs to be a duration (e.g. 2m, 1h) (default 5s)
+    #     factor: 2 # Factor multiplies the base duration after each failed retry (default 2)
+    #     maxDuration: 15m # Max retry backoff duration. Input needs to be a duration (e.g. 2m, 1h) (default 3m0s)
+    retry:
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 2
+  # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/gitea/templates/gitea-application.yaml#L32
+  ignoreDifferences:
+  - group: apps
+    kind: DaemonSet
+    jsonPointers:
+      - /metadata/annotations
+  - kind: PersistentVolume
+    jsonPointers:
+      - /spec/claimRef/resourceVersion
+      - /spec/claimRef/uid
+      - /status/lastPhaseTransitionTime

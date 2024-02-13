@@ -1,0 +1,41 @@
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRouteTCP
+# metadata:
+#   name: gitea-ssh
+#   namespace: gitea
+# spec:
+#   entryPoints:
+#     - ssh
+#   routes:
+#     - match: HostSNI(`*`)
+#       services:
+#         - name: gitea-ssh
+#           port: 22
+#           weight: 10
+#           terminationDelay: -1
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gitea-ssh
+  namespace: gitea
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: git.k8s.localhost
+    http:
+      paths:
+      - backend:
+          service:
+            name: gitea-ssh
+            port:
+              number: 22
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - git.k8s.localhost
+    secretName: tls-secret

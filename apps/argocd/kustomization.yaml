@@ -40,6 +40,7 @@ resources:
 - base/monitoring/gethomepage/app/app.yaml
 - base/monitoring/k8s-ephemeral-storage-metrics/app/app.yaml
 - base/monitoring/kubernetes-dashboard/app/app.yaml
+- base/gitea/gitea/app/app.yaml
 # - base/core/role_prometheus-k8s.yaml
 # - base/core/rolebinding_prometheus-k8s.yaml
 

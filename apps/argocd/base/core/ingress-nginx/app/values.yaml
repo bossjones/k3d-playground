@@ -2,6 +2,12 @@ commonLabels:
   prometheus: main
 
 controller:
+  # -- Configures the ports that the nginx-controller listens on
+  containerPort:
+    http: 80
+    https: 443
+    argo: 2746
+    ssh: 22
   replicaCount: 1
   allowSnippetAnnotations: true
   extraEnvs:
