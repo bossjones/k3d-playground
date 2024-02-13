@@ -6,6 +6,6 @@ resources:
   # renovate-raw: datasource=github-releases depName=kubernetes/dashboard
   # - https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
   - app.yaml
-  # - kd-user-service.yaml
-  # - cluster-role-binding.yaml
+  - kd-user-service.yaml
+  - cluster-role-binding.yaml
   # - dashboard.yaml

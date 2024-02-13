@@ -396,3 +396,6 @@ install-mandatory-manifests:
   sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |ggrep -oP "public key: \K(.*)") --in-place apps/argocd/base/monitoring/kube-prometheus-stack/app/thanos-secret.sops.yaml
   kubectl -n monitoring apply --server-side -f apps/argocd/base/monitoring/kube-prometheus-stack/app/thanos-secret.sops.yaml
   git restore apps/argocd/base/monitoring/kube-prometheus-stack/app/thanos-secret.sops.yaml
+
+dashboard-token:
+  kubectl get secret kd-user -n monitoring -o jsonpath={".data.token"} | base64 -d | pbcopy
