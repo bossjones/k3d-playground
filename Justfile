@@ -393,3 +393,6 @@ install-mandatory-manifests:
   git restore apps/argocd/base/kube-system/external-secrets/app/connect/1passwordCredentials.sops.yaml
   git restore apps/argocd/base/kube-system/external-secrets/app/connect/accessToken.sops.yaml
   # kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/kube-system/external-secrets | kubectl apply --server-side -f -
+  sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |ggrep -oP "public key: \K(.*)") --in-place apps/argocd/base/monitoring/kube-prometheus-stack/app/thanos-secret.sops.yaml
+  kubectl -n monitoring apply --server-side -f apps/argocd/base/monitoring/kube-prometheus-stack/app/thanos-secret.sops.yaml
+  git restore apps/argocd/base/monitoring/kube-prometheus-stack/app/thanos-secret.sops.yaml
