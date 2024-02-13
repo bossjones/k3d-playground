@@ -1,0 +1,60 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kubernetes-dashboard
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: cluster
+  sources:
+  - repoURL: 'https://kubernetes.github.io/dashboard/'
+    chart: kubernetes-dashboard
+    targetRevision: 7.0.0-alpha1
+    helm:
+      releaseName: kubernetes-dashboard
+      valueFiles:
+        - $values/apps/argocd/base/monitoring/kubernetes-dashboard/app/values.yaml
+  - repoURL: 'https://github.com/bossjones/k3d-playground.git'
+    targetRevision: HEAD
+    path: apps/argocd/base/monitoring/kubernetes-dashboard
+    ref: values
+  destination:
+    # server: "https://kubernetes.default.svc"
+    name: in-cluster
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - PruneLast=true
+      - SkipDryRunOnMissingResource=true
+      - CreateNamespace=true
+      # Needed because our kubectl apply exceeds thresholds
+      # EXAMPLE: CustomResourceDefinition.apiextensions.k8s.io "prometheuses.monitoring.coreos.com" is invalid: metadata.annotations: Too long: must have at most 262144 bytes
+      # SOURCE: https://github.com/prometheus-operator/prometheus-operator/issues/4355
+      - ServerSideApply=true
+    retry:
+      limit: -1  # Max number of allowed sync retries
+      backoff:
+        duration: 20s # Retry backoff base duration. Input needs to be a duration (e.g. 2m, 1h) (default 5s)
+        factor: 2 # Factor multiplies the base duration after each failed retry (default 2)
+        maxDuration: 15m # Max retry backoff duration. Input needs to be a duration (e.g. 2m, 1h) (default 3m0s)
+  # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/kubernetes-dashboard/templates/kubernetes-dashboard-application.yaml#L32
+  ignoreDifferences:
+  - group: apps
+    kind: DaemonSet
+    jsonPointers:
+      - /metadata/annotations
+  - kind: PersistentVolume
+    jsonPointers:
+      - /spec/claimRef/resourceVersion
+      - /spec/claimRef/uid
+      - /status/lastPhaseTransitionTime
+  - group: apps
+    kind: StatefulSet
+    jsonPointers:
+      - /spec/volumeClaimTemplates/0/apiVersion
+      - /spec/volumeClaimTemplates/0/kind
