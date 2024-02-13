@@ -402,3 +402,6 @@ dashboard-token:
 
 yamllint:
     bash -c "find apps -type f -name '*.y*ml' ! -name '*.venv' ! -name '*.vendor' ! -name '*.generated' -print0 | xargs -I FILE -t -0 -n1 yamllint FILE"
+
+argocd-cli-login:
+  argocd login argocd.k8s.localhost --grpc-web --username admin --password `_PASS=$(kubectl --cluster=k3d-demo -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d); echo $_PASS`

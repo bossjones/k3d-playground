@@ -55,6 +55,7 @@ spec:
       # EXAMPLE: CustomResourceDefinition.apiextensions.k8s.io "prometheuses.gitea.coreos.com" is invalid: metadata.annotations: Too long: must have at most 262144 bytes
       # SOURCE: https://github.com/prometheus-operator/prometheus-operator/issues/4355
       - ServerSideApply=true
+      - Prune=true
 
     # NOTE: 2/12/2024 - IF THIS BREAKS, CONFIGURE IN THESE VALUES AND COMMENT OUT THE OTHER RETRY BLOCK
     # retry:
@@ -80,3 +81,19 @@ spec:
       - /spec/claimRef/resourceVersion
       - /spec/claimRef/uid
       - /status/lastPhaseTransitionTime
+  # SOURCE: https://github.com/argoproj/argo-cd/issues/11074
+  # ignoreDifferences:
+  # - group: monitoring.coreos.com
+  #   kind: ServiceMonitor
+  #   jqPathExpressions:
+  #   - .spec.endpoints[]?.relabelings[]?.action
+  # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/loki/templates/loki-application.yaml
+  - group: apps
+    kind: StatefulSet
+    jsonPointers:
+      - /spec/persistentVolumeClaimRetentionPolicy
+  - group: apps
+    kind: StatefulSet
+    jqPathExpressions:
+      - .spec.volumeClaimTemplates[]?.apiVersion
+      - .spec.volumeClaimTemplates[]?.kind
