@@ -1501,9 +1501,24 @@ grafana:
   ## Set default datasource to the thanos query frontend
   - name: Prometheus
     type: prometheus
-    url: http://thanos-query-frontend:9090/
+    url: http://thanos-query-frontend.monitoring:9090/
     access: proxy
     isDefault: true
+    jsonData:
+      httpMethod: POST
+      timeInterval: 30s
+    uid: prometheus
+
+
+  # - name: Prometheus
+  #   type: prometheus
+  #   uid: prometheus
+  #   url: http://monitoring-stack-kube-prom-prometheus.monitoring:9090/
+  #   access: proxy
+  #   isDefault: true
+  #   jsonData:
+  #     httpMethod: POST
+  #     timeInterval: 30s
   - name: Loki
     access: proxy
     basicAuth: false
