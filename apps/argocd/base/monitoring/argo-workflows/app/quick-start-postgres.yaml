@@ -3615,6 +3615,7 @@ metadata:
   annotations:
     # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/
     ingress.kubernetes.io/proxy-body-size: 100M
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
     # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     # nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
@@ -3632,7 +3633,7 @@ spec:
             name: argo-server
             port:
               number: 2746
-        path: /
+        path: /argo(/|$)(.*)
         pathType: Prefix
   - host: workflows.k8s.localhost
     http:
@@ -3642,7 +3643,7 @@ spec:
             name: argo-server
             port:
               number: 2746
-        path: /
+        path: /argo(/|$)(.*)
         pathType: Prefix
   - host: workflow.k8s.localhost
     http:
@@ -3652,7 +3653,7 @@ spec:
             name: argo-server
             port:
               number: 2746
-        path: /
+        path: /argo(/|$)(.*)
         pathType: Prefix
   # tls:
   # - hosts:
