@@ -399,3 +399,6 @@ install-mandatory-manifests:
 
 dashboard-token:
   kubectl get secret kd-user -n monitoring -o jsonpath={".data.token"} | base64 -d | pbcopy
+
+yamllint:
+    bash -c "find apps -type f -name '*.y*ml' ! -name '*.venv' ! -name '*.vendor' ! -name '*.generated' -print0 | xargs -I FILE -t -0 -n1 yamllint FILE"

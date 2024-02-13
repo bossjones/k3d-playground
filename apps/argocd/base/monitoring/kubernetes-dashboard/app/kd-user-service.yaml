@@ -6,4 +6,4 @@ metadata:
     kubernetes.io/service-account.name: "kd-user"
   # namespace: kubernetes-dashboard
   namespace: monitoring
-type: kubernetes.io/service-account-token
+# type: kubernetes.io/service-account-token
