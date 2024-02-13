@@ -35,6 +35,7 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
+      - Validate=false
       - PruneLast=true
       - SkipDryRunOnMissingResource=true
       - CreateNamespace=true
@@ -43,7 +44,6 @@ spec:
       # SOURCE: https://github.com/prometheus-operator/prometheus-operator/issues/4355
       - ServerSideApply=true
       - ApplyOutOfSyncOnly=false
-      - SkipDryRunOnMissingResource=true
     retry:
       limit: -1  # Max number of allowed sync retries
       backoff:
