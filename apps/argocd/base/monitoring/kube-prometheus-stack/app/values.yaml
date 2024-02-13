@@ -2633,7 +2633,7 @@ kube-state-metrics:
     - networkpolicies=[*]
     - replicasets=[*]
     - horizontalpodautoscalers=[*]
-    - verticalpodautoscalers=[*]
+    # - verticalpodautoscalers=[*]
     - poddisruptionbudgets=[*]
   namespaceOverride: ""
   rbac:
