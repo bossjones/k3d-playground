@@ -3350,7 +3350,7 @@ prometheus:
   # Thanos sidecar on prometheus nodes
   # (Please remember to change ${kube-prometheus-stack.fullname} and ${namespace}. Not just copy and paste!)
   thanosService:
-    enabled: false
+    enabled: true
     annotations:
       reloader.stakater.com/auto: "true"
     labels: {}
@@ -3386,7 +3386,7 @@ prometheus:
   # ServiceMonitor to scrape Sidecar metrics
   # Needs thanosService to be enabled as well
   thanosServiceMonitor:
-    enabled: false
+    enabled: true
     interval: "5s"
 
     ## Additional labels
@@ -3420,7 +3420,7 @@ prometheus:
   # Service for external access to sidecar
   # Enabling this creates a service to expose thanos-sidecar outside the cluster.
   thanosServiceExternal:
-    enabled: false
+    enabled: true
     annotations: {}
     labels: {}
       # prometheus: main
