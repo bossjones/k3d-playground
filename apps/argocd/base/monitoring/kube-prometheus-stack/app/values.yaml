@@ -718,7 +718,7 @@ alertmanager:
 
     ## The external URL the Alertmanager instances will be available under. This is necessary to generate correct URLs. This is necessary if Alertmanager is not served from root of a DNS name. string  false
     ##
-    externalUrl:
+    # externalUrl:
 
     ## The route prefix Alertmanager registers HTTP handlers for. This is useful, if using ExternalURL and a proxy is rewriting HTTP routes of a request, and the actual ExternalURL is still true,
     ## but the server serves requests under a different route prefix. For example for use with kubectl proxy.
@@ -2618,9 +2618,23 @@ kube-state-metrics:
   #   - verticalpodautoscalers
   releaseLabel: true
   metricLabelsAllowlist:
-    - "pods=[*]"
-    - "deployments=[*]"
-    - "persistentvolumeclaims=[*]"
+    # DISABLED: 2/13/2024
+    # - "pods=[*]"
+    # - "deployments=[*]"
+    # - "persistentvolumeclaims=[*]"
+    - pods=[*]
+    - services=[*]
+    - persistentvolumeclaims=[*]
+    - statefulsets=[*]
+    - deployments=[*]
+    - endpoints=[*]
+    - jobs=[*]
+    - cronjobs=[*]
+    - networkpolicies=[*]
+    - replicasets=[*]
+    - horizontalpodautoscalers=[*]
+    - verticalpodautoscalers=[*]
+    - poddisruptionbudgets=[*]
   namespaceOverride: ""
   rbac:
     create: true
@@ -3336,7 +3350,7 @@ prometheus:
   # Thanos sidecar on prometheus nodes
   # (Please remember to change ${kube-prometheus-stack.fullname} and ${namespace}. Not just copy and paste!)
   thanosService:
-    enabled: true
+    enabled: false
     annotations:
       reloader.stakater.com/auto: "true"
     labels: {}
@@ -3372,7 +3386,7 @@ prometheus:
   # ServiceMonitor to scrape Sidecar metrics
   # Needs thanosService to be enabled as well
   thanosServiceMonitor:
-    enabled: true
+    enabled: false
     interval: "5s"
 
     ## Additional labels
@@ -3529,7 +3543,7 @@ prometheus:
 
   # Ingress exposes thanos sidecar outside the cluster
   thanosIngress:
-    enabled: true
+    enabled: false
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
@@ -4346,7 +4360,7 @@ prometheus:
     ## This is experimental and may change significantly without backward compatibility in any release.
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#thanosspec
     ##
-    thanos: {}
+    # thanos: {}
       # secretProviderClass:
       #   provider: gcp
       #   parameters:

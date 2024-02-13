@@ -193,7 +193,7 @@
       {
         "text": "SOURCE:",
         "color": "#fff",
-        "backgroundColor": "maroon"
+        "backgroundColor": "#000"
       },
       {
         "text": "DISABLED:",
