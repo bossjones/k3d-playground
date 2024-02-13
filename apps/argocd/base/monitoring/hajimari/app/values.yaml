@@ -45,7 +45,7 @@ hajimari:
       - example
   name: You
   title: Hajimari
-  lightTheme: gazette
+  lightTheme: espresso
   darkTheme: horizon
   customThemes:
     - name: danger
