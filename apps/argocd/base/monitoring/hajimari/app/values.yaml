@@ -1,0 +1,279 @@
+#
+# IMPORTANT NOTE
+#
+# This chart inherits from the bjw-s library chart. You can check the default values/options here:
+# https://github.com/bjw-s/helm-charts/tree/main/charts/library/common
+#
+
+# controllers:
+#   main:
+#     containers:
+#       main:
+#         image:
+#           # -- image repository
+#           repository: ghcr.io/toboshii/hajimari
+#           # -- image pull policy
+#           pullPolicy: IfNotPresent
+#           # -- image tag
+#           tag: v0.3.1
+
+# -- environment variables.
+# @default -- See below
+env:
+  # -- Set the container timezone
+  TZ: "America/New_York"
+
+# -- Configures Hajimari settings for this instance.
+# @default -- See below
+hajimari:
+  instanceName: null
+  defaultEnable: true
+  namespaceSelector:
+    matchNames:
+      - default
+      - kube-system
+      - kube-public
+      - kube-node-lease
+      - argocd
+      - monitoring
+      - argo
+      - development
+      - databases
+      - cert-manager
+      - logging
+      - argo-rollouts
+      - example
+  name: You
+  title: Hajimari
+  lightTheme: gazette
+  darkTheme: horizon
+  customThemes:
+    - name: danger
+      backgroundColor: '#0c0e0c'
+      primaryColor: '#eaebea'
+      accentColor: '#d8323c'
+  showGreeting: true
+  showAppGroups: false
+  showAppUrls: true
+  showAppInfo: false
+  showAppStatus: true
+  defaultAppIcon: mdi:application
+  showBookmarkGroups: true
+  showGlobalBookmarks: false
+  alwaysTargetBlank: false
+  defaultSearchProvider: Google
+  searchProviders:
+    - name: Google
+      token: g
+      icon: simple-icons:google
+      searchUrl: https://www.google.com/search?q={query}
+      url: https://www.google.com
+    - name: DuckDuckGo
+      token: d
+      icon: simple-icons:duckduckgo
+      searchUrl: https://duckduckgo.com/?q={query}
+      url: https://duckduckgo.com
+    - name: IMDB
+      token: i
+      icon: simple-icons:imdb
+      searchUrl: https://www.imdb.com/find?q={query}
+      url: https://www.imdb.com
+    - name: Reddit
+      token: r
+      icon: simple-icons:reddit
+      searchUrl: https://www.reddit.com/search?q={query}
+      url: https://www.reddit.com
+    - name: YouTube
+      token: 'y'
+      icon: simple-icons:youtube
+      searchUrl: https://www.youtube.com/results?search_query={query}
+      url: https://www.youtube.com
+    - name: Spotify
+      token: s
+      icon: simple-icons:spotify
+      searchUrl: hhttps://open.spotify.com/search/{query}
+      url: https://open.spotify.com
+  customApps:
+    - group: Media
+      apps:
+        - name: Test
+          url: 'https://example.com'
+          icon: 'mdi:test-tube'
+          info: This is a test app
+  globalBookmarks:
+    - group: Communicate
+      bookmarks:
+        - name: Discord
+          url: 'https://discord.com'
+        - name: Gmail
+          url: 'http://gmail.com'
+        - name: Slack
+          url: 'https://slack.com/signin'
+    - group: Cloud
+      bookmarks:
+        - name: Box
+          url: 'https://box.com'
+        - name: Dropbox
+          url: 'https://dropbox.com'
+        - name: Drive
+          url: 'https://drive.google.com'
+    - group: Design
+      bookmarks:
+        - name: Awwwards
+          url: 'https://awwwards.com'
+        - name: Dribbble
+          url: 'https://dribbble.com'
+        - name: Muz.li
+          url: 'https://medium.muz.li/'
+    - group: Dev
+      bookmarks:
+        - name: Codepen
+          url: 'https://codepen.io/'
+        - name: Devdocs
+          url: 'https://devdocs.io'
+        - name: Devhints
+          url: 'https://devhints.io'
+    - group: Lifestyle
+      bookmarks:
+        - name: Design Milk
+          url: 'https://design-milk.com/category/interior-design/'
+        - name: Dwell
+          url: 'https://www.dwell.com/'
+        - name: Freshome
+          url: 'https://www.mymove.com/freshome/'
+    - group: Media
+      bookmarks:
+        - name: Spotify
+          url: 'http://browse.spotify.com'
+        - name: Trakt
+          url: 'http://trakt.tv'
+        - name: YouTube
+          url: 'https://youtube.com/feed/subscriptions'
+    - group: Reading
+      bookmarks:
+        - name: Instapaper
+          url: 'https://www.instapaper.com/u'
+        - name: Medium
+          url: 'http://medium.com'
+        - name: Reddit
+          url: 'http://reddit.com'
+    - group: Tech
+      bookmarks:
+        - name: TheNextWeb
+          url: 'https://thenextweb.com/'
+        - name: The Verge
+          url: 'https://theverge.com/'
+        - name: MIT Technology Review
+          url: 'https://www.technologyreview.com/'
+ingress:
+  main:
+    enabled: true
+    hosts:
+      - host: hajimari.k8s.localhost
+        paths:
+          - path: /
+            pathType: Prefix
+persistence:
+  data:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 1Gi
+# configMaps:
+#   config:
+#     enabled: true
+#     data:
+#       config.yaml: |
+
+#         # -- The name of this instance, this allows running multiple
+#         # instances of Hajimari on the same cluster
+#         instanceName: null
+
+#         # -- Set to true to show all discovered applications by default.
+#         defaultEnable: false
+
+#         # -- Namespace selector to use for discovering applications
+#         namespaceSelector:
+#           matchNames:
+#           - default
+#           - kube-system
+#           - kube-public
+#           - kube-node-lease
+#           - argocd
+#           - monitoring
+#           - argo
+#           - development
+#           - databases
+#           - cert-manager
+#           - logging
+#           - argo-rollouts
+#           - example
+
+#         # -- Override the title of the Hajimari pages
+#         title: null
+
+#         # -- Default name for welcome message
+#         name: "Satan 2"
+
+#         # -- Add custom applications to the discovered application list
+#         customApps: []
+#         # - group: Media
+#         #   apps:
+#         #     - name: Test
+#         #       url: 'https://example.com'
+#         #       icon: 'mdi:test-tube'
+#         #       info: This is a test app
+
+#         # -- Create sample Custom Resource Application
+#         createCRAppSample: false
+
+
+# # -- Configures service settings for the chart.
+# # @default -- See values.yaml
+# service:
+#   main:
+#     ports:
+#       http:
+#         port: 3000
+
+# # -- Configures service account needed for reading k8s ingress objects
+# # @default -- See below
+# serviceAccount:
+#   # -- Create service account
+#   create: true
+
+
+# ingress:
+#   main:
+#     # -- Enables or disables the ingress
+#     enabled: true
+
+#     # -- Override the name suffix that is used for this ingress.
+#     nameOverride:
+
+#     # -- Provide additional annotations which may be required.
+#     annotations:
+#       kubernetes.io/ingress.class: pdpdpd
+
+#     # -- Provide additional labels which may be required.
+#     labels: {}
+
+#     # -- Set the ingressClass that is used for this ingress.
+#     className: "nginx"
+
+#     # -- Configure the defaultBackend for this ingress. This will disable any other rules for the ingress.
+#     # defaultBackend: main
+#     # defaultBackend: true
+#     defaultBackend:
+#       service:
+#         name: hajimari
+#         port:
+#           number : 3000
+
+# persistence:
+#   config:
+#     enabled: true
+#     type: configMap
+#     name: hajimari-config
+#     # globalMounts:
+#     #   - path: /config/config.yaml
+#         # subPath: config.yaml
