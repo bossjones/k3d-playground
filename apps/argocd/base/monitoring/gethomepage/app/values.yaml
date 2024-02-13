@@ -24,12 +24,12 @@ homepage:
           target: _blank
     kubernetes:
       mode: cluster
-    settings:
+    settings: {}
 
   # The service account is necessary to allow discovery of other services
   serviceAccount:
     create: true
-    name: homepage
+    name: gethomepage
 
   # This enables the service account to access the necessary resources
   enableRbac: true
@@ -53,3 +53,17 @@ homepage:
           paths:
             - path: /
               pathType: Prefix
+
+  podAnnotations:
+    reloader.stakater.com/auto: "true"
+    configmap.reloader.stakater.com/reload: "homepage-config"
+    # secret.reloader.stakater.com/reload: "gethomepage-secret"
+
+  resources:
+    requests:
+      cpu: 15m
+      memory: 127M
+    limits:
+      memory: 308M
+  env:
+    TZ: America/New_York

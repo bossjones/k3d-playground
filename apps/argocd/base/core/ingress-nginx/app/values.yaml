@@ -6,7 +6,7 @@ controller:
   allowSnippetAnnotations: true
   extraEnvs:
     - name: TZ
-      value: America/EST
+      value: America/New_York
   service:
     type: LoadBalancer
     externalTrafficPolicy: Local

@@ -19,7 +19,7 @@ controllers:
           repository: ghcr.io/lldap/lldap
           tag: v0.5.0
         env:
-          TZ: America/Boise
+          TZ: America/New_York
           LLDAP_HTTP_PORT: &port 80
           LLDAP_HTTP_URL: https://lldap.porkboi.io
           LLDAP_LDAP_PORT: &ldapPort 389
