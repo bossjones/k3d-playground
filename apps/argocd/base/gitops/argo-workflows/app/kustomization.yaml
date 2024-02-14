@@ -5,12 +5,17 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - app.yaml
+  - postgres
+  - minio
+  - httpbin
+  - webhooks
+  - dex
   # - quick-start-postgres.yaml
   - coinflip-recursive.yaml
   - containerset.yaml
   - hello-world.yaml
   - http-template.yaml
   - k8s-resource-output.yaml
-  - httpbin.yaml
+  # - httpbin.yaml
 
 namespace: argo
