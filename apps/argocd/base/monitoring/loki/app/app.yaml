@@ -30,7 +30,7 @@ spec:
     syncOptions:
       - CreateNamespace=true
       # FIXME: NOTE THIS MIGHT BREAK EVERYTHING, REMOVE IT IF NEED BE. 1/25/2024
-      - PruneLast=true
+      # - PruneLast=true
       - SkipDryRunOnMissingResource=true
       # FIXME: NOTE THIS MIGHT BREAK EVERYTHING, REMOVE IT IF NEED BE. 1/25/2024
       # Needed because our kubectl apply exceeds thresholds
@@ -156,7 +156,7 @@ spec:
 #         maxDuration: 3m0s
 #       limit: 2
 #     syncOptions:
-#       - PruneLast=true
+#       # - PruneLast=true
 #       - SkipDryRunOnMissingResource=true
 #       - ServerSideApply=false
 #   source:

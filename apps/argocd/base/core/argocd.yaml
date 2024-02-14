@@ -29,7 +29,7 @@ spec:
     # By default, extraneous resources get pruned using foreground deletion policy. The propagation policy can be controlled using PrunePropagationPolicy sync option. Supported policies are background, foreground and orphan. More information about those policies could be found here.
     - PrunePropagationPolicy=foreground
     # This feature is to allow the ability for resource pruning to happen as a final, implicit wave of a sync operation, after the other resources have been deployed and become healthy, and after all other waves completed successfully.
-    - PruneLast=true
+    # - PruneLast=true
     - ApplyOutOfSyncOnly=false
     - Prune=true
     retry:

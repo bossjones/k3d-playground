@@ -38,7 +38,7 @@ spec:
     # SOURCE: https://github.com/prometheus-operator/prometheus-operator/issues/4355
     - ServerSideApply=true
     # - PrunePropagationPolicy=foreground
-    - PruneLast=true
+    # - PruneLast=true
     # - ApplyOutOfSyncOnly=false
     # - Prune=true
     - SkipDryRunOnMissingResource=true

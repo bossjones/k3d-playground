@@ -46,7 +46,7 @@ spec:
     # - PruneLast=false
     # - ApplyOutOfSyncOnly=false
     # - Prune=true
-    - PruneLast=true
+    # - PruneLast=true
     - SkipDryRunOnMissingResource=true
     - ServerSideApply=true
     retry:

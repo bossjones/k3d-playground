@@ -44,7 +44,7 @@ spec:
     # Supported policies are background, foreground and orphan.
     - PrunePropagationPolicy=foreground
     # Allow the ability for resource pruning to happen as a final, implicit wave of a sync operation
-    - PruneLast=true
+    # - PruneLast=true
     # https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/
     # Currently when syncing using auto sync Argo CD applies every object in the application. For applications containing thousands of objects this takes quite a long time and puts undue pressure on the api server. Turning on selective sync option which will sync only out-of-sync resources.
     - ApplyOutOfSyncOnly=false

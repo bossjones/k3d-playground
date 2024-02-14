@@ -28,7 +28,7 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-      - PruneLast=true
+      # - PruneLast=true
       - SkipDryRunOnMissingResource=true
       - CreateNamespace=true
       # Needed because our kubectl apply exceeds thresholds

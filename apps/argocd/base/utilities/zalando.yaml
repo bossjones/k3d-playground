@@ -22,7 +22,7 @@ spec:
     - Validate=false
     - CreateNamespace=true
     - PrunePropagationPolicy=foreground
-    - PruneLast=true
+    # - PruneLast=true
     - ApplyOutOfSyncOnly=false
     - Prune=true
     retry:
