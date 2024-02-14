@@ -48,13 +48,48 @@ spec:
         factor: 2
         maxDuration: 3m0s
       limit: 2
-  # SOURCE: https://github.com/argoproj/argo-cd/issues/11074
+  # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/gitea/templates/gitea-application.yaml#L32
   ignoreDifferences:
-    - group: monitoring.coreos.com
-      kind: ServiceMonitor
-      jqPathExpressions:
-      - .spec.endpoints[]?.relabelings[]?.action
-    - group: monitoring.coreos.com
-      kind: ServiceMonitor
-      jqPathExpressions:
-      - .spec.endpoints[]?.metricRelabelings[]?.action
+  - group: apps
+    kind: DaemonSet
+    jsonPointers:
+      - /metadata/annotations
+  - kind: PersistentVolume
+    jsonPointers:
+      - /spec/claimRef/resourceVersion
+      - /spec/claimRef/uid
+      - /status/lastPhaseTransitionTime
+  # SOURCE: https://github.com/argoproj/argo-cd/issues/11074
+  # ignoreDifferences:
+  # - group: monitoring.coreos.com
+  #   kind: ServiceMonitor
+  #   jqPathExpressions:
+  #   - .spec.endpoints[]?.relabelings[]?.action
+  # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/loki/templates/loki-application.yaml
+  - group: apps
+    kind: StatefulSet
+    jsonPointers:
+      - /spec/persistentVolumeClaimRetentionPolicy
+  - group: apps
+    kind: StatefulSet
+    jqPathExpressions:
+      - .spec.volumeClaimTemplates[]?.apiVersion
+      - .spec.volumeClaimTemplates[]?.kind
+
+  - group: monitoring.coreos.com
+    kind: ServiceMonitor
+    jqPathExpressions:
+    - .spec.endpoints[]?.relabelings[]?.action
+  - group: monitoring.coreos.com
+    kind: ServiceMonitor
+    jqPathExpressions:
+    - .spec.endpoints[]?.metricRelabelings[]?.action
+  # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/monitoring/charts/kube-prometheus-stack/templates/kube-prometheus-stack-application.yaml
+  - group: admissionregistration.k8s.io
+    kind: ValidatingWebhookConfiguration
+    jsonPointers:
+      - /webhooks/0/failurePolicy
+  - group: admissionregistration.k8s.io
+    kind: MutatingWebhookConfiguration
+    jsonPointers:
+      - /webhooks/0/failurePolicy
