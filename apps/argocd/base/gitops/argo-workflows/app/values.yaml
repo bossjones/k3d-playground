@@ -317,7 +317,7 @@ controller:
       ssl: true
       # sslMode must be one of: disable, require, verify-ca, verify-full
       # you can find more information about those ssl options here: https://godoc.org/github.com/lib/pq
-      sslMode: require
+      sslMode: disable
   # mysql:
   #   host: localhost
   #   port: 3306
