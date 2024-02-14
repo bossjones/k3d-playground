@@ -1,0 +1,16 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - namespace.yaml
+  - app.yaml
+  # - quick-start-postgres.yaml
+  - coinflip-recursive.yaml
+  - containerset.yaml
+  - hello-world.yaml
+  - http-template.yaml
+  - k8s-resource-output.yaml
+  - httpbin.yaml
+
+namespace: argo

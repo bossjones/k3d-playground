@@ -35,7 +35,8 @@ resources:
 - base/monitoring/loki/app/app.yaml
 - base/monitoring/prometheus-adapter/app/app.yaml
 - base/monitoring/cert-manager/app/app.yaml
-- base/monitoring/argo-workflows/app/app.yaml
+# - base/monitoring/argo-workflows/app/app.yaml
+- base/gitops/argo-workflows/app/app.yaml
 - base/monitoring/hajimari/app/app.yaml
 - base/monitoring/gethomepage/app/app.yaml
 - base/monitoring/k8s-ephemeral-storage-metrics/app/app.yaml

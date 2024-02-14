@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  name: containerset
+  annotations:
+    workflows.argoproj.io/description: |
+      This workflow demonstrates running a graph of tasks within containers in a single pod.
+spec:
+  serviceAccountName: argo
+  entrypoint: main
+  templates:
+    - name: main
+      containerSet:
+        containers:
+          - name: a
+            image: argoproj/argosay:v2
+          - name: b
+            image: argoproj/argosay:v2
+            dependencies: ["a"]
+          - name: c
+            image: argoproj/argosay:v2
+            dependencies: ["a"]
+          - name: d
+            image: argoproj/argosay:v2
+            dependencies: ["b", "c"]

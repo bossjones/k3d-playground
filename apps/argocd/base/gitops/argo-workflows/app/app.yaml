@@ -1,0 +1,94 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-workflows
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: cluster
+  sources:
+  - repoURL: 'https://argoproj.github.io/argo-helm'
+    chart: argo-workflows
+    targetRevision: 0.33.2
+    helm:
+      releaseName: argo-workflows
+      valueFiles:
+        - $values/apps/argocd/base/gitops/argo-workflows/app/values.yaml
+  - repoURL: 'https://github.com/bossjones/k3d-playground.git'
+    targetRevision: HEAD
+    path: apps/argocd/base/gitops/argo-workflows
+    ref: values
+  destination:
+    # server: "https://kubernetes.default.svc"
+    name: in-cluster
+    namespace: argo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      # - PruneLast=true
+      - SkipDryRunOnMissingResource=true
+      - CreateNamespace=true
+      # Needed because our kubectl apply exceeds thresholds
+      # EXAMPLE: CustomResourceDefinition.apiextensions.k8s.io "prometheuses.monitoring.coreos.com" is invalid: metadata.annotations: Too long: must have at most 262144 bytes
+      # SOURCE: https://github.com/prometheus-operator/prometheus-operator/issues/4355
+      - ServerSideApply=true
+    retry:
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 2
+  # SOURCE: https://github.com/argoproj/argo-cd/issues/11074
+  ignoreDifferences:
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      jqPathExpressions:
+      - .spec.endpoints[]?.relabelings[]?.action
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      jqPathExpressions:
+      - .spec.endpoints[]?.metricRelabelings[]?.action
+    # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/monitoring/charts/kube-prometheus-stack/templates/kube-prometheus-stack-application.yaml
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      jsonPointers:
+        - /webhooks/0/failurePolicy
+    - group: admissionregistration.k8s.io
+      kind: MutatingWebhookConfiguration
+      jsonPointers:
+        - /webhooks/0/failurePolicy
+    - kind: PersistentVolume
+      jsonPointers:
+        - /spec/claimRef/resourceVersion
+        - /spec/claimRef/uid
+        - /status/lastPhaseTransitionTime
+    # SOURCE: https://github.com/rogerrum/k8s-gitops/blob/578d7a8cdd89dd940060e005942e567814dcf9f6/main/monitoring/values.yaml#L24
+    # SOURCE: https://github.com/search?q=jqpathexpressions+metricRelabelings&type=code
+    # - kind: MutatingWebhookConfiguration
+    #   jsonPointers:
+    #     - /webhooks/0/failurePolicy
+    # - kind: ValidatingWebhookConfiguration
+    #   jsonPointers:
+    #     - /webhooks/0/failurePolicy
+    # - kind: ServiceAccount
+    #   jsonPointers:
+    #     - /imagePullSecrets
+
+# - name: blackbox-exporter
+#   namespace: monitoring
+#   path: main/monitoring/blackbox-exporter
+#   manifest-paths: /main/monitoring/blackbox-exporter
+#   sync-wave: "-1"
+#   ignoreDifferences:
+#     - group: "*"
+#       kind: "ServiceMonitor"
+#       jqPathExpressions:
+#         - .spec.endpoints[].metricRelabelings
+#   helm:
+#     enabled: true
+#   syncOptions:
+#     - RespectIgnoreDifferences=true
