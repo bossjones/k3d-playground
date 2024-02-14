@@ -34,7 +34,7 @@ strategy:
     maxUnavailable: 0
 
 ## @param clusterDomain cluster domain
-clusterDomain: k8s.localhost
+clusterDomain: cluster.local
 
 ## @section Image
 ## @param image.registry image registry, e.g. gcr.io,docker.io
