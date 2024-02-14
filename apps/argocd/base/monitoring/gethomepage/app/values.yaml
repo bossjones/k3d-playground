@@ -44,6 +44,9 @@ enableRbac: true
 ingress:
   main:
     enabled: true
+    labels:
+      # This label will enable discover of this deployment in Homepage
+      gethomepage.dev/enabled: "true"
     annotations:
       # traefik.ingress.kubernetes.io/router.entrypoints: websecure
       # traefik.ingress.kubernetes.io/router.tls: "true"
@@ -55,6 +58,7 @@ ingress:
       gethomepage.dev/description: "Dynamically Detected Homepage"
       gethomepage.dev/group: "Dynamic"
       gethomepage.dev/icon: "homepage.png"
+    ingressClassName: "nginx"
     hosts:
       - host: gethomepage.k8s.localhost
         paths:
