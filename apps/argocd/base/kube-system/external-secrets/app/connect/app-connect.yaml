@@ -37,6 +37,7 @@ spec:
     syncOptions:
       - Validate=false
       # - PruneLast=true
+      - Prune=true
       - SkipDryRunOnMissingResource=true
       - CreateNamespace=true
       # Needed because our kubectl apply exceeds thresholds
