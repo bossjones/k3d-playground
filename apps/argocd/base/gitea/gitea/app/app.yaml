@@ -97,3 +97,21 @@ spec:
     jqPathExpressions:
       - .spec.volumeClaimTemplates[]?.apiVersion
       - .spec.volumeClaimTemplates[]?.kind
+
+  - group: monitoring.coreos.com
+    kind: ServiceMonitor
+    jqPathExpressions:
+    - .spec.endpoints[]?.relabelings[]?.action
+  - group: monitoring.coreos.com
+    kind: ServiceMonitor
+    jqPathExpressions:
+    - .spec.endpoints[]?.metricRelabelings[]?.action
+  # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/monitoring/charts/kube-prometheus-stack/templates/kube-prometheus-stack-application.yaml
+  - group: admissionregistration.k8s.io
+    kind: ValidatingWebhookConfiguration
+    jsonPointers:
+      - /webhooks/0/failurePolicy
+  - group: admissionregistration.k8s.io
+    kind: MutatingWebhookConfiguration
+    jsonPointers:
+      - /webhooks/0/failurePolicy
