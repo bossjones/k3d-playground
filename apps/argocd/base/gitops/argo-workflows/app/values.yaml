@@ -2610,7 +2610,7 @@ emissary:
   # -- The command/args for each image on workflow, needed when the command is not specified and the emissary executor is used.
   ## See more: https://argo-workflows.readthedocs.io/en/stable/workflow-executors/#emissary-emissary
   images:
-    - docker/whalesay:latest:
+      docker/whalesay:latest:
         cmd: [cowsay]
   #  argoproj/argosay:v2:
   #    cmd: [/argosay]
