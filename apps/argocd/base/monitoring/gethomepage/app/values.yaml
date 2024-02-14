@@ -1,69 +1,76 @@
-homepage:
-  config:
-    bookmarks:
-      - Developer:
-          - Github:
-              - abbr: GH
-                href: https://github.com/
-    widgets:
-      # show the kubernetes widget, with the cluster summary and individual nodes
-      - kubernetes:
-          cluster:
-            show: true
-            cpu: true
-            memory: true
-            showLabel: true
-            label: "cluster"
-          nodes:
-            show: true
-            cpu: true
-            memory: true
-            showLabel: true
-      - search:
-          provider: duckduckgo
-          target: _blank
-    kubernetes:
-      mode: cluster
-    settings: {}
+serviceAccount:
+  # Specify a different service account name
+  name: homepage
+  # Create service account. Needed when RBAC is enabled.
+  create: true
 
-  # The service account is necessary to allow discovery of other services
-  serviceAccount:
-    create: true
-    name: gethomepage
 
-  # This enables the service account to access the necessary resources
-  enableRbac: true
+# homepage:
+config:
+  bookmarks:
+    - Developer:
+        - Github:
+            - abbr: GH
+              href: https://github.com/
+  widgets:
+    # show the kubernetes widget, with the cluster summary and individual nodes
+    - kubernetes:
+        cluster:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+          label: "cluster"
+        nodes:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+    - search:
+        provider: duckduckgo
+        target: _blank
+  kubernetes:
+    mode: cluster
+  settings: {}
 
-  ingress:
-    main:
-      enabled: true
-      annotations:
-        # traefik.ingress.kubernetes.io/router.entrypoints: websecure
-        # traefik.ingress.kubernetes.io/router.tls: "true"
-        # traefik.ingress.kubernetes.io/ingressEndpoint.hostname: "homepage.k8s.localhost"
-        kubernetes.io/ingress.class: nginx
-        # Example annotations to add Homepage to your Homepage!
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/name: "Homepage"
-        gethomepage.dev/description: "Dynamically Detected Homepage"
-        gethomepage.dev/group: "Dynamic"
-        gethomepage.dev/icon: "homepage.png"
-      hosts:
-        - host: gethomepage.k8s.localhost
-          paths:
-            - path: /
-              pathType: Prefix
+# # The service account is necessary to allow discovery of other services
+# serviceAccount:
+#   create: true
+#   name: gethomepage
 
-  podAnnotations:
-    reloader.stakater.com/auto: "true"
-    configmap.reloader.stakater.com/reload: "homepage-config"
-    # secret.reloader.stakater.com/reload: "gethomepage-secret"
+# This enables the service account to access the necessary resources
+enableRbac: true
 
-  resources:
-    requests:
-      cpu: 15m
-      memory: 127M
-    limits:
-      memory: 308M
-  env:
-    TZ: America/New_York
+ingress:
+  main:
+    enabled: true
+    annotations:
+      # traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      # traefik.ingress.kubernetes.io/router.tls: "true"
+      # traefik.ingress.kubernetes.io/ingressEndpoint.hostname: "homepage.k8s.localhost"
+      kubernetes.io/ingress.class: nginx
+      # Example annotations to add Homepage to your Homepage!
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Homepage"
+      gethomepage.dev/description: "Dynamically Detected Homepage"
+      gethomepage.dev/group: "Dynamic"
+      gethomepage.dev/icon: "homepage.png"
+    hosts:
+      - host: gethomepage.k8s.localhost
+        paths:
+          - path: /
+            pathType: Prefix
+
+podAnnotations:
+  reloader.stakater.com/auto: "true"
+  configmap.reloader.stakater.com/reload: "homepage-config"
+  # secret.reloader.stakater.com/reload: "gethomepage-secret"
+
+resources:
+  requests:
+    cpu: 15m
+    memory: 127M
+  limits:
+    memory: 308M
+env:
+  TZ: America/New_York
