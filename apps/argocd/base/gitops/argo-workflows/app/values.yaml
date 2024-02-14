@@ -991,13 +991,13 @@ extraObjects:
   #       type: gitlab
   #       secret: "shh!"
 
-  # - apiVersion: v1
-  #   kind: Secret
-  #   metadata:
-  #     annotations:
-  #       kubernetes.io/service-account.name: default
-  #     name: default.service-account-token
-  #   type: kubernetes.io/service-account-token
+  - apiVersion: v1
+    kind: Secret
+    metadata:
+      annotations:
+        kubernetes.io/service-account.name: default
+      name: default.service-account-token
+    type: kubernetes.io/service-account-token
 
   # - apiVersion: v1
   #   kind: Secret
