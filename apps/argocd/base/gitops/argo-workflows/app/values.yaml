@@ -870,21 +870,21 @@ server:
   # SSO configuration when SSO is specified as a server auth mode.
   sso:
     # -- Create SSO configuration. If you set `true` , please also set `.Values.server.authMode` as `sso`.
-    enabled: false
+    enabled: true
     # -- The root URL of the OIDC identity provider
-    issuer: https://accounts.google.com
+    issuer: http://dex:5556/dex
     clientId:
       # -- Name of secret to retrieve the app OIDC client ID
       name: argo-server-sso
       # -- Key of secret to retrieve the app OIDC client ID
-      key: client-id
+      key: clientID
     clientSecret:
       # -- Name of a secret to retrieve the app OIDC client secret
       name: argo-server-sso
       # -- Key of a secret to retrieve the app OIDC client secret
-      key: client-secret
+      key: clientSecret
     # - The OIDC redirect URL. Should be in the form <argo-root-url>/oauth2/callback.
-    redirectUrl: ""
+    redirectUrl: "http://localhost:8080/oauth2/callback"
     rbac:
       # -- Adds ServiceAccount Policy to server (Cluster)Role.
       enabled: true
@@ -896,20 +896,23 @@ server:
       secretWhitelist: []
     # -- Scopes requested from the SSO ID provider
     ## The 'groups' scope requests group membership information, which is usually used for authorization decisions.
-    scopes: []
+    scopes:
+    - groups
+    - email
+    - profile
       # - groups
     # -- Define how long your login is valid for (in hours)
     ## If omitted, defaults to 10h.
-    sessionExpiry: ""
+    sessionExpiry: "240h"
     # -- Alternate root URLs that can be included for some OIDC providers
-    issuerAlias: ""
+    issuerAlias: "http://dex:5556/dex"
     # -- Override claim name for OIDC groups
     customGroupClaimName: ""
     # -- Specify the user info endpoint that contains the groups claim
     ## Configure this if your OIDC provider provides groups information only using the user-info endpoint (e.g. Okta)
     userInfoPath: ""
     # -- Skip TLS verification for the HTTP client
-    insecureSkipVerify: false
+    insecureSkipVerify: true
     # -- Filter the groups returned by the OIDC provider
     ## A logical "OR" is used between each regex in the list
     filterGroupsRegex: []
