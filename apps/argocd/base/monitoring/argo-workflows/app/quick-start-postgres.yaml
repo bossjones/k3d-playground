@@ -3267,6 +3267,7 @@ metadata:
     app: argo-server
     prometheus: main
 spec:
+  # type: Loadbalancer
   ports:
   - name: web
     port: 2746
@@ -3352,7 +3353,10 @@ spec:
         - server
         - --auth-mode
         - client
-        env: []
+        # env: []
+        env:
+        - name: BASE_HREF
+          value: /argo/
         image: quay.io/argoproj/argocli:v3.4.8
         imagePullPolicy: IfNotPresent
         name: argo-server
@@ -3618,10 +3622,12 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
     # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     # nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    # nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     # ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   ingressClassName: nginx
   rules:
@@ -3634,28 +3640,28 @@ spec:
             port:
               number: 2746
         path: /argo(/|$)(.*)
-        pathType: Prefix
-  - host: workflows.k8s.localhost
-    http:
-      paths:
-      - backend:
-          service:
-            name: argo-server
-            port:
-              number: 2746
-        path: /argo(/|$)(.*)
-        pathType: Prefix
-  - host: workflow.k8s.localhost
-    http:
-      paths:
-      - backend:
-          service:
-            name: argo-server
-            port:
-              number: 2746
-        path: /argo(/|$)(.*)
-        pathType: Prefix
-  # tls:
-  # - hosts:
-  #   - argo.k8s.localhost
-  #   secretName: tls-secret
+        # pathType: Prefix
+  # - host: workflows.k8s.localhost
+  #   http:
+  #     paths:
+  #     - backend:
+  #         service:
+  #           name: argo-server
+  #           port:
+  #             number: 2746
+  #       path: /argo(/|$)(.*)
+  #       pathType: Prefix
+  # - host: workflow.k8s.localhost
+  #   http:
+  #     paths:
+  #     - backend:
+  #         service:
+  #           name: argo-server
+  #           port:
+  #             number: 2746
+  #       path: /argo(/|$)(.*)
+  #       pathType: Prefix
+  tls:
+  - hosts:
+    - argo.k8s.localhost
+    secretName: tls-secret
