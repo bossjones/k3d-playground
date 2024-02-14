@@ -3629,7 +3629,7 @@ metadata:
     # SOURCE: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/
     # In order to expose the Argo CD API server with a single ingress rule and hostname, the nginx.ingress.kubernetes.io/ssl-passthrough annotation must be used to passthrough TLS connections and terminate TLS at the Argo CD API server.
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
     # nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   ingressClassName: nginx
