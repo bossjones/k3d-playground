@@ -36,12 +36,13 @@ spec:
       # EXAMPLE: CustomResourceDefinition.apiextensions.k8s.io "prometheuses.monitoring.coreos.com" is invalid: metadata.annotations: Too long: must have at most 262144 bytes
       # SOURCE: https://github.com/prometheus-operator/prometheus-operator/issues/4355
       - ServerSideApply=true
+      - Prune=true
     retry:
+      limit: -1
       backoff:
-        duration: 5s
+        duration: 20s
         factor: 2
-        maxDuration: 3m0s
-      limit: 2
+        maxDuration: 3m
   # SOURCE: https://github.com/argoproj/argo-cd/issues/11074
   ignoreDifferences:
     - group: monitoring.coreos.com
