@@ -168,6 +168,7 @@ hajimari:
 ingress:
   main:
     enabled: true
+    ingressClassName: "nginx"
     hosts:
       - host: hajimari.k8s.localhost
         paths:
