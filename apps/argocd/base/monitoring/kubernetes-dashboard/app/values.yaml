@@ -143,8 +143,8 @@ api:
         cpu: 100m
         memory: 200Mi
       limits:
-        cpu: 250m
-        memory: 400Mi
+        cpu: 4
+        memory: 1Gi
   # Additional volumes
   # - name: dashboard-kubeconfig
   #   secret:
