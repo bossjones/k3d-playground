@@ -348,7 +348,7 @@ gitea:
   admin:
     # existingSecret: gitea-admin-secret
     existingSecret:
-    username: "admin"
+    username: "bossjones"
     password: "password"
     email: "jarvis@theblacktonystark.com"
 
