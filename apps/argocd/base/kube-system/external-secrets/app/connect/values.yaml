@@ -4,3 +4,39 @@ connect:
   api:
     serviceMonitor:
       enabled: true
+  ingress:
+    enabled: false
+    annotations:
+      # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/
+      # ingress.kubernetes.io/proxy-body-size: 100M
+      # nginx.ingress.kubernetes.io/rewrite-target: /$2
+      # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      # nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      # nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+      # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      # ingress.kubernetes.io/ssl-redirect: "false"
+      # SOURCE: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/
+      # In order to expose the Argo CD API server with a single ingress rule and hostname, the nginx.ingress.kubernetes.io/ssl-passthrough annotation must be used to passthrough TLS connections and terminate TLS at the Argo CD API server.
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    ingressClassName: "nginx"
+    pathType: Prefix
+    hosts:
+      - host: 1pass-connect.k8s.localhost
+        paths:
+          - /
+    # Extra paths to prepend to the host configuration.
+    # This is useful when working with annotation based services.
+    extraPaths: []
+    # - path: /*
+    #   backend:
+    #     service:
+    #       name: ssl-redirect
+    #       port:
+    #         number: use-annotation
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local

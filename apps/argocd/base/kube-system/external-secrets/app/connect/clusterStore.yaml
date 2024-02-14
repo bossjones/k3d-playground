@@ -9,7 +9,7 @@ spec:
     onepassword:
       connectHost: http://onepassword-connect:8080
       vaults:
-        kube-secrets: 1
+        k3d: 1
       auth:
         secretRef:
           connectTokenSecretRef:
