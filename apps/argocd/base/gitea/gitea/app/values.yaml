@@ -243,9 +243,9 @@ deployment:
 ## @param serviceAccount.annotations Custom annotations for the ServiceAccount
 ## @param serviceAccount.labels Custom labels for the ServiceAccount
 serviceAccount:
-  create: false
+  create: true
   name: ""
-  automountServiceAccountToken: false
+  automountServiceAccountToken: true
   imagePullSecrets: [ ]
   # - name: private-registry-access
   annotations: { }
@@ -269,11 +269,11 @@ persistence:
   create: true
   mount: true
   claimName: gitea-shared-storage
-  size: 10Gi
+  size: 2Gi
   accessModes:
     - ReadWriteOnce
   labels: { }
-  storageClass: nfs-client
+  storageClass: local-path
   subPath:
   volumeName: ""
   annotations:
