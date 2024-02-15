@@ -1,0 +1,9 @@
+# need to move to containers: level for fluent-bit sidecar injection
+- op: add
+  path: "/spec/template/spec/containers/0/securityContext/runAsNonRoot"
+  value:
+    true
+- op: remove
+  path: "/spec/template/spec/securityContext/runAsNonRoot"
+- op: remove
+  path: "/spec/template/spec/securityContext"
