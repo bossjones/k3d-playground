@@ -27,8 +27,10 @@ controller:
     ssl-protocols: "TLSv1.3 TLSv1.2"
     use-forwarded-headers: "true"
     client-body-buffer-size: "100M"
-    client-body-timeout: 120
-    client-header-timeout: 120
+    # client-body-timeout: 120
+    # client-header-timeout: 120
+    client-body-timeout: 3600
+    client-header-timeout: 3600
     enable-brotli: "true"
     enable-real-ip: "true"
     forwarded-for-header: "CF-Connecting-IP"

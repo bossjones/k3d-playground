@@ -1,0 +1,2927 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/default-container: main
+      workflows.argoproj.io/node-id: coinflip-recursive-3121724133
+      workflows.argoproj.io/node-name: coinflip-recursive[0].flip-coin
+    creationTimestamp: "2024-02-14T20:53:02Z"
+    labels:
+      workflows.argoproj.io/completed: "true"
+      workflows.argoproj.io/workflow: coinflip-recursive
+    name: coinflip-recursive-flip-coin-3121724133
+    namespace: argo
+    ownerReferences:
+    - apiVersion: argoproj.io/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Workflow
+      name: coinflip-recursive
+      uid: 11f4a898-269d-4eb5-bb14-15158b04235f
+    resourceVersion: "4501"
+    uid: 561f2ce2-a74e-410b-a9af-3d9569f53738
+  spec:
+    containers:
+    - command:
+      - argoexec
+      - wait
+      - --loglevel
+      - debug
+      - --log-format
+      - json
+      env:
+      - name: ARGO_POD_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.name
+      - name: ARGO_POD_UID
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.uid
+      - name: GODEBUG
+        value: x509ignoreCN=0
+      - name: ARGO_WORKFLOW_NAME
+        value: coinflip-recursive
+      - name: ARGO_CONTAINER_NAME
+        value: wait
+      - name: ARGO_TEMPLATE
+        value: '{"name":"flip-coin","inputs":{},"outputs":{},"metadata":{},"script":{"name":"","image":"python:alpine3.6","command":["python"],"resources":{},"source":"import
+          random\nresult = \"heads\" if random.randint(0,1) == 0 else \"tails\"\nprint(result)\n"},"archiveLocation":{"archiveLogs":true,"s3":{"endpoint":"minio:9000","bucket":"my-bucket","insecure":true,"accessKeySecret":{"name":"my-minio-cred","key":"accesskey"},"secretKeySecret":{"name":"my-minio-cred","key":"secretkey"},"key":"coinflip-recursive/coinflip-recursive-flip-coin-3121724133"}}}'
+      - name: ARGO_NODE_ID
+        value: coinflip-recursive-3121724133
+      - name: ARGO_INCLUDE_SCRIPT_OUTPUT
+        value: "true"
+      - name: ARGO_DEADLINE
+        value: "0001-01-01T00:00:00Z"
+      - name: ARGO_PROGRESS_FILE
+        value: /var/run/argo/progress
+      - name: ARGO_PROGRESS_PATCH_TICK_DURATION
+        value: 1m0s
+      - name: ARGO_PROGRESS_FILE_TICK_DURATION
+        value: 3s
+      image: quay.io/argoproj/argoexec:v3.4.11
+      imagePullPolicy: Always
+      name: wait
+      resources:
+        requests:
+          cpu: 10m
+          memory: 64Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /argo/secret/my-minio-cred
+        name: my-minio-cred
+        readOnly: true
+      - mountPath: /mainctrfs/argo/staging
+        name: argo-staging
+      - mountPath: /tmp
+        name: tmp-dir-argo
+        subPath: "0"
+      - mountPath: /var/run/argo
+        name: var-run-argo
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-bm89m
+        readOnly: true
+    - args:
+      - /argo/staging/script
+      command:
+      - /var/run/argo/argoexec
+      - emissary
+      - --loglevel
+      - debug
+      - --log-format
+      - json
+      - --
+      - python
+      env:
+      - name: ARGO_CONTAINER_NAME
+        value: main
+      - name: ARGO_TEMPLATE
+        value: '{"name":"flip-coin","inputs":{},"outputs":{},"metadata":{},"script":{"name":"","image":"python:alpine3.6","command":["python"],"resources":{},"source":"import
+          random\nresult = \"heads\" if random.randint(0,1) == 0 else \"tails\"\nprint(result)\n"},"archiveLocation":{"archiveLogs":true,"s3":{"endpoint":"minio:9000","bucket":"my-bucket","insecure":true,"accessKeySecret":{"name":"my-minio-cred","key":"accesskey"},"secretKeySecret":{"name":"my-minio-cred","key":"secretkey"},"key":"coinflip-recursive/coinflip-recursive-flip-coin-3121724133"}}}'
+      - name: ARGO_NODE_ID
+        value: coinflip-recursive-3121724133
+      - name: ARGO_INCLUDE_SCRIPT_OUTPUT
+        value: "true"
+      - name: ARGO_DEADLINE
+        value: "0001-01-01T00:00:00Z"
+      - name: ARGO_PROGRESS_FILE
+        value: /var/run/argo/progress
+      - name: ARGO_PROGRESS_PATCH_TICK_DURATION
+        value: 1m0s
+      - name: ARGO_PROGRESS_FILE_TICK_DURATION
+        value: 3s
+      image: python:alpine3.6
+      imagePullPolicy: IfNotPresent
+      name: main
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /argo/staging
+        name: argo-staging
+      - mountPath: /var/run/argo
+        name: var-run-argo
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-bm89m
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    initContainers:
+    - command:
+      - argoexec
+      - init
+      - --loglevel
+      - debug
+      - --log-format
+      - json
+      env:
+      - name: ARGO_POD_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.name
+      - name: ARGO_POD_UID
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.uid
+      - name: GODEBUG
+        value: x509ignoreCN=0
+      - name: ARGO_WORKFLOW_NAME
+        value: coinflip-recursive
+      - name: ARGO_CONTAINER_NAME
+        value: init
+      - name: ARGO_TEMPLATE
+        value: '{"name":"flip-coin","inputs":{},"outputs":{},"metadata":{},"script":{"name":"","image":"python:alpine3.6","command":["python"],"resources":{},"source":"import
+          random\nresult = \"heads\" if random.randint(0,1) == 0 else \"tails\"\nprint(result)\n"},"archiveLocation":{"archiveLogs":true,"s3":{"endpoint":"minio:9000","bucket":"my-bucket","insecure":true,"accessKeySecret":{"name":"my-minio-cred","key":"accesskey"},"secretKeySecret":{"name":"my-minio-cred","key":"secretkey"},"key":"coinflip-recursive/coinflip-recursive-flip-coin-3121724133"}}}'
+      - name: ARGO_NODE_ID
+        value: coinflip-recursive-3121724133
+      - name: ARGO_INCLUDE_SCRIPT_OUTPUT
+        value: "true"
+      - name: ARGO_DEADLINE
+        value: "0001-01-01T00:00:00Z"
+      - name: ARGO_PROGRESS_FILE
+        value: /var/run/argo/progress
+      - name: ARGO_PROGRESS_PATCH_TICK_DURATION
+        value: 1m0s
+      - name: ARGO_PROGRESS_FILE_TICK_DURATION
+        value: 3s
+      image: quay.io/argoproj/argoexec:v3.4.11
+      imagePullPolicy: Always
+      name: init
+      resources:
+        requests:
+          cpu: 10m
+          memory: 64Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /argo/secret/my-minio-cred
+        name: my-minio-cred
+        readOnly: true
+      - mountPath: /argo/staging
+        name: argo-staging
+      - mountPath: /var/run/argo
+        name: var-run-argo
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-bm89m
+        readOnly: true
+    nodeName: k3d-demo-server-0
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Never
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - emptyDir: {}
+      name: var-run-argo
+    - emptyDir: {}
+      name: tmp-dir-argo
+    - name: my-minio-cred
+      secret:
+        defaultMode: 420
+        items:
+        - key: accesskey
+          path: accesskey
+        - key: secretkey
+          path: secretkey
+        secretName: my-minio-cred
+    - emptyDir: {}
+      name: argo-staging
+    - name: kube-api-access-bm89m
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:53:18Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:53:24Z"
+      reason: PodFailed
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:53:24Z"
+      reason: PodFailed
+      status: "False"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:53:02Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://b1aa5560a93e5732161366a35118a8e7635fb2cd4e9f046d417519b3630c3930
+      image: docker.io/library/python:alpine3.6
+      imageID: docker.io/library/python@sha256:766a961bf699491995cc29e20958ef11fd63741ff41dcc70ec34355b39d52971
+      lastState: {}
+      name: main
+      ready: false
+      restartCount: 0
+      started: false
+      state:
+        terminated:
+          containerID: containerd://b1aa5560a93e5732161366a35118a8e7635fb2cd4e9f046d417519b3630c3930
+          exitCode: 0
+          finishedAt: "2024-02-14T20:53:23Z"
+          reason: Completed
+          startedAt: "2024-02-14T20:53:22Z"
+    - containerID: containerd://2fdce0a1f48982a3363b25e5f9b0d4749dc4a9d2a6ba04a3d2a172ac33311c86
+      image: quay.io/argoproj/argoexec:v3.4.11
+      imageID: quay.io/argoproj/argoexec@sha256:6731738dc79454232937c73128ccf6a9e74ffbdd0a613fb427ae427ee482115b
+      lastState: {}
+      name: wait
+      ready: false
+      restartCount: 0
+      started: false
+      state:
+        terminated:
+          containerID: containerd://2fdce0a1f48982a3363b25e5f9b0d4749dc4a9d2a6ba04a3d2a172ac33311c86
+          exitCode: 1
+          finishedAt: "2024-02-14T20:53:23Z"
+          message: 'pods "coinflip-recursive-flip-coin-3121724133" is forbidden: User
+            "system:serviceaccount:argo:default" cannot patch resource "pods" in API
+            group "" in the namespace "argo"'
+          reason: Error
+          startedAt: "2024-02-14T20:53:19Z"
+    hostIP: 172.18.0.3
+    initContainerStatuses:
+    - containerID: containerd://146bf02208670a7fe9d9525f880e677f02e3daa53b86dbccf87dd51711eebf63
+      image: quay.io/argoproj/argoexec:v3.4.11
+      imageID: quay.io/argoproj/argoexec@sha256:6731738dc79454232937c73128ccf6a9e74ffbdd0a613fb427ae427ee482115b
+      lastState: {}
+      name: init
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: containerd://146bf02208670a7fe9d9525f880e677f02e3daa53b86dbccf87dd51711eebf63
+          exitCode: 0
+          finishedAt: "2024-02-14T20:53:17Z"
+          reason: Completed
+          startedAt: "2024-02-14T20:53:16Z"
+    phase: Failed
+    podIP: 10.42.3.15
+    podIPs:
+    - ip: 10.42.3.15
+    qosClass: Burstable
+    startTime: "2024-02-14T20:53:02Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/default-container: main
+      workflows.argoproj.io/node-id: hello-world
+      workflows.argoproj.io/node-name: hello-world
+    creationTimestamp: "2024-02-14T20:53:02Z"
+    labels:
+      workflows.argoproj.io/completed: "true"
+      workflows.argoproj.io/workflow: hello-world
+    name: hello-world
+    namespace: argo
+    ownerReferences:
+    - apiVersion: argoproj.io/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Workflow
+      name: hello-world
+      uid: 423694f8-4da2-4e86-9390-7052ddfd8223
+    resourceVersion: "4643"
+    uid: 706974e6-91de-4c5d-8e21-29263d626107
+  spec:
+    containers:
+    - command:
+      - argoexec
+      - wait
+      - --loglevel
+      - debug
+      - --log-format
+      - json
+      env:
+      - name: ARGO_POD_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.name
+      - name: ARGO_POD_UID
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.uid
+      - name: GODEBUG
+        value: x509ignoreCN=0
+      - name: ARGO_WORKFLOW_NAME
+        value: hello-world
+      - name: ARGO_CONTAINER_NAME
+        value: wait
+      - name: ARGO_TEMPLATE
+        value: '{"name":"whalesay","inputs":{},"outputs":{},"metadata":{},"container":{"name":"","image":"docker/whalesay:latest","command":["cowsay"],"args":["hello
+          world"],"resources":{}},"archiveLocation":{"archiveLogs":true,"s3":{"endpoint":"minio:9000","bucket":"my-bucket","insecure":true,"accessKeySecret":{"name":"my-minio-cred","key":"accesskey"},"secretKeySecret":{"name":"my-minio-cred","key":"secretkey"},"key":"hello-world/hello-world"}}}'
+      - name: ARGO_NODE_ID
+        value: hello-world
+      - name: ARGO_INCLUDE_SCRIPT_OUTPUT
+        value: "false"
+      - name: ARGO_DEADLINE
+        value: "0001-01-01T00:00:00Z"
+      - name: ARGO_PROGRESS_FILE
+        value: /var/run/argo/progress
+      - name: ARGO_PROGRESS_PATCH_TICK_DURATION
+        value: 1m0s
+      - name: ARGO_PROGRESS_FILE_TICK_DURATION
+        value: 3s
+      image: quay.io/argoproj/argoexec:v3.4.11
+      imagePullPolicy: Always
+      name: wait
+      resources:
+        requests:
+          cpu: 10m
+          memory: 64Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /argo/secret/my-minio-cred
+        name: my-minio-cred
+        readOnly: true
+      - mountPath: /tmp
+        name: tmp-dir-argo
+        subPath: "0"
+      - mountPath: /var/run/argo
+        name: var-run-argo
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-jjcts
+        readOnly: true
+    - args:
+      - hello world
+      command:
+      - /var/run/argo/argoexec
+      - emissary
+      - --loglevel
+      - debug
+      - --log-format
+      - json
+      - --
+      - cowsay
+      env:
+      - name: ARGO_CONTAINER_NAME
+        value: main
+      - name: ARGO_TEMPLATE
+        value: '{"name":"whalesay","inputs":{},"outputs":{},"metadata":{},"container":{"name":"","image":"docker/whalesay:latest","command":["cowsay"],"args":["hello
+          world"],"resources":{}},"archiveLocation":{"archiveLogs":true,"s3":{"endpoint":"minio:9000","bucket":"my-bucket","insecure":true,"accessKeySecret":{"name":"my-minio-cred","key":"accesskey"},"secretKeySecret":{"name":"my-minio-cred","key":"secretkey"},"key":"hello-world/hello-world"}}}'
+      - name: ARGO_NODE_ID
+        value: hello-world
+      - name: ARGO_INCLUDE_SCRIPT_OUTPUT
+        value: "false"
+      - name: ARGO_DEADLINE
+        value: "0001-01-01T00:00:00Z"
+      - name: ARGO_PROGRESS_FILE
+        value: /var/run/argo/progress
+      - name: ARGO_PROGRESS_PATCH_TICK_DURATION
+        value: 1m0s
+      - name: ARGO_PROGRESS_FILE_TICK_DURATION
+        value: 3s
+      image: docker/whalesay:latest
+      imagePullPolicy: Always
+      name: main
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/argo
+        name: var-run-argo
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-jjcts
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    initContainers:
+    - command:
+      - argoexec
+      - init
+      - --loglevel
+      - debug
+      - --log-format
+      - json
+      env:
+      - name: ARGO_POD_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.name
+      - name: ARGO_POD_UID
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.uid
+      - name: GODEBUG
+        value: x509ignoreCN=0
+      - name: ARGO_WORKFLOW_NAME
+        value: hello-world
+      - name: ARGO_CONTAINER_NAME
+        value: init
+      - name: ARGO_TEMPLATE
+        value: '{"name":"whalesay","inputs":{},"outputs":{},"metadata":{},"container":{"name":"","image":"docker/whalesay:latest","command":["cowsay"],"args":["hello
+          world"],"resources":{}},"archiveLocation":{"archiveLogs":true,"s3":{"endpoint":"minio:9000","bucket":"my-bucket","insecure":true,"accessKeySecret":{"name":"my-minio-cred","key":"accesskey"},"secretKeySecret":{"name":"my-minio-cred","key":"secretkey"},"key":"hello-world/hello-world"}}}'
+      - name: ARGO_NODE_ID
+        value: hello-world
+      - name: ARGO_INCLUDE_SCRIPT_OUTPUT
+        value: "false"
+      - name: ARGO_DEADLINE
+        value: "0001-01-01T00:00:00Z"
+      - name: ARGO_PROGRESS_FILE
+        value: /var/run/argo/progress
+      - name: ARGO_PROGRESS_PATCH_TICK_DURATION
+        value: 1m0s
+      - name: ARGO_PROGRESS_FILE_TICK_DURATION
+        value: 3s
+      image: quay.io/argoproj/argoexec:v3.4.11
+      imagePullPolicy: Always
+      name: init
+      resources:
+        requests:
+          cpu: 10m
+          memory: 64Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /argo/secret/my-minio-cred
+        name: my-minio-cred
+        readOnly: true
+      - mountPath: /var/run/argo
+        name: var-run-argo
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-jjcts
+        readOnly: true
+    nodeName: k3d-demo-agent-1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Never
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - emptyDir: {}
+      name: var-run-argo
+    - emptyDir: {}
+      name: tmp-dir-argo
+    - name: my-minio-cred
+      secret:
+        defaultMode: 420
+        items:
+        - key: accesskey
+          path: accesskey
+        - key: secretkey
+          path: secretkey
+        secretName: my-minio-cred
+    - name: kube-api-access-jjcts
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:53:56Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:54:14Z"
+      reason: PodFailed
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:54:14Z"
+      reason: PodFailed
+      status: "False"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:53:02Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://fddf8d4de477917dc64a93c35f0fa7231099c93d16a548734d1bc8a56785ea9a
+      image: docker.io/docker/whalesay:latest
+      imageID: sha256:c717279bbba020bf95ac72cf47b2c8abb3a383ad4b6996c1a7a9f2a7aaa480ad
+      lastState: {}
+      name: main
+      ready: false
+      restartCount: 0
+      started: false
+      state:
+        terminated:
+          containerID: containerd://fddf8d4de477917dc64a93c35f0fa7231099c93d16a548734d1bc8a56785ea9a
+          exitCode: 0
+          finishedAt: "2024-02-14T20:54:14Z"
+          reason: Completed
+          startedAt: "2024-02-14T20:54:12Z"
+    - containerID: containerd://75d9fe2a303c79af450c22286173b28a53a7a18f038673e0e18da3083a83c48e
+      image: quay.io/argoproj/argoexec:v3.4.11
+      imageID: quay.io/argoproj/argoexec@sha256:6731738dc79454232937c73128ccf6a9e74ffbdd0a613fb427ae427ee482115b
+      lastState: {}
+      name: wait
+      ready: false
+      restartCount: 0
+      started: false
+      state:
+        terminated:
+          containerID: containerd://75d9fe2a303c79af450c22286173b28a53a7a18f038673e0e18da3083a83c48e
+          exitCode: 1
+          finishedAt: "2024-02-14T20:54:15Z"
+          message: 'pods "hello-world" is forbidden: User "system:serviceaccount:argo:default"
+            cannot patch resource "pods" in API group "" in the namespace "argo"'
+          reason: Error
+          startedAt: "2024-02-14T20:53:56Z"
+    hostIP: 172.18.0.6
+    initContainerStatuses:
+    - containerID: containerd://9812008e26a0fad2544b48afaf7d518325016116d6b53bb9d1a5fdd1ad28e8e1
+      image: quay.io/argoproj/argoexec:v3.4.11
+      imageID: quay.io/argoproj/argoexec@sha256:6731738dc79454232937c73128ccf6a9e74ffbdd0a613fb427ae427ee482115b
+      lastState: {}
+      name: init
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: containerd://9812008e26a0fad2544b48afaf7d518325016116d6b53bb9d1a5fdd1ad28e8e1
+          exitCode: 0
+          finishedAt: "2024-02-14T20:53:56Z"
+          reason: Completed
+          startedAt: "2024-02-14T20:53:55Z"
+    phase: Failed
+    podIP: 10.42.1.22
+    podIPs:
+    - ip: 10.42.1.22
+    qosClass: Burstable
+    startTime: "2024-02-14T20:53:02Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2024-02-14T20:52:16Z"
+    generateName: dex-f4d8f8758-
+    labels:
+      app: dex
+      app.kubernetes.io/part-of: dex
+      pod-template-hash: f4d8f8758
+    name: dex-f4d8f8758-pzkjz
+    namespace: argo
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: dex-f4d8f8758
+      uid: c155e512-29e0-4871-a388-ff28330b7032
+    resourceVersion: "4877"
+    uid: 5730d541-ab11-4379-814c-0e47faf2d1a4
+  spec:
+    containers:
+    - args:
+      - dex
+      - serve
+      - /data/config.yaml
+      image: ghcr.io/dexidp/dex:v2.35.0
+      imagePullPolicy: IfNotPresent
+      name: dex
+      ports:
+      - containerPort: 5556
+        name: http
+        protocol: TCP
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /data
+        name: config
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-56rmw
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: k3d-demo-agent-0
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: dex
+    serviceAccountName: dex
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - configMap:
+        defaultMode: 420
+        name: dex
+      name: config
+    - name: kube-api-access-56rmw
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:52:16Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:54:47Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:54:47Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:52:16Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://6fedc4d6fa0d427eb4c4cda07934659a07530488d2c7c7ec388f3f679e0a7f95
+      image: ghcr.io/dexidp/dex:v2.35.0
+      imageID: ghcr.io/dexidp/dex@sha256:347b0dcaa6a11fa2ed8afea6aa4cfa5bc927192d06b99f700d9fcd967b43e8ce
+      lastState: {}
+      name: dex
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2024-02-14T20:54:47Z"
+    hostIP: 172.18.0.5
+    phase: Running
+    podIP: 10.42.0.21
+    podIPs:
+    - ip: 10.42.0.21
+    qosClass: BestEffort
+    startTime: "2024-02-14T20:52:16Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2024-02-14T20:52:16Z"
+    generateName: postgres-bf7cc5db-
+    labels:
+      app: postgres
+      pod-template-hash: bf7cc5db
+    name: postgres-bf7cc5db-7tdgk
+    namespace: argo
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: postgres-bf7cc5db
+      uid: b86dba6f-6dc8-45ff-bfa4-6dfd05f38dc4
+    resourceVersion: "32725"
+    uid: 7dee72c8-6033-4237-b745-85b335d36749
+  spec:
+    containers:
+    - env:
+      - name: POSTGRES_PASSWORD
+        value: password
+      image: postgres:12-alpine
+      imagePullPolicy: IfNotPresent
+      name: main
+      ports:
+      - containerPort: 5432
+        protocol: TCP
+      readinessProbe:
+        exec:
+          command:
+          - psql
+          - -U
+          - postgres
+          - -c
+          - SELECT 1
+        failureThreshold: 3
+        initialDelaySeconds: 15
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 2
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-9tnqd
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: k3d-demo-agent-0
+    nodeSelector:
+      kubernetes.io/os: linux
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-9tnqd
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:52:16Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T23:41:44Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T23:41:44Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:52:16Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://d7101cf92230aa0d2e02031491e6f8188ba1675ebb516ff1e0794225fcc5531c
+      image: docker.io/library/postgres:12-alpine
+      imageID: docker.io/library/postgres@sha256:de1426a8865f7f3ca1b030e89529c8c06faa9f288495db0d1b2146805ae391f3
+      lastState: {}
+      name: main
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2024-02-14T20:52:22Z"
+    hostIP: 172.18.0.5
+    phase: Running
+    podIP: 10.42.0.22
+    podIPs:
+    - ip: 10.42.0.22
+    qosClass: BestEffort
+    startTime: "2024-02-14T20:52:16Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2024-02-14T20:52:16Z"
+    generateName: minio-7f594b75c6-
+    labels:
+      app: minio
+      pod-template-hash: 7f594b75c6
+    name: minio-7f594b75c6-d479j
+    namespace: argo
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: minio-7f594b75c6
+      uid: b8c784c2-a70f-4285-92ef-eb28162a3869
+    resourceVersion: "32750"
+    uid: 283570c3-518c-42ce-a3f6-fae7b168456a
+  spec:
+    automountServiceAccountToken: false
+    containers:
+    - command:
+      - minio
+      - server
+      - --console-address
+      - :9001
+      - /data
+      env:
+      - name: MINIO_ACCESS_KEY
+        value: admin
+      - name: MINIO_SECRET_KEY
+        value: password
+      image: minio/minio:RELEASE.2022-11-17T23-20-09Z
+      imagePullPolicy: IfNotPresent
+      lifecycle:
+        postStart:
+          exec:
+            command:
+            - mkdir
+            - -p
+            - /data/my-bucket
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /minio/health/live
+          port: 9000
+          scheme: HTTP
+        initialDelaySeconds: 5
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: main
+      ports:
+      - containerPort: 9000
+        name: api
+        protocol: TCP
+      - containerPort: 9001
+        name: dashboard
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /minio/health/ready
+          port: 9000
+          scheme: HTTP
+        initialDelaySeconds: 5
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: k3d-demo-agent-1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:52:16Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T23:42:06Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T23:42:06Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:52:16Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://b650acb84828bb021ae39a2346e564af000bab261cd0cfc65a15a0bc0e676749
+      image: docker.io/minio/minio:RELEASE.2022-11-17T23-20-09Z
+      imageID: docker.io/minio/minio@sha256:296095d34582d941610a3f06823bf9e2ef374744376eb4a5f20f877d2f2a1f4c
+      lastState:
+        terminated:
+          containerID: containerd://a007124874c2e8d41abd6ca04a2220a620c2f854e8e45332646262b756756493
+          exitCode: 0
+          finishedAt: "2024-02-14T23:41:05Z"
+          reason: Completed
+          startedAt: "2024-02-14T20:52:23Z"
+      name: main
+      ready: true
+      restartCount: 1
+      started: true
+      state:
+        running:
+          startedAt: "2024-02-14T23:41:49Z"
+    hostIP: 172.18.0.6
+    phase: Running
+    podIP: 10.42.1.19
+    podIPs:
+    - ip: 10.42.1.19
+    qosClass: BestEffort
+    startTime: "2024-02-14T20:52:16Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2024-02-14T20:52:16Z"
+    generateName: httpbin-6558bcd6ff-
+    labels:
+      app: httpbin
+      pod-template-hash: 6558bcd6ff
+    name: httpbin-6558bcd6ff-cgsq9
+    namespace: argo
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: httpbin-6558bcd6ff
+      uid: 399a7a31-ebeb-44b0-85ca-187d824278f0
+    resourceVersion: "35364"
+    uid: 97396aad-f0ba-4488-a64d-730f5e86fe06
+  spec:
+    automountServiceAccountToken: false
+    containers:
+    - image: kennethreitz/httpbin
+      imagePullPolicy: Always
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /get
+          port: 80
+          scheme: HTTP
+        initialDelaySeconds: 5
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: main
+      ports:
+      - containerPort: 80
+        name: api
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /get
+          port: 80
+          scheme: HTTP
+        initialDelaySeconds: 5
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: k3d-demo-agent-2
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:52:16Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T23:56:46Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T23:56:46Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:52:16Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://80bfc331690c5cb65a1a07dbc44440be6e539cf1a03f4a93bb26834507780902
+      image: docker.io/kennethreitz/httpbin:latest
+      imageID: docker.io/kennethreitz/httpbin@sha256:599fe5e5073102dbb0ee3dbb65f049dab44fa9fc251f6835c9990f8fb196a72b
+      lastState:
+        terminated:
+          containerID: containerd://79f397feb3c8397d5bf9adddff5fec33c5b3d79a39bbefe9fde268a33a6f614a
+          exitCode: 0
+          finishedAt: "2024-02-14T23:56:39Z"
+          reason: Completed
+          startedAt: "2024-02-14T20:52:24Z"
+      name: main
+      ready: true
+      restartCount: 1
+      started: true
+      state:
+        running:
+          startedAt: "2024-02-14T23:56:39Z"
+    hostIP: 172.18.0.4
+    phase: Running
+    podIP: 10.42.2.18
+    podIPs:
+    - ip: 10.42.2.18
+    qosClass: BestEffort
+    startTime: "2024-02-14T20:52:16Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2024-02-14T20:52:16Z"
+    generateName: argo-workflows-workflow-controller-764b78d685-
+    labels:
+      app.kubernetes.io/component: workflow-controller
+      app.kubernetes.io/instance: argo-workflows
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: argo-workflows-workflow-controller
+      app.kubernetes.io/part-of: argo-workflows
+      app.kubernetes.io/version: v3.4.11
+      helm.sh/chart: argo-workflows-0.33.2
+      pod-template-hash: 764b78d685
+    name: argo-workflows-workflow-controller-764b78d685-zcr2g
+    namespace: argo
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: argo-workflows-workflow-controller-764b78d685
+      uid: 61389e4c-fe47-4666-ae8a-9fb1167d4623
+    resourceVersion: "35381"
+    uid: b2e988a5-af52-4f78-ac6f-479930cba4d6
+  spec:
+    containers:
+    - args:
+      - --configmap
+      - argo-workflows-workflow-controller-configmap
+      - --executor-image
+      - quay.io/argoproj/argoexec:v3.4.11
+      - --loglevel
+      - debug
+      - --gloglevel
+      - "0"
+      - --log-format
+      - json
+      - --namespaced
+      command:
+      - workflow-controller
+      env:
+      - name: ARGO_NAMESPACE
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.namespace
+      - name: LEADER_ELECTION_IDENTITY
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.name
+      image: quay.io/argoproj/workflow-controller:v3.4.11
+      imagePullPolicy: Always
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /healthz
+          port: 6060
+          scheme: HTTP
+        initialDelaySeconds: 90
+        periodSeconds: 60
+        successThreshold: 1
+        timeoutSeconds: 30
+      name: controller
+      ports:
+      - containerPort: 9090
+        name: metrics
+        protocol: TCP
+      - containerPort: 6060
+        protocol: TCP
+      resources: {}
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-xlp7m
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: k3d-demo-agent-2
+    nodeSelector:
+      kubernetes.io/os: linux
+    preemptionPolicy: PreemptLowerPriority
+    priority: 1000000
+    priorityClassName: workflow-controller
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: argo-workflows-workflow-controller
+    serviceAccountName: argo-workflows-workflow-controller
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-xlp7m
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:52:16Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T23:56:52Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T23:56:52Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:52:16Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://776173c4f2b6ec3d8cf0dba1a15a8c58711cf3b8a6e300e425dd2c967907c1be
+      image: quay.io/argoproj/workflow-controller:v3.4.11
+      imageID: quay.io/argoproj/workflow-controller@sha256:44a6e6f6c2aaae21f987cdb9037949bf14e82e27f25202f8a543c5520eda0070
+      lastState:
+        terminated:
+          containerID: containerd://dd2be436be0b88c6441d48069630302850c16ca2c36ffa373ecdb593aaa3c875
+          exitCode: 0
+          finishedAt: "2024-02-14T23:56:22Z"
+          reason: Completed
+          startedAt: "2024-02-14T23:53:49Z"
+      name: controller
+      ready: true
+      restartCount: 7
+      started: true
+      state:
+        running:
+          startedAt: "2024-02-14T23:56:52Z"
+    hostIP: 172.18.0.4
+    phase: Running
+    podIP: 10.42.2.19
+    podIPs:
+    - ip: 10.42.2.19
+    qosClass: BestEffort
+    startTime: "2024-02-14T20:52:16Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/default-container: main
+    creationTimestamp: "2024-02-14T20:53:02Z"
+    labels:
+      workflows.argoproj.io/completed: "false"
+      workflows.argoproj.io/component: agent
+      workflows.argoproj.io/workflow: http-template
+    name: http-template-1340600742-agent
+    namespace: argo
+    ownerReferences:
+    - apiVersion: argoproj.io/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Workflow
+      name: http-template
+      uid: 5dc0816b-6929-4efe-80be-c37ea8f43610
+    resourceVersion: "40132"
+    uid: 2809cf7a-c4a4-4d4e-94f3-a32a60a8bfd8
+  spec:
+    automountServiceAccountToken: false
+    containers:
+    - args:
+      - agent
+      - main
+      command:
+      - argoexec
+      env:
+      - name: ARGO_WORKFLOW_NAME
+        value: http-template
+      - name: ARGO_WORKFLOW_UID
+        value: 5dc0816b-6929-4efe-80be-c37ea8f43610
+      - name: ARGO_AGENT_PATCH_RATE
+        value: 10s
+      - name: ARGO_PLUGIN_ADDRESSES
+        value: "null"
+      - name: ARGO_PLUGIN_NAMES
+        value: "null"
+      image: quay.io/argoproj/argoexec:v3.4.11
+      imagePullPolicy: Always
+      name: main
+      resources:
+        limits:
+          cpu: 100m
+          memory: 256M
+        requests:
+          cpu: 10m
+          memory: 64M
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        runAsUser: 8737
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/argo
+        name: var-run-argo
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-fdzjl
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    initContainers:
+    - args:
+      - agent
+      - init
+      command:
+      - argoexec
+      env:
+      - name: ARGO_WORKFLOW_NAME
+        value: http-template
+      - name: ARGO_WORKFLOW_UID
+        value: 5dc0816b-6929-4efe-80be-c37ea8f43610
+      - name: ARGO_AGENT_PATCH_RATE
+        value: 10s
+      - name: ARGO_PLUGIN_ADDRESSES
+        value: "null"
+      - name: ARGO_PLUGIN_NAMES
+        value: "null"
+      image: quay.io/argoproj/argoexec:v3.4.11
+      imagePullPolicy: Always
+      name: init
+      resources:
+        limits:
+          cpu: 100m
+          memory: 256M
+        requests:
+          cpu: 10m
+          memory: 64M
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        runAsUser: 8737
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/argo
+        name: var-run-argo
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-fdzjl
+        readOnly: true
+    nodeName: k3d-demo-agent-1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: OnFailure
+    schedulerName: default-scheduler
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 8737
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - emptyDir: {}
+      name: var-run-argo
+    - name: kube-api-access-fdzjl
+      secret:
+        defaultMode: 420
+        secretName: default.service-account-token
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:53:57Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-15T00:37:26Z"
+      message: 'containers with unready status: [main]'
+      reason: ContainersNotReady
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-15T00:37:26Z"
+      message: 'containers with unready status: [main]'
+      reason: ContainersNotReady
+      status: "False"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2024-02-14T20:53:02Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://729725295c690b7e5a3bcc5dcf250f5886a82002ca95eb1c5b78f36e47cab690
+      image: quay.io/argoproj/argoexec:v3.4.11
+      imageID: quay.io/argoproj/argoexec@sha256:6731738dc79454232937c73128ccf6a9e74ffbdd0a613fb427ae427ee482115b
+      lastState:
+        terminated:
+          containerID: containerd://729725295c690b7e5a3bcc5dcf250f5886a82002ca95eb1c5b78f36e47cab690
+          exitCode: 64
+          finishedAt: "2024-02-15T00:37:25Z"
+          message: unknown (get workflowtasksets.argoproj.io)
+          reason: Error
+          startedAt: "2024-02-15T00:37:24Z"
+      name: main
+      ready: false
+      restartCount: 48
+      started: false
+      state:
+        waiting:
+          message: back-off 5m0s restarting failed container=main pod=http-template-1340600742-agent_argo(2809cf7a-c4a4-4d4e-94f3-a32a60a8bfd8)
+          reason: CrashLoopBackOff
+    hostIP: 172.18.0.6
+    initContainerStatuses:
+    - containerID: containerd://d38c1ea007142e65b57ce04c2f3320d72d40d215ea719c375e5ba4b1b5bdada2
+      image: quay.io/argoproj/argoexec:v3.4.11
+      imageID: quay.io/argoproj/argoexec@sha256:6731738dc79454232937c73128ccf6a9e74ffbdd0a613fb427ae427ee482115b
+      lastState: {}
+      name: init
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: containerd://d38c1ea007142e65b57ce04c2f3320d72d40d215ea719c375e5ba4b1b5bdada2
+          exitCode: 0
+          finishedAt: "2024-02-14T20:53:56Z"
+          reason: Completed
+          startedAt: "2024-02-14T20:53:55Z"
+    phase: Running
+    podIP: 10.42.1.21
+    podIPs:
+    - ip: 10.42.1.21
+    qosClass: Burstable
+    startTime: "2024-02-14T20:53:02Z"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2024-02-14T20:52:15Z"
+    labels:
+      app: postgres
+      app.kubernetes.io/instance: argo-workflows
+      monitoring: prometheus
+      prometheus: main
+    name: postgres
+    namespace: argo
+    resourceVersion: "3750"
+    uid: bfd9e247-3eb5-4dab-a876-4f875e121435
+  spec:
+    clusterIP: 10.43.71.76
+    clusterIPs:
+    - 10.43.71.76
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 5432
+      protocol: TCP
+      targetPort: 5432
+    selector:
+      app: postgres
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2024-02-14T20:52:15Z"
+    labels:
+      app: httpbin
+      app.kubernetes.io/instance: argo-workflows
+      monitoring: prometheus
+      prometheus: main
+    name: httpbin
+    namespace: argo
+    resourceVersion: "3751"
+    uid: c0a8fcd3-3b2e-4aa3-a6fe-3a7a0b5faa64
+  spec:
+    clusterIP: 10.43.89.39
+    clusterIPs:
+    - 10.43.89.39
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: api
+      port: 9100
+      protocol: TCP
+      targetPort: 80
+    selector:
+      app: httpbin
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2024-02-14T20:52:15Z"
+    labels:
+      app: minio
+      app.kubernetes.io/instance: argo-workflows
+      monitoring: prometheus
+      prometheus: main
+    name: minio
+    namespace: argo
+    resourceVersion: "3757"
+    uid: 6238175d-986f-422b-acfa-1d4efc53944b
+  spec:
+    clusterIP: 10.43.132.179
+    clusterIPs:
+    - 10.43.132.179
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: api
+      port: 9000
+      protocol: TCP
+      targetPort: 9000
+    - name: dashboard
+      port: 9001
+      protocol: TCP
+      targetPort: 9001
+    selector:
+      app: minio
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2024-02-14T20:52:15Z"
+    labels:
+      app.kubernetes.io/component: server
+      app.kubernetes.io/instance: argo-workflows
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: argo-workflows-server
+      app.kubernetes.io/part-of: argo-workflows
+      app.kubernetes.io/version: v3.4.11
+      helm.sh/chart: argo-workflows-0.33.2
+    name: argo-workflows-server
+    namespace: argo
+    resourceVersion: "3759"
+    uid: b18e474b-6ea1-4dec-b1c5-9d4dd31c23dc
+  spec:
+    clusterIP: 10.43.156.45
+    clusterIPs:
+    - 10.43.156.45
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 2746
+      protocol: TCP
+      targetPort: 2746
+    selector:
+      app.kubernetes.io/instance: argo-workflows
+      app.kubernetes.io/name: argo-workflows-server
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2024-02-14T20:52:15Z"
+    labels:
+      app.kubernetes.io/component: workflow-controller
+      app.kubernetes.io/instance: argo-workflows
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: argo-workflows-workflow-controller
+      app.kubernetes.io/part-of: argo-workflows
+      app.kubernetes.io/version: v3.4.11
+      helm.sh/chart: argo-workflows-0.33.2
+    name: argo-workflows-workflow-controller
+    namespace: argo
+    resourceVersion: "3766"
+    uid: 984c9f1c-e6d1-40ba-9ac4-d3a2d7a791ae
+  spec:
+    clusterIP: 10.43.31.220
+    clusterIPs:
+    - 10.43.31.220
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: metrics
+      port: 8080
+      protocol: TCP
+      targetPort: 9090
+    - name: telemetry
+      port: 8081
+      protocol: TCP
+      targetPort: 8081
+    selector:
+      app.kubernetes.io/instance: argo-workflows
+      app.kubernetes.io/name: argo-workflows-workflow-controller
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2024-02-14T20:52:15Z"
+    labels:
+      app.kubernetes.io/instance: argo-workflows
+      app.kubernetes.io/part-of: dex
+      monitoring: prometheus
+      prometheus: main
+    name: dex
+    namespace: argo
+    resourceVersion: "3767"
+    uid: dbdf97dd-9092-471e-8100-5a4ff463ec5e
+  spec:
+    clusterIP: 10.43.40.5
+    clusterIPs:
+    - 10.43.40.5
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http
+      port: 5556
+      protocol: TCP
+      targetPort: 5556
+    selector:
+      app: dex
+      app.kubernetes.io/part-of: dex
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2024-02-14T20:52:16Z"
+    generation: 1
+    labels:
+      app: dex
+      app.kubernetes.io/instance: argo-workflows
+      app.kubernetes.io/part-of: dex
+      monitoring: prometheus
+      prometheus: main
+    name: dex
+    namespace: argo
+    resourceVersion: "4882"
+    uid: ec500d6d-58ab-4e6d-b408-606aaefb6c32
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: dex
+        app.kubernetes.io/part-of: dex
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: dex
+          app.kubernetes.io/part-of: dex
+      spec:
+        containers:
+        - args:
+          - dex
+          - serve
+          - /data/config.yaml
+          image: ghcr.io/dexidp/dex:v2.35.0
+          imagePullPolicy: IfNotPresent
+          name: dex
+          ports:
+          - containerPort: 5556
+            name: http
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data
+            name: config
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: dex
+        serviceAccountName: dex
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: dex
+          name: config
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2024-02-14T20:54:47Z"
+      lastUpdateTime: "2024-02-14T20:54:47Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2024-02-14T20:52:16Z"
+      lastUpdateTime: "2024-02-14T20:54:47Z"
+      message: ReplicaSet "dex-f4d8f8758" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2024-02-14T20:52:16Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/component: server
+      app.kubernetes.io/instance: argo-workflows
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: argo-workflows-server
+      app.kubernetes.io/part-of: argo-workflows
+      app.kubernetes.io/version: v3.4.11
+      helm.sh/chart: argo-workflows-0.33.2
+    name: argo-workflows-server
+    namespace: argo
+    resourceVersion: "7171"
+    uid: 0e8c46ca-b882-4fff-93ef-49e35f3a5dce
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: argo-workflows
+        app.kubernetes.io/name: argo-workflows-server
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/component: server
+          app.kubernetes.io/instance: argo-workflows
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: argo-workflows-server
+          app.kubernetes.io/part-of: argo-workflows
+          app.kubernetes.io/version: v3.4.11
+          helm.sh/chart: argo-workflows-0.33.2
+      spec:
+        containers:
+        - args:
+          - server
+          - --configmap=argo-workflows-workflow-controller-configmap
+          - --secure=false
+          - --api-rate-limit="8000"
+          - --secure=false
+          - --namespaced
+          - --loglevel
+          - debug
+          - --gloglevel
+          - "0"
+          - --log-format
+          - json
+          env:
+          - name: IN_CLUSTER
+            value: "true"
+          - name: ARGO_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: BASE_HREF
+            value: /
+          image: quay.io/argoproj/argocli:v3.4.11
+          imagePullPolicy: Always
+          name: argo-server
+          ports:
+          - containerPort: 2746
+            name: web
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 2746
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /tmp
+            name: tmp
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          kubernetes.io/os: linux
+        priorityClassName: argo-server
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: argo-workflows-server
+        serviceAccountName: argo-workflows-server
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: tmp
+  status:
+    conditions:
+    - lastTransitionTime: "2024-02-14T20:52:16Z"
+      lastUpdateTime: "2024-02-14T20:52:16Z"
+      message: Deployment does not have minimum availability.
+      reason: MinimumReplicasUnavailable
+      status: "False"
+      type: Available
+    - lastTransitionTime: "2024-02-14T20:52:16Z"
+      lastUpdateTime: "2024-02-14T20:52:16Z"
+      message: 'pods "argo-workflows-server-b887bf9b5-" is forbidden: no PriorityClass
+        with name argo-server was found'
+      reason: FailedCreate
+      status: "True"
+      type: ReplicaFailure
+    - lastTransitionTime: "2024-02-14T21:02:17Z"
+      lastUpdateTime: "2024-02-14T21:02:17Z"
+      message: ReplicaSet "argo-workflows-server-b887bf9b5" has timed out progressing.
+      reason: ProgressDeadlineExceeded
+      status: "False"
+      type: Progressing
+    observedGeneration: 1
+    unavailableReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2024-02-14T20:52:16Z"
+    generation: 1
+    labels:
+      app: postgres
+      app.kubernetes.io/instance: argo-workflows
+      monitoring: prometheus
+      prometheus: main
+    name: postgres
+    namespace: argo
+    resourceVersion: "32786"
+    uid: d6ee9134-100d-4cfa-98db-04acbfba7352
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: postgres
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: postgres
+        name: postgres
+      spec:
+        containers:
+        - env:
+          - name: POSTGRES_PASSWORD
+            value: password
+          image: postgres:12-alpine
+          imagePullPolicy: IfNotPresent
+          name: main
+          ports:
+          - containerPort: 5432
+            protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+              - psql
+              - -U
+              - postgres
+              - -c
+              - SELECT 1
+            failureThreshold: 3
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          kubernetes.io/os: linux
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2024-02-14T20:52:16Z"
+      lastUpdateTime: "2024-02-14T20:52:46Z"
+      message: ReplicaSet "postgres-bf7cc5db" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2024-02-14T23:42:23Z"
+      lastUpdateTime: "2024-02-14T23:42:23Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2024-02-14T20:52:16Z"
+    generation: 1
+    labels:
+      app: minio
+      app.kubernetes.io/instance: argo-workflows
+      monitoring: prometheus
+      prometheus: main
+    name: minio
+    namespace: argo
+    resourceVersion: "32801"
+    uid: ca28db57-ecd0-4d46-9fe7-3ea7881fb02a
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: minio
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: minio
+      spec:
+        automountServiceAccountToken: false
+        containers:
+        - command:
+          - minio
+          - server
+          - --console-address
+          - :9001
+          - /data
+          env:
+          - name: MINIO_ACCESS_KEY
+            value: admin
+          - name: MINIO_SECRET_KEY
+            value: password
+          image: minio/minio:RELEASE.2022-11-17T23-20-09Z
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                - mkdir
+                - -p
+                - /data/my-bucket
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /minio/health/live
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: main
+          ports:
+          - containerPort: 9000
+            name: api
+            protocol: TCP
+          - containerPort: 9001
+            name: dashboard
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /minio/health/ready
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2024-02-14T20:52:16Z"
+      lastUpdateTime: "2024-02-14T20:52:36Z"
+      message: ReplicaSet "minio-7f594b75c6" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2024-02-14T23:42:29Z"
+      lastUpdateTime: "2024-02-14T23:42:29Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2024-02-14T20:52:16Z"
+    generation: 1
+    labels:
+      app: httpbin
+      app.kubernetes.io/instance: argo-workflows
+      monitoring: prometheus
+      prometheus: main
+    name: httpbin
+    namespace: argo
+    resourceVersion: "35368"
+    uid: 34b0249b-7dba-435d-8cb3-8e8270de8aeb
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: httpbin
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: httpbin
+      spec:
+        automountServiceAccountToken: false
+        containers:
+        - image: kennethreitz/httpbin
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /get
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: main
+          ports:
+          - containerPort: 80
+            name: api
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /get
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2024-02-14T20:52:16Z"
+      lastUpdateTime: "2024-02-14T20:52:36Z"
+      message: ReplicaSet "httpbin-6558bcd6ff" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2024-02-14T23:56:46Z"
+      lastUpdateTime: "2024-02-14T23:56:46Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2024-02-14T20:52:16Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/component: workflow-controller
+      app.kubernetes.io/instance: argo-workflows
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: argo-workflows-workflow-controller
+      app.kubernetes.io/part-of: argo-workflows
+      app.kubernetes.io/version: v3.4.11
+      helm.sh/chart: argo-workflows-0.33.2
+    name: argo-workflows-workflow-controller
+    namespace: argo
+    resourceVersion: "35385"
+    uid: 9f6e2748-4f71-420b-9248-e5a7124a9a8b
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: argo-workflows
+        app.kubernetes.io/name: argo-workflows-workflow-controller
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/component: workflow-controller
+          app.kubernetes.io/instance: argo-workflows
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: argo-workflows-workflow-controller
+          app.kubernetes.io/part-of: argo-workflows
+          app.kubernetes.io/version: v3.4.11
+          helm.sh/chart: argo-workflows-0.33.2
+      spec:
+        containers:
+        - args:
+          - --configmap
+          - argo-workflows-workflow-controller-configmap
+          - --executor-image
+          - quay.io/argoproj/argoexec:v3.4.11
+          - --loglevel
+          - debug
+          - --gloglevel
+          - "0"
+          - --log-format
+          - json
+          - --namespaced
+          command:
+          - workflow-controller
+          env:
+          - name: ARGO_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: LEADER_ELECTION_IDENTITY
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          image: quay.io/argoproj/workflow-controller:v3.4.11
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 6060
+              scheme: HTTP
+            initialDelaySeconds: 90
+            periodSeconds: 60
+            successThreshold: 1
+            timeoutSeconds: 30
+          name: controller
+          ports:
+          - containerPort: 9090
+            name: metrics
+            protocol: TCP
+          - containerPort: 6060
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          kubernetes.io/os: linux
+        priorityClassName: workflow-controller
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: argo-workflows-workflow-controller
+        serviceAccountName: argo-workflows-workflow-controller
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2024-02-14T20:52:16Z"
+      lastUpdateTime: "2024-02-14T20:52:45Z"
+      message: ReplicaSet "argo-workflows-workflow-controller-764b78d685" has successfully
+        progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2024-02-14T23:56:52Z"
+      lastUpdateTime: "2024-02-14T23:56:52Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2024-02-14T20:52:16Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/component: server
+      app.kubernetes.io/instance: argo-workflows
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: argo-workflows-server
+      app.kubernetes.io/part-of: argo-workflows
+      app.kubernetes.io/version: v3.4.11
+      helm.sh/chart: argo-workflows-0.33.2
+      pod-template-hash: b887bf9b5
+    name: argo-workflows-server-b887bf9b5
+    namespace: argo
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: argo-workflows-server
+      uid: 0e8c46ca-b882-4fff-93ef-49e35f3a5dce
+    resourceVersion: "3789"
+    uid: d2663f89-5a55-46ab-b205-c0a02e2b0ca1
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: argo-workflows
+        app.kubernetes.io/name: argo-workflows-server
+        pod-template-hash: b887bf9b5
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/component: server
+          app.kubernetes.io/instance: argo-workflows
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: argo-workflows-server
+          app.kubernetes.io/part-of: argo-workflows
+          app.kubernetes.io/version: v3.4.11
+          helm.sh/chart: argo-workflows-0.33.2
+          pod-template-hash: b887bf9b5
+      spec:
+        containers:
+        - args:
+          - server
+          - --configmap=argo-workflows-workflow-controller-configmap
+          - --secure=false
+          - --api-rate-limit="8000"
+          - --secure=false
+          - --namespaced
+          - --loglevel
+          - debug
+          - --gloglevel
+          - "0"
+          - --log-format
+          - json
+          env:
+          - name: IN_CLUSTER
+            value: "true"
+          - name: ARGO_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: BASE_HREF
+            value: /
+          image: quay.io/argoproj/argocli:v3.4.11
+          imagePullPolicy: Always
+          name: argo-server
+          ports:
+          - containerPort: 2746
+            name: web
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 2746
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /tmp
+            name: tmp
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          kubernetes.io/os: linux
+        priorityClassName: argo-server
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: argo-workflows-server
+        serviceAccountName: argo-workflows-server
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: tmp
+  status:
+    conditions:
+    - lastTransitionTime: "2024-02-14T20:52:16Z"
+      message: 'pods "argo-workflows-server-b887bf9b5-" is forbidden: no PriorityClass
+        with name argo-server was found'
+      reason: FailedCreate
+      status: "True"
+      type: ReplicaFailure
+    observedGeneration: 1
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2024-02-14T20:52:16Z"
+    generation: 1
+    labels:
+      app: dex
+      app.kubernetes.io/part-of: dex
+      pod-template-hash: f4d8f8758
+    name: dex-f4d8f8758
+    namespace: argo
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: dex
+      uid: ec500d6d-58ab-4e6d-b408-606aaefb6c32
+    resourceVersion: "4880"
+    uid: c155e512-29e0-4871-a388-ff28330b7032
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: dex
+        app.kubernetes.io/part-of: dex
+        pod-template-hash: f4d8f8758
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: dex
+          app.kubernetes.io/part-of: dex
+          pod-template-hash: f4d8f8758
+      spec:
+        containers:
+        - args:
+          - dex
+          - serve
+          - /data/config.yaml
+          image: ghcr.io/dexidp/dex:v2.35.0
+          imagePullPolicy: IfNotPresent
+          name: dex
+          ports:
+          - containerPort: 5556
+            name: http
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data
+            name: config
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: dex
+        serviceAccountName: dex
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: dex
+          name: config
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2024-02-14T20:52:16Z"
+    generation: 1
+    labels:
+      app: postgres
+      pod-template-hash: bf7cc5db
+    name: postgres-bf7cc5db
+    namespace: argo
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: postgres
+      uid: d6ee9134-100d-4cfa-98db-04acbfba7352
+    resourceVersion: "32745"
+    uid: b86dba6f-6dc8-45ff-bfa4-6dfd05f38dc4
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: postgres
+        pod-template-hash: bf7cc5db
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: postgres
+          pod-template-hash: bf7cc5db
+        name: postgres
+      spec:
+        containers:
+        - env:
+          - name: POSTGRES_PASSWORD
+            value: password
+          image: postgres:12-alpine
+          imagePullPolicy: IfNotPresent
+          name: main
+          ports:
+          - containerPort: 5432
+            protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+              - psql
+              - -U
+              - postgres
+              - -c
+              - SELECT 1
+            failureThreshold: 3
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          kubernetes.io/os: linux
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2024-02-14T20:52:16Z"
+    generation: 1
+    labels:
+      app: minio
+      pod-template-hash: 7f594b75c6
+    name: minio-7f594b75c6
+    namespace: argo
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: minio
+      uid: ca28db57-ecd0-4d46-9fe7-3ea7881fb02a
+    resourceVersion: "32785"
+    uid: b8c784c2-a70f-4285-92ef-eb28162a3869
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: minio
+        pod-template-hash: 7f594b75c6
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: minio
+          pod-template-hash: 7f594b75c6
+      spec:
+        automountServiceAccountToken: false
+        containers:
+        - command:
+          - minio
+          - server
+          - --console-address
+          - :9001
+          - /data
+          env:
+          - name: MINIO_ACCESS_KEY
+            value: admin
+          - name: MINIO_SECRET_KEY
+            value: password
+          image: minio/minio:RELEASE.2022-11-17T23-20-09Z
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                - mkdir
+                - -p
+                - /data/my-bucket
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /minio/health/live
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: main
+          ports:
+          - containerPort: 9000
+            name: api
+            protocol: TCP
+          - containerPort: 9001
+            name: dashboard
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /minio/health/ready
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2024-02-14T20:52:16Z"
+    generation: 1
+    labels:
+      app: httpbin
+      pod-template-hash: 6558bcd6ff
+    name: httpbin-6558bcd6ff
+    namespace: argo
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: httpbin
+      uid: 34b0249b-7dba-435d-8cb3-8e8270de8aeb
+    resourceVersion: "35366"
+    uid: 399a7a31-ebeb-44b0-85ca-187d824278f0
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: httpbin
+        pod-template-hash: 6558bcd6ff
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: httpbin
+          pod-template-hash: 6558bcd6ff
+      spec:
+        automountServiceAccountToken: false
+        containers:
+        - image: kennethreitz/httpbin
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /get
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: main
+          ports:
+          - containerPort: 80
+            name: api
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /get
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2024-02-14T20:52:16Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/component: workflow-controller
+      app.kubernetes.io/instance: argo-workflows
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: argo-workflows-workflow-controller
+      app.kubernetes.io/part-of: argo-workflows
+      app.kubernetes.io/version: v3.4.11
+      helm.sh/chart: argo-workflows-0.33.2
+      pod-template-hash: 764b78d685
+    name: argo-workflows-workflow-controller-764b78d685
+    namespace: argo
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: argo-workflows-workflow-controller
+      uid: 9f6e2748-4f71-420b-9248-e5a7124a9a8b
+    resourceVersion: "35383"
+    uid: 61389e4c-fe47-4666-ae8a-9fb1167d4623
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: argo-workflows
+        app.kubernetes.io/name: argo-workflows-workflow-controller
+        pod-template-hash: 764b78d685
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/component: workflow-controller
+          app.kubernetes.io/instance: argo-workflows
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: argo-workflows-workflow-controller
+          app.kubernetes.io/part-of: argo-workflows
+          app.kubernetes.io/version: v3.4.11
+          helm.sh/chart: argo-workflows-0.33.2
+          pod-template-hash: 764b78d685
+      spec:
+        containers:
+        - args:
+          - --configmap
+          - argo-workflows-workflow-controller-configmap
+          - --executor-image
+          - quay.io/argoproj/argoexec:v3.4.11
+          - --loglevel
+          - debug
+          - --gloglevel
+          - "0"
+          - --log-format
+          - json
+          - --namespaced
+          command:
+          - workflow-controller
+          env:
+          - name: ARGO_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: LEADER_ELECTION_IDENTITY
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          image: quay.io/argoproj/workflow-controller:v3.4.11
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 6060
+              scheme: HTTP
+            initialDelaySeconds: 90
+            periodSeconds: 60
+            successThreshold: 1
+            timeoutSeconds: 30
+          name: controller
+          ports:
+          - containerPort: 9090
+            name: metrics
+            protocol: TCP
+          - containerPort: 6060
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          kubernetes.io/os: linux
+        priorityClassName: workflow-controller
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: argo-workflows-workflow-controller
+        serviceAccountName: argo-workflows-workflow-controller
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+kind: List
+metadata:
+  resourceVersion: ""
