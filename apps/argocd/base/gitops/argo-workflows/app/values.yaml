@@ -244,7 +244,7 @@ controller:
     name: ""
 
   # -- Limits the maximum number of incomplete workflows in a namespace
-  namespaceParallelism:
+  namespaceParallelism: 10
   # -- Resolves ongoing, uncommon AWS EKS bug: https://github.com/argoproj/argo-workflows/pull/4224
   initialDelay:
   # -- deploymentAnnotations is an optional map of annotations to be applied to the controller Deployment
@@ -303,7 +303,7 @@ controller:
     nodeStatusOffLoad: true
     # enable archiving of old workflows
     archive: true
-    archiveTTL: 365d
+    archiveTTL: 7d
     postgresql:
       host: postgres
       port: 5432
