@@ -21,9 +21,9 @@ resources:
 namespace: argo
 
 patches:
-- path: patch-securitycontext.yaml
-  target:
-    kind: Deployment
+# - path: patch-securitycontext.yaml
+#   target:
+#     kind: Deployment
 - path: remove-livenessprobe.yaml
   target:
     kind: Deployment
