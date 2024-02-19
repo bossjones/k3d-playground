@@ -42,6 +42,14 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     --mount=type=bind,source=requirements.txt,target=requirements.txt \
     python -m pip install -r requirements.txt
 
+COPY ./start.sh /start.sh
+RUN chmod +x /start.sh
+
+COPY ./gunicorn_conf.py /gunicorn_conf.py
+
+COPY ./start-reload.sh /start-reload.sh
+RUN chmod +x /start-reload.sh
+
 # Switch to the non-privileged user to run the application.
 USER appuser
 
@@ -52,4 +60,11 @@ COPY . .
 EXPOSE 8000
 
 # Run the application.
-CMD  gunicorn 'myapp.example:app' --bind=0.0.0.0:8000
+# CMD  gunicorn 'myapp.example:app' --bind=0.0.0.0:8000
+
+ENV PORT 8080
+ENV APP_MODULE app.api:app
+ENV LOG_LEVEL debug
+ENV WEB_CONCURRENCY 2
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]

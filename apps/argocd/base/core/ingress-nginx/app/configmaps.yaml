@@ -1,0 +1,15 @@
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: udp-services
+#   namespace: ingress-nginx
+# data:
+#   53: "kube-system/kube-dns:53"
+# ---
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: tcp-services
+#   namespace: ingress-nginx
+# data:
+#   2746: "argo/argo-server:2746"

@@ -3,3 +3,10 @@ Flask
 rich
 better_exceptions
 bpython
+# fastapi >= 0.75.0
+# uvicorn >= 0.17.1
+spacy >= 3.2, <3.3
+fastui
+uvicorn[standard]==0.20.0
+gunicorn==20.1.0
+fastapi[all]==0.88.0
