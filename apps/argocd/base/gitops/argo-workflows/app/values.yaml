@@ -124,8 +124,8 @@ argo-workflows:
       redirectUrl: http://localhost:8080/oauth2/callback
       scopes:
       - groups
-      - email
-      - profile
+      # - email
+      # - profile
       rbac:
         enabled: true
       # issuer: http://argocd.k8s.localhost/api/dex
