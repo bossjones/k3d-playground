@@ -473,10 +473,10 @@ controller:
   # -- Extra arguments to be added to the controller
   extraArgs:
   - --verbose
-  - --workflow-workers
-  - "64"
-  - --workflow-ttl-workers
-  - "8"
+  # - --workflow-workers
+  # - "64"
+  # - --workflow-ttl-workers
+  # - "8"
   - --qps=300
   - --burst=450
   # -- Additional volume mounts to the controller main container
