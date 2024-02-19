@@ -425,4 +425,7 @@ external-secrets-schema:
   python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/config/crds/bases/generators.external-secrets.io_gcraccesstokens.yaml
   python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/config/crds/bases/generators.external-secrets.io_passwords.yaml
   python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/config/crds/bases/generators.external-secrets.io_vaultdynamicsecrets.yaml
-  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/config/crds/bases/generators.external-secrets.io_webhooks.yaml
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/external-secrets/external-secrets/main/config/crds/bases/generators.external-secrets.io_webhooks.yaml
+
+create-1pass-external-secrets:
+  op item create --template create-1pass-secret-authentik.json

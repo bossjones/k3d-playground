@@ -1,0 +1,48 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - app.yaml
+
+patches:
+- target:
+    version: v1
+    kind: Deployment
+    name: authentik-server
+  patch: |
+    - op: add
+      path: /spec/template/metadata/labels/egress.home.arpa~1apiserver
+      value: allow
+    - op: add
+      path: /spec/template/metadata/labels/egress.home.arpa~1internet
+      value: allow
+    - op: add
+      path: /spec/template/metadata/labels/db.home.arpa~1pg
+      value: postgres
+    - op: add
+      path: /spec/template/metadata/labels/ingress.home.arpa~1nginx-external
+      value: allow
+    - op: add
+      path: /spec/template/metadata/labels/prom.home.arpa~1kps
+      value: allow
+    - op: add
+      path: /spec/template/metadata/labels/egress.home.arpa~1kubedns
+      value: allow
+- target:
+    version: v1
+    kind: Deployment
+    name: authentik-worker
+  patch: |
+    - op: add
+      path: /spec/template/metadata/labels/egress.home.arpa~1apiserver
+      value: allow
+    - op: add
+      path: /spec/template/metadata/labels/egress.home.arpa~1internet
+      value: allow
+    - op: add
+      path: /spec/template/metadata/labels/db.home.arpa~1pg
+      value: postgres
+    - op: add
+      path: /spec/template/metadata/labels/egress.home.arpa~1kubedns
+      value: allow

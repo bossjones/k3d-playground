@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bossjones/k3d-playground/main/schema/external-secrets/v0.9.11/clustersecretstore_v1beta1.json
+# SOURCE: https://external-secrets.io/latest/api/clustersecretstore/
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ClusterSecretStore
@@ -5,11 +7,20 @@ metadata:
   name: 1password
   namespace: kube-system
 spec:
+  # Used to select the correct ESO controller (think: ingress.ingressClassName)
+  # The ESO controller is instantiated with a specific controller name
+  # and filters ES based on this property
+  # Optional
+  # controller: dev
+
+  # provider field contains the configuration to access the provider
+  # which contains the secret exactly one provider must be configured.
   provider:
     onepassword:
       connectHost: http://onepassword-connect:8080
       vaults:
         k3d: 1
+      # Auth defines the information necessary to authenticate against AWS
       auth:
         secretRef:
           connectTokenSecretRef:
