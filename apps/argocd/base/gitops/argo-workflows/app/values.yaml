@@ -941,7 +941,11 @@ server:
       # -- Key of a secret to retrieve the app OIDC client secret
       key: clientSecret
     # - The OIDC redirect URL. Should be in the form <argo-root-url>/oauth2/callback.
-    redirectUrl: "http://localhost:8080/oauth2/callback"
+    # This is the redirect URL supplied to the provider (optional). It must
+    # be in the form <argo-server-root-url>/oauth2/callback. It must be
+    # browser-accessible. If omitted, will be automatically generated.
+    redirectUrl: "http://argo.k8s.localhost/oauth2/callback"
+    # redirectUrl: "http://localhost:8080/oauth2/callback"
     rbac:
       # -- Adds ServiceAccount Policy to server (Cluster)Role.
       enabled: true
@@ -953,10 +957,11 @@ server:
       secretWhitelist: []
     # -- Scopes requested from the SSO ID provider
     ## The 'groups' scope requests group membership information, which is usually used for authorization decisions.
+    # Additional scopes to request. Typically needed for SSO RBAC. >= v2.12
     scopes:
     - groups
-    - email
-    - profile
+    # - email
+    # - profile
       # - groups
     # -- Define how long your login is valid for (in hours)
     ## If omitted, defaults to 10h.
