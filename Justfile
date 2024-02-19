@@ -405,3 +405,6 @@ yamllint:
 
 argocd-cli-login:
   argocd login argocd.k8s.localhost --grpc-web --username admin --password `_PASS=$(kubectl --cluster=k3d-demo -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d); echo $_PASS`
+
+argocd-token:
+  kubectl --cluster=k3d-demo -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d | pbcopy

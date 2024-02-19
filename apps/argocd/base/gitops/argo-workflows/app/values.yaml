@@ -434,7 +434,7 @@ controller:
     # -- Set the logging level (one of: `debug`, `info`, `warn`, `error`)
     level: debug
     # -- Set the glog logging level
-    globallevel: "0"
+    globallevel: "6"
     # -- Set the logging format (one of: `text`, `json`)
     format: "json"
 
@@ -811,7 +811,7 @@ server:
     # -- Set the logging level (one of: `debug`, `info`, `warn`, `error`)
     level: debug
     # -- Set the glog logging level
-    globallevel: "0"
+    globallevel: "6"
     # -- Set the logging format (one of: `text`, `json`)
     format: "json"
 
