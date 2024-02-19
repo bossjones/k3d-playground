@@ -12,13 +12,17 @@ data:
       http: 0.0.0.0:5556
     logger:
       level: debug
+      format: "json"
     telemetry:
       http: 0.0.0.0:5558
     staticClients:
       - id: argo-server
         redirectURIs:
-          - 'http://localhost:2746/oauth2/callback'
-          - 'http://localhost:8080/oauth2/callback'
+          # - 'http://localhost:2746/oauth2/callback'
+          # - 'http://localhost:8080/oauth2/callback'
+          # - 'http://argo-server.k8s.localhost:2746/oauth2/callback'
+          - 'http://argo.k8s.localhost/oauth2/callback'
+          # - 'http://localhost:8080/oauth2/callback'
         name: 'Argo Server'
         secret: ZXhhbXBsZS1hcHAtc2VjcmV0
     connectors:

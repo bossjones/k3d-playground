@@ -408,3 +408,6 @@ argocd-cli-login:
 
 argocd-token:
   kubectl --cluster=k3d-demo -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d | pbcopy
+
+argo-render:
+  kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/gitops/argo-workflows/app | pbcopy

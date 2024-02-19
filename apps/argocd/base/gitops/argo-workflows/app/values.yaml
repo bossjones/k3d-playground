@@ -43,6 +43,7 @@ ingress:
   #   labels:
   #     external-dns.io/provider: cloudflare
 
+# NOTE: This is the section that is duplicated it seems
 argo-workflows:
   controller:
     parallelism: 2
@@ -98,7 +99,7 @@ argo-workflows:
       #   nginx.ingress.kubernetes.io/auth-snippet: |
       #     proxy_set_header X-Forwarded-Host $http_host;
       hosts:
-      - argo-workflows.k8s.localhost
+      - argo.k8s.localhost
       paths:
       - /
       pathType: Prefix
@@ -121,7 +122,7 @@ argo-workflows:
       clientSecret:
         name: argo-server-sso
         key: clientSecret
-      redirectUrl: http://localhost:8080/oauth2/callback
+      redirectUrl: http://argo.k8s.localhost/oauth2/callback
       scopes:
       - groups
       # - email
@@ -629,6 +630,10 @@ executor:
 server:
   # -- Deploy the Argo Server
   enabled: true
+  # -- Value for base href in index.html. Used if the server is running behind reverse proxy under subpath different from /.
+  ## only updates base url of resources on client side,
+  ## it's expected that a proxy server rewrites the request URL and gets rid of this prefix
+  ## https://github.com/argoproj/argo-workflows/issues/716#issuecomment-433213190
   # -- Value for base href in index.html. Used if the server is running behind reverse proxy under subpath different from /.
   ## only updates base url of resources on client side,
   ## it's expected that a proxy server rewrites the request URL and gets rid of this prefix
