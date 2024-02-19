@@ -32,9 +32,15 @@ spec:
             - name: http
               containerPort: 5556
           volumeMounts:
+            - name: dex-ssl
+              mountPath: /etc/dex/ssl
+              readOnly: true
             - mountPath: /data
               name: config
       volumes:
         - name: config
           configMap:
             name: dex
+        - name: dex-ssl
+          secret:
+            secretName: tls-secret
