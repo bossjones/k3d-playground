@@ -81,15 +81,15 @@ ingress:
     enabled: true
     className: nginx
     annotations:
-      external-dns.alpha.kubernetes.io/target: porkboi.io
-      external-dns.alpha.kubernetes.io/hostname: auth.porkboi.io
+      # external-dns.alpha.kubernetes.io/target: k8s.localhost
+      # external-dns.alpha.kubernetes.io/hostname: auth.k8s.localhost
       nginx.ingress.kubernetes.io/configuration-snippet: |
         add_header Cache-Control "no-store";
         add_header Pragma "no-cache";
         add_header X-Frame-Options "SAMEORIGIN";
         add_header X-XSS-Protection "1; mode=block";
     hosts:
-      - host: &host auth.porkboi.io
+      - host: &host auth.k8s.localhost
         paths:
           - path: /
             service:

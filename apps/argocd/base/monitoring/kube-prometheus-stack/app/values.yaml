@@ -895,10 +895,10 @@ grafana:
   imageRenderer:
     enabled: true
   env:
-    # GF_AUTH_GENERIC_OAUTH_API_URL: https://auth.porkboi.io/api/oidc/userinfo
-    # GF_AUTH_GENERIC_OAUTH_AUTH_URL: https://auth.porkboi.io/api/oidc/authorization
+    # GF_AUTH_GENERIC_OAUTH_API_URL: https://auth.k8s.localhost/api/oidc/userinfo
+    # GF_AUTH_GENERIC_OAUTH_AUTH_URL: https://auth.k8s.localhost/api/oidc/authorization
     # GF_AUTH_GENERIC_OAUTH_CLIENT_ID: grafana
-    # GF_AUTH_GENERIC_OAUTH_TOKEN_URL: https://auth.porkboi.io/api/oidc/token
+    # GF_AUTH_GENERIC_OAUTH_TOKEN_URL: https://auth.k8s.localhost/api/oidc/token
     GF_DATE_FORMATS_USE_BROWSER_LOCALE: true
     GF_SECURITY_DISABLE_INITIAL_ADMIN_CREATION: false
     GF_EXPLORE_ENABLED: true

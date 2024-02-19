@@ -411,3 +411,18 @@ argocd-token:
 
 argo-render:
   kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/gitops/argo-workflows/app | pbcopy
+
+# Generate external secrets jsonschema
+external-secrets-schema:
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/config/crds/bases/external-secrets.io_clusterexternalsecrets.yaml
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/config/crds/bases/external-secrets.io_clustersecretstores.yaml
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/config/crds/bases/external-secrets.io_externalsecrets.yaml
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/config/crds/bases/external-secrets.io_pushsecrets.yaml
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/config/crds/bases/external-secrets.io_secretstores.yaml
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/config/crds/bases/generators.external-secrets.io_acraccesstokens.yaml
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/config/crds/bases/generators.external-secrets.io_ecrauthorizationtokens.yaml
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/config/crds/bases/generators.external-secrets.io_fakes.yaml
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/config/crds/bases/generators.external-secrets.io_gcraccesstokens.yaml
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/config/crds/bases/generators.external-secrets.io_passwords.yaml
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/config/crds/bases/generators.external-secrets.io_vaultdynamicsecrets.yaml
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/config/crds/bases/generators.external-secrets.io_webhooks.yaml

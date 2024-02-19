@@ -1,3 +1,10 @@
+# dn: ou=people,dc=example,dc=org
+# dn: cn=admin1,ou=people,dc=example,dc=org
+# dn: cn=admin2,ou=people,dc=example,dc=org
+# dn: cn=developer1,ou=people,dc=example,dc=org
+# dn: cn=developer2,ou=people,dc=example,dc=org
+
+# via: porkboi
 controllers:
   main:
     replicas: 2
@@ -21,9 +28,9 @@ controllers:
         env:
           TZ: America/New_York
           LLDAP_HTTP_PORT: &port 80
-          LLDAP_HTTP_URL: https://lldap.porkboi.io
+          LLDAP_HTTP_URL: https://lldap.k8s.localhost
           LLDAP_LDAP_PORT: &ldapPort 389
-          LLDAP_LDAP_BASE_DN: dc=porkboi,dc=io
+          LLDAP_LDAP_BASE_DN: dc=k8s,dc=localhost
         envFrom: *envFrom
         resources:
           requests:
@@ -51,11 +58,11 @@ ingress:
     enabled: true
     className: nginx
     annotations:
-      external-dns.alpha.kubernetes.io/target: porkboi.io
-      external-dns.alpha.kubernetes.io/hostname: lldap.porkboi.io
+      # external-dns.alpha.kubernetes.io/target: k8s.localhost
+      # external-dns.alpha.kubernetes.io/hostname: lldap.k8s.localhost
       nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/16
     hosts:
-      - host: &host "{{ .Release.Name }}.porkboi.io"
+      - host: &host "{{ .Release.Name }}.k8s.localhost"
         paths:
           - path: /
             service:

@@ -4,6 +4,7 @@ data:
   # https://github.com/dexidp/dex/blob/master/examples/config-dev.yaml
   config.yaml: |
     issuer: http://dex:5556/dex
+    issuerAlias: http://dex:5556/dex
     storage:
       type: sqlite3
       config:
@@ -18,8 +19,8 @@ data:
     staticClients:
       - id: argo-server
         redirectURIs:
-          # - 'http://localhost:2746/oauth2/callback'
-          # - 'http://localhost:8080/oauth2/callback'
+          - 'http://localhost:2746/oauth2/callback'
+          - 'http://localhost:8080/oauth2/callback'
           # - 'http://argo-server.k8s.localhost:2746/oauth2/callback'
           - 'http://argo.k8s.localhost/oauth2/callback'
           - 'http://argo.k8s.localhost/oauth2/redirect'
