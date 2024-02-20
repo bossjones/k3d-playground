@@ -56,7 +56,7 @@ ingress:
 postgresql:
   enabled: true
   auth:
-      password: "ThisIsNotASecurePassword"
+    password: "ThisIsNotASecurePassword"
 
 prometheus:
   rules:
