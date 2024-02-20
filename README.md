@@ -27,6 +27,8 @@ including:
 - [actions-runner-controller](https://github.com/actions/actions-runner-controller): Self-hosted Github runners.
 - [external-dns](https://github.com/kubernetes-sigs/external-dns): Automatically manages DNS records for my cluster.
 - [metallb](https://metallb.universe.tf/): Bare-Metal Load-balancer
+- [Goldilocks](https://github.com/billimek/k8s-gitops/tree/8f5ff27df2673dbf442c3eee429f51b3b9b15256/default): Goldilocks: An Open Source Tool for Recommending Resource Requests
+- [coredns](https://coredns.github.io/helm): also see https://github.com/billimek/k8s-gitops/blob/master/networking/coredns/coredns.yaml
 
 ## Requirements
 
