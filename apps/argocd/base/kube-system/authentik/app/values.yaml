@@ -3,6 +3,7 @@ podAnnotations:
 
 authentik:
   log_level: debug
+  secret_key: 5up3r53cr37K3y
   email:
     port: 587
     use_tls: true
