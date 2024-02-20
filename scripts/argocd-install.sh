@@ -28,3 +28,6 @@ kustomize build --enable-alpha-plugins --enable-exec apps/argocd | kubectl apply
 kubectl wait deploy/argocd-server -n argocd --for condition=available --timeout=600s
 echo ""
 # cd -
+
+
+kubectl -n kube-system apply -f apps/argocd/base/kube-system/external-secrets/app/connect/clusterStore.yaml
