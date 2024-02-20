@@ -1,0 +1,51 @@
+---
+# SOURCE: https://github.com/rafaribe/home-ops/blob/5f8a73ed4dc1e6b3efbd667f516cdd03f9da54f8/kubernetes/main/apps/networking/pihole/app/helmrelease.yaml
+# apiVersion: helm.toolkit.fluxcd.io/v2beta2
+# kind: HelmRelease
+# metadata:
+#   name: pihole
+#   namespace: networking
+# spec:
+#   interval: 5m
+#   chart:
+#     spec:
+#       # renovate: registryUrl=https://mojo2600.github.io/pihole-kubernetes/
+#       chart: pihole
+#       version: 2.21.0
+#       sourceRef:
+#         kind: HelmRepository
+#         name: mojo2600
+#         namespace: flux-system
+
+#   values:
+replicaCount: 1
+image:
+  repository: "pihole/pihole"
+  tag: "2024.02.0"
+  pullPolicy: IfNotPresent
+
+serviceDns:
+  type: LoadBalancer
+  annotations:
+    io.cilium/lb-ipam-ips: ${LB_PIHOLE}
+  loadBalancerIP: ${LB_PIHOLE}
+
+serviceDhcp:
+  enabled: false
+
+ingress:
+  ingressClassName: internal-nginx
+  enabled: true
+  hosts:
+    - pihole.${EXTERNAL_DOMAIN}
+
+persistentVolumeClaim:
+  enabled: true
+  accessModes:
+    - ReadWriteMany
+  size: "10G"
+  storageClassName: "ceph-filesystem"
+
+adminPassword: ${PIHOLE_PASSWORD}
+DNS1: "1.1.1.1"
+DNS2: "8.8.8.8"
