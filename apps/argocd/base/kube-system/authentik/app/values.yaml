@@ -23,7 +23,7 @@ authentik:
   #   password: ""
 
   postgresql:
-    password: "0S49iTwO5x"
+    password: "8edF6sRQjx"
     # password: "ThisIsNotASecurePassword"
 
 envFrom:
@@ -58,7 +58,7 @@ postgresql:
   enabled: true
   auth:
     # password: "ThisIsNotASecurePassword"
-    password: "0S49iTwO5x"
+    password: "8edF6sRQjx"
 
 prometheus:
   rules:
