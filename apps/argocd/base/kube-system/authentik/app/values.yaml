@@ -6,7 +6,7 @@ authentik:
   secret_key: 5up3r53cr37K3y
   email:
     port: 587
-    use_tls: true
+    use_tls: false
   # SOURCE: https://github.com/jemand771/server-deployments/blob/061ad9a8294c66973ff958272404a2f515cb4fea/_infrastructure/authentik/values.yaml
   # email:
   #   host: mailc.jemand771.net
