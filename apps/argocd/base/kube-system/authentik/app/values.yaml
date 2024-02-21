@@ -9,7 +9,7 @@ initContainers:
 
 controller:
   annotations:
-    secret.reloader.stakater.com/reload: *secret
+    secret.reloader.stakater.com/reload: authentik-db-secret
 
 serviceAccount:
   create: true
@@ -87,6 +87,8 @@ prometheus:
     create: true
   serviceMonitor:
     create: true
+    interval: 30s
+    scrapeTimeout: 3s
 
 redis:
   enabled: true
