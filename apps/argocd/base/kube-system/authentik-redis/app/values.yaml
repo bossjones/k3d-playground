@@ -18,7 +18,7 @@ controllers:
           - >-
             redis-server --requirepass $REDIS_PASSWORD
         env:
-          REDIS_PORT: &port 6379
+          REDIS_PORT: 6379
           REDIS_PASSWORD:
             valueFrom:
               secretKeyRef:
@@ -38,4 +38,4 @@ service:
         enabled: false
       redis:
         enabled: true
-        port: *port
+        port: 6379
