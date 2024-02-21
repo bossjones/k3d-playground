@@ -430,3 +430,10 @@ external-secrets-schema:
 
 create-1pass-external-secrets:
   op item create --template create-1pass-secret-authentik.json
+
+cloudnative-pg-schema:
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_backups.yaml
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_backups.yaml
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_clusters.yaml
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_poolers.yaml
+  python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_scheduledbackups.yaml
