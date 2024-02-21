@@ -46,6 +46,7 @@ resources:
 - base/database/cloudnative-pg/app/app.yaml
 - base/identity/authentik/app/app.yaml
 # - base/core/role_prometheus-k8s.yaml
+- base/monitoring/goldilocks/app/app.yaml
 # - base/core/rolebinding_prometheus-k8s.yaml
 
 components:

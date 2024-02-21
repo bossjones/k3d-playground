@@ -85,9 +85,9 @@ ingress:
         - path: /
           pathType: Prefix
   tls:
-    - hosts:
-        - "authentik.k8s.localhost"
-
+    - secretName: tls-secret
+      hosts:
+      - authentik.k8s.localhost
 postgresql:
   enabled: false
   auth:
