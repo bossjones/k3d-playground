@@ -14,7 +14,7 @@ spec:
       database: authentik
       owner: authentik
       secret:
-        name: cloudnative-pg
+        name: authentik-secret
 
   imageName: ghcr.io/cloudnative-pg/postgresql:16.1-15
   enableSuperuserAccess: true
@@ -23,7 +23,9 @@ spec:
     size: 2Gi
     storageClass: local-path
   superuserSecret:
-    name: cloudnative-pg
+    name: postgres-superuser
+  # superuserSecret:
+  #   name: cloudnative-pg
   postgresql:
       parameters:
         max_connections: "600"
