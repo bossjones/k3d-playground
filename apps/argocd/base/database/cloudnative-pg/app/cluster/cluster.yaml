@@ -40,7 +40,7 @@ spec:
         maxParallel: 8
       destinationPath: s3://postgresql/
       endpointURL: http://minio.databases:9000
-      serverName: postgres-v15
+      serverName: postgres
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
