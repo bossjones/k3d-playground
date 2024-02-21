@@ -2,7 +2,7 @@ apiVersion: k3d.io/v1alpha5
 kind: Simple
 metadata:
   name: demo
-servers: 1
+servers: 2
 agents: 3
 kubeAPI:
   host: "k8s.localhost"
@@ -224,7 +224,7 @@ registries:
 volumes:
 - volume: "${PWD}/storage:/var/lib/rancher/k3s/storage"
   nodeFilters:
-  - server:0
+  - server:*
   - agent:*
 - volume: "${PWD}/audit/audit.yaml:/var/lib/rancher/k3s/server/manifests/audit.yaml"
   nodeFilters:
