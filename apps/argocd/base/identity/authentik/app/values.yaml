@@ -37,10 +37,10 @@ authentik:
     send_pii: false
   # redis:
   #   # host: "authentik-redis.security.svc.cluster.local"
-  #   host: "authentik-redis.kube-system.svc.cluster.local"
+  #   host: "authentik-redis.identity.svc.cluster.local"
   #   password: ""
-  outposts:
-    docker_image_base: ghcr.io/goauthentik/%(type)s:%(version)s
+  # outposts:
+  #   docker_image_base: ghcr.io/goauthentik/%(type)s:%(version)s
 
   postgresql:
     password: "8edF6sRQjx"
@@ -50,7 +50,7 @@ authentik:
     name: authentik
 
   redis:
-    host: authentik-redis.kube-system.svc.cluster.local
+    host: authentik-redis.identity.svc.cluster.local
 
 envFrom:
   - secretRef:

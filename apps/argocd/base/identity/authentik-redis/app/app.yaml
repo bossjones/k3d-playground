@@ -7,7 +7,7 @@ metadata:
   namespace: argocd
   annotations:
     # notifications.argoproj.io/subscribe.on-deployed-github.pushover: ui6cxf78gwxa6n93zkwddw1g8s3yio
-    argocd.argoproj.io/manifest-generate-paths: /apps/argocd/base/kube-system/authentik-redis/app/authentik-redis
+    argocd.argoproj.io/manifest-generate-paths: /apps/argocd/base/identity/authentik-redis/app/authentik-redis
 spec:
   project: cluster
   sources:
@@ -17,15 +17,15 @@ spec:
     helm:
       releaseName: authentik-redis
       valueFiles:
-        - $values/apps/argocd/base/kube-system/authentik-redis/app/values.yaml
+        - $values/apps/argocd/base/identity/authentik-redis/app/values.yaml
   - repoURL: 'https://github.com/bossjones/k3d-playground'
     targetRevision: HEAD
-    # path: apps/argocd/base/kube-system/authentik-redis/app/authentik-redis
-    path: apps/argocd/base/kube-system/authentik-redis/app
+    # path: apps/argocd/base/identity/authentik-redis/app/authentik-redis
+    path: apps/argocd/base/identity/authentik-redis/app
     ref: values
   destination:
     name: in-cluster
-    namespace: kube-system
+    namespace: identity
   syncPolicy:
     automated:
       prune: true
