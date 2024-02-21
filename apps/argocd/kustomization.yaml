@@ -36,13 +36,14 @@ resources:
 - base/monitoring/prometheus-adapter/app/app.yaml
 - base/monitoring/cert-manager/app/app.yaml
 
-- base/gitops/argo-workflows/app/app.yaml
+# - base/gitops/argo-workflows/app/app.yaml
 - base/monitoring/hajimari/app/app.yaml
 # - base/monitoring/gethomepage/app/app.yaml
 - base/monitoring/k8s-ephemeral-storage-metrics/app/app.yaml
 - base/monitoring/kubernetes-dashboard/app/app.yaml
 # - base/gitea/gitea/app/app.yaml
 # - base/kube-system/authentik-redis/app/app.yaml
+- base/database/cloudnative-pg/app/app.yaml
 - base/kube-system/authentik/app/app.yaml
 # - base/core/role_prometheus-k8s.yaml
 # - base/core/rolebinding_prometheus-k8s.yaml

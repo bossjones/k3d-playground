@@ -443,6 +443,15 @@ customConfig:
   # # .namespace = .kubernetes.pod_namespace
   # # .container = .kubernetes.container_name
 
+  # TODO: USE MULTIPLE SINKS FOR LOKI
+  # FIXME: https://github.com/billimek/k8s-gitops/blob/master/logs/vector/aggregator.yaml
+  # FIXME: https://github.com/billimek/k8s-gitops/blob/master/logs/vector/aggregator.yaml
+  # FIXME: https://github.com/billimek/k8s-gitops/blob/master/logs/vector/aggregator.yaml
+  # FIXME: https://github.com/billimek/k8s-gitops/blob/master/logs/vector/aggregator.yaml
+  # FIXME: https://github.com/billimek/k8s-gitops/blob/master/logs/vector/aggregator.yaml
+  # FIXME: https://github.com/billimek/k8s-gitops/blob/master/logs/vector/aggregator.yaml
+  # FIXME: https://github.com/billimek/k8s-gitops/blob/master/logs/vector/aggregator.yaml
+  # FIXME: https://github.com/billimek/k8s-gitops/blob/master/logs/vector/aggregator.yaml
   sinks:
     prom_exporter:
       type: prometheus_exporter
