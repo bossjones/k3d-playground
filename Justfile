@@ -246,7 +246,7 @@ demo: nuke-cluster helm k3d-demo argocd-install certs argocd-secret templates ar
 demo-prebuilt: nuke-cluster k3d-demo argocd-install certs-only argocd-secret install-secret-0 templates argocd-password argocd-bridge
 
 # bring up k3d-demo cluster but skip some steps
-demo-prebuilt-no-nuke: argocd-install certs-only templates argocd-password argocd-bridge
+demo-prebuilt-no-nuke: argocd-install certs-only argocd-secret install-secret-0 templates argocd-password argocd-token argocd-bridge
 
 demo-prebuilt-cilium: nuke-cluster k3d-demo-cilium argocd-install certs-only argocd-secret install-secret-0 templates argocd-password argocd-bridge
 
@@ -385,6 +385,7 @@ install-mandatory-manifests:
   kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_scrapeconfigs.yaml
   kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
   kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
+  kubectl -n kube-system apply --server-side -f https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/deploy/crds/bundle.yaml || true
   # kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/monitoring/kube-prometheus-stack/app | kubectl apply --server-side -f -
   sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |ggrep -oP "public key: \K(.*)") --in-place apps/argocd/base/kube-system/external-secrets/app/connect/1passwordCredentials.sops.yaml
   sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |ggrep -oP "public key: \K(.*)") --in-place apps/argocd/base/kube-system/external-secrets/app/connect/accessToken.sops.yaml
