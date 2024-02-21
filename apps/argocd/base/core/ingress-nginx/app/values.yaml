@@ -1,3 +1,4 @@
+# SOURCE: https://github.com/cloudnative-pg/cloudnative-pg/blob/89a46c9904f6220e06a28f463697b98ba90bc746/docs/src/samples/cluster-expose-service.yaml#L4
 commonLabels:
   prometheus: main
 
@@ -8,6 +9,7 @@ controller:
     https: 443
     argo: 2746
     ssh: 22
+    postgres: 5432
   replicaCount: 1
   allowSnippetAnnotations: true
   extraEnvs:
@@ -80,6 +82,9 @@ defaultBackend:
 tcp:
   2746: "argo/argo-workflows-server:2746"
 #  8080: "default/example-tcp-svc:9000"
+  5432: databases/postgres-rw:5432
+
+
 
 # -- UDP service key-value pairs
 ## Ref: https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/exposing-tcp-udp-services.md

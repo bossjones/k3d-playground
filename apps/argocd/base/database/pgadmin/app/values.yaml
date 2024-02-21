@@ -1,0 +1,119 @@
+# via homeops
+controllers:
+  main:
+    annotations:
+      reloader.stakater.com/auto: "true"
+    initContainers:
+      volume-permissions:
+        image:
+          repository: dpage/pgadmin4
+          tag: "8.3@sha256:f1460b121383a5d61c20867ecd42535d4aabb385d32685b0e0845367ab9b86c4"
+        command: ["/bin/chown", "-R", "5050:5050", "/var/lib/pgadmin"]
+        volumeMounts:
+          - name: config
+            mountPath: /var/lib/pgadmin
+        securityContext:
+          runAsUser: 0
+    containers:
+      main:
+        image:
+          repository: dpage/pgadmin4
+          tag: "8.3@sha256:f1460b121383a5d61c20867ecd42535d4aabb385d32685b0e0845367ab9b86c4"
+        env:
+          PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
+        envFrom:
+          - secretRef:
+              name: pgadmin-secrets
+        resources:
+          requests:
+            cpu: 50m
+            memory: 100Mi
+          limits:
+            memory: 500Mi
+service:
+  main:
+    ports:
+      http:
+        port: 80
+ingress:
+  main:
+    enabled: true
+    className: "nginx"
+    annotations:
+      hajimari.io/icon: mdi:database
+    hosts:
+      - host: "pgadmin.k8s.localhost"
+        paths:
+          - path: /
+            service:
+              name: main
+              port: http
+    tls:
+      - secretName: tls-secret
+        hosts:
+          - "pgadmin.k8s.localhost"
+persistence:
+  config:
+    enabled: true
+    existingClaim: pgadmin-config
+    globalMounts:
+      - path: /var/lib/pgadmin
+  server-json:
+    enabled: true
+    type: configMap
+    name: servers-json
+    globalMounts:
+      - path: /pgadmin4/servers.json
+        subPath: servers.json
+
+
+
+# image:
+#   repository: dpage/pgadmin4
+#   tag: "8.1"
+# strategy:
+#   type: Recreate
+
+# envFrom:
+#   - secretRef:
+#       name: pgadmin-secrets
+
+# service:
+#   main:
+#     ports:
+#       http:
+#         port: 80
+
+# podSecurityContext:
+#   runAsUser: 5050
+#   runAsGroup: 5050
+#   fsGroup: 5050
+#   fsGroupChangePolicy: "OnRootMismatch"
+
+# persistence:
+#   config:
+#     enabled: true
+#     mountPath: "/var/lib/pgadmin"
+#     existingClaim: pgadmin-config
+
+# ingress:
+#   main:
+#     enabled: true
+#     ingressClassName: "external-nginx"
+#     annotations:
+#       external-dns.alpha.kubernetes.io/hostname: pgadmin.rafaribe.com
+#       external-dns.alpha.kubernetes.io/target: rafaribe.com
+#     hosts:
+#       - host: &host "pgadmin..rafaribe.com"
+#         paths:
+#           - path: /
+#             pathType: Prefix
+#     tls:
+#       - hosts:
+#           - *host
+
+#     # -e 'PGADMIN_DEFAULT_EMAIL=user@domain.com' \
+#     # -e 'PGADMIN_DEFAULT_PASSWORD=SuperSecret' \
+#     # -e 'PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION=True' \
+#     # -e 'PGADMIN_CONFIG_LOGIN_BANNER="Authorised users only!"' \
+#     # -e 'PGADMIN_CONFIG_CONSOLE_LOG_LEVEL=10' \

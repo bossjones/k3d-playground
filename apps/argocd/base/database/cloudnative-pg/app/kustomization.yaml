@@ -10,3 +10,12 @@ resources:
   - cluster/prometheusRule.yaml
   - cluster/scheduledbackup.yaml
   - cluster/service.yaml
+
+configMapGenerator:
+  - name: cloudnative-pg-dashboard
+    files:
+      - cloudnative-pg-dashboard.json=https://raw.githubusercontent.com/cloudnative-pg/charts/cloudnative-pg-v0.16.0/charts/cnpg-sandbox/dashboard.json
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    grafana_dashboard: "1"

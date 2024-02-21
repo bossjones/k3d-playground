@@ -7,6 +7,15 @@ metadata:
   namespace: databases
 spec:
   instances: 3
+  # SOURCE: https://github.com/cloudnative-pg/cloudnative-pg/blob/89a46c9904f6220e06a28f463697b98ba90bc746/docs/src/bootstrap.md?plain=1#L330
+  # SOURCE: https://github.com/cloudnative-pg/cloudnative-pg/blob/89a46c9904f6220e06a28f463697b98ba90bc746/docs/src/samples/cluster-example-secret.yaml
+  bootstrap:
+    initdb:
+      database: authentik
+      owner: authentik
+      secret:
+        name: cloudnative-pg
+
   imageName: ghcr.io/cloudnative-pg/postgresql:16.1-15
   enableSuperuserAccess: true
   primaryUpdateStrategy: unsupervised
