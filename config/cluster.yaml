@@ -2,7 +2,7 @@ apiVersion: k3d.io/v1alpha5
 kind: Simple
 metadata:
   name: demo
-servers: 2
+servers: 3
 agents: 3
 kubeAPI:
   host: "k8s.localhost"
@@ -212,6 +212,25 @@ registries:
       # "docker.io":
       #   endpoint:
       #     - http://registry.local.gd:5002
+
+      "quay.io":
+        endpoint:
+          - http://quay-io:5001
+      "ghcr.io":
+        endpoint:
+          - http://ghcr-io:5002
+      "gcr.io":
+        endpoint:
+          - http://gcr-io:5003
+      "public.ecr.aws":
+        endpoint:
+          - http://public-ecr-aws:5004
+      "mcr.microsoft.com":
+        endpoint:
+          - http://mcr-microsoft:5005
+      # "registry.gitlab.com":
+      #   endpoint:
+      #     - http://docker-io:5006
 
     configs:
       "docker.io":
