@@ -22,7 +22,9 @@ dashboard:
         - goldilocks.k8s.localhost
 
 vpa:
-  enabled: false
+  enabled: true
+  updater:
+    enabled: true
 # ########################################################
 # # uninstallVPA -- Enabling this flag will remove a vpa installation that was previously managed with this chart. It is considered deprecated and will be removed in a later release.
 # uninstallVPA: false
