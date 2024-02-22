@@ -31,10 +31,10 @@ resources:
 - base/monitoring/metrics-server/app/app.yaml
 # - base/monitoring/rancher/app/app.yaml
 
-# - base/monitoring/vector/app/app.yaml
+- base/monitoring/vector/app/app.yaml
 - base/monitoring/k8s-event-logger/app/app.yaml
 - base/monitoring/argo-rollouts/app/app.yaml
-# - base/monitoring/loki/app/app.yaml
+- base/monitoring/loki/app/app.yaml
 - base/monitoring/prometheus-adapter/app/app.yaml
 - base/monitoring/cert-manager/app/app.yaml
 
