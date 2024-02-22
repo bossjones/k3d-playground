@@ -43,10 +43,15 @@ authentik:
   #   docker_image_base: ghcr.io/goauthentik/%(type)s:%(version)s
 
   postgresql:
-    password: "8edF6sRQjx"
+    # password: "8edF6sRQjx"
+    # # password: "ThisIsNotASecurePassword"
+    # host: postgres-rw.databases.svc.cluster.local
+    # user: authentik
+    # name: authentik
+    password: "password"
     # password: "ThisIsNotASecurePassword"
     host: postgres-rw.databases.svc.cluster.local
-    user: authentik
+    user: postgres
     name: authentik
 
   redis:
@@ -92,7 +97,8 @@ postgresql:
   enabled: false
   auth:
     # password: "ThisIsNotASecurePassword"
-    password: "8edF6sRQjx"
+    # password: "8edF6sRQjx"
+    password: "password"
 
 prometheus:
   rules:
