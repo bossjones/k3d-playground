@@ -395,8 +395,8 @@ options:
     switchCurrentContext: true
 
   runtime: # runtime (docker) specific options
-    serversMemory: 1G
-    agentsMemory: 1G
+    # serversMemory: 1G
+    # agentsMemory: 1G
     ulimits:
       - name: nofile
         soft: 26677
