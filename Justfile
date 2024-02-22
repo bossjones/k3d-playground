@@ -440,3 +440,6 @@ cloudnative-pg-schema:
 
 loghose:
   docker-loghose | grep -v "couldn't get current server API group list" | grep -v "Applied manifest " | grep -v "8080" | ccze -A
+
+open-homepage:
+  open https://hajimari.k8s.localhost/

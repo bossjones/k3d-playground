@@ -16,6 +16,7 @@ dashboard:
       - host: goldilocks.k8s.localhost
         paths:
           - path: /
+            type: Prefix
     tls:
       - secretName: tls-secret
         hosts:
