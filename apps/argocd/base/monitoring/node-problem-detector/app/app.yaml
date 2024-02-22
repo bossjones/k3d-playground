@@ -1,0 +1,62 @@
+# SOURCE: pork3s
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: node-problem-detector
+  namespace: argocd
+  annotations:
+    # notifications.argoproj.io/subscribe.on-deployed-github.pushover: ui6cxf78gwxa6n93zkwddw1g8s3yio
+    argocd.argoproj.io/manifest-generate-paths: /apps/argocd/base/monitoring/node-problem-detector/app/node-problem-detector
+spec:
+  project: cluster
+  sources:
+  - repoURL: 'https://charts.deliveryhero.io/'
+    chart: node-problem-detector
+    targetRevision: 2.3.12
+    helm:
+      releaseName: node-problem-detector
+      valueFiles:
+        - $values/apps/argocd/base/monitoring/node-problem-detector/app/values.yaml
+  - repoURL: 'https://github.com/bossjones/k3d-playground'
+    targetRevision: HEAD
+    path: apps/argocd/base/monitoring/node-problem-detector/app
+    ref: values
+  destination:
+    name: in-cluster
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      # - PruneLast=true
+      - SkipDryRunOnMissingResource=true
+      - CreateNamespace=true
+      # Needed because our kubectl apply exceeds thresholds
+      # EXAMPLE: CustomResourceDefinition.apiextensions.k8s.io "prometheuses.monitoring.coreos.com" is invalid: metadata.annotations: Too long: must have at most 262144 bytes
+      # SOURCE: https://github.com/prometheus-operator/prometheus-operator/issues/4355
+      - ServerSideApply=true
+      # - ApplyOutOfSyncOnly=true
+    retry:
+      limit: -1  # Max number of allowed sync retries
+      backoff:
+        duration: 20s # Retry backoff base duration. Input needs to be a duration (e.g. 2m, 1h) (default 5s)
+        factor: 2 # Factor multiplies the base duration after each failed retry (default 2)
+        maxDuration: 3m # Max retry backoff duration. Input needs to be a duration (e.g. 2m, 1h) (default 3m0s)
+  # SOURCE: https://github.com/home-prod/k8s-infra/blob/82cbe52ba47597b52a7fc03eee4d1b526beab836/kubernetes/charts/infra/charts/logging/charts/thanos/templates/thanos-application.yaml#L32
+  ignoreDifferences:
+  - group: apps
+    kind: DaemonSet
+    jsonPointers:
+      - /metadata/annotations
+  - kind: PersistentVolume
+    jsonPointers:
+      - /spec/claimRef/resourceVersion
+      - /spec/claimRef/uid
+      - /status/lastPhaseTransitionTime
+  - group: apps
+    kind: StatefulSet
+    jsonPointers:
+      - /spec/volumeClaimTemplates/0/apiVersion
+      - /spec/volumeClaimTemplates/0/kind
