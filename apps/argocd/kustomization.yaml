@@ -21,7 +21,8 @@ resources:
 - base/core/ingress.yaml
 
 - base/utilities/zalando.yaml
-- base/apps/example.yaml
+# - base/apps/example.yaml
+- base/example/whoami/app/app.yaml
 - base/apps/template.yaml
 - base/utilities/reloader.yaml
 - base/utilities/reflector.yaml

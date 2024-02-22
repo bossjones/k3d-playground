@@ -1,0 +1,8 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: example
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  labels:
+    goldilocks.fairwinds.com/enabled: "true"
