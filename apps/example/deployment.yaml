@@ -28,19 +28,25 @@ spec:
             cpu: 0.1m
             memory: 50Mi
         livenessProbe:
+          failureThreshold: 3
           httpGet:
             path: /
             port: 80
-          initialDelaySeconds: 30
+            scheme: HTTP
+          initialDelaySeconds: 5
           periodSeconds: 10
-          timeoutSeconds: 3
+          successThreshold: 1
+          timeoutSeconds: 1
         readinessProbe:
+          failureThreshold: 3
           httpGet:
             path: /
             port: 80
-          initialDelaySeconds: 30
+            scheme: HTTP
+          initialDelaySeconds: 5
           periodSeconds: 10
-          timeoutSeconds: 3
+          successThreshold: 1
+          timeoutSeconds: 1
         # env:
         #   - name: POSTGRES_USER
         #     valueFrom: { secretKeyRef: { name: acid.minimal-db.credentials.postgresql.acid.zalan.do, key: username } }
