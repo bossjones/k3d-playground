@@ -233,3 +233,93 @@ The alternative solution to these two problems would be to host a Kubernetes clu
 | [B2 Storage](https://www.backblaze.com/b2)   | Offsite application backups                                    | ~$5/m         |
 | [Pushover](https://pushover.net/)            | Kubernetes Alerts and application notifications                | Free          |
 |                                              |                                                                | Total: ~$10/m |
+
+
+# Utilization
+
+```
+❯ k top pods --sort-by=cpu --no-headers --all-namespaces
+argocd          argocd-application-controller-0                                1286m   558Mi
+identity        authentik-worker-76f546f977-g6d95                              465m    352Mi
+monitoring      prometheus-kube-prometheus-stack-prometheus-0                  253m    657Mi
+argocd          argocd-repo-server-767b85c9d7-qnn7q                            186m    80Mi
+databases       postgres-1                                                     146m    108Mi
+monitoring      kube-prometheus-stack-grafana-66cb4d9789-rkjdc                 102m    164Mi
+databases       postgres-2                                                     72m     96Mi
+argo-rollouts   argo-rollouts-7fbfc86cd4-klv2c                                 60m     28Mi
+identity        authentik-server-778dd5d77d-5p8px                              32m     406Mi
+kube-system     coredns-77ccd57875-85cbj                                       24m     26Mi
+monitoring      kube-prometheus-stack-prometheus-node-exporter-zgmkc           20m     10Mi
+identity        authentik-redis-master-0                                       19m     5Mi
+monitoring      kube-prometheus-stack-prometheus-node-exporter-467d4           18m     10Mi
+databases       cloudnative-pg-7697b57c65-2lmfm                                17m     37Mi
+monitoring      goldilocks-vpa-recommender-7b954b7f64-7mnmj                    16m     29Mi
+monitoring      kube-prometheus-stack-prometheus-node-exporter-p6jxc           14m     17Mi
+monitoring      kube-prometheus-stack-prometheus-node-exporter-lp4hs           13m     11Mi
+kube-system     ingress-nginx-controller-65d894d56f-h8vmv                      9m      119Mi
+monitoring      k8s-ephemeral-storage-metrics-8d6647899-9pkdx                  9m      23Mi
+argocd          argocd-server-8576b5f9b7-cxvf4                                 9m      44Mi
+monitoring      kube-prometheus-stack-operator-66b7d5c8c7-954xx                9m      28Mi
+kube-system     metrics-server-7fcfb9bf84-xzxfn                                9m      18Mi
+kube-system     metrics-server-7fcfb9bf84-bb44m                                9m      21Mi
+argocd          argocd-notifications-controller-6b8bbcb69d-sxn6v               8m      41Mi
+argocd          argocd-redis-6d65848d4d-jtptw                                  8m      12Mi
+monitoring      alertmanager-kube-prometheus-stack-alertmanager-0              8m      33Mi
+monitoring      kube-prometheus-stack-kube-state-metrics-755c5bd944-fg7hk      8m      19Mi
+monitoring      prometheus-adapter-7d9d445c94-7svvc                            7m      17Mi
+monitoring      kubernetes-dashboard-metrics-server-d97d78f7b-l6ngw            7m      17Mi
+argocd          argocd-applicationset-controller-7779665c97-fhqzk              6m      29Mi
+monitoring      goldilocks-vpa-updater-56584b75f7-8n29r                        5m      24Mi
+kube-system     external-secrets-5477599d89-sg8h4                              5m      25Mi
+development     podinfo-664f9748d8-kb5bw                                       5m      15Mi
+monitoring      thanos-query-7c69ff459b-hhnlw                                  5m      18Mi
+kube-system     onepassword-connect-575bc6887-5n78w                            5m      14Mi
+kube-system     local-path-provisioner-957fdf8bc-hgv76                         4m      7Mi
+monitoring      kubernetes-dashboard-cert-manager-6d98886d86-nhszn             4m      16Mi
+monitoring      goldilocks-vpa-admission-controller-595f579785-scqg5           4m      24Mi
+databases       pgadmin-564b7744bb-8d6sk                                       4m      178Mi
+monitoring      kubernetes-dashboard-metrics-scraper-7fb74dfddf-kxjrh          4m      11Mi
+monitoring      thanos-query-frontend-6d678f5dc-7kbq7                          4m      16Mi
+kube-system     reflector-5dbf465859-ntm8k                                     4m      24Mi
+monitoring      kube-prometheus-stack-grafana-image-renderer-7c4d8c7b8-zqb2g   4m      29Mi
+monitoring      thanos-bucketweb-6879cdb767-wch26                              4m      20Mi
+cert-manager    cert-manager-cainjector-c86f8699-wb4ts                         4m      26Mi
+development     podinfo-664f9748d8-glxg6                                       4m      15Mi
+kube-system     external-secrets-cert-controller-fd8f67b8f-cddng               4m      52Mi
+cert-manager    cert-manager-558c859bb7-w8cxj                                  3m      8Mi
+cert-manager    cert-manager-webhook-f8f64cb85-c6455                           3m      8Mi
+monitoring      thanos-storegateway-0                                          3m      13Mi
+monitoring      kubernetes-dashboard-cert-manager-webhook-6494445df6-v5q24     3m      13Mi
+databases       minio-fdb7bdf77-wbbgn                                          3m      47Mi
+monitoring      event-exporter-568c8d64f6-jxzz5                                3m      27Mi
+monitoring      thanos-minio-74cdb5c97d-knzzx                                  3m      46Mi
+kube-system     reloader-reloader-5966465cf7-phb5k                             3m      15Mi
+kube-system     external-secrets-webhook-5d44cc5f5d-pgk26                      3m      20Mi
+monitoring      node-problem-detector-snw6w                                    3m      17Mi
+monitoring      kubeview-869c8885df-44zmq                                      3m      9Mi
+monitoring      node-problem-detector-9vgqm                                    3m      18Mi
+monitoring      node-problem-detector-l72vv                                    2m      15Mi
+kube-system     onepassword-connect-operator-b8b885446-mvvb5                   2m      10Mi
+monitoring      kubernetes-dashboard-cert-manager-cainjector-cf447686d-fbbbj   2m      45Mi
+monitoring      goldilocks-controller-69bb544c8d-c8rwc                         2m      16Mi
+monitoring      node-problem-detector-mlgvm                                    1m      11Mi
+monitoring      goldilocks-dashboard-6d84dd7c74-wc7kz                          1m      11Mi
+monitoring      kubernetes-dashboard-api-554bf5c59f-s56h4                      1m      8Mi
+argocd          argocd-dex-server-77f7d7cb7c-lc6g7                             1m      17Mi
+example         whoami-7bb769786d-rfntd                                        1m      1Mi
+monitoring      hajimari-866b9ff956-cn8n7                                      1m      8Mi
+monitoring      k8s-event-logger-8485b4cc68-zpczp                              1m      19Mi
+monitoring      thanos-compactor-7f8d66dc56-tbl78                              1m      15Mi
+kube-system     ingress-nginx-defaultbackend-7b67555bdc-h9wp5                  1m      4Mi
+monitoring      kubernetes-dashboard-web-585d674477-w8t8v                      0m      1Mi
+kube-system     svclb-kube-prometheus-stack-thanos-external-30d64f25-8q68q     0m      0Mi
+kube-system     svclb-kube-prometheus-stack-thanos-external-30d64f25-6xxfg     0m      0Mi
+kube-system     svclb-kube-prometheus-stack-thanos-external-30d64f25-cnhnk     0m      0Mi
+kube-system     svclb-kube-prometheus-stack-thanos-external-30d64f25-swsqx     0m      0Mi
+kube-system     svclb-ingress-nginx-controller-0371e36f-qzwh6                  0m      0Mi
+kube-system     svclb-ingress-nginx-controller-0371e36f-bwmg5                  0m      0Mi
+kube-system     svclb-ingress-nginx-controller-0371e36f-562wt                  0m      0Mi
+kube-system     svclb-ingress-nginx-controller-0371e36f-92wf6                  0m      0Mi
+databases       postgres-3-join-sjsdk                                          0m      9Mi
+
+```

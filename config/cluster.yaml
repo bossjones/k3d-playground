@@ -215,19 +215,19 @@ registries:
 
       "quay.io":
         endpoint:
-          - http://quay-io:5001
+          -  http://docker-io:5000
       "ghcr.io":
         endpoint:
-          - http://ghcr-io:5002
+          -  http://docker-io:5000
       "gcr.io":
         endpoint:
-          - http://gcr-io:5003
+          -  http://docker-io:5000
       "public.ecr.aws":
         endpoint:
-          - http://public-ecr-aws:5004
+          -  http://docker-io:5000
       "mcr.microsoft.com":
         endpoint:
-          - http://mcr-microsoft:5005
+          -  http://docker-io:5000
       # "registry.gitlab.com":
       #   endpoint:
       #     - http://docker-io:5006
@@ -279,6 +279,26 @@ options:
       - settings.workerConnections=2048
   k3s:
     extraArgs:
+
+    # - arg: --node-name=server-0
+    #   nodeFilters:
+    #     - server:0
+
+    # - arg: --node-name=worker-0
+    #   nodeFilters:
+    #     - agent:0
+    # - arg: --node-name=worker-1
+    #   nodeFilters:
+    #     - agent:1
+    # - arg: --node-name=worker-2
+    #   nodeFilters:
+    #     - agent:2
+    # - arg: --node-name=worker-3
+    #   nodeFilters:
+    #     - agent:3
+    # - arg: --node-name=worker-4
+    #   nodeFilters:
+    #     - agent:4
     # - arg: "--debug"
     #   nodeFilters:
     #     - server:*
@@ -346,6 +366,9 @@ options:
       nodeFilters:
         - server:*
 
+    - arg: --node-taint=node-role.kubernetes.io/control-plane=true:NoExecute
+      nodeFilters:
+        - server:*
     # DISABLED: # - arg: --kube-apiserver-arg=v=3
     # DISABLED: #   nodeFilters:
     # DISABLED: #   - server:*
@@ -407,3 +430,4 @@ options:
       - name: core
         soft: 26677
         hard: 26677
+    # --k3s-server-arg --node-taint="CriticalAddonsOnly=true:NoExecute"
