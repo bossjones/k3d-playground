@@ -2,7 +2,7 @@ apiVersion: k3d.io/v1alpha5
 kind: Simple
 metadata:
   name: demo
-servers: 2
+servers: 1
 agents: 4
 kubeAPI:
   host: "k8s.localhost"
