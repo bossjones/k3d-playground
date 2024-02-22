@@ -127,6 +127,7 @@ redis:
 
 env:
   AUTHENTIK_REDIS__DB: "1"
+  AUTHENTIK_LOG_LEVEL: "trace"
 # ##############################################################
 
 # ---

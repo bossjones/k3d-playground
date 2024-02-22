@@ -355,12 +355,12 @@ options:
     - arg: --kubelet-arg=eviction-minimum-reclaim=imagefs.available=1%,nodefs.available=1%
       nodeFilters:
       - server:*
-    - arg: --kube-apiserver-arg=audit-policy-file=/var/lib/rancher/k3s/server/manifests/audit.yaml
-      nodeFilters:
-      - server:*
-    - arg: --kube-apiserver-arg=audit-log-path=/var/log/kubernetes/audit/audit.log
-      nodeFilters:
-      - server:*
+    # - arg: --kube-apiserver-arg=audit-policy-file=/var/lib/rancher/k3s/server/manifests/audit.yaml
+    #   nodeFilters:
+    #   - server:*
+    # - arg: --kube-apiserver-arg=audit-log-path=/var/log/kubernetes/audit/audit.log
+    #   nodeFilters:
+    #   - server:*
 
     - arg: --node-taint=node-role.kubernetes.io/master=:NoSchedule
       nodeFilters:
