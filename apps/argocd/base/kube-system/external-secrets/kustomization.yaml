@@ -13,3 +13,6 @@ labels:
 - pairs:
     monitoring: prometheus
     prometheus: main
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "-8"
