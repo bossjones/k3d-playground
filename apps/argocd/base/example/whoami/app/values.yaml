@@ -212,7 +212,7 @@ ingress:
   hosts:
   - host: whoami.k8s.localhost
     paths:
-      - path: /
+      - /
 
 
   ## @param ingress.tls TLS configuration

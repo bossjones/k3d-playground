@@ -119,40 +119,40 @@ spec:
         maxDuration: 15m
 EOF
 
-# example
-kubectl -n argocd apply -f - <<EOF
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: example-app
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  # project: apps
-  project: cluster
-  source:
-    repoURL: '$GIT_URI'
-    path: apps/example
-    targetRevision: HEAD
-  destination:
-    namespace: example
-    name: in-cluster
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-      allowEmpty: true
-    syncOptions:
-    - Validate=true
-    - CreateNamespace=true
-    - PrunePropagationPolicy=foreground
-    - PruneLast=true
-    - ApplyOutOfSyncOnly=false
-    - Prune=true
-    retry:
-      limit: -1
-      backoff:
-        duration: 20s
-        factor: 2
-        maxDuration: 15m
-EOF
+# # example
+# kubectl -n argocd apply -f - <<EOF
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: example-app
+#   finalizers:
+#     - resources-finalizer.argocd.argoproj.io
+# spec:
+#   # project: apps
+#   project: cluster
+#   source:
+#     repoURL: '$GIT_URI'
+#     path: apps/example
+#     targetRevision: HEAD
+#   destination:
+#     namespace: example
+#     name: in-cluster
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#       allowEmpty: true
+#     syncOptions:
+#     - Validate=true
+#     - CreateNamespace=true
+#     - PrunePropagationPolicy=foreground
+#     - PruneLast=true
+#     - ApplyOutOfSyncOnly=false
+#     - Prune=true
+#     retry:
+#       limit: -1
+#       backoff:
+#         duration: 20s
+#         factor: 2
+#         maxDuration: 15m
+# EOF
