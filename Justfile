@@ -443,3 +443,9 @@ loghose:
 
 open-homepage:
   open https://hajimari.k8s.localhost/
+
+open-pgadmin:
+  open https://pgadmin.k8s.localhost/
+
+open-argocd:
+  open https://argocd.k8s.localhost/
