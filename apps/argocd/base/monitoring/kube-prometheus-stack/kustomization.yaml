@@ -17,4 +17,4 @@ labels:
     prometheus: main
 
 commonAnnotations:
-  argocd.argoproj.io/sync-wave: "-9"
+  argocd.argoproj.io/sync-wave: "-50"
