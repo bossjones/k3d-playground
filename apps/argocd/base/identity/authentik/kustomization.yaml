@@ -12,3 +12,6 @@ labels:
     monitoring: prometheus
     prometheus: main
     goldilocks.fairwinds.com/enabled: "true"
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "3"
