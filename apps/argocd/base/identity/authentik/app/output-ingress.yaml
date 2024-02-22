@@ -5,13 +5,13 @@ kind: Ingress
 metadata:
   name: authentik-outpost
   namespace: identity
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: ako.${EXTERNAL_DOMAIN}
-    external-dns.alpha.kubernetes.io/target: ${EXTERNAL_DOMAIN}
+  # annotations:
+  #   external-dns.alpha.kubernetes.io/hostname: ako.${EXTERNAL_DOMAIN}
+  #   external-dns.alpha.kubernetes.io/target: ${EXTERNAL_DOMAIN}
 spec:
   ingressClassName: nginx
   rules:
-    - host: "${EXTERNAL_DOMAIN}"
+    - host: "k8s.localhost"
       http:
         paths:
           - backend:
@@ -23,3 +23,23 @@ spec:
                   name: http
             path: /outpost.goauthentik.io
             pathType: Prefix
+
+
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#     name: authentik-outpost
+# spec:
+#     rules:
+#         - host: app.company
+#           http:
+#               paths:
+#                   - path: /outpost.goauthentik.io
+#                     pathType: Prefix
+#                     backend:
+#                         # Or, to use an external Outpost, create an ExternalName service and reference that here.
+#                         # See https://kubernetes.io/docs/concepts/services-networking/service/#externalname
+#                         service:
+#                             name: ak-outpost-example-outpost
+#                             port:
+#                                 number: 9000
