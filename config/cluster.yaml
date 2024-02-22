@@ -2,8 +2,8 @@ apiVersion: k3d.io/v1alpha5
 kind: Simple
 metadata:
   name: demo
-servers: 3
-agents: 3
+servers: 2
+agents: 4
 kubeAPI:
   host: "k8s.localhost"
   # hostIP: "127.0.0.1"
@@ -341,6 +341,11 @@ options:
     - arg: --kube-apiserver-arg=audit-log-path=/var/log/kubernetes/audit/audit.log
       nodeFilters:
       - server:*
+
+    - arg: --node-taint=node-role.kubernetes.io/master=:NoSchedule
+      nodeFilters:
+        - server:*
+
     # DISABLED: # - arg: --kube-apiserver-arg=v=3
     # DISABLED: #   nodeFilters:
     # DISABLED: #   - server:*
@@ -390,6 +395,8 @@ options:
     switchCurrentContext: true
 
   runtime: # runtime (docker) specific options
+    serversMemory: 1G
+    agentsMemory: 1G
     ulimits:
       - name: nofile
         soft: 26677
