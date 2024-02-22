@@ -78,6 +78,8 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
     # SOURCE: https://github.com/rafaribe/home-ops/blob/5f8a73ed4dc1e6b3efbd667f516cdd03f9da54f8/kubernetes/main/apps/security/authentik/app/helmrelease.yaml
     nginx.org/websocket-services: authentik
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     # By default the controller redirects all requests to an existing service that provides authentication if global-auth-url is set in the NGINX ConfigMap. If you want to disable this behavior for that ingress, you can use enable-global-auth: "false" in the NGINX ConfigMap. nginx.ingress.kubernetes.io/enable-global-auth: indicates if GlobalExternalAuth configuration should be applied or not to this Ingress rule. Default values is set to "true".
     # SOURCE: https://github.com/rafaribe/home-ops/blob/5f8a73ed4dc1e6b3efbd667f516cdd03f9da54f8/kubernetes/main/apps/security/authentik/app/helmrelease.yaml
     nginx.ingress.kubernetes.io/enable-global-auth: "false"
