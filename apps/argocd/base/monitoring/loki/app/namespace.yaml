@@ -6,3 +6,4 @@ metadata:
   labels:
     monitoring: prometheus
     prometheus: main
+    goldilocks.fairwinds.com/enabled: "true"

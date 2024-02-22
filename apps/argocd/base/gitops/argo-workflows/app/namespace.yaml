@@ -4,3 +4,5 @@ metadata:
   name: argo
   annotations:
     argocd.argoproj.io/sync-wave: "0"
+  labels:
+    goldilocks.fairwinds.com/enabled: "true"

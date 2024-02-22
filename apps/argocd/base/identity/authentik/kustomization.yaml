@@ -11,3 +11,4 @@ labels:
 - pairs:
     monitoring: prometheus
     prometheus: main
+    goldilocks.fairwinds.com/enabled: "true"
