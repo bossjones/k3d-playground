@@ -55,7 +55,7 @@ authentik:
     name: authentik
 
   redis:
-    host: authentik-redis.identity.svc.cluster.local
+    host: authentik-redis-master.identity.svc.cluster.local
 
 envFrom:
   - secretRef:
