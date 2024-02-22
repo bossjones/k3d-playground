@@ -7,6 +7,14 @@ initContainers:
       - secretRef:
           name: authentik-db-secret
 
+#  stream logs failed container "authentik" in pod "authentik-server-5d5c88b796-vv9n2" is waiting to start: P │
+# │ init-db Invalid configuration - missing a required environment variable                                    │
+# │ init-db INIT_POSTGRES_HOST: unset                                                                          │
+# │ init-db INIT_POSTGRES_SUPER_PASS: unset                                                                    │
+# │ init-db INIT_POSTGRES_USER: unset                                                                          │
+# │ init-db INIT_POSTGRES_PASS: unset                                                                          │
+# │ init-db INIT_POSTGRES_DBNAME: unset
+
 
 controller:
   annotations:
