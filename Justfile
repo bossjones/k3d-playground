@@ -437,3 +437,6 @@ cloudnative-pg-schema:
   python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_clusters.yaml
   python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_poolers.yaml
   python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_scheduledbackups.yaml
+
+loghose:
+  docker-loghose | grep -v "couldn't get current server API group list" | grep -v "Applied manifest " | grep -v "8080" | ccze -A
