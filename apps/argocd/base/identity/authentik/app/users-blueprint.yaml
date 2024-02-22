@@ -1,0 +1,28 @@
+# SOURCE: https://github.com/jdmarble/position-air/blob/main/roles/authentik/templates/cloudflare-access-blueprint.yaml
+# yaml-language-server: $schema=https://version-2023-10.goauthentik.io/blueprints/schema.json
+---
+version: 1
+metadata:
+  name: users
+entries:
+  - model: authentik_core.group
+    id: admin-group
+    identifiers:
+      name: admin-group
+    attrs:
+      is_superuser: true
+      name: authentik Admins
+  - model: authentik_core.user
+    id: jdmarble
+    identifiers:
+      name: jdmarble
+    attrs:
+      email: jdmarble@jdmarble.com
+      groups:
+        - !KeyOf admin-group
+      is_active: true
+      name: "James D. Marble"
+      path: users
+      type: internal
+      username: jdmarble
+      password: "{{ authentik_jdmarble_password }}"

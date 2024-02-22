@@ -64,6 +64,17 @@ authentik:
 
   redis:
     host: authentik-redis-master.identity.svc.cluster.local
+    password: ""
+
+  # SOURCE: https://github.com/K-FOSS/CoRE-Backplane/blob/a8b30a0dd0a21e34b3ddbb0981b7ede491a52a95/AAA/templates/User.yaml
+  service:
+    # -- Service that is created to access authentik
+    enabled: true
+    type: ClusterIP
+    sessionAffinity: ClientIP
+    port: 80
+    name: http
+    protocol: TCP
 
 envFrom:
   - secretRef:
@@ -125,9 +136,33 @@ redis:
   auth:
     enabled: false
 
+# -- see configuration options at https://goauthentik.io/docs/installation/configuration/
 env:
   AUTHENTIK_REDIS__DB: "1"
   AUTHENTIK_LOG_LEVEL: "trace"
+  AUTHENTIK_INSECURE: "true"
+  AUTHENTIK_REDIS__MESSAGE_QUEUE_DB: '2'
+  AUTHENTIK_REDIS__WS_DB: '3'
+  AUTHENTIK_REDIS__OUTPOST_SESSION_DB: '4'
+  # AUTHENTIK_POSTGRESQL__USE_PGPOOL: 'true'
+  # AUTHENTIK_DISABLE_UPDATE_CHECK: true
+  # AUTHENTIK_ERROR_REPORTING__ENABLED: false
+  # AUTHENTIK_BOOTSTRAP_PASSWORD: "{{ authentik_akadmin_password }}"
+
+# SOURCE: https://github.com/jdmarble/position-air/blob/131c7b07fb27839be02bfa910599489c01a91c62/roles/authentik/templates/values.yaml
+# volumes:
+#   - name: blueprint-config
+#     secret:
+#       secretName: blueprint-config
+# volumeMounts:
+#   - name: blueprint-config
+#     readOnly: true
+#     mountPath: "/blueprints/mounted/blueprint-config"
+
+# SOURCE: https://github.com/mscreations/maisonneux/blob/e40a89d0f31c5bc20bc285f2395c23d96e1db4ac/stacks/proxy-auth/proxy-auth-compose.yaml#L222
+# # AUTHENTIK_LOG_LEVEL: trace # If a specific log level is needed
+#       - AUTHENTIK_HOST=https://auth.${DOMAIN_NAME}
+#       - AUTHENTIK_HOST_BROWSER=https://auth.${DOMAIN_NAME}
 # ##############################################################
 
 # ---

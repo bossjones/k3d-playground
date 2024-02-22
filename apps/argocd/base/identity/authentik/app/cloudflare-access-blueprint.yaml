@@ -1,0 +1,39 @@
+# SOURCE: https://github.com/jdmarble/position-air/blob/main/roles/authentik/templates/cloudflare-access-blueprint.yaml
+# yaml-language-server: $schema=https://version-2023-10.goauthentik.io/blueprints/schema.json
+---
+version: 1
+metadata:
+  name: cloudflare-access
+entries:
+  - model: authentik_providers_oauth2.oauth2provider
+    id: cloudflare-access-provider
+    identifiers:
+      name: cloudflare-access-provider
+    attrs:
+      access_code_validity: minutes=1
+      access_token_validity: minutes=5
+      authentication_flow: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
+      authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
+      client_id: "{{ authentik_oidc_cloudflare_access_client_id }}"
+      client_secret: "{{ authentik_oidc_cloudflare_access_client_secret }}"
+      client_type: confidential
+      include_claims_in_id_token: true
+      issuer_mode: per_provider
+      name: Cloudflare Access
+      property_mappings:
+        - !Find [authentik_providers_oauth2.scopemapping, [managed, goauthentik.io/providers/oauth2/scope-email]]
+        - !Find [authentik_providers_oauth2.scopemapping, [managed, goauthentik.io/providers/oauth2/scope-profile]]
+        - !Find [authentik_providers_oauth2.scopemapping, [managed, goauthentik.io/providers/oauth2/scope-openid]]
+      redirect_uris: https://jdmarble.cloudflareaccess.com/cdn-cgi/access/callback
+      refresh_token_validity: days=30
+      signing_key: !Find [authentik_crypto.certificatekeypair, [name, "authentik Self-signed Certificate"]]
+      sub_mode: user_email
+  - model: authentik_core.application
+    id: cloudflare-access-application
+    identifiers:
+      name: cloudflare-access-application
+    attrs:
+      name: Cloudflare Access
+      policy_engine_mode: any
+      provider: !KeyOf cloudflare-access-provider
+      slug: cloudeflare-access
