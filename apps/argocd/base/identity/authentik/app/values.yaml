@@ -150,14 +150,14 @@ env:
   # AUTHENTIK_BOOTSTRAP_PASSWORD: "{{ authentik_akadmin_password }}"
 
 # SOURCE: https://github.com/jdmarble/position-air/blob/131c7b07fb27839be02bfa910599489c01a91c62/roles/authentik/templates/values.yaml
-# volumes:
-#   - name: blueprint-config
-#     secret:
-#       secretName: blueprint-config
-# volumeMounts:
-#   - name: blueprint-config
-#     readOnly: true
-#     mountPath: "/blueprints/mounted/blueprint-config"
+volumes:
+  - name: blueprint-config
+    secret:
+      secretName: blueprint-config
+volumeMounts:
+  - name: blueprint-config
+    readOnly: true
+    mountPath: "/blueprints/mounted/blueprint-config"
 
 # SOURCE: https://github.com/mscreations/maisonneux/blob/e40a89d0f31c5bc20bc285f2395c23d96e1db4ac/stacks/proxy-auth/proxy-auth-compose.yaml#L222
 # # AUTHENTIK_LOG_LEVEL: trace # If a specific log level is needed

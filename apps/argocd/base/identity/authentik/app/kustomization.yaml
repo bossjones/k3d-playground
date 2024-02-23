@@ -6,6 +6,7 @@ resources:
   - namespace.yaml
   - externalsecret.yaml
   - output-ingress.yaml
+  - blueprint-config.yaml
   - app.yaml
 
 patches:

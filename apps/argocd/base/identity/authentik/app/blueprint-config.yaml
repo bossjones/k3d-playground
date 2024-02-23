@@ -1,0 +1,200 @@
+---
+apiVersion: v1
+stringData:
+  users.yaml: |
+    # yaml-language-server: $schema=https://version-2023-10.goauthentik.io/blueprints/schema.json
+    version: 1
+    metadata:
+      name: users
+    entries:
+      - model: authentik_core.group
+        id: admin-group
+        identifiers:
+          name: admin-group
+        attrs:
+          is_superuser: true
+          name: authentik Admins
+      - model: authentik_core.user
+        id: bossjones
+        identifiers:
+          name: bossjones
+        attrs:
+          email: bossjones@k8s.localhost
+          groups:
+            - !KeyOf admin-group
+          is_active: true
+          name: "Boss Jones"
+          path: users
+          type: internal
+          username: bossjones
+          password: "password"
+  ldap.yaml: |
+    # SOURCE: https://github.com/bossjones/position-air/blob/main/roles/authentik/templates/cloudflare-access-blueprint.yaml
+    # yaml-language-server: $schema=https://version-2023-10.goauthentik.io/blueprints/schema.json
+    version: 1
+    metadata:
+      name: ldap
+    entries:
+      - model: authentik_core.group
+        id: ldapsearch
+        identifiers:
+          name: ldapsearch
+        attrs:
+          name: ldapgroup
+      - model: authentik_core.user
+        id: ldapservice
+        identifiers:
+          name: ldapservice
+        attrs:
+          groups:
+            - !KeyOf ldapsearch
+          is_active: true
+          name: LDAP bind user
+          password: "password"
+          path: users
+          type: internal
+          username: ldapservice
+      - model: authentik_stages_password.passwordstage
+        id: ldap-authentication-password
+        identifiers:
+          name: ldap-authentication-password
+        attrs:
+          backends:
+          - authentik.core.auth.InbuiltBackend
+          - authentik.core.auth.TokenBackend
+          - authentik.sources.ldap.auth.LDAPBackend
+          failed_attempts_before_cancel: 5
+          name: ldap-authentication-password
+      - model: authentik_stages_identification.identificationstage
+        id: ldap-identification-stage
+        identifiers:
+          name: ldap-identification-stage
+        attrs:
+          case_insensitive_matching: true
+          name: ldap-identification-stage
+          password_stage: !KeyOf ldap-authentication-password
+          show_matched_user: true
+          user_fields:
+          - username
+          - email
+      - model: authentik_stages_user_login.userloginstage
+        id: ldap-authentication-login
+        identifiers:
+          name: ldap-authentication-login
+        attrs:
+          name: ldap-authentication-login
+          remember_me_offset: seconds=0
+          session_duration: seconds=0
+      - model: authentik_flows.flow
+        id: ldap-authentication-flow
+        identifiers:
+          name: ldap-authentication-flow
+        attrs:
+          authentication: none
+          denied_action: message_continue
+          designation: authentication
+          layout: stacked
+          name: ldap-authentication-flow
+          policy_engine_mode: any
+          slug: ldap-authentication-flow
+          title: LDAP Authentication Flow
+      - model: authentik_flows.flowstagebinding
+        id: ldap-identification-stage-flowbinding
+        identifiers:
+          order: 10
+          stage: !KeyOf ldap-identification-stage
+          target: !KeyOf ldap-authentication-flow
+        attrs:
+          evaluate_on_plan: true
+          invalid_response_action: retry
+          policy_engine_mode: any
+          re_evaluate_policies: true
+      - model: authentik_flows.flowstagebinding
+        id: ldap-authentication-login-flowbinding
+        identifiers:
+          order: 30
+          stage: !KeyOf ldap-authentication-login
+          target: !KeyOf ldap-authentication-flow
+        attrs:
+          evaluate_on_plan: true
+          invalid_response_action: retry
+          policy_engine_mode: any
+          re_evaluate_policies: true
+      - model: authentik_providers_ldap.ldapprovider
+        id: ldap-provider
+        identifiers:
+          name: ldap-provider
+        attrs:
+          authorization_flow: !KeyOf ldap-authentication-flow
+          base_dn: DC=ldap,DC=bossjones,DC=net
+          bind_mode: cached
+          gid_start_number: 4000
+          name: LDAP
+          search_group: !KeyOf ldapsearch
+          search_mode: cached
+          # ORIG: # tls_server_name: ldap.k8s.localhost
+          tls_server_name: authentik.k8s.localhost
+          uid_start_number: 2000
+      - model: authentik_core.application
+        id: ldap-application
+        identifiers:
+          name: ldap-application
+        attrs:
+          name: LDAP
+          policy_engine_mode: any
+          provider: !KeyOf ldap-provider
+          slug: ldap-application
+      - model: authentik_outposts.outpost
+        id: ldap-outpost
+        identifiers:
+          name: ldap-outpost
+        attrs:
+          config:
+            authentik_host: https://authentik.k8s.localhost/
+            authentik_host_browser: ''
+            authentik_host_insecure: true
+            container_image: null
+            docker_labels: null
+            docker_map_ports: true
+            docker_network: null
+            kubernetes_disabled_components: []
+            kubernetes_image_pull_secrets: []
+            kubernetes_ingress_annotations: {}
+            kubernetes_ingress_class_name: null
+            # kubernetes_ingress_secret_name: authentik-outpost-tls
+            kubernetes_ingress_secret_name: tls-secret
+            kubernetes_json_patches: null
+            kubernetes_namespace: identity
+            kubernetes_replicas: 1
+            kubernetes_service_type: LoadBalancer
+            log_level: info
+            object_naming_template: ak-outpost-%(name)s
+          managed: null
+          name: LDAP
+          providers:
+          - !KeyOf ldap-provider
+          service_connection: !Find [authentik_outposts.kubernetesserviceconnection, [name, "Local Kubernetes Cluster"]]
+          type: ldap
+
+kind: Secret
+metadata:
+  name: blueprint-config
+  namespace: authentik
+  labels:
+    app: authentik
+type: Opaque
+# ---
+
+# - name: Create a secret with blueprints
+#   kubernetes.core.k8s:
+#     state: present
+#     definition:
+#       apiVersion: v1
+#       kind: Secret
+#       metadata:
+#         name: blueprint-config
+#         namespace: authentik
+#       data:
+#         "users.yaml": "{{ lookup('template', 'users-blueprint.yaml') | b64encode }}"
+#         "cloudflare-access.yaml": "{{ lookup('template', 'cloudflare-access-blueprint.yaml') | b64encode }}"
+#         "ldap.yaml": "{{ lookup('template', 'ldap-blueprint.yaml') | b64encode }}"
