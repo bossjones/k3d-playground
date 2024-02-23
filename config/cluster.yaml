@@ -276,7 +276,8 @@ options:
     timeout: "360s"
     loadbalancer:
       configOverrides:
-      - settings.workerConnections=2048
+      # - settings.workerConnections=2048
+      - settings.workerConnections=4096
   k3s:
     extraArgs:
 
