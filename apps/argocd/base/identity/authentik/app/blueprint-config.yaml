@@ -179,7 +179,7 @@ stringData:
 kind: Secret
 metadata:
   name: blueprint-config
-  namespace: authentik
+  namespace: identity
   labels:
     app: authentik
 type: Opaque
