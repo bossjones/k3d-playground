@@ -378,6 +378,8 @@ install-ksops:
 
 install-mandatory-manifests:
   kubectl create namespace monitoring || true
+  kubectl create namespace monitoring || true
+  kubectl create namespace argocd || true
   kubectl create namespace databases || true
   kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
   kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
@@ -409,6 +411,10 @@ install-mandatory-manifests:
   kubectl -n monitoring apply --server-side -f apps/argocd/base/monitoring/kube-prometheus-stack/app/thanos-secret.sops.yaml
   git restore apps/argocd/base/monitoring/kube-prometheus-stack/app/thanos-secret.sops.yaml
   # kubectl -n kube-system apply --server-side -f apps/argocd/base/kube-system/external-secrets/app/connect/1passwordCredentials.sops.yaml
+
+  kubectl -n argocd apply --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/crds/application-crd.yaml
+  kubectl -n argocd apply --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/crds/applicationset-crd.yaml
+  kubectl -n argocd apply --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/crds/appproject-crd.yaml
 
   kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/database/cloudnative-pg | kubectl apply --server-side -f -
   # kubectl -n databases apply --server-side -f apps/argocd/base/database/cloudnative-pg/app/cluster/cluster.yaml
