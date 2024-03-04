@@ -408,6 +408,15 @@ install-mandatory-manifests:
   sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |ggrep -oP "public key: \K(.*)") --in-place apps/argocd/base/monitoring/kube-prometheus-stack/app/thanos-secret.sops.yaml
   kubectl -n monitoring apply --server-side -f apps/argocd/base/monitoring/kube-prometheus-stack/app/thanos-secret.sops.yaml
   git restore apps/argocd/base/monitoring/kube-prometheus-stack/app/thanos-secret.sops.yaml
+  # kubectl -n kube-system apply --server-side -f apps/argocd/base/kube-system/external-secrets/app/connect/1passwordCredentials.sops.yaml
+
+  kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/database/cloudnative-pg | kubectl apply --server-side -f -
+  # kubectl -n databases apply --server-side -f apps/argocd/base/database/cloudnative-pg/app/cluster/cluster.yaml
+  # kubectl -n databases apply --server-side -f apps/argocd/base/database/cloudnative-pg/app/cluster/externalSecret.yaml
+  # kubectl -n databases apply --server-side -f apps/argocd/base/database/cloudnative-pg/app/cluster/prometheusRule.yaml
+  # kubectl -n databases apply --server-side -f apps/argocd/base/database/cloudnative-pg/app/cluster/scheduledbackup.yaml
+  # kubectl -n databases apply --server-side -f apps/argocd/base/database/cloudnative-pg/app/cluster/service.yaml
+
 
 dashboard-token:
   kubectl get secret kd-user -n monitoring -o jsonpath={".data.token"} | base64 -d | pbcopy
