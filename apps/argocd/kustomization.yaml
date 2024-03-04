@@ -110,7 +110,7 @@ patches:
     kind: ConfigMap
     name: argocd-ssh-known-hosts-cm
 - path: overlay/patch-argocd-cm-secrets.yaml
-- path: patch-statefulset-argocd-application-controller.yaml
+- path:  overlay/patch-statefulset-argocd-application-controller.yaml
   target:
     kind: StatefulSet
     name: argocd-application-controller
