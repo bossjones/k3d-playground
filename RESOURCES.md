@@ -249,3 +249,169 @@ data:
   # Enable self-service notifications config. Used in conjunction with apps-in-any-namespace. (default "false")
   notificationscontroller.selfservice.enabled: "false"
 ```
+
+# Docker stuff (via https://github.com/surfer190/fixes/blob/master/docs/docker/docker-basics.md?plain=1)
+
+### Getting inside a running container
+
+There is the docker way with `docker exec` or the linux way with `nsenter`.
+
+#### Docker Exec
+
+The easiest and best way.
+
+Docker exec with an interactive and pseudo-TTY:
+
+    docker exec -it 657d80a6401d /bin/bash
+
+You can check what else is running in the container with:
+
+    ps -ef
+
+    root@422ed51e84fc:/# ps -ef
+    UID        PID  PPID  C STIME TTY          TIME CMD
+    root         1     0  0 10:49 pts/0    00:00:00 /bin/bash
+    root        22     0  0 12:02 pts/1    00:00:00 /bin/bash
+    root        32    22  0 12:02 pts/1    00:00:00 ps -ef
+
+whereas if we do the same thing on an lxd container:
+
+    lxc exec third -- /bin/bash
+
+there will be a lot more processes:
+
+    root@third:~# ps -ef
+    UID        PID  PPID  C STIME TTY          TIME CMD
+    root         1     0  0 11:59 ?        00:00:00 /sbin/init
+    root        53     1  0 11:59 ?        00:00:00 /lib/systemd/systemd-journald
+    root        65     1  0 11:59 ?        00:00:00 /lib/systemd/systemd-udevd
+    systemd+   155     1  0 11:59 ?        00:00:00 /lib/systemd/systemd-networkd
+    systemd+   157     1  0 11:59 ?        00:00:00 /lib/systemd/systemd-resolved
+    root       191     1  0 11:59 ?        00:00:00 /usr/lib/accountsservice/accounts-daemon
+    syslog     192     1  0 11:59 ?        00:00:00 /usr/sbin/rsyslogd -n
+    daemon     194     1  0 11:59 ?        00:00:00 /usr/sbin/atd -f
+    root       195     1  0 11:59 ?        00:00:00 /lib/systemd/systemd-logind
+    root       196     1  0 11:59 ?        00:00:00 /usr/sbin/cron -f
+    message+   199     1  0 11:59 ?        00:00:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-
+    root       204     1  0 11:59 ?        00:00:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+    root       213     1  0 11:59 console  00:00:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 vt220
+    root       216     1  0 11:59 ?        00:00:00 /usr/sbin/sshd -D
+    root       217     1  0 11:59 ?        00:00:00 /usr/lib/policykit-1/polkitd --no-debug
+    root       221     1  0 11:59 ?        00:00:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+    root       304     0  0 12:01 ?        00:00:00 /bin/bash
+    root       314   304  0 12:01 ?        00:00:00 ps -ef
+
+`systemd` is installed and running on the `lxc` container. On docker, it is not present.
+
+That shows that lxd containers are meant to be full vm's, whereas docker containers are processed based.
+
+> You can't just start an empty container - well you can but it will exit successfully every time.
+
+You can also run additional processes in the background via `docker exec -d` - but think long and hard before doing so. You will lose repeatability and is useful only for debugging.
+
+> If you're tempted to do this, you would probably reap bigger gains from rebuilding your container image to launch both processes in a repeatable way
+
+### Nsenter
+
+Part of `util-linux`, `nsenter` allows you to enter any linux namespace.
+
+They are the core of what makes a container a container.
+
+You can use docker to install `nsenter` on the docker server:
+
+    docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter
+
+* this will only work on a linux docker host
+
+> You should be very careful about doing this! It's always a good idea to check out what you are running, and particularly what you are exposing part of your filesystem to, before you run a third-party container on your system
+
+> With `-v`, we're telling Docker to expose the host's `/usr/local/bin` directory into the running container as `/target`
+
+> it is then copying an executable into that directory on our host's filesystem
+
+More stuff on `nsenter` in the book
+
+#### Docker Volume
+
+List the volumes stored in your root directory
+
+    docker volume ls
+
+> These volumes are not bind-mounted volumes, but special data containers that are useful for persisting data
+
+Create a volume with:
+
+    docker volume create my-data
+
+You can start a container with this volume attached to it:
+
+    docker run --rm --mount source=my-data,target=/app ubuntu:latest touch /app/my-persistent-data
+
+Delete a volume with:
+
+    docker volume rm my-data
+
+### Logging
+
+> Logging is a critical part of any production application
+
+You might expect logs to write to a local logfile, to the kernel buffer `dmesg` or to `systemd` available from `journalctl`. However none of these work because of container restrictions.
+
+Docker makes logging easier because it captures all of the normal text output from applications in the containers it manages.
+Anything send to `stdout` or `stderr` is captured by the docker daemon and sent to a configurable logging backend.
+
+#### docker logs
+
+The default logging mechanism.
+
+Get logs with: `docker logs <container_id>`
+
+Nice because you get logs remotely and on demand.
+
+Options for logging:
+
+* `docker logs 422ed51e84fc --tail 50`
+* `docker logs 422ed51e84fc -f`
+* `docker logs 422ed51e84fc --since 2002-10-02`
+
+The actual files with the logs in are at: `/var/lib/docker/containers/<container_id>/`
+
+Downsides to this form of logging:
+
+* log rotation
+* access to logs after rotation
+* disk space usage for high-volume logging
+
+You'll want to make sure you specify the `--log-opt max-size` and `--log-opt max-file` settings if running in production.
+
+### Configurable Logging Backends
+
+`json-file`, `syslog`, `fluentd`, `journald`, `gelf`, `awslogs`, `splunk`, `etwlogs`, `gcplogs` and `logentries`
+
+The simplest for running docker at scale is `syslog`.
+
+You can specify this with `--log-driver=syslog` or setting it as the default in `daemon.json`
+
+`daemon.json` file is the configuration for the `dockerd` server found in `/etc/docker/`
+
+Unless you run `json-file` or `journald`, you will lose the ability to use the `docker logs` command
+
+Many companies already have a syslog architecture in place so it makes it a easy migration path. Newer linux distributions use `systemd` and `journald`
+
+You should be cautious about streaming logs from Docker to a remote log server over TCP or TLS, both run on top of connection-oriented TCP sessions.
+
+> If it fails to make the connection, it will block trying to start the container. If you are running this as your default logging mechanism, this can strike at any time on any deployment.
+
+We encourage you to use the `UDP` option for syslog logging if you intend to use the syslog driver. However, that means logs are not encrypted and not guaranteed delivery.
+
+_We err on the side of reliability_
+
+You can log directly to a remote syslog-compatible server from a single container by setting the log option syslog-address similar to this:
+
+    --log-opt syslog-address=udp://192.168.42.42:123
+
+Most logging pluggins are blocking by default. You can change this setting with: `--log-opt mode=non-blocking`
+
+Then setting the max size: `--log-opt max-buffer-size=4m`
+
+> The application will no longer block when that buffer fills up. Instead, the oldest loglines in memory will be dropped.

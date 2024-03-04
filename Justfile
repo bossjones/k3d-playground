@@ -502,3 +502,8 @@ docker-host-container:
   docker run -it --rm --privileged --pid=host justincormack/nsenter1
 
 nsenter: docker-host-container
+
+# SOURCE: https://github.com/surfer190/fixes/blob/master/docs/docker/docker-basics.md
+# install ubuntu - If you ever have a need to access the underlying VM
+nsenter-ubuntu:
+  docker run -it --privileged --pid=host ubuntu:22.04 nsenter -t 1 -m -u -n -i sh
