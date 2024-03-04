@@ -23,7 +23,7 @@ data:
   # # https://argo-cd.readthedocs.io/en/stable/operator-manual/server-commands/argocd-repo-server/
   # # https://github.com/argoproj/argo-cd/blob/95987d8bea5ea59f877e24a2bc5d4c891204cbaf/cmd/argocd-repo-server/commands/argocd_repo_server.go#L209
   # # number based off historical Goroutines count
-  reposerver.parallelism.limit: "10"
+  # reposerver.parallelism.limit: "10"
   # #
   # # enable this later after verifying above are working properly
   # # https://argo-cd.readthedocs.io/en/stable/operator-manual/security/#limiting-directory-app-memory-usage
@@ -32,10 +32,20 @@ data:
   # ########################################
   # # argocd-application-controller settings
   # #
+  # Number of application status processors (default 20)
   controller.status.processors: "140"
+  # Number of application operation processors (default 10)
   controller.operation.processors: "70"
-  controller.self.heal.timeout.seconds: "600"
+  # Specifies timeout between application self heal attempts (default 5)
+  # controller.self.heal.timeout.seconds: "600"
+
+  # Repo server RPC call timeout seconds.
   controller.repo.server.timeout.seconds: "92"
+
+  # Specifies if resource health should be persisted in app CRD (default true)
+  # Changing this to `false` significantly reduce number of Application CRD updates and improves controller performance.
+  # However, disabling resource health by default might affect applications that communicate with Applications CRD directly
+  # so we have to defer switching this to `false` by default till v3.0 release.
   controller.resource.health.persist: "false"
   # ########################################
   # # redis settings
@@ -47,7 +57,14 @@ data:
   # SOURCE: https://github.com/motoki317/manifest/blob/acea7744b5fd3e9fe69bda2d626e255aad1b15f9/argocd/argocd-cmd-params-cm.yaml
   # controller.log.level: "warn"
   # server.insecure: "true"
+
+  # Set the logging level. One of: debug|info|warn|error (default "info")
   server.log.level: "warn"
+  # Set the logging level. One of: debug|info|warn|error (default "info")
   reposerver.log.level: "debug"
+  # Set the logging level. One of: debug|info|warn|error (default "info")
   applicationsetcontroller.log.level: "warn"
+
+  ## Argo CD Notifications Controller Properties
+  # Set the logging level. One of: debug|info|warn|error (default "info")
   notificationscontroller.log.level: "warn"

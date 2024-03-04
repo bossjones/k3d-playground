@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: argocd-application-controller
+spec:
+  replicas: 2
+  template:
+    metadata:
+      annotations:
+        ethos.corp.adobe.com/logging-sourcetype: argocd-application-controller
+    spec:
+      affinity:
+        # https://jira.corp.adobe.com/browse/ETHOS-50235
+        # Requires that the pod be scheduled on a node with no other
+        # argocd-application-controller pods AND after that requirement is
+        # fulfilled, optionally prefers nodes with no other argocd component
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: argocd-application-controller
+            topologyKey: kubernetes.io/hostname
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/part-of: argocd
+              topologyKey: kubernetes.io/hostname
+            weight: 5
+      containers:
+      - name: argocd-application-controller
+        env:
+        - name: ARGOCD_K8S_CLIENT_QPS
+          value: "500"
+        - name: ARGOCD_K8S_CLIENT_BURST
+          value: "750"
+        - name: ARGOCD_CONTROLLER_REPLICAS
+          value: "2"

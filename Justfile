@@ -475,3 +475,30 @@ open-pgadmin:
 
 # open-argocd:
 #   open https://argocd.k8s.localhost/
+
+##############################################################################################################################
+# Here's an example of how to install packages on the VM (htop in this case):
+# docker run -it --rm --privileged --pid=host justincormack/nsenter
+# $ mount -o remount,rw /
+# $ mkdir /var/cache/apk
+# $ apk add htop
+
+# SOURCE: https://github.com/justincormack/nsenter1
+# nsenter allows you to enter a shell in a running container (technically into the namespaces that provide a container's isolation and limited access to system resources). The crazy thing is that this image allows you to run a privileged container that runs nsenter for the process space running as pid 1. How is this useful?
+
+
+# Well, this is useful when you are running a lightweight, container-optimized Linux distribution such as LinuxKit. Here is one simple example: say you want to teach a few people about Docker networking and you want to show them how to inspect the default bridge network after starting two containers using ip addr show; the problem is if you are demonstrating with Docker for Mac, for example, your containers are not running on your host directly, but are running instead inside of a minimal Linux OS virtual machine specially built for running containers, i.e., LinuxKit. But being a lightweight environment, LinuxKit isn't running sshd, so how do you get access to a shell so you can run nsenter to inspect the namespaces for the process running as pid 1?
+
+# Well, you could run the following:
+
+# $ screen ~/Library/Containers/com.docker.docker/Data/vms/0/tty
+
+##############################################################################################################################
+
+# on macos drop you in a container with full permissions on the Docker VM
+docker-host-container:
+  echo "see https://gist.github.com/BretFisher/5e1a0c7bcca4c735e716abf62afad389 for more info"
+  docker pull justincormack/nsenter1
+  docker run -it --rm --privileged --pid=host justincormack/nsenter1
+
+nsenter: docker-host-container
