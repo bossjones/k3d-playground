@@ -349,10 +349,23 @@ options:
     #   nodeFilters:
     #     - server:*
 
+    #######################################################################################
+    # kine
+    #######################################################################################
     # SOURCE: https://github.com/k3s-io/kine/blob/master/examples/minimal.md
     - arg: --datastore-endpoint="mysql://root:raspberry@tcp(localhost:6033)/kine"
       nodeFilters:
       - server:*
+    - arg: --datastore-cafile="config/tls/mysql-kine/ca.crt"
+      nodeFilters:
+      - server:*
+    - arg: --cert-file="config/tls/mysql-kine/server.crt"
+      nodeFilters:
+      - server:*
+    - arg: --key-file="config/tls/mysql-kine/server.key"
+      nodeFilters:
+      - server:*
+    #######################################################################################
     - arg: --tls-san=localhost,registry.local.gd,127.0.0.1,registry.localhost,k8s.localhost,whoami.k8s.localhost
       nodeFilters:
       - server:*
