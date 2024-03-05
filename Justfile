@@ -525,9 +525,12 @@ docker-desktop-nsenter:
 kine-mysql-up:
   docker-compose up -d
 
+kine-mysql-down:
+  docker-compose down
+
 kine-mysql-reset:
   docker-compose down --remove-orphans
   docker-compose down --remove-orphans
-  docker volume rm k3d-playground_kine_mysql -f
-  docker volume rm  k3d-playground_tmpvolume  -f
+  docker volume rm k3d-playground_kine_mysql
+  docker volume rm  k3d-playground_tmpvolume
   docker-compose up -d

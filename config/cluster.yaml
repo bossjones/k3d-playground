@@ -343,7 +343,9 @@ options:
     # - arg: --disable-network-policy
     #   nodeFilters:
     #     - server:*
-    - arg: --datastore-endpoint "mysql://root:raspberry@tcp(localhost:3306)/kine"
+
+    # SOURCE: https://github.com/k3s-io/kine/blob/master/examples/minimal.md
+    - arg: --datastore-endpoint="mysql://root:raspberry@tcp(localhost:6033)/kine"
       nodeFilters:
       - server:*
     - arg: --tls-san=localhost,registry.local.gd,127.0.0.1,registry.localhost,k8s.localhost,whoami.k8s.localhost
