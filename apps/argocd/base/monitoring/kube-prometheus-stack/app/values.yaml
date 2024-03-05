@@ -2653,7 +2653,30 @@ kubeStateMetrics:
 
 ## Configuration for kube-state-metrics subchart
 ##
+# SOURCE: https://github.com/prometheus-community/helm-charts/blob/f00193179b8d083e8b609ef587c72d66c633072e/charts/kube-state-metrics/values.yaml#L306
+# SOURCE: https://github.com/brancz/kube-rbac-proxy/tree/master/examples/resource-attributes
+# SOURCE: https://artifacthub.io/packages/helm/prometheus-community/kube-state-metrics/
 kube-state-metrics:
+  kubeRBACProxy:
+    enabled: false
+
+    # List of additional cli arguments to configure kube-rbac-prxy
+    # for example: --tls-cipher-suites, --log-file, etc.
+    # all the possible args can be found here: https://github.com/brancz/kube-rbac-proxy#usage
+    extraArgs: []
+      # - '--insecure-listen-address=0.0.0.0:8081'
+      # - '--upstream=http://localhost:8080/'
+      # - '--config-file=/etc/kube-rbac-proxy/config.yaml'
+      # - '--logtostderr=true'
+      # - '--v=10'
+
+    ## volumeMounts enables mounting custom volumes in rbac-proxy containers
+    ## Useful for TLS certificates and keys
+    volumeMounts: []
+      # - mountPath: /etc/tls
+      #   name: kube-rbac-proxy-tls
+      #   readOnly: true
+
   # Available collectors for kube-state-metrics.
   # By default, all available resources are enabled, comment out to disable.
   # collectors:
@@ -2705,6 +2728,7 @@ kube-state-metrics:
     - horizontalpodautoscalers=[*]
     # - verticalpodautoscalers=[*]
     - poddisruptionbudgets=[*]
+    - namespaces=[*]
   namespaceOverride: ""
   rbac:
     create: true
