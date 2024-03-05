@@ -359,9 +359,11 @@ options:
 
     # NOTE: https://github.com/k3s-io/k3s/issues/9256
     # --kube-controller-manager-arg leader-elect-lease-duration=10m --kube-controller-manager-arg leader-elect-renew-deadline=8m
+    # The duration that non-leader candidates will wait after observing a leadership renewal until attempting to acquire leadership of a led but unrenewed leader slot. This is effectively the maximum duration that a leader can be stopped before it is replaced by another candidate. This is only applicable if leader election is enabled.
     - arg: --kube-controller-manager-arg=leader-elect-lease-duration=10m
       nodeFilters:
       - server:*
+    # The interval between attempts by the acting master to renew a leadership slot before it stops leading. This must be less than the lease duration. This is only applicable if leader election is enabled.
     - arg: --kube-controller-manager-arg=leader-elect-renew-deadline=8m
       nodeFilters:
       - server:*
@@ -379,9 +381,9 @@ options:
     #   - server:*
 
 
-    - arg: --kube-controller-manager-arg=leader-election
-      nodeFilters:
-      - server:*
+    # - arg: --kube-controller-manager-arg=leader-election
+    #   nodeFilters:
+    #   - server:*
 
 
     # - arg: --kube-controller-manager-arg=leader-election-renew-deadline=60s
