@@ -37,7 +37,7 @@ services:
     image: mysql:8.3.0
     # network_mode: "host"
     # pid: "host"
-    # privileged: true
+    privileged: true
     environment:
       MYSQL_DATABASE: 'kine'
       # So you don't have to use root, but you can if you like
@@ -46,9 +46,11 @@ services:
       MYSQL_PASSWORD: 'raspberry'
       # Password for root access
       MYSQL_ROOT_PASSWORD: 'raspberry'
+      # SOURCE: https://stackoverflow.com/questions/40825617/cannot-connect-to-mysql-docker-container-from-container-with-django-app
+      MYSQL_ROOT_HOST: '%'
     ports:
       # <Port exposed> : <MySQL Port running inside container>
-      - '6033:3306'
+      - '0.0.0.0:6033:3306'
     expose:
       # Opens port 3306 on the container
       - '6033'

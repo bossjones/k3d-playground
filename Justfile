@@ -529,10 +529,10 @@ kine-mysql-down:
   docker-compose down
 
 kine-mysql-reset:
-  docker-compose down --remove-orphans
-  docker-compose down --remove-orphans
-  docker volume rm k3d-playground_kine_mysql
-  docker volume rm  k3d-playground_tmpvolume
+  docker-compose down --remove-orphans >/dev/null 2>&1 || true
+  docker-compose down --remove-orphans >/dev/null 2>&1 || true
+  docker volume rm k3d-playground_kine_mysql >/dev/null 2>&1 || true
+  docker volume rm  k3d-playground_tmpvolume >/dev/null 2>&1 || true
   docker-compose up -d
 
 docker-loghose:
