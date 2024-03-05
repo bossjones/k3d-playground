@@ -33,11 +33,11 @@ RUN apt-get --yes update && \
 RUN \
     set -xe && apt-get update -y && \
     apt-get install -y \
-    python sudo bash ca-certificates \
+    python3 sudo bash ca-certificates \
     locales \
     lsb-release \
     openssh-server \
-    software-properties-common ansible && \
+    software-properties-common && \
     locale-gen en_US.UTF-8 && \
     dpkg-reconfigure locales && \
     update-locale LANG=en_US.UTF-8 && \
@@ -45,7 +45,6 @@ RUN \
     apt-get update -y && \
     apt-get -y install gdebi-core sshpass cron netcat net-tools iproute2 && \
     apt-get -y install \
-    ansible \
     apt-utils \
     autoconf \
     bash \
@@ -60,7 +59,6 @@ RUN \
     dhcping \
     ethtool \
     fping \
-    curl \
     direnv \
     dnsutils \
     dstat \
@@ -72,11 +70,6 @@ RUN \
     git \
     iptables \
     iptraf-ng \
-    libc6 \
-    libc6-dev \
-    liboping-dev \
-    ipvsadm \
-    git-core \
     htop \
     httpie \
     iftop \
@@ -111,23 +104,12 @@ RUN \
     peco \
     perf-tools-unstable \
     procps \
-    python \
-    python-dev \
-    python-pip \
-    python-setuptools \
-    rsyslog \
-    ruby-full \
     silversearcher-ag \
     socat \
     software-properties-common \
     strace \
-    sudo \
-    sysstat \
     openssl \
-    python-crypto \
     scapy \
-    systemd \
-    systemd-cron \
     tcptraceroute \
     util-linux \
     tcpdump \
@@ -145,9 +127,64 @@ RUN \
     python-pip \
     software-properties-common \
     sudo -y && \
+    echo "install netshoot deps" && \
+    apt-get install -y \
+    apache2-utils \
+    bash \
+    bind-tools \
+    bird \
+    bridge-utils \
+    busybox-extras \
+    conntrack-tools \
+    curl \
+    dhcping \
+    drill \
+    ethtool \
+    file\
+    fping \
+    grpcurl \
+    iftop \
+    iperf \
+    iperf3 \
+    iproute2 \
+    ipset \
+    iptables \
+    iptraf-ng \
+    iputils \
+    ipvsadm \
+    jq \
+    libc6-compat \
+    liboping \
+    ltrace \
+    mtr \
+    net-snmp-tools \
+    netcat-openbsd \
+    nftables \
+    ngrep \
+    nmap \
+    nmap-nping \
+    nmap-scripts \
+    openssl \
+    py3-pip \
+    py3-setuptools \
+    scapy \
+    socat \
+    speedtest-cli \
+    openssh \
+    strace \
+    tcpdump \
+    tcptraceroute \
+    tshark \
+    util-linux \
+    vim \
+    git \
+    zsh \
+    websocat \
+    swaks \
+    perl-crypt-ssleay \
+    perl-net-ssleay && \
     sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config && \
     sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config && \
-    sed -i 's/^\($ModLoad imklog\)/#\1/' /etc/rsyslog.conf && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -188,34 +225,5 @@ RUN set -x; export PATH="~/.bin:~/bin:~/.local/bin:$PATH" && \
     --promptString k8s=false \
     --promptString opencv=false \
     --promptString fnm=true \
-    -R --debug -v --branch feature-dl-twitter --apply https://github.com/bossjones/zsh-dotfiles.git
-
-# {{/* Configs */}}
-# {{- $name := "Malcolm Jones" -}}
-# {{- $email := "bossjones@theblacktonystark.com" -}}
-# {{- $computer_name := default "boss workstation" (env "CM_computer_name") -}}
-# {{- $hostname := default "bossworkstation" (env "CM_hostname") -}}
-# {{- "" -}}
-# name: {{ $name | quote }}
-#   email: {{ $email | quote }}
-#   computer_name: {{ $computer_name | quote }}
-#   hostname: {{ $hostname | quote }}
-#   ruby: {{ $ruby }}
-#   pyenv: {{ $pyenv }}
-#   nodejs: {{ $nodejs }}
-#   k8s: {{ $k8s }}
-#   cuda: {{ $cuda }}
-#   opencv: {{ $opencv }}
-#   fnm: {{ $fnm }}
-#   myFzfVersion: "0.42.0"
-#   mySheldonVersion: "0.6.6"
-#   myAsdfVersion: "v0.11.2"
-#   myAsdfRubyVersion: "3.2.1"
-#   myAsdfGolangVersion: "1.20.5"
-#   myAsdfTmuxVersion: "2.9a"
-#   myAsdfNeovimVersion: "latest"
-#   myAsdfGithubCliVersion: "2.31.0"
-#   myAsdfMkcertVersion: "1.4.4"
-#   myAsdfShellcheckVersion: "0.9.0"
-#   myAsdfShfmtVersion: "3.7.0"
-#   myAsdfYqVersion: "4.34.1"
+    -R --debug -v --branch feature-dl-twitter --apply https://github.com/bossjones/zsh-dotfiles.git && \
+    chsh -s $(which zsh)
