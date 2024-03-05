@@ -196,6 +196,7 @@ write:
 # -------------------------------------
 # Configuration for `minio` child chart
 # -------------------------------------
+# NOTE: Check out the config for loki here: https://github.com/qclaogui/codelab-monitoring/blob/2db31b8e7e35390719bd7e0010465c4e4e386dd4/kubernetes/read-write-mode/logs/configs/loki.yaml
 minio:
   enabled: true
 

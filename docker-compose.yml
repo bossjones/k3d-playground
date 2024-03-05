@@ -1,0 +1,95 @@
+version: '3.9'
+# SOURCE: https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/infrastructure-setup/ha-k3s-kubernetes-cluster
+# SOURCE: https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/infrastructure-setup/ha-k3s-kubernetes-cluster
+# SOURCE: https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/infrastructure-setup/ha-k3s-kubernetes-cluster
+# SOURCE: https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/infrastructure-setup/ha-k3s-kubernetes-cluster
+# SOURCE: https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/infrastructure-setup/ha-k3s-kubernetes-cluster
+
+
+# SOURCE: https://tecadmin.net/docker-compose-for-mysql-with-phpmyadmin/
+# SOURCE: https://github.com/vimalgandhi/Docker-compose-File/blob/main/README.md?plain=1
+# Since only root has access to /var/lib/docker and I'm running the Grafana agent under its own user on the host itself, changing the permissions to that directory seemed like a bad idea to me. After a bit of research I figured out how to make this work using the journald driver, which works nicely.
+# SOURCE: https://gist.github.com/ruanbekker/c6fa9bc6882e6f324b4319c5e3622460?permalink_comment_id=4009155#gistcomment-4009155
+# SOURCE: https://www.fadocodecamp.com/posts/running-a-mysql-database-with-docker-compose-a-beginners-guide
+networks:
+  kine_net:
+
+x-logging:
+  &default-logging
+  driver: "journald"
+  options:
+    tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+
+# for the unifipoller bits
+# https://github.com/unpoller/unpoller/blob/master/init/docker/docker-compose.yml
+volumes:
+    # database-data: null # named volumes can be managed easier using docker-compose
+    kine_mysql:
+    tmpvolume:
+    # driver: local
+services:
+  # TODO: use redis env var "ALLOW_EMPTY_PASSWORD" in k3d!!!!!!!!!!!!!!!!!!!!
+  # redis:
+  #     image: "redis:7.2.4-alpine"
+  #     environment:
+  #         ALLOW_EMPTY_PASSWORD: "yes"
+  kine-db:
+    image: mysql:8.3.0
+    network_mode: "host"
+    pid: "host"
+    privileged: true
+    environment:
+      MYSQL_DATABASE: 'kine'
+      # So you don't have to use root, but you can if you like
+      MYSQL_USER: 'pi'
+      # You can use whatever password you like
+      MYSQL_PASSWORD: 'raspberry'
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: 'raspberry'
+    ports:
+      # <Port exposed> : <MySQL Port running inside container>
+      - '3306:3306'
+    expose:
+      # Opens port 3306 on the container
+      - '3306'
+      # Where our data will be persisted
+    volumes:
+      - "kine_mysql:/var/lib/mysql:rw"
+      # -v /tmp/mysql-data:/var/lib/mysql is added to retain the data when the container
+      - "tmpvolume:/tmp:rw"
+    container_name: kine-db
+    cap_add:
+      - NET_ADMIN # Required if you are using Pi-hole as your DHCP server, else not needed
+      # SOURCE: https://geshan.com.np/blog/2022/02/mysql-docker-compose/
+      # - SYS_NICE # The cap_add set to SYS_NICE suppresses some not useful error messages.
+    restart: unless-stopped
+    # SOURCE: https://github.com/vimalgandhi/Docker-compose-File/blob/main/README.md?plain=1
+    # # container_name: therapy-link-mysql
+    # platform: linux/amd64 # Only required in case Apple M1 / ARM
+    # command: --default-authentication-plugin=mysql_native_password
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+
+  phpmyadmin:
+    # image: phpmyadmin/phpmyadmin
+    image: arm64v8/phpmyadmin
+    container_name: pma
+    # links:
+    #   - kine-db
+    environment:
+      PMA_HOST: kine-db
+      PMA_PORT: 3306
+      # when set to 1 connection to the arbitrary server will be allowed
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 6033:80
+    network_mode: "host"
+    pid: "host"
+    privileged: true
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"

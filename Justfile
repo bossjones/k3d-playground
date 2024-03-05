@@ -507,3 +507,27 @@ nsenter: docker-host-container
 # install ubuntu - If you ever have a need to access the underlying VM
 nsenter-ubuntu:
   docker run -it --privileged --pid=host ubuntu:22.04 nsenter -t 1 -m -u -n -i sh
+
+# Read the docker daemon logs
+docker-macos-logs:
+  tail -f ~/Library/Containers/com.docker.docker/Data/log/vm/dockerd.log ~/Library/Containers/com.docker.docker/Data/log/vm/containerd.log | ccze -A
+
+docker-logs: docker-macos-logs
+
+# SOURCE: https://forums.docker.com/t/dockerd-using-100-cpu/94962/16
+# It will give you a shell so you can see the files including the docker data root and the config file, but don't change anything there until the Graphical interface works. You can change the daemon config from the GUI. docker stats can also show you how much resources containers use and you can try docker system prune to remove
+docker-desktop-nsenter:
+  docker run --rm -it --privileged --pid host ubuntu:20.04 \
+    nsenter --all -t 1 \
+      -- ctr -n services.linuxkit task exec -t --exec-id test docker \
+          sh
+
+kine-mysql-up:
+  docker-compose up -d
+
+kine-mysql-reset:
+  docker-compose down --remove-orphans
+  docker-compose down --remove-orphans
+  docker volume rm k3d-playground_kine_mysql -f
+  docker volume rm  k3d-playground_tmpvolume  -f
+  docker-compose up -d

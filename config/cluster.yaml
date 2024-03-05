@@ -10,9 +10,11 @@ kubeAPI:
   hostIP: "0.0.0.0"
   hostPort: "6445"
 image: rancher/k3s:v1.27.4-k3s1
+# NOTE: working - image: rancher/k3s:v1.27.4-k3s1
+# image: rancher/k3s:v1.29.1-k3s1
 network: demo-net
 ports:
-- port: 80:80
+- port: 0.0.0.0:80:80
   nodeFilters:
   - loadbalancer
 # FIXME: Try this - port: 0.0.0.0:443:443
@@ -36,6 +38,27 @@ ports:
 #     - loadbalancer
 #     # - server:0
 #     # - agent:*
+
+# - port: 0.0.0.0:6443:6443
+#   nodeFilters:
+#     - loadbalancer
+#######################################################
+# kine
+#######################################################
+- port: 0.0.0.0:2379:2379
+  nodeFilters:
+    - loadbalancer
+
+- port: 0.0.0.0:2380:2380
+  nodeFilters:
+    - loadbalancer
+
+- port: 0.0.0.0:2381:2381
+  nodeFilters:
+    - loadbalancer
+#######################################################
+# kine - end
+#######################################################
 
 # - port: 30000:30000
 #   nodeFilters:
@@ -278,6 +301,7 @@ options:
       configOverrides:
       # - settings.workerConnections=2048
       - settings.workerConnections=4096
+      - settings.defaultProxyTimeout=900
   k3s:
     extraArgs:
 
@@ -422,13 +446,22 @@ options:
     # serversMemory: 1G
     # agentsMemory: 1G
     ulimits:
+      # - name: nofile
+      #   soft: 26677
+      #   hard: 26677
+      # - name: nproc
+      #   soft: 26677
+      #   hard: 26677
+      # - name: core
+      #   soft: 26677
+      #   hard: 26677
       - name: nofile
-        soft: 26677
-        hard: 26677
+        soft: 1048576
+        hard: 1048576
       - name: nproc
-        soft: 26677
-        hard: 26677
+        soft: 1048576
+        hard: 1048576
       - name: core
-        soft: 26677
-        hard: 26677
+        soft: 1048576
+        hard: 1048576
     # --k3s-server-arg --node-taint="CriticalAddonsOnly=true:NoExecute"

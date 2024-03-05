@@ -1,6 +1,29 @@
 # k3d-playground
 Just messing around with k3d
 
+# Arch
+
+This repo will create a multi-node `k3s` cluster using `k3d` command-line inside a separate docker network and can add a private docker registry to push docker images. (also see: https://github.com/bravecobra/k8s-dev-infrastructure/blob/adb085443cffb00a69c2ddc4a415f02ef785d79a/docs/clusters/k3s.md?plain=1)
+
+```mermaid
+graph LR;
+host
+subgraph docker-network: k3d
+  k3d-demo-server-0
+  k3d-demo-agent-0
+  k3d-demo-agent-1
+  registry-localhost
+  k3d-demo-serverlb
+end
+host --> k3d-demo-serverlb
+k3d-demo-serverlb-->k3d-demo-server-0
+k3d-demo-serverlb-->k3d-demo-agent-0
+k3d-demo-serverlb-->k3d-demo-agent-1
+k3d-demo-server-0 -.uses.-> registry-localhost
+k3d-demo-agent-0 -.uses.-> registry-localhost
+k3d-demo-agent-1 -.uses.-> registry-localhost
+```
+
 Linux and macOS script to create a k3d (k3s in docker) cluster for development
 including:
 
