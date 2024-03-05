@@ -544,5 +544,8 @@ k3d-server-logs:
 k3d-server-exec:
   bash scripts/k3d-server-exec.sh
 
+sleep:
+  sleep 20
+
 # reset everyhitng having to do with k3d and kine
-k3d-scorch-earth: kine-mysql-reset demo-prebuilt demo-prebuilt-no-nuke
+k3d-scorch-earth: kine-mysql-reset sleep demo-prebuilt demo-prebuilt-no-nuke
