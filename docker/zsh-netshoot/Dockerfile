@@ -131,18 +131,13 @@ RUN \
     apt-get install -y \
     apache2-utils \
     bash \
-    bind-tools \
     bird \
     bridge-utils \
-    busybox-extras \
-    conntrack-tools \
     curl \
     dhcping \
-    drill \
     ethtool \
     file\
     fping \
-    grpcurl \
     iftop \
     iperf \
     iperf3 \
@@ -150,10 +145,8 @@ RUN \
     ipset \
     iptables \
     iptraf-ng \
-    iputils \
     ipvsadm \
     jq \
-    libc6-compat \
     liboping-dev \
     ltrace \
     mtr \
@@ -232,3 +225,10 @@ RUN set -x; export PATH="~/.bin:~/bin:~/.local/bin:$PATH" && \
 # 87.31 E: Unable to locate package websocat
 # 87.31 E: Unable to locate package perl-crypt-ssleay
 # 87.31 E: Unable to locate package perl-net-ssleay
+# 84.02 E: Unable to locate package bind-tools
+# 84.02 E: Unable to locate package busybox-extras
+# 84.02 E: Unable to locate package conntrack-tools
+# 84.02 E: Unable to locate package drill
+# 84.02 E: Unable to locate package grpcurl
+# 84.02 E: Unable to locate package iputils
+# 84.02 E: Unable to locate package libc6-compat
