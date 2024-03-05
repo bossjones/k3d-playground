@@ -359,7 +359,12 @@ options:
 
     # NOTE: https://github.com/k3s-io/k3s/issues/9256
     # --kube-controller-manager-arg leader-elect-lease-duration=10m --kube-controller-manager-arg leader-elect-renew-deadline=8m
-
+    - arg: --kube-controller-manager-arg=leader-elect-lease-duration=10m
+      nodeFilters:
+      - server:*
+    - arg: --kube-controller-manager-arg=leader-elect-renew-deadline=8m
+      nodeFilters:
+      - server:*
     #######################################################################################
     # kine
     #######################################################################################
