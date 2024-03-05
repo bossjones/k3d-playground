@@ -563,3 +563,6 @@ k8s-netshoot-help:
   @echo ""
   @echo "# create a debug session on a node"
   @echo "kubectl netshoot debug node/my-node"
+
+
+post-argocd-install: certs-only argocd-secret install-secret-0 templates argocd-password argocd-token argocd-bridge

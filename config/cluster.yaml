@@ -2,7 +2,7 @@ apiVersion: k3d.io/v1alpha5
 kind: Simple
 metadata:
   name: demo
-servers: 1
+servers: 3
 agents: 4
 kubeAPI:
   host: "k8s.localhost"
@@ -363,6 +363,51 @@ options:
       nodeFilters:
       - server:*
     - arg: --kube-controller-manager-arg=leader-elect-renew-deadline=8m
+      nodeFilters:
+      - server:*
+
+    ####################################################################################3
+    # new tuning
+    ####################################################################################3
+    # - arg: --kube-controller-manager-arg=leader-elect-renew-deadline=8m
+    #   nodeFilters:
+    #   - server:*
+
+
+    # - arg: --kube-controller-manager-arg=leader-election-lease-duration=120s
+    #   nodeFilters:
+    #   - server:*
+
+
+    - arg: --kube-controller-manager-arg=leader-election
+      nodeFilters:
+      - server:*
+
+
+    # - arg: --kube-controller-manager-arg=leader-election-renew-deadline=60s
+    #   nodeFilters:
+    #   - server:*
+
+
+    # - arg: --kube-controller-manager-arg=leader-election-retry-period=30s
+    #   nodeFilters:
+    #   - server:*
+
+
+    # - arg: --kube-controller-manager-arg=kube-api-qps=100
+    #   nodeFilters:
+    #   - server:*
+
+
+    # - arg: --kube-controller-manager-arg=kube-api-burst=100
+    #   nodeFilters:
+    #   - server:*
+
+    ####################################################################################3
+    # new tuning
+    ####################################################################################3
+
+    - arg: --etcd-expose-metrics=true
       nodeFilters:
       - server:*
     #######################################################################################
