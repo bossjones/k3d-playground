@@ -197,3 +197,6 @@ dump/*
 !dump/*serviceaccounts*
 !externalSecret.yaml
 .decrypted*
+
+ca.crt
+ca.key
