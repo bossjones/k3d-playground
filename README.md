@@ -346,3 +346,17 @@ kube-system     svclb-ingress-nginx-controller-0371e36f-92wf6                  0
 databases       postgres-3-join-sjsdk                                          0m      9Mi
 
 ```
+
+# k3s
+
+https://docs.k3s.io/installation/requirements
+
+Protocol    Port    Source  Destination Description
+TCP 2379-2380   Servers Servers Required only for HA with embedded etcd
+TCP 6443    Agents  Servers K3s supervisor and Kubernetes API Server
+UDP 8472    All nodes   All nodes   Required only for Flannel VXLAN
+TCP 10250   All nodes   All nodes   Kubelet metrics
+UDP 51820   All nodes   All nodes   Required only for Flannel Wireguard with IPv4
+UDP 51821   All nodes   All nodes   Required only for Flannel Wireguard with IPv6
+TCP 5001    All nodes   All nodes   Required only for embedded distributed registry (Spegel)
+TCP 6443    All nodes   All nodes   Required only for embedded distributed registry (Spegel)

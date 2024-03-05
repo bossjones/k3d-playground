@@ -33,6 +33,27 @@ services:
   #     image: "redis:7.2.4-alpine"
   #     environment:
   #         ALLOW_EMPTY_PASSWORD: "yes"
+
+  # Since the Loki containers are running as user 10001 and the mounted data volume is owned by root,
+  # Loki would not have permissions to create the directories.
+  # Therefore the init container changes permissions of the mounted directory.
+  init:
+    image: mysql:8.3.0
+    user: root
+    entrypoint:
+      - "chown"
+      # - "10001:10001"
+      - "mysql:mysql"
+      - "-Rv"
+      - "/etc/mysql/conf.d/"
+      # - "/mysql-kine"
+    volumes:
+      - ./storage/mysql-kine/cert.pem:/etc/mysql/conf.d/server-cert.pem:rw
+      - ./storage/mysql-kine/key.pem:/etc/mysql/conf.d/server-key.pem:rw
+      - ./storage/mysql-kine/ca.crt:/etc/mysql/conf.d/server-ca.pem:rw
+      - ./mysql-ssl.cnf:/etc/mysql/conf.d/my.cnf:rw
+      - "kine_mysql:/var/lib/mysql:rw"
+      - "tmpvolume:/tmp:rw"
   kine-db:
     image: mysql:8.3.0
     # network_mode: "host"

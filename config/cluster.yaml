@@ -337,10 +337,10 @@ options:
       nodeFilters:
         - server:*
         - agent:*
-    - arg: "-v=3"
+    - arg: "-v=9"
       nodeFilters:
         - server:*
-        - agent:*
+        # - agent:*
     # - arg: "--write-kubeconfig-mode 644"
     #   nodeFilters:
     #     - server:*
@@ -357,6 +357,9 @@ options:
     #   nodeFilters:
     #     - server:*
 
+    # NOTE: https://github.com/k3s-io/k3s/issues/9256
+    # --kube-controller-manager-arg leader-elect-lease-duration=10m --kube-controller-manager-arg leader-elect-renew-deadline=8m
+
     #######################################################################################
     # kine
     #######################################################################################
@@ -369,20 +372,32 @@ options:
     - arg: --datastore-endpoint=mysql://root:raspberry@tcp(192.168.3.13:6033)/kine
       nodeFilters:
       - server:*
-    - arg: --datastore-cafile="/mysql-kine/ca.crt"
-      nodeFilters:
-      - server:*
-      # - agent:*
-    - arg: --datastore-certfile="/mysql-kine/cert.pem"
-      nodeFilters:
-      - server:*
-      # - agent:*
-    - arg: --datastore-keyfile="/mysql-kine/key.pem"
-      nodeFilters:
-      - server:*
-      # - agent:*
+    # - arg: --datastore-cafile="${PWD}/storage/mysql-kine/ca.crt"
+    #   nodeFilters:
+    #   - server:*
+    #   - agent:*
+    # - arg: --datastore-certfile="${PWD}/storage/mysql-kine/cert.pem"
+    #   nodeFilters:
+    #   - server:*
+    #   - agent:*
+    # - arg: --datastore-keyfile="${PWD}/storage/mysql-kine/key.pem"
+    #   nodeFilters:
+    #   - server:*
+    #   - agent:*
+    # - arg: --datastore-cafile="/mysql-kine/mysql-kine/ca.crt:z"
+    #   nodeFilters:
+    #   - server:*
+    #   - agent:*
+    # - arg: --datastore-certfile="/mysql-kine/mysql-kine/cert.pem:z"
+    #   nodeFilters:
+    #   - server:*
+    #   - agent:*
+    # - arg: --datastore-keyfile="/mysql-kine/mysql-kine/key.pem:z"
+    #   nodeFilters:
+    #   - server:*
+    #   - agent:*
     #######################################################################################
-    - arg: --tls-san=localhost,registry.local.gd,127.0.0.1,registry.localhost,k8s.localhost,whoami.k8s.localhost
+    - arg: --tls-san=localhost,registry.local.gd,127.0.0.1,registry.localhost,k8s.localhost,whoami.k8s.localhost,192.168.3.13
       nodeFilters:
       - server:*
     - arg: --kube-proxy-arg=metrics-bind-address=0.0.0.0
