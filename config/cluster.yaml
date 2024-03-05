@@ -283,6 +283,8 @@ volumes:
 #     - server:*
   # --volume {{PWD}}:/var/lib/rancer/k3s/server/manifests/traefik-config.yaml@all \
   # --volume /tmp/k3dvol:/var/lib/rancher/k3s/storage@all \
+
+# /etc/hosts style entries to be injected into /etc/hosts in the node containers and in the NodeHosts section in CoreDNS
 hostAliases:
 - ip: 127.0.0.1
   hostnames:
@@ -293,6 +295,9 @@ hostAliases:
   # - argocd.k8s.localhost
   - postgres.k8s.localhost
   - dbs.k8s.localhost
+- ip: 192.168.3.13
+  hostnames:
+  - mysql-kine.k8s.localhost
 options:
   k3d:
     wait: true

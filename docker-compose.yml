@@ -54,6 +54,9 @@ services:
       - '6033'
       # Where our data will be persisted
     volumes:
+      - ./storage/mysql-kine/cert.pem:/etc/mysql/conf.d/server-cert.pem
+      - ./storage/mysql-kine/key.pem:/etc/mysql/conf.d/server-key.pem
+      - ./storage/mysql-kine/ca.crt:/etc/mysql/conf.d/server-ca.pem
       - ./mysql-ssl.cnf:/etc/mysql/conf.d/my.cnf
       - "kine_mysql:/var/lib/mysql:rw"
       # -v /tmp/mysql-data:/var/lib/mysql is added to retain the data when the container

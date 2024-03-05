@@ -534,3 +534,6 @@ kine-mysql-reset:
   docker volume rm k3d-playground_kine_mysql
   docker volume rm  k3d-playground_tmpvolume
   docker-compose up -d
+
+docker-loghose:
+  docker-loghose | grep -v "couldn't get current server API group list" | grep -v "Applied manifest " | grep -v "8080" | ccze -A
