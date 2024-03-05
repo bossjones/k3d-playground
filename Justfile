@@ -545,7 +545,18 @@ k3d-server-exec:
   bash scripts/k3d-server-exec.sh
 
 sleep:
-  sleep 20
+  sleep 60
 
 # reset everyhitng having to do with k3d and kine
 k3d-scorch-earth: kine-mysql-reset sleep demo-prebuilt demo-prebuilt-no-nuke
+
+k8s-netshoot-help:
+  @echo "SEE: https://github.com/nicolaka/netshoot"
+  @echo "# spin up a throwaway pod for troubleshooting"
+  @echo "kubectl netshoot run tmp-shell"
+  @echo ""
+  @echo "# debug using an ephemeral container in an existing pod"
+  @echo "kubectl netshoot debug my-existing-pod"
+  @echo ""
+  @echo "# create a debug session on a node"
+  @echo "kubectl netshoot debug node/my-node"

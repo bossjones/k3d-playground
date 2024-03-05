@@ -99,6 +99,42 @@ services:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
+
+  mysqld-exporter:
+    image: quay.io/prometheus/mysqld-exporter
+    container_name: mysqld-exporter
+    restart: unless-stopped
+    command:
+    - "--mysqld.username=root:raspberry"
+    - "--mysqld.address=localhost:6033"
+    # SOURCE: https://github.com/vimalgandhi/Docker-compose-File/blob/main/README.md?plain=1
+    # # container_name: therapy-link-mysql
+    # platform: linux/amd64 # Only required in case Apple M1 / ARM
+    # command: --default-authentication-plugin=mysql_native_password
+    ports:
+      # <Port exposed> : <MySQL Port running inside container>
+      - '0.0.0.0:9104:9104'
+    expose:
+      # Opens port 3306 on the container
+      - '9104'
+      # Where our data will be persisted
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+
+  netshoot:
+    image: nicolaka/netshoot
+    container_name: netshoot
+    restart: unless-stopped
+    command: tail -f /dev/null
+    volumes:
+      - $PWD/storage:/data
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+
   # phpmyadmin:
   #   # image: phpmyadmin/phpmyadmin
   #   image: arm64v8/phpmyadmin
