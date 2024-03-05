@@ -3,4 +3,4 @@
 set -x
 
 
-docker exec -it $(docker inspect --format='{{.Id}}' netshoot) sh
+docker exec -it $(docker inspect --format='{{.Id}}' netshoot) bash

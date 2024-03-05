@@ -128,6 +128,9 @@ services:
   netshoot:
     image: nicolaka/netshoot
     container_name: netshoot
+    network_mode: "host"
+    pid: "host"
+    privileged: true
     restart: unless-stopped
     command: tail -f /dev/null
     volumes:

@@ -501,12 +501,14 @@ options:
     - arg: --node-taint=node-role.kubernetes.io/control-plane=true:NoExecute
       nodeFilters:
         - server:*
-    # DISABLED: # - arg: --kube-apiserver-arg=v=3
-    # DISABLED: #   nodeFilters:
-    # DISABLED: #   - server:*
-    # DISABLED: # - arg: --kube-scheduler-arg=v=3
-    # DISABLED: #   nodeFilters:
-    # DISABLED: #   - server:*
+
+    - arg: --kube-apiserver-arg=v=1
+      nodeFilters:
+      - server:*
+    - arg: --kube-scheduler-arg=v=1
+      nodeFilters:
+      - server:*
+
     # - arg: --kube-proxy-arg=v=3
     #   nodeFilters:
     #   - server:*

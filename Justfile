@@ -548,6 +548,8 @@ k3d-server-exec:
 netshoot-exec:
   bash scripts/docker-netshoot-exec.sh
 
+docker-netshoot: netshoot-exec
+
 sleep:
   sleep 60
 
@@ -571,3 +573,11 @@ post-argocd-install: certs-only argocd-secret install-secret-0 templates argocd-
 
 delete-non-ready-pods:
   bash scripts/delete-non-ready-pods.sh
+
+
+# generate certs ONLY
+k8s-netshoot:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+  kubectl netshoot run tmp-shell
