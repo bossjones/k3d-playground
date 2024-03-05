@@ -544,6 +544,9 @@ k3d-server-logs:
 k3d-server-exec:
   bash scripts/k3d-server-exec.sh
 
+netshoot-exec:
+  bash scripts/docker-netshoot-exec.sh
+
 sleep:
   sleep 60
 
