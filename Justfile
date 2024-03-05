@@ -567,3 +567,7 @@ k8s-netshoot-help:
 
 
 post-argocd-install: certs-only argocd-secret install-secret-0 templates argocd-password argocd-token argocd-bridge
+
+
+delete-non-ready-pods:
+  bash scripts/delete-non-ready-pods.sh

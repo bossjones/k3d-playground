@@ -360,3 +360,109 @@ UDP 51820   All nodes   All nodes   Required only for Flannel Wireguard with IPv
 UDP 51821   All nodes   All nodes   Required only for Flannel Wireguard with IPv6
 TCP 5001    All nodes   All nodes   Required only for embedded distributed registry (Spegel)
 TCP 6443    All nodes   All nodes   Required only for embedded distributed registry (Spegel)
+
+
+# kine
+
+### Flow Diagram
+
+```mermaid
+flowchart LR
+  subgraph kine ["Kine"]
+    subgraph grpc-server ["GRPC Server"]
+      subgraph grpc-txn ["Transaction"]
+        grpc-create["Create"]
+        grpc-update["Update"]
+        grpc-delete["Delete"]
+      end
+      subgraph grpc-range["Range"]
+        grpc-get["Get"]
+        grpc-list["List"]
+      end
+      subgraph grpc-watch ["Watch Stream"]
+        grpc-watch-create[\"CreateRequest"/]
+        grpc-watch-response[/"WatchResponse"\]
+      end
+    end
+
+    subgraph logstructured ["LogStructured"]
+      logstructured-get("Get")
+      logstructured-list("List")
+      logstructured-create("Create")
+      logstructured-update("Update")
+      logstructured-delete("Delete")
+      logstructured-watch("Watch")
+    end
+
+    subgraph sqllog ["SQLLog"]
+      sqllog-append("Append")
+      sqllog-list("List")
+      sqllog-watch("Watch")
+      sqllog-after("After")
+      subgraph sqllog-poll ["Poll Loop"]
+        sqllog-poll-timer("Timer")
+        sqllog-poll-select("Select")
+        sqllog-poll-events("Rows to Events")
+      end
+      subgraph broadcaster ["Broadcaster"]
+        broadcaster-subscribe("Subscribe")
+      end
+    end
+  end
+
+  subgraph clients ["Clients"]
+    kube-apiserver((("apiserver")))
+    etcdctl((("etcdctl")))
+  end
+
+  subgraph database ["Database"]
+    direction LR
+    database-table[["table"]]
+  end
+
+  grpc-server --- clients
+  sqllog ~~~~~~~~~~~~ database
+
+  grpc-watch-create == "start" ===> logstructured-watch == "revision" ===> sqllog-watch == "prefix" ===> broadcaster-subscribe
+  grpc-create --> logstructured-create --> sqllog-append
+  grpc-update --> logstructured-update --> sqllog-append
+  grpc-delete --> logstructured-delete --> sqllog-append
+  grpc-get --> logstructured-get --> sqllog-list
+  grpc-list --> logstructured-list --> sqllog-list
+
+  sqllog-list -- "list query" ---------- database-table
+  sqllog-append -- "insert returning revision" --- database-table
+  sqllog-append -- "1a: notify revision" --> sqllog-poll-select
+  sqllog-poll-timer -. "1b: tick" ..-> sqllog-poll-select
+  sqllog-poll-select -."2: latest revision" ..-> sqllog-after -. "after query" ..- database-table
+  sqllog-poll-select -. "3: []row" .-> sqllog-poll-events
+
+  sqllog-poll-events -. "4 chan []event" .-> broadcaster-subscribe
+  broadcaster-subscribe == "chan []event 100<br>prefix filter" ==> sqllog-watch
+  logstructured-watch == "start revision" ==> sqllog-after == "after query" === database-table
+  sqllog-watch == "chan []event 100<br>revision filter" ===> logstructured-watch
+  logstructured-watch == "chan []event 100<br>batching" ===> grpc-watch-response
+
+  click grpc-create href "https://github.com/k3s-io/kine/blob/master/pkg/server/create.go" _blank
+  click grpc-update href "https://github.com/k3s-io/kine/blob/master/pkg/server/update.go" _blank
+  click grpc-delete href "https://github.com/k3s-io/kine/blob/master/pkg/server/delete.go" _blank
+  click grpc-get href "https://github.com/k3s-io/kine/blob/master/pkg/server/get.go" _blank
+  click grpc-list href "https://github.com/k3s-io/kine/blob/master/pkg/server/list.go" _blank
+  click grpc-watch-create href "https://github.com/k3s-io/kine/blob/master/pkg/server/watch.go#L70" _blank
+  click grpc-watch-response href "https://github.com/k3s-io/kine/blob/master/pkg/server/watch.go#L119" _blank
+
+  click logstructured-create href "https://github.com/k3s-io/kine/blob/master/pkg/logstructured/logstructured.go#L97" _blank
+  click logstructured-update href "https://github.com/k3s-io/kine/blob/master/pkg/logstructured/logstructured.go#L222" _blank
+  click logstructured-delete href "https://github.com/k3s-io/kine/blob/master/pkg/logstructured/logstructured.go#L129" _blank
+  click logstructured-get href "https://github.com/k3s-io/kine/blob/master/pkg/logstructured/logstructured.go#L60" _blank
+  click logstructured-list href "https://github.com/k3s-io/kine/blob/master/pkg/logstructured/logstructured.go#L171" _blank
+  click logstructured-watch href "https://github.com/k3s-io/kine/blob/master/pkg/logstructured/logstructured.go#L432" _blank
+
+  click sqllog-list href "https://github.com/k3s-io/kine/blob/master/pkg/logstructured/sqllog/sql.go#L274" _blank
+  click sqllog-append href "https://github.com/k3s-io/kine/blob/master/pkg/logstructured/sqllog/sql.go#L529" _blank
+  click sqllog-poll-select href "https://github.com/k3s-io/kine/blob/master/pkg/logstructured/sqllog/sql.go#L353" _blank
+  click sqllog-poll-events href "https://github.com/k3s-io/kine/blob/master/pkg/logstructured/sqllog/sql.go#L402" _blank
+  click sqllog-watch href "https://github.com/k3s-io/kine/blob/master/pkg/logstructured/sqllog/sql.go#L353" _blank
+
+  click broadcaster-subscribe href "https://github.com/k3s-io/kine/blob/master/pkg/broadcaster/broadcaster.go#L16" _blank
+```

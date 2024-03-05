@@ -30,4 +30,4 @@ echo ""
 # cd -
 
 
-kubectl -n kube-system apply -f apps/argocd/base/kube-system/external-secrets/app/connect/clusterStore.yaml
+retry -t 4  -- kubectl -n kube-system apply -f apps/argocd/base/kube-system/external-secrets/app/connect/clusterStore.yaml
