@@ -333,14 +333,14 @@ options:
     # - arg: --node-name=worker-4
     #   nodeFilters:
     #     - agent:4
-    - arg: "--debug"
-      nodeFilters:
-        - server:*
-        - agent:*
-    - arg: "-v=9"
-      nodeFilters:
-        - server:*
-        # - agent:*
+    # - arg: "--debug"
+    #   nodeFilters:
+    #     - server:*
+    #     - agent:*
+    # - arg: "-v=9"
+    #   nodeFilters:
+    #     - server:*
+    #     # - agent:*
     # - arg: "--write-kubeconfig-mode 644"
     #   nodeFilters:
     #     - server:*
@@ -357,6 +357,7 @@ options:
     #   nodeFilters:
     #     - server:*
 
+    # NOTE: https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/
     # NOTE: https://github.com/k3s-io/k3s/issues/9256
     # --kube-controller-manager-arg leader-elect-lease-duration=10m --kube-controller-manager-arg leader-elect-renew-deadline=8m
     # The duration that non-leader candidates will wait after observing a leadership renewal until attempting to acquire leadership of a led but unrenewed leader slot. This is effectively the maximum duration that a leader can be stopped before it is replaced by another candidate. This is only applicable if leader election is enabled.
@@ -493,7 +494,7 @@ options:
     #   nodeFilters:
     #   - server:*
 
-    - arg: --node-taint=node-role.kubernetes.io/master=:NoSchedule
+    - arg: --node-taint=node-role.kubernetes.io/master=true:NoSchedule
       nodeFilters:
         - server:*
 

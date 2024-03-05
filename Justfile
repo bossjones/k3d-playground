@@ -132,7 +132,8 @@ argocd-schema:
 # Starts your local k3d cluster.
 k3d-demo:
   k3d cluster delete demo
-  k3d cluster create --config config/cluster.yaml --trace --verbose --timestamps
+  # k3d cluster create --config config/cluster.yaml --trace --verbose --timestamps
+  k3d cluster create --config config/cluster.yaml
   echo -e "\nYour cluster has been created. Type 'k3d cluster list' to confirm."
 
 # Starts your local k3d cluster.
