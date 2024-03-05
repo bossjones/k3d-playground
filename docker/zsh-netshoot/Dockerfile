@@ -154,23 +154,18 @@ RUN \
     ipvsadm \
     jq \
     libc6-compat \
-    liboping \
+    liboping-dev \
     ltrace \
     mtr \
-    net-snmp-tools \
+    snmp \
     netcat-openbsd \
     nftables \
     ngrep \
     nmap \
-    nmap-nping \
-    nmap-scripts \
     openssl \
-    py3-pip \
-    py3-setuptools \
     scapy \
     socat \
     speedtest-cli \
-    openssh \
     strace \
     tcpdump \
     tcptraceroute \
@@ -179,10 +174,8 @@ RUN \
     vim \
     git \
     zsh \
-    websocat \
     swaks \
-    perl-crypt-ssleay \
-    perl-net-ssleay && \
+    && \
     sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config && \
     sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config && \
     apt-get clean && \
@@ -227,3 +220,15 @@ RUN set -x; export PATH="~/.bin:~/bin:~/.local/bin:$PATH" && \
     --promptString fnm=true \
     -R --debug -v --branch feature-dl-twitter --apply https://github.com/bossjones/zsh-dotfiles.git && \
     chsh -s $(which zsh)
+
+
+# 87.31 E: Unable to locate package liboping
+# 87.31 E: Unable to locate package net-snmp-tools
+# 87.31 E: Unable to locate package nmap-nping
+# 87.31 E: Unable to locate package nmap-scripts
+# 87.31 E: Unable to locate package py3-pip
+# 87.31 E: Unable to locate package py3-setuptools
+# 87.31 E: Unable to locate package openssh
+# 87.31 E: Unable to locate package websocat
+# 87.31 E: Unable to locate package perl-crypt-ssleay
+# 87.31 E: Unable to locate package perl-net-ssleay
