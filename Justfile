@@ -540,3 +540,6 @@ docker-loghose:
 
 k3d-server-logs:
   bash scripts/k3d-server-logs.sh
+
+k3d-server-exec:
+  bash scripts/k3d-server-exec.sh

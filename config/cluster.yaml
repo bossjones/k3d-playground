@@ -268,6 +268,10 @@ volumes:
   nodeFilters:
   - server:*
   - agent:*
+- volume: "${PWD}/storage/mysql-kine:/mysql-kine"
+  nodeFilters:
+  - server:*
+  - agent:*
 - volume: "${PWD}/audit/audit.yaml:/var/lib/rancher/k3s/server/manifests/audit.yaml"
   nodeFilters:
   - server:*
@@ -365,15 +369,15 @@ options:
     - arg: --datastore-endpoint=mysql://root:raspberry@tcp(192.168.3.13:6033)/kine
       nodeFilters:
       - server:*
-    - arg: --datastore-cafile="${PWD}/config/tls/mysql-kine/ca.crt"
+    - arg: --datastore-cafile="/mysql-kine/ca.crt"
       nodeFilters:
       - server:*
       # - agent:*
-    - arg: --datastore-certfile="${PWD}/config/tls/mysql-kine/server.crt"
+    - arg: --datastore-certfile="/mysql-kine/cert.pem"
       nodeFilters:
       - server:*
       # - agent:*
-    - arg: --datastore-keyfile="${PWD}/config/tls/mysql-kine/server.key"
+    - arg: --datastore-keyfile="/mysql-kine/key.pem"
       nodeFilters:
       - server:*
       # - agent:*
