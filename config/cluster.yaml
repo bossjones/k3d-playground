@@ -310,6 +310,7 @@ options:
   k3d:
     wait: true
     timeout: "360s"
+    disableLoadbalancer: true
     loadbalancer:
       configOverrides:
       # - settings.workerConnections=2048
@@ -322,6 +323,10 @@ options:
         nodeFilters:
           - all
     extraArgs:
+
+    - arg: --disable=servicelb
+      nodeFilters:
+        - server:*
 
     # - arg: --node-name=server-0
     #   nodeFilters:

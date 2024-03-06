@@ -135,6 +135,9 @@ k3d-demo:
   # k3d cluster create --config config/cluster.yaml --trace --verbose --timestamps
   k3d cluster create --config config/cluster.yaml
   echo -e "\nYour cluster has been created. Type 'k3d cluster list' to confirm."
+  echo "Waiting for the cluster to be ready... (sleep 60)"
+  sleep 60
+  bash scripts/deploy-metallb.sh
 
 # Starts your local k3d cluster.
 k3d-demo-cilium:
@@ -238,6 +241,9 @@ install-secret-0:
 # install-secretgenerator
 install-secretgenerator:
   scripts/install-secretgenerator.sh
+
+deploy-metallb:
+  bash scripts/deploy-metallb.sh
 
 # bring up k3d-demo cluster
 demo: nuke-cluster helm k3d-demo argocd-install certs argocd-secret templates argocd-password argocd-bridge
