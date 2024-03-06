@@ -310,7 +310,8 @@ options:
   k3d:
     wait: true
     timeout: "360s"
-    disableLoadbalancer: true
+    #  indicates that you do not want to create an external load balancer for the cluster. By default, K3d creates a load balancer to expose the Kubernetes API server externally. This flag disables that feature.
+    disableLoadbalancer: false
     loadbalancer:
       configOverrides:
       # - settings.workerConnections=2048
@@ -324,9 +325,9 @@ options:
           - all
     extraArgs:
 
-    - arg: --disable=servicelb
-      nodeFilters:
-        - server:*
+    # - arg: --disable=servicelb
+    #   nodeFilters:
+    #     - server:*
 
     # - arg: --node-name=server-0
     #   nodeFilters:
