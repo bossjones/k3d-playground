@@ -179,8 +179,8 @@ certs: pre-certs post-certs
   cd config/tls
   pwd
   echo -e "Creating certificate secrets on Kubernetes for local TLS enabled by default\n"
-  kubectl --namespace=kube-system --cluster=k3d-demo create secret tls tls-secret --cert=cert.pem --key=key.pem --dry-run=client -o yaml >base/tls-secret.yaml
-  kubectl --namespace=kube-system --cluster=k3d-demo apply -k ./
+  retry -t 4 -- kubectl --namespace=kube-system --cluster=k3d-demo create secret tls tls-secret --cert=cert.pem --key=key.pem --dry-run=client -o yaml >base/tls-secret.yaml
+  retry -t 4 -- kubectl --namespace=kube-system --cluster=k3d-demo apply -k ./
   echo -e "\nCertificate resources have been created.\n"
   cd -
 
@@ -191,14 +191,14 @@ certs-only:
   cd config/tls
   pwd
   echo -e "Creating certificate secrets on Kubernetes for local TLS enabled by default\n"
-  kubectl --namespace=kube-system --cluster=k3d-demo create secret tls tls-secret --cert=cert.pem --key=key.pem --dry-run=client -o yaml >base/tls-secret.yaml
-  kubectl --namespace=kube-system --cluster=k3d-demo apply -k ./
+  retry -t 4 -- kubectl --namespace=kube-system --cluster=k3d-demo create secret tls tls-secret --cert=cert.pem --key=key.pem --dry-run=client -o yaml >base/tls-secret.yaml
+  retry -t 4 -- kubectl --namespace=kube-system --cluster=k3d-demo apply -k ./
   echo -e "\nCertificate resources have been created.\n"
   cd -
 
 # generate argocd templates
 templates:
-  bash scripts/templates.sh
+  retry -t 4 -- bash scripts/templates.sh
 
 # install argocd
 argocd-install: argocd-secret install-secret-0 install-mandatory-manifests
@@ -206,7 +206,7 @@ argocd-install: argocd-secret install-secret-0 install-mandatory-manifests
 
 # install argocd secrets
 argocd-secret:
-  bash scripts/argocd-secret.sh
+  retry -t 4 -- bash scripts/argocd-secret.sh
 
 # get argocd password
 argocd-password:
@@ -233,7 +233,7 @@ proxy-argocd: open-argocd argocd-proxy
 
 # install secret-0
 install-secret-0:
-  scripts/upload-secret-0.sh
+  retry -t 4 -- scripts/upload-secret-0.sh
 
 # install-secretgenerator
 install-secretgenerator:
@@ -541,6 +541,9 @@ docker-loghose:
 
 k3d-server-logs:
   bash scripts/k3d-server-logs.sh
+
+mysqld-logs:
+  bash scripts/k3d-mysqld-logs.sh
 
 k3d-server-exec:
   bash scripts/k3d-server-exec.sh

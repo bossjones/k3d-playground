@@ -1,15 +1,90 @@
+[mysqld_safe]
+open-files-limit                = 65535
+
 [mysqld]
 ssl-ca=/etc/mysql/conf.d/server-ca.pem
 ssl-cert=/etc/mysql/conf.d/server-cert.pem
 ssl-key=/etc/mysql/conf.d/server-key.pem
 require_secure_transport=OFF
 slow_query_log          = 1
-slow_query_log_file     = /dev/stderr
+# slow_query_log_file     = /dev/stderr
 long_query_time = 5
-log_error = /dev/stderr
+# log_error = /dev/stderr
 general_log = 1
-general_log_file = /dev/stderr
+# general_log_file = /dev/stderr
 log_queries_not_using_indexes = 0
 max_connections         = 505
 max_user_connections    = 500
 bind-address            = 0.0.0.0
+performance_schema=ON
+
+
+# mantra
+## Cache
+thread-cache-size               = 32
+table-open-cache                = 5120
+table-definition-cache          = 2048
+query-cache-size                = 0M
+query-cache-limit               = 0M
+
+## Per-thread Buffers
+sort-buffer-size                = 256K
+read-buffer-size                = 128K
+read-rnd-buffer-size            = 128K
+join-buffer-size                = 1M
+
+## Temp Tables
+tmp-table-size                  = 128M
+max-heap-table-size             = 128M
+
+## Networking
+back-log                        = 100
+# max-connections                 = 2000
+max-connect-errors              = 10000
+max-allowed-packet              = 16M
+interactive-timeout             = 600
+wait-timeout                    = 600
+
+### Storage Engines
+default-storage-engine          = InnoDB
+innodb                          = FORCE
+
+## MyISAM
+key-buffer-size                 = 32M
+myisam-sort-buffer-size         = 32M
+
+## InnoDB
+# The size in bytes of the buffer pool, the memory area where InnoDB caches table and index data. The default value is 134217728 bytes (128MB). The maximum value depends on the CPU architecture; the maximum is 4294967295 (232-1) on 32-bit systems and 18446744073709551615 (264-1) on 64-bit systems. On 32-bit systems, the CPU architecture and operating system may impose a lower practical maximum size than the stated maximum. When the size of the buffer pool is greater than 1GB, setting innodb_buffer_pool_instances to a value greater than 1 can improve the scalability on a busy server.
+innodb_buffer_pool_size             = 1G
+# innodb-log-file-size                = 4G
+# innodb-log-buffer-size              = 256M
+innodb-file-per-table               = 1
+#innodb-open-files                  = 300
+innodb_old_blocks_pct               = 15
+innodb_old_blocks_time              = 1000
+innodb_file_format                  = Barracuda
+innodb-flush-method                 = O_DIRECT
+innodb_buffer_pool_populate         = 1
+innodb_buffer_pool_dump_at_shutdown = ON
+innodb_buffer_pool_load_at_startup  = ON
+innodb_adaptive_flushing            = 1
+innodb_cleaner_lsn_age_factor       = high_checkpoint
+innodb_flush_neighbors              = 0
+innodb_read_ahead_threshold         = 0
+innodb_stats_persistent             = OFF
+# innodb_io_capacity                  = {{ innodb_io_capacity }}
+# innodb_flush_log_at_trx_commit      = {{ flush_log_tx_cmt }}
+
+## Logging
+# log-output                      = FILE
+slow-query-log                  = 1
+# slow-query-log-file             = /var/lib/mysqllogs/slow-log
+slow-query-log-file             = /dev/stderr
+# log-slow-slave-statements
+long-query-time                 = 5
+general_log_file                = /dev/stderr
+log_error                       = /dev/stderr
+# general_log_file                = /var/lib/mysqllogs/mysqld.log
+# log_error                       = /var/lib/mysqllogs/mysqld-err.log
+general_log                     = ON
+log-warnings                    = 2

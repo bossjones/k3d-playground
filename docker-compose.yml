@@ -83,6 +83,7 @@ services:
       - ./storage/mysql-kine/key.pem:/etc/mysql/conf.d/server-key.pem
       - ./storage/mysql-kine/ca.crt:/etc/mysql/conf.d/server-ca.pem
       - ./mysql-ssl.cnf:/etc/mysql/conf.d/my.cnf
+      - ./storage/mysqllogs:/var/log/mysqllogs:rw
       # SOURCE: https://forums.docker.com/t/mysql-slow-performance-in-docker/37179/23
       - "kine_mysql:/var/lib/mysql:delegated"
       # -v /tmp/mysql-data:/var/lib/mysql is added to retain the data when the container
