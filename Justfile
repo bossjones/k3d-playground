@@ -558,7 +558,7 @@ sleep:
   sleep 60
 
 # reset everyhitng having to do with k3d and kine
-k3d-scorch-earth: kine-mysql-reset sleep demo-prebuilt demo-prebuilt-no-nuke
+k3d-scorch-earth: demo-down kine-mysql-reset sleep demo-prebuilt demo-prebuilt-no-nuke
 
 k8s-netshoot-help:
   @echo "SEE: https://github.com/nicolaka/netshoot"
