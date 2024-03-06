@@ -538,6 +538,12 @@ options:
       nodeFilters:
       - server:*
 
+    # SOURCE: https://k3d.io/v5.2.2/faq/faq/#solved-nodes-fail-to-start-or-get-stuck-in-notready-state-with-log-nf_conntrack_max-permission-denied
+    - arg: --kube-proxy-arg=conntrack-max-per-core=0
+      nodeFilters:
+      - server:*
+      - agent:*
+
     # - arg: --kube-proxy-arg=v=3
     #   nodeFilters:
     #   - server:*
