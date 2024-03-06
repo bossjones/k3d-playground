@@ -136,8 +136,8 @@ k3d-demo:
   k3d cluster create --config config/cluster.yaml
   echo -e "\nYour cluster has been created. Type 'k3d cluster list' to confirm."
   echo "Waiting for the cluster to be ready... (sleep 60)"
-  sleep 60
-  bash scripts/deploy-metallb.sh
+  # sleep 60
+  # bash scripts/deploy-metallb.sh
 
 # Starts your local k3d cluster.
 k3d-demo-cilium:
@@ -206,6 +206,7 @@ templates:
 # install argocd
 argocd-install: argocd-secret install-secret-0 install-mandatory-manifests
   bash scripts/argocd-install.sh
+  # bash scripts/deploy-metallb.sh
 
 # install argocd secrets
 argocd-secret:
@@ -399,6 +400,8 @@ install-mandatory-manifests:
   kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
   kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
   kubectl -n kube-system apply --server-side -f https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/deploy/crds/bundle.yaml || true
+
+  bash scripts/deploy-metallb.sh
 
   kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_backups.yaml || true
   kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_backups.yaml || true

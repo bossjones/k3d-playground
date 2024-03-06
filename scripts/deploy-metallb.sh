@@ -15,6 +15,8 @@ ingress_range=$ingress_first_addr-$ingress_last_addr
 # kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.5/config/manifests/metallb-native.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.3/config/manifests/metallb-native-prometheus.yaml
 
+kubectl wait --timeout=150s --for=condition=ready pod -l app=metallb,component=controller -n metallb-system
+sleep 5
 # # configure metallb ingress address range
 # cat <<EOF | kubectl apply -f -
 # apiVersion: v1
