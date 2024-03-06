@@ -543,7 +543,8 @@ k3d-server-logs:
   bash scripts/k3d-server-logs.sh
 
 mysqld-logs:
-  bash scripts/k3d-mysqld-logs.sh
+  tail -f storage/mysqllogs/* | ccze -A
+
 
 k3d-server-exec:
   bash scripts/k3d-server-exec.sh
