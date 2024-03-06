@@ -11,6 +11,9 @@ args:
   - --kubelet-use-node-status-port
   # lower the time interval for stats default 60s
   - --metric-resolution=15s
+  # Use the port in the node status. Takes precedence over --kubelet-port flag.
+  - --kubelet-use-node-status-port
+  - -v=9
 metrics:
   enabled: true
 serviceMonitor:
@@ -25,12 +28,25 @@ serviceMonitor:
       replacement: $1
       action: drop
 
+# tolerations:
+#   - key: CriticalAddonsOnly
+#     operator: Exists
+
 tolerations:
-  - key: CriticalAddonsOnly
-    operator: Exists
+  - key: "CriticalAddonsOnly"
+    operator: "Exists"
+  - key: "node-role.kubernetes.io/control-plane"
+    operator: "Exists"
+    effect: "NoSchedule"
+  - key: "node-role.kubernetes.io/master"
+    operator: "Exists"
+    effect: "NoSchedule"
 
 replicas: 2
 
 podDisruptionBudget:
   enabled: true
   maxUnavailable: 1
+
+commonLabels:
+  k8s-app: metrics-server

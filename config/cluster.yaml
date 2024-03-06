@@ -312,6 +312,7 @@ options:
       - settings.workerConnections=4096
       - settings.defaultProxyTimeout=900
   k3s:
+
     extraArgs:
 
     # - arg: --node-name=server-0
@@ -498,7 +499,11 @@ options:
       nodeFilters:
         - server:*
 
-    - arg: --node-taint=node-role.kubernetes.io/control-plane=true:NoExecute
+    - arg: --node-taint=node-role.kubernetes.io/control-plane=true:NoSchedule
+      nodeFilters:
+        - server:*
+
+    - arg: --node-taint=CriticalAddonsOnly=true:NoExecute
       nodeFilters:
         - server:*
 
