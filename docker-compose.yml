@@ -71,6 +71,8 @@ services:
       MYSQL_ROOT_PASSWORD: 'raspberry'
       # SOURCE: https://stackoverflow.com/questions/40825617/cannot-connect-to-mysql-docker-container-from-container-with-django-app
       MYSQL_ROOT_HOST: '%'
+      # -- Set the container timezone
+      TZ: "America/New_York"
     ports:
       # <Port exposed> : <MySQL Port running inside container>
       - '0.0.0.0:6033:3306'
