@@ -32,12 +32,12 @@ data:
   # ########################################
   # # argocd-application-controller settings
   # #
-  # Number of application status processors (default 20)
-  controller.status.processors: "140"
-  # Number of application operation processors (default 10)
-  controller.operation.processors: "70"
-  # Specifies timeout between application self heal attempts (default 5)
-  # controller.self.heal.timeout.seconds: "600"
+  # # Number of application status processors (default 20)
+  # controller.status.processors: "140"
+  # # Number of application operation processors (default 10)
+  # controller.operation.processors: "70"
+  # # Specifies timeout between application self heal attempts (default 5)
+  # # controller.self.heal.timeout.seconds: "600"
 
   # Repo server RPC call timeout seconds.
   controller.repo.server.timeout.seconds: "92"

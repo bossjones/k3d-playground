@@ -210,6 +210,10 @@ ports:
 #         endpoint:
 #           - http://docker-io:5000
 ###########################################################################################
+env:
+  - envVar: KUBECONFIG=/etc/rancher/k3s/k3s.yaml # same as `--env 'bar=baz@server:0'`
+    nodeFilters:
+      - server:*
 registries:
   create:
     # name: registry.localhost
@@ -312,7 +316,11 @@ options:
       - settings.workerConnections=4096
       - settings.defaultProxyTimeout=900
   k3s:
-
+    # SOURCE: https://github.com/dramirez-qb/k3d-cluster/blob/5b2fc979271c7d38bc2fee7b77f8d5f6ff4c63eb/k3d-config.yaml#L5
+    nodeLabels:
+      - label: nerdctl/bypass4netns=true
+        nodeFilters:
+          - all
     extraArgs:
 
     # - arg: --node-name=server-0
@@ -557,6 +565,13 @@ options:
     switchCurrentContext: true
 
   runtime: # runtime (docker) specific options
+    labels:
+      - label: my.k3s.cluster=true
+        nodeFilters:
+          - all
+      - label: nerdctl/bypass4netns=true
+        nodeFilters:
+          - all
     # serversMemory: 1G
     # agentsMemory: 1G
     ulimits:

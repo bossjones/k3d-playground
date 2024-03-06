@@ -16,12 +16,22 @@ spec:
       secret:
         name: authentik-secret
 
+
   imageName: ghcr.io/cloudnative-pg/postgresql:16.1-15
   enableSuperuserAccess: true
   primaryUpdateStrategy: unsupervised
   storage:
     size: 2Gi
     storageClass: local-path
+    pvcTemplate:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 2Gi
+      storageClassName: local-path
+      volumeMode: Filesystem
+
   superuserSecret:
     name: postgres-superuser
   # superuserSecret:
