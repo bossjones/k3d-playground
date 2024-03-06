@@ -45,10 +45,10 @@ resources:
 - base/monitoring/kubernetes-dashboard/app/app.yaml
 # - base/monitoring/kubeview/app/app.yaml
 # - base/gitea/gitea/app/app.yaml
-- base/identity/authentik-redis/app/app.yaml
-- base/database/cloudnative-pg/app/app.yaml
-- base/database/pgadmin/app/app.yaml
-- base/identity/authentik/app/app.yaml
+# - base/identity/authentik-redis/app/app.yaml
+# - base/database/cloudnative-pg/app/app.yaml
+# - base/database/pgadmin/app/app.yaml
+# - base/identity/authentik/app/app.yaml
 # - base/core/role_prometheus-k8s.yaml
 # - base/monitoring/goldilocks/app/app.yaml
 # - base/monitoring/node-problem-detector/app/app.yaml

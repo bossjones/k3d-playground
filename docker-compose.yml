@@ -26,8 +26,57 @@ volumes:
     # database-data: null # named volumes can be managed easier using docker-compose
     kine_mysql:
     tmpvolume:
+    postgres:
+    pgadmin:
     # driver: local
 services:
+  postgres:
+    privileged: true
+    tty: true
+    stdin_open: true
+    container_name: postgres
+    image: postgres
+    environment:
+      INIT_POSTGRES_DBNAME: "authentik"
+      INIT_POSTGRES_PASS: "password"
+      INIT_POSTGRES_SUPER_PASS: "password"
+      INIT_POSTGRES_USER: "postgres"
+      PGDATA: /data/postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_SUPER_PASS: "8edF6sRQjx"
+      POSTGRES_SUPER_USER: "authentik"
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    networks:
+      - postgres
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
   # TODO: use redis env var "ALLOW_EMPTY_PASSWORD" in k3d!!!!!!!!!!!!!!!!!!!!
   # redis:
   #     image: "redis:7.2.4-alpine"
