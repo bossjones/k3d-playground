@@ -211,7 +211,7 @@ spec:
 #             # -- Additional labels for the dashboards ConfigMap
 #             labels:
 #               grafana_dashboard: "1"
-#               prometheus: cluster
+#               prometheus: monitoring
 
 #           # Recording rules for monitoring Loki, required for some dashboards
 #           rules:
@@ -221,7 +221,7 @@ spec:
 #             alerting: true
 #             # -- Additional labels for the rules PrometheusRule resource
 #             labels:
-#               prometheus: cluster
+#               prometheus: monitoring
 
 #           # ServiceMonitor configuration
 #           serviceMonitor:
@@ -229,12 +229,12 @@ spec:
 #             enabled: true
 #             # -- Additional ServiceMonitor labels
 #             labels:
-#               prometheus: cluster
+#               prometheus: monitoring
 #             # -- If defined, will create a MetricsInstance for the Grafana Agent Operator.
 #             metricsInstance:
 #               # -- Additional MetricsInstance labels
 #               labels:
-#                 prometheus: cluster
+#                 prometheus: monitoring
 
 #           # Self monitoring determines whether Loki should scrape it's own logs.
 #           # This feature currently relies on the Grafana Agent Operator being installed,

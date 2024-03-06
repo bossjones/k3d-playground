@@ -585,3 +585,6 @@ k8s-netshoot:
   set -euxo pipefail
   export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
   kubectl netshoot run tmp-shell
+
+nodes-logs:
+  kubectl get nodes -v=10 >> nodes.log
