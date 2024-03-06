@@ -1,0 +1,5 @@
+# SOURCE: https://github.com/efcunha/k3d-cluster/blob/ef370623f3af8df16d80bea3fcbf333c9689ca62/k3d-cluster
+ingress:
+  enabled: true
+  hostname: kubeapps.${CLUSTER_DOMAIN}
+  tls: true

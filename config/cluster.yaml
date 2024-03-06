@@ -484,12 +484,12 @@ options:
     - arg: --kube-apiserver-arg=feature-gates=EphemeralContainers=true
       nodeFilters:
       - server:*
-    - arg: --kubelet-arg=enableSystemLogHandler=true
+    - arg: --kubelet-arg=feature-gates=enableSystemLogHandler=true
       nodeFilters:
       - agent:*
       - server:*
 
-    - arg: --kubelet-arg=enableSystemLogQuery=true
+    - arg: --kubelet-arg=feature-gates=enableSystemLogQuery=true
       nodeFilters:
       - agent:*
       - server:*

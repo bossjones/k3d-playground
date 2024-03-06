@@ -416,7 +416,7 @@ ingester:
     reloader.stakater.com/auto: "true"
   # -- Labels for ingestor service
   serviceLabels:
-    prometheus: monitoring
+    monitoring: prometheus
   # -- Additional CLI args for the ingester
   extraArgs: []
   # -- Environment variables to add to the ingester pods
@@ -544,7 +544,7 @@ distributor:
   podAnnotations: {}
   # -- Labels for distributor service
   serviceLabels:
-    prometheus: monitoring
+    monitoring: prometheus
   # -- Additional CLI args for the distributor
   extraArgs: []
   # -- Environment variables to add to the distributor pods
@@ -634,7 +634,7 @@ querier:
   podAnnotations: {}
   # -- Labels for querier service
   serviceLabels:
-    prometheus: monitoring
+    monitoring: prometheus
   # -- Additional CLI args for the querier
   extraArgs: []
   # -- Environment variables to add to the querier pods
@@ -750,7 +750,7 @@ queryFrontend:
   podAnnotations: {}
   # -- Labels for query-frontend service
   serviceLabels:
-    prometheus: monitoring
+    monitoring: prometheus
   # -- Additional CLI args for the query-frontend
   extraArgs: []
   # -- Environment variables to add to the query-frontend pods
@@ -822,7 +822,7 @@ queryScheduler:
   podAnnotations: {}
   # -- Labels for query-scheduler service
   serviceLabels:
-    prometheus: monitoring
+    monitoring: prometheus
   # -- Additional CLI args for the query-scheduler
   extraArgs: []
   # -- Environment variables to add to the query-scheduler pods
@@ -888,7 +888,7 @@ tableManager:
   podAnnotations: {}
   # -- Labels for table-manager service
   serviceLabels:
-    prometheus: monitoring
+    monitoring: prometheus
   # -- Additional CLI args for the table-manager
   extraArgs: []
   # -- Environment variables to add to the table-manager pods
@@ -1314,7 +1314,7 @@ compactor:
             topologyKey: failure-domain.beta.kubernetes.io/zone
   # -- Labels for compactor service
   serviceLabels:
-    prometheus: monitoring
+    monitoring: prometheus
   # -- Additional CLI args for the compactor
   extraArgs: []
   # -- Environment variables to add to the compactor pods
@@ -1396,7 +1396,7 @@ ruler:
   podAnnotations: {}
   # -- Labels for ruler service
   serviceLabels:
-    prometheus: monitoring
+    monitoring: prometheus
   # -- Additional CLI args for the ruler
   extraArgs: []
   # -- Environment variables to add to the ruler pods
@@ -1545,7 +1545,7 @@ indexGateway:
   podAnnotations: {}
   # -- Labels for index-gateway service
   serviceLabels:
-    prometheus: monitoring
+    monitoring: prometheus
   # -- Additional CLI args for the index-gateway
   extraArgs: []
   # -- Environment variables to add to the index-gateway pods
@@ -1684,7 +1684,7 @@ memcachedChunks:
   podAnnotations: {}
   # -- Labels for memcached-chunks service
   serviceLabels:
-    prometheus: monitoring
+    monitoring: prometheus
   # -- Additional CLI args for memcached-chunks
   extraArgs:
     - -I 32m
@@ -1750,7 +1750,7 @@ memcachedFrontend:
   podAnnotations: {}
   # -- Labels for memcached-frontend service
   serviceLabels:
-    prometheus: monitoring
+    monitoring: prometheus
   # -- Additional CLI args for memcached-frontend
   extraArgs:
     - -I 32m
@@ -1816,7 +1816,7 @@ memcachedIndexQueries:
   podAnnotations: {}
   # -- Labels for memcached-index-queries service
   serviceLabels:
-    prometheus: monitoring
+    monitoring: prometheus
   # -- Additional CLI args for memcached-index-queries
   extraArgs:
     - -I 32m
@@ -1882,7 +1882,7 @@ memcachedIndexWrites:
   podAnnotations: {}
   # -- Labels for memcached-index-writes service
   serviceLabels:
-    prometheus: monitoring
+    monitoring: prometheus
   # -- Additional CLI args for memcached-index-writes
   extraArgs:
     - -I 32m

@@ -19,7 +19,7 @@ metrics:
 serviceMonitor:
   enabled: true
   additionalLabels:
-    prometheus: monitoring
+    monitoring: prometheus
   metricRelabelings:
     # Drop metrics that are unset, high cardinality, or extraneous
     - sourceLabels: [__name__]

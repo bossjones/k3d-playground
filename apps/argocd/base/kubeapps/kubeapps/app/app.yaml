@@ -1,0 +1,80 @@
+# # installKubeapps ()
+# # {
+# #   header "Instaling Kubeapps"
+# #   cat <<EOF | helm install --namespace kubeapps --create-namespace -f - kubeapps bitnami/kubeapps
+# # ingress:
+# #   enabled: true
+# #   hostname: kubeapps.${CLUSTER_DOMAIN}
+# #   tls: true
+# # EOF
+# #   #helm install --namespace kubeapps --create-namespace kubeapps bitnami/kubeapps
+# #   kubectl create serviceaccount kubeapps-operator
+# #   kubectl create clusterrolebinding kubeapps-operator --clusterrole=cluster-admin --serviceaccount=default:kubeapps-operator
+
+# #   echo "url: https://kubeapps.${CLUSTER_DOMAIN}"
+# #   echo "Token: \n$(  kubectl get secret $(kubectl get serviceaccount kubeapps-operator -o jsonpath='{range .secrets[*]}{.name}{"\n"}{end}' | grep kubeapps-operator-token) -o jsonpath='{.data.token}' -o go-template='{{.data.token | base64decode}}' && echo)"
+# #   footer
+# # }
+
+# ---
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: metrics-server
+#   namespace: argocd
+#   finalizers:
+#     - resources-finalizer.argocd.argoproj.io
+# spec:
+#   project: cluster
+#   sources:
+#   - repoURL: 'https://kubernetes-sigs.github.io/metrics-server/'
+#     chart: metrics-server
+#     targetRevision: 3.11.0
+#     helm:
+#       releaseName: metrics-server
+#       valueFiles:
+#         - $values/apps/argocd/base/monitoring/metrics-server/app/values.yaml
+#   - repoURL: 'https://github.com/bossjones/k3d-playground.git'
+#     targetRevision: HEAD
+#     path: apps/argocd/base/monitoring/metrics-server
+#     ref: values
+#   destination:
+#     # server: "https://kubernetes.default.svc"
+#     name: in-cluster
+#     namespace: kube-system
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       # - PruneLast=true
+#       - SkipDryRunOnMissingResource=true
+#       # - CreateNamespace=true
+#       # Needed because our kubectl apply exceeds thresholds
+#       # EXAMPLE: CustomResourceDefinition.apiextensions.k8s.io "prometheuses.monitoring.coreos.com" is invalid: metadata.annotations: Too long: must have at most 262144 bytes
+#       # SOURCE: https://github.com/prometheus-operator/prometheus-operator/issues/4355
+#       - ServerSideApply=true
+
+#     # NOTE: 2/12/2024 - IF THIS BREAKS, CONFIGURE IN THESE VALUES AND COMMENT OUT THE OTHER RETRY BLOCK
+#     # retry:
+#     #   limit: -1  # Max number of allowed sync retries
+#     #   backoff:
+#     #     duration: 20s # Retry backoff base duration. Input needs to be a duration (e.g. 2m, 1h) (default 5s)
+#     #     factor: 2 # Factor multiplies the base duration after each failed retry (default 2)
+#     #     maxDuration: 15m # Max retry backoff duration. Input needs to be a duration (e.g. 2m, 1h) (default 3m0s)
+#     retry:
+#       backoff:
+#         duration: 5s
+#         factor: 2
+#         maxDuration: 3m0s
+#       limit: 2
+#   # SOURCE: https://github.com/argoproj/argo-cd/issues/11074
+#   ignoreDifferences:
+#     - group: monitoring.coreos.com
+#       kind: ServiceMonitor
+#       jqPathExpressions:
+#       - .spec.endpoints[]?.relabelings[]?.action
+#     - group: monitoring.coreos.com
+#       kind: ServiceMonitor
+#       jqPathExpressions:
+#       - .spec.endpoints[]?.metricRelabelings[]?.action
