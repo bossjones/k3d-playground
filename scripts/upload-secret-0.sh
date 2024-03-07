@@ -3,7 +3,8 @@ set -e
 
 kubectx k3d-demo
 
-kubectl create namespace argocd || true
+  kubectl create namespace argocd 2>/dev/null || true
+
 
 set -x
 # SOURCE: https://github.com/viaduct-ai/kustomize-sops/blob/master/scripts/install-ksops.sh

@@ -204,8 +204,12 @@ templates:
   retry -t 4 -- bash scripts/templates.sh
 
 # install argocd
-argocd-install: deploy-authentik-deps argocd-secret install-secret-0 install-mandatory-manifests
+argocd-install:
+  just argocd-secret
+  just install-secret-0
+  just install-mandatory-manifests
   bash scripts/argocd-install.sh
+  just deploy-authentik-deps
   # bash scripts/deploy-metallb.sh
 
 # install argocd secrets
@@ -267,7 +271,7 @@ demo: nuke-cluster helm k3d-demo argocd-install certs argocd-secret templates ar
 # demo-prebuilt: nuke-cluster k3d-demo argocd-install certs-only argocd-secret templates monitoring-install argocd-password argocd-bridge
 # bring up k3d-demo cluster but skip some steps
 # demo-prebuilt: nuke-cluster k3d-demo deploy-metallb deploy-nginx-proxy argocd-install certs-only argocd-secret install-secret-0 templates argocd-password argocd-bridge
-demo-prebuilt: machine-id nuke-cluster k3d-demo deploy-ingress-nginx argocd-install certs-only argocd-secret install-secret-0 templates argocd-password argocd-bridge
+demo-prebuilt: machine-id nuke-cluster k3d-demo argocd-install deploy-ingress-nginx certs-only argocd-secret install-secret-0 templates argocd-password argocd-bridge
 
 # bring up k3d-demo cluster but skip some steps
 demo-prebuilt-no-nuke: argocd-install certs-only argocd-secret install-secret-0 templates argocd-password argocd-token argocd-bridge
@@ -444,7 +448,10 @@ install-mandatory-manifests:
   kubectl -n argocd apply --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/crds/applicationset-crd.yaml
   kubectl -n argocd apply --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/crds/appproject-crd.yaml
 
+  just deploy-authentik-deps
+
   kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/database/cloudnative-pg | kubectl apply --server-side -f -
+
   # kubectl -n databases apply --server-side -f apps/argocd/base/database/cloudnative-pg/app/cluster/cluster.yaml
   # kubectl -n databases apply --server-side -f apps/argocd/base/database/cloudnative-pg/app/cluster/externalSecret.yaml
   # kubectl -n databases apply --server-side -f apps/argocd/base/database/cloudnative-pg/app/cluster/prometheusRule.yaml
@@ -582,7 +589,7 @@ netshoot-exec:
 docker-netshoot: netshoot-exec
 
 sleep:
-  sleep 60
+  yes | pv -SL1 -F 'Resuming in %e' -s 60 > /dev/null
 
 # reset everyhitng having to do with k3d and kine
 k3d-scorch-earth: demo-down kine-mysql-reset sleep demo-prebuilt demo-prebuilt-no-nuke
@@ -615,3 +622,6 @@ k8s-netshoot:
 
 nodes-logs:
   kubectl get nodes -v=10 >> nodes.log
+
+k9s:
+  retry -t 10 -- k9s

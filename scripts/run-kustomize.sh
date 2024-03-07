@@ -11,12 +11,16 @@ fi
 
 cd "${1}"
 kustomize build --enable-alpha-plugins --enable-exec | kubectl apply -f -
-sleep 10
+# sleep
+# SOURCE: https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
+yes | pv -SL1 -F 'Resuming in %e' -s 10 > /dev/null
 kustomize build --enable-alpha-plugins --enable-exec | kubectl apply -f -
 echo ""
 cd -
 
-sleep 30
+# sleep
+# SOURCE: https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
+yes | pv -SL1 -F 'Resuming in %e' -s 30 > /dev/null
 
 # takes a second for everything to come up, so lets run this twice
 
@@ -24,7 +28,9 @@ kubectx k3d-demo
 
 cd "${1}"
 kustomize build --enable-alpha-plugins --enable-exec | kubectl apply -f -
-sleep 10
+# sleep
+# SOURCE: https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
+yes | pv -SL1 -F 'Resuming in %e' -s 10 > /dev/null
 kustomize build --enable-alpha-plugins --enable-exec | kubectl apply -f -
 echo ""
 cd -
