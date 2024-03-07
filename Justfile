@@ -249,13 +249,16 @@ deploy-metallb:
 deploy-nginx-proxy:
   bash scripts/deploy-nginx-proxy.sh
 
+deploy-ingress-nginx:
+  bash scripts/deploy-ingress-nginx.sh
+
 # bring up k3d-demo cluster
 demo: nuke-cluster helm k3d-demo argocd-install certs argocd-secret templates argocd-password argocd-bridge
 
 # demo-prebuilt: nuke-cluster k3d-demo argocd-install certs-only argocd-secret templates monitoring-install argocd-password argocd-bridge
 # bring up k3d-demo cluster but skip some steps
 # demo-prebuilt: nuke-cluster k3d-demo deploy-metallb deploy-nginx-proxy argocd-install certs-only argocd-secret install-secret-0 templates argocd-password argocd-bridge
-demo-prebuilt: nuke-cluster k3d-demo argocd-install certs-only argocd-secret install-secret-0 templates argocd-password argocd-bridge
+demo-prebuilt: nuke-cluster k3d-demo deploy-ingress-nginx argocd-install certs-only argocd-secret install-secret-0 templates argocd-password argocd-bridge
 
 # bring up k3d-demo cluster but skip some steps
 demo-prebuilt-no-nuke: argocd-install certs-only argocd-secret install-secret-0 templates argocd-password argocd-token argocd-bridge
