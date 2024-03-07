@@ -174,15 +174,15 @@ config:
 
     # This is an Alpha Feature and is only enabled with the --feature-gates=AdditionalCertificateOutputFormats=true option set on both the controller and webhook components.
     AdditionalCertificateOutputFormats: true
-    DisallowInsecureCSRUsageDefinition: true
+    # DisallowInsecureCSRUsageDefinition: true
     ExperimentalCertificateSigningRequestControllers: true
-    ExperimentalGatewayAPISupport: true
+    # ExperimentalGatewayAPISupport: true
     LiteralCertificateSubject: true
     SecretsFilteredCaching: true
     ServerSideApply: true
-    StableCertificateRequestName: true
+    # StableCertificateRequestName: true
     UseCertificateRequestBasicConstraints: true
-    ValidateCAA: true
+    # ValidateCAA: true
   # DynamicServingConfig makes the webhook generate a CA and persist it into Secret resources. This CA will be used by all instances of the webhook for signing serving certificates.
   # metricsTLSConfig:
   #   dynamic:
