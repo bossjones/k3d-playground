@@ -2,7 +2,7 @@
 # set -euxo pipefail
 set -x
 
-kubectl create namespace monitoring || true
+kubectl create namespace monitoring 2>/dev/null || true
 kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
 kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
 kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
@@ -18,7 +18,10 @@ kubectl -n kube-system apply --server-side -f https://raw.githubusercontent.com/
 
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx || true
 helm repo update
-helm template --version 4.9.0 --values apps/argocd/base/core/ingress-nginx/app/values.yaml ingress-nginx ingress-nginx/ingress-nginx -n kube-system | kubectl apply --server-side -f -
+# helm template --version 4.9.0 --values apps/argocd/base/core/ingress-nginx/app/values.yaml ingress-nginx ingress-nginx/ingress-nginx -n kube-system | kubectl apply --server-side -f -
+
+
+kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/base/core/ingress-nginx | kubectl apply --server-side -f -
 
 echo "waiting for ingress-nginx deployment.apps/ingress-nginx-controller"
 kubectl -n kube-system wait deployment ingress-nginx-controller --for condition=Available=True --timeout=300s
