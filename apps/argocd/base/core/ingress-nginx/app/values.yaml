@@ -19,8 +19,15 @@ controller:
     type: LoadBalancer
     externalTrafficPolicy: Local
     # -- Labels to be added to both controller services.
-    labels:
-      prometheus: main
+    # labels:
+    #   prometheus: main
+    annotations:
+      boss: "jones"
+
+  admissionWebhooks:
+    annotations:
+      boss: "jones"
+
   ingressClassResource:
     default: true
   config:

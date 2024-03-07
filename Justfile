@@ -389,7 +389,6 @@ install-ksops:
 
 install-mandatory-manifests:
   kubectl create namespace monitoring || true
-  kubectl create namespace monitoring || true
   kubectl create namespace argocd || true
   kubectl create namespace databases || true
   kubectl create namespace cert-manager || true
