@@ -30,9 +30,9 @@ spec:
       containers:
       - name: argocd-application-controller
         env:
-        - name: ARGOCD_K8S_CLIENT_QPS
-          value: "500"
-        - name: ARGOCD_K8S_CLIENT_BURST
-          value: "750"
+        # - name: ARGOCD_K8S_CLIENT_QPS
+        #   value: "500"
+        # - name: ARGOCD_K8S_CLIENT_BURST
+        #   value: "750"
         - name: ARGOCD_CONTROLLER_REPLICAS
           value: "2"
