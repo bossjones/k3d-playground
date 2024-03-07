@@ -146,6 +146,54 @@ enableCertificateOwnerRef: false
 # An APIVersion and Kind must be specified in your values.yaml file.
 # Flags will override options that are set here.
 config:
+  apiVersion: controller.config.cert-manager.io/v1alpha1
+  kind: ControllerConfiguration
+  logging:
+    verbosity: 2
+    format: json
+  leaderElectionConfig:
+    namespace: kube-system
+  kubernetesAPIQPS: 9000
+  kubernetesAPIBurst: 9000
+  numberOfConcurrentWorkers: 200
+
+  # DisallowInsecureCSRUsageDefinition=true|false (BETA - default=true)
+  #  ExperimentalCertificateSigningRequestControllers=true|false (ALPHA - default=false)
+  #  ExperimentalGatewayAPISupport=true|false (ALPHA - default=false)
+  #  LiteralCertificateSubject=true|false (ALPHA - default=false)
+  #  NameConstraints=true|false (ALPHA - default=false)
+  #  OtherNames=true|false (ALPHA - default=false)
+  #  SecretsFilteredCaching=true|false (BETA - default=true)
+  #  ServerSideApply=true|false (ALPHA - default=false)
+  #  StableCertificateRequestName=true|false (BETA - default=true)
+  #  UseCertificateRequestBasicConstraints=true|false (ALPHA - default=false)
+  #  ValidateCAA=true|false (ALPHA - default=false)
+  # SOURCE: https://cert-manager.io/docs/reference/api-docs/#controller.config.cert-manager.io/v1alpha1.ControllerConfiguration
+  featureGates:
+    # Defines extra output formats of the private key and signed certificate chain to be written to this Certificate's target Secret.
+
+    # This is an Alpha Feature and is only enabled with the --feature-gates=AdditionalCertificateOutputFormats=true option set on both the controller and webhook components.
+    AdditionalCertificateOutputFormats: true
+    DisallowInsecureCSRUsageDefinition: true
+    ExperimentalCertificateSigningRequestControllers: true
+    ExperimentalGatewayAPISupport: true
+    LiteralCertificateSubject: true
+    SecretsFilteredCaching: true
+    ServerSideApply: true
+    StableCertificateRequestName: true
+    UseCertificateRequestBasicConstraints: true
+    ValidateCAA: true
+  # DynamicServingConfig makes the webhook generate a CA and persist it into Secret resources. This CA will be used by all instances of the webhook for signing serving certificates.
+  metricsTLSConfig:
+    dynamic:
+      secretNamespace: "cert-manager"
+      # secretName: "cert-manager-metrics-ca"
+      secretName: "k3d-demo"
+      dnsNames:
+      - cert-manager-metrics
+      - cert-manager-metrics.cert-manager
+      - cert-manager-metrics.cert-manager.svc
+
 #   apiVersion: controller.config.cert-manager.io/v1alpha1
 #   kind: ControllerConfiguration
 #   logging:
