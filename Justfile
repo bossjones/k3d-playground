@@ -45,7 +45,7 @@ pre-commit-install:
 # NOTE: Regarding disk pressure - https://github.com/k3d-io/k3d/issues/133
 
 setup-cluster:
-  mkdir -p /tmp/k3dvol || true
+  mkdir -p /tmp/k3dvol 2>/dev/null || true
   k3d --verbose cluster create \
   --volume {{PATH_TO_TRAEFIK_CONFIG}}:/var/lib/rancer/k3s/server/manifests/traefik-config.yaml@all \
   --volume /tmp/k3dvol:/var/lib/rancher/k3s/storage@all \
@@ -69,13 +69,13 @@ setup-cluster:
 # The above command is creating another K3d cluster and mapping port 8888 on the host to port 80 on the containers that have a nodefilter of loadbalancer.
 
 start-cluster:
-  k3d cluster start k3d-playground || true
+  k3d cluster start k3d-playground 2>/dev/null || true
 
 stop-cluster:
-  k3d cluster stop k3d-playground || true
+  k3d cluster stop k3d-playground 2>/dev/null || true
 
 delete-cluster: stop-cluster
-  k3d cluster delete k3d-playground || true
+  k3d cluster delete k3d-playground 2>/dev/null || true
 
 nuke-cluster: delete-cluster
 
@@ -388,10 +388,10 @@ install-ksops:
 #   argocd --port-forward --port-forward-namespace=argocd cluster list
 
 install-mandatory-manifests:
-  kubectl create namespace monitoring || true
-  kubectl create namespace argocd || true
-  kubectl create namespace databases || true
-  kubectl create namespace cert-manager || true
+  kubectl create namespace monitoring 2>/dev/null || true
+  kubectl create namespace argocd 2>/dev/null || true
+  kubectl create namespace databases 2>/dev/null || true
+  kubectl create namespace cert-manager 2>/dev/null || true
   kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
   kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
   kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
@@ -402,17 +402,17 @@ install-mandatory-manifests:
   kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_scrapeconfigs.yaml
   kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
   kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
-  kubectl -n kube-system apply --server-side -f https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/deploy/crds/bundle.yaml || true
+  kubectl -n kube-system apply --server-side -f https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/deploy/crds/bundle.yaml 2>/dev/null || true
 
   bash scripts/deploy-metallb.sh
 
-  kubectl -n cert-manager apply --server-side -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.2/cert-manager.crds.yaml || true
+  kubectl -n cert-manager apply --server-side -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.2/cert-manager.crds.yaml 2>/dev/null || true
 
-  kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_backups.yaml || true
-  kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_backups.yaml || true
-  kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_clusters.yaml || true
-  kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_poolers.yaml || true
-  kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_scheduledbackups.yaml || true
+  kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_backups.yaml 2>/dev/null || true
+  kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_backups.yaml 2>/dev/null || true
+  kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_clusters.yaml 2>/dev/null || true
+  kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_poolers.yaml 2>/dev/null || true
+  kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_scheduledbackups.yaml 2>/dev/null || true
 
   # kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/monitoring/kube-prometheus-stack/app | kubectl apply --server-side -f -
   sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |ggrep -oP "public key: \K(.*)") --in-place apps/argocd/base/kube-system/external-secrets/app/connect/1passwordCredentials.sops.yaml
@@ -544,10 +544,10 @@ kine-mysql-down:
   docker-compose down
 
 kine-mysql-reset:
-  docker-compose down --remove-orphans >/dev/null 2>&1 || true
-  docker-compose down --remove-orphans >/dev/null 2>&1 || true
-  docker volume rm k3d-playground_kine_mysql >/dev/null 2>&1 || true
-  docker volume rm  k3d-playground_tmpvolume >/dev/null 2>&1 || true
+  docker-compose down --remove-orphans >/dev/null 2>&1 2>/dev/null || true
+  docker-compose down --remove-orphans >/dev/null 2>&1 2>/dev/null || true
+  docker volume rm k3d-playground_kine_mysql >/dev/null 2>&1 2>/dev/null || true
+  docker volume rm  k3d-playground_tmpvolume >/dev/null 2>&1 2>/dev/null || true
   docker-compose up -d
 
 docker-loghose:

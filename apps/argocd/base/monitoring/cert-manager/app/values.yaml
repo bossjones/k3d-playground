@@ -184,15 +184,15 @@ config:
     UseCertificateRequestBasicConstraints: true
     ValidateCAA: true
   # DynamicServingConfig makes the webhook generate a CA and persist it into Secret resources. This CA will be used by all instances of the webhook for signing serving certificates.
-  metricsTLSConfig:
-    dynamic:
-      secretNamespace: "cert-manager"
-      # secretName: "cert-manager-metrics-ca"
-      secretName: "k3d-demo"
-      dnsNames:
-      - cert-manager-metrics
-      - cert-manager-metrics.cert-manager
-      - cert-manager-metrics.cert-manager.svc
+  # metricsTLSConfig:
+  #   dynamic:
+  #     secretNamespace: "cert-manager"
+  #     # secretName: "cert-manager-metrics-ca"
+  #     secretName: "k3d-demo"
+  #     dnsNames:
+  #     - cert-manager-metrics
+  #     - cert-manager-metrics.cert-manager
+  #     - cert-manager-metrics.cert-manager.svc
 
 #   apiVersion: controller.config.cert-manager.io/v1alpha1
 #   kind: ControllerConfiguration

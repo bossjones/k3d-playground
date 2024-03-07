@@ -5,14 +5,14 @@ set -x
 kubectx k3d-demo
 
 
-retry -t 4  -- kubectl -n kube-system apply -f apps/argocd/base/kube-system/external-secrets/app/connect/clusterStore.yaml
+retry -t 4  -- kubectl -n kube-system apply --server-side -f apps/argocd/base/kube-system/external-secrets/app/connect/clusterStore.yaml
 
 # cd apps/argocd
-kubectl create namespace argocd || true
-kustomize build --enable-alpha-plugins --enable-exec apps/argocd | kubectl apply -f -
+kubectl create namespace argocd 2>/dev/null || true
+kustomize build --enable-alpha-plugins --enable-exec apps/argocd | kubectl apply --server-side -f -
 sleep 10
 kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/core/ingress-nginx | kubectl apply --server-side  -f -
-kustomize build --enable-alpha-plugins --enable-exec apps/argocd | kubectl apply -f -
+kustomize build --enable-alpha-plugins --enable-exec apps/argocd | kubectl apply --server-side -f -
 kubectl wait deploy/argocd-server -n argocd --for condition=available --timeout=600s
 echo ""
 # cd -
@@ -24,10 +24,10 @@ sleep 30
 kubectx k3d-demo
 
 # cd apps/argocd
-kubectl create namespace argocd || true
-kustomize build --enable-alpha-plugins --enable-exec apps/argocd | kubectl apply -f -
+kubectl create namespace argocd 2>/dev/null || true
+kustomize build --enable-alpha-plugins --enable-exec apps/argocd | kubectl apply --server-side -f -
 sleep 10
-kustomize build --enable-alpha-plugins --enable-exec apps/argocd | kubectl apply -f -
+kustomize build --enable-alpha-plugins --enable-exec apps/argocd | kubectl apply --server-side -f -
 kubectl wait deploy/argocd-server -n argocd --for condition=available --timeout=600s
 echo ""
 # cd -
