@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+echo
+echo "# arguments called with ---->  ${@}     "
+echo "# \$1 ---------------------->  $1       "
+echo "# \$2 ---------------------->  $2       "
+echo "# path to me --------------->  ${0}     "
+echo "# parent path -------------->  ${0%/*}  "
+echo "# my name ------------------>  ${0##*/} "
+echo
 
 helm repo add influxdata https://helm.influxdata.com/
 helm repo add bitnami https://charts.bitnami.com/bitnami

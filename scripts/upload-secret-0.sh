@@ -1,9 +1,19 @@
 #!/usr/bin/env bash
 set -e
 
+echo
+echo "# arguments called with ---->  ${@}     "
+echo "# \$1 ---------------------->  $1       "
+echo "# \$2 ---------------------->  $2       "
+echo "# path to me --------------->  ${0}     "
+echo "# parent path -------------->  ${0%/*}  "
+echo "# my name ------------------>  ${0##*/} "
+echo
+
+
 kubectx k3d-demo
 
-  kubectl create namespace argocd 2>/dev/null || true
+kubectl create namespace argocd 2>/dev/null || true
 
 
 set -x

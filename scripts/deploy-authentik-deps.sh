@@ -2,6 +2,16 @@
 # set -euxo pipefail
 set -x
 
+echo
+echo "# arguments called with ---->  ${@}     "
+echo "# \$1 ---------------------->  $1       "
+echo "# \$2 ---------------------->  $2       "
+echo "# path to me --------------->  ${0}     "
+echo "# parent path -------------->  ${0%/*}  "
+echo "# my name ------------------>  ${0##*/} "
+echo
+
+
 
 kubectl create namespace identity 2>/dev/null || true
 helm repo add authentik-redis https://bjw-s.github.io/helm-charts 2>/dev/null || true
