@@ -7,9 +7,9 @@ controller:
   containerPort:
     http: 80
     https: 443
-    argo: 2746
+    # argo: 2746
     ssh: 22
-    postgres: 5432
+    # postgres: 5432
   replicaCount: 1
   allowSnippetAnnotations: true
   extraEnvs:
