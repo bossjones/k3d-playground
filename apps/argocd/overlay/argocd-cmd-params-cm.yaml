@@ -39,14 +39,14 @@ data:
   # # Specifies timeout between application self heal attempts (default 5)
   # # controller.self.heal.timeout.seconds: "600"
 
-  # Repo server RPC call timeout seconds.
-  controller.repo.server.timeout.seconds: "92"
+  # # Repo server RPC call timeout seconds.
+  # controller.repo.server.timeout.seconds: "92"
 
-  # Specifies if resource health should be persisted in app CRD (default true)
-  # Changing this to `false` significantly reduce number of Application CRD updates and improves controller performance.
-  # However, disabling resource health by default might affect applications that communicate with Applications CRD directly
-  # so we have to defer switching this to `false` by default till v3.0 release.
-  controller.resource.health.persist: "false"
+  # # Specifies if resource health should be persisted in app CRD (default true)
+  # # Changing this to `false` significantly reduce number of Application CRD updates and improves controller performance.
+  # # However, disabling resource health by default might affect applications that communicate with Applications CRD directly
+  # # so we have to defer switching this to `false` by default till v3.0 release.
+  # controller.resource.health.persist: "false"
   # ########################################
   # # redis settings
   # #

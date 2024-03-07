@@ -13,18 +13,18 @@ image: rancher/k3s:v1.27.4-k3s1
 # NOTE: working - image: rancher/k3s:v1.27.4-k3s1
 # image: rancher/k3s:v1.29.1-k3s1
 network: demo-net
-# ports:
-# - port: 0.0.0.0:80:80
-#   nodeFilters:
-#   - loadbalancer
-# # FIXME: Try this - port: 0.0.0.0:443:443
-# - port: 0.0.0.0:443:443
-#   nodeFilters:
-#   - loadbalancer
-# # workflows
-# - port: 0.0.0.0:2746:2746
-#   nodeFilters:
-#   - loadbalancer
+ports:
+- port: 0.0.0.0:80:80
+  nodeFilters:
+  - loadbalancer
+# FIXME: Try this - port: 0.0.0.0:443:443
+- port: 0.0.0.0:443:443
+  nodeFilters:
+  - loadbalancer
+# workflows
+- port: 0.0.0.0:2746:2746
+  nodeFilters:
+  - loadbalancer
 
 # # SOURCE: https://github.com/bravecobra/k8s-dev-infrastructure/blob/adb085443cffb00a69c2ddc4a415f02ef785d79a/src/clusters/k3d/devinfra-template.yaml#L2
 # - port: 8100:8100 # same as `--port '8100:8100@loadbalancer'`
@@ -39,23 +39,23 @@ network: demo-net
 # #     # - server:0
 # #     # - agent:*
 
-# # - port: 0.0.0.0:6443:6443
-# #   nodeFilters:
-# #     - loadbalancer
+- port: 0.0.0.0:6443:6443
+  nodeFilters:
+    - loadbalancer
 # #######################################################
 # # kine
 # #######################################################
-# - port: 0.0.0.0:2379:2379
-#   nodeFilters:
-#     - loadbalancer
+- port: 0.0.0.0:2379:2379
+  nodeFilters:
+    - loadbalancer
 
-# - port: 0.0.0.0:2380:2380
-#   nodeFilters:
-#     - loadbalancer
+- port: 0.0.0.0:2380:2380
+  nodeFilters:
+    - loadbalancer
 
-# - port: 0.0.0.0:2381:2381
-#   nodeFilters:
-#     - loadbalancer
+- port: 0.0.0.0:2381:2381
+  nodeFilters:
+    - loadbalancer
 # #######################################################
 # # kine - end
 # #######################################################
@@ -311,7 +311,7 @@ options:
     wait: true
     timeout: "360s"
     #  indicates that you do not want to create an external load balancer for the cluster. By default, K3d creates a load balancer to expose the Kubernetes API server externally. This flag disables that feature.
-    disableLoadbalancer: true
+    disableLoadbalancer: false
     loadbalancer:
       configOverrides:
       # - settings.workerConnections=2048
@@ -325,9 +325,9 @@ options:
           - all
     extraArgs:
 
-    - arg: --disable=servicelb
-      nodeFilters:
-        - server:*
+    # - arg: --disable=servicelb
+    #   nodeFilters:
+    #     - server:*
 
     # - arg: --node-name=server-0
     #   nodeFilters:
