@@ -389,6 +389,7 @@ install-mandatory-manifests:
   kubectl create namespace monitoring || true
   kubectl create namespace argocd || true
   kubectl create namespace databases || true
+  kubectl create namespace cert-manager || true
   kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
   kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
   kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
@@ -402,6 +403,8 @@ install-mandatory-manifests:
   kubectl -n kube-system apply --server-side -f https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/deploy/crds/bundle.yaml || true
 
   bash scripts/deploy-metallb.sh
+
+  kubectl -n cert-manager apply --server-side -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.2/cert-manager.crds.yaml || true
 
   kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_backups.yaml || true
   kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_backups.yaml || true

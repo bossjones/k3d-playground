@@ -41,6 +41,9 @@ controller:
     keep-alive-requests: 10000
     keep-alive: 120
     large-client-header-buffers: "4 16k"
+    # NOTE: borrowed from - https://github.com/andrewmackrodt/k3d-boot/blob/484c9e047f6b416a4063652d9855bfabc7c524b2/create.sh#L273C44-L273C64
+    proxy-real-ip-cidr: "192.168.0.0/16, 172.16.0.0/12, 10.0.0.0/8"
+    compute-full-forwarded-for: true
   extraArgs:
       default-ssl-certificate: "kube-system/tls-secret"
   metrics:
@@ -74,6 +77,15 @@ defaultBackend:
                   operator: In
                   values: ["default-backend"]
             topologyKey: kubernetes.io/hostname
+
+    # NOTE: borrowed from - https://github.com/andrewmackrodt/k3d-boot/blob/484c9e047f6b416a4063652d9855bfabc7c524b2/create.sh#L273C44-L273C64
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
+
 
 
 # -- TCP service key-value pairs
