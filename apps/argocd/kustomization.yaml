@@ -76,11 +76,11 @@ patches:
 - path: overlay/argocd-cr.yaml
 - path: overlay/argocd-cmd-params-cm.yaml
 - path: overlay/argocd-server-role.yaml
-- path: overlay/pdb-argocd-application-controller.yaml
-- path: overlay/pdb-argocd-applicationset-controller.yaml
-- path: overlay/pdb-argocd-dex-server.yaml
-- path: overlay/pdb-argocd-notifications-controller.yaml
-- path: overlay/pdb-argocd-server.yaml
+# - path: overlay/pdb-argocd-application-controller.yaml
+# - path: overlay/pdb-argocd-applicationset-controller.yaml
+# - path: overlay/pdb-argocd-dex-server.yaml
+# - path: overlay/pdb-argocd-notifications-controller.yaml
+# - path: overlay/pdb-argocd-server.yaml
 
 
 # - path: overlay/add-resources-argocd-repo-server.yaml

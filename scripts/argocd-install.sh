@@ -15,8 +15,14 @@ kubectl wait deploy/argocd-server -n argocd --for condition=available --timeout=
 echo ""
 # cd -
 
-kubectl -n kube-system apply --server-side -f https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/deploy/crds/bundle.yaml || true
-retry -t 4  -- kubectl -n kube-system apply --server-side -f apps/argocd/base/kube-system/external-secrets/app/connect/clusterStore.yaml
+# kubectl -n kube-system apply --server-side -f https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/deploy/crds/bundle.yaml || true
+# retry -t 4  -- kubectl -n kube-system apply --server-side -f apps/argocd/base/kube-system/external-secrets/app/connect/clusterStore.yaml
+
+kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/kube-system/external-secrets | kubectl apply --server-side -f -
+echo "waiting for external-secrets"
+kubectl -n kube-system wait deployment external-secrets-cert-controller --for condition=Available=True --timeout=300s
+kubectl -n kube-system wait deployment external-secrets-webhook --for condition=Available=True --timeout=300s
+kubectl -n kube-system wait deployment external-secrets --for condition=Available=True --timeout=300s
 
 sleep 30
 
