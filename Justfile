@@ -204,7 +204,7 @@ templates:
   retry -t 4 -- bash scripts/templates.sh
 
 # install argocd
-argocd-install: argocd-secret install-secret-0 install-mandatory-manifests
+argocd-install: deploy-authentik-deps argocd-secret install-secret-0 install-mandatory-manifests
   bash scripts/argocd-install.sh
   # bash scripts/deploy-metallb.sh
 
@@ -255,13 +255,19 @@ deploy-ingress-nginx:
 deploy-external-secrets:
   bash scripts/deploy-external-secrets.sh
 
+deploy-authentik-deps:
+  bash scripts/deploy-authentik-deps.sh
+
+machine-id:
+  touch storage/machine-id
+
 # bring up k3d-demo cluster
 demo: nuke-cluster helm k3d-demo argocd-install certs argocd-secret templates argocd-password argocd-bridge
 
 # demo-prebuilt: nuke-cluster k3d-demo argocd-install certs-only argocd-secret templates monitoring-install argocd-password argocd-bridge
 # bring up k3d-demo cluster but skip some steps
 # demo-prebuilt: nuke-cluster k3d-demo deploy-metallb deploy-nginx-proxy argocd-install certs-only argocd-secret install-secret-0 templates argocd-password argocd-bridge
-demo-prebuilt: nuke-cluster k3d-demo deploy-ingress-nginx argocd-install certs-only argocd-secret install-secret-0 templates argocd-password argocd-bridge
+demo-prebuilt: machine-id nuke-cluster k3d-demo deploy-ingress-nginx argocd-install certs-only argocd-secret install-secret-0 templates argocd-password argocd-bridge
 
 # bring up k3d-demo cluster but skip some steps
 demo-prebuilt-no-nuke: argocd-install certs-only argocd-secret install-secret-0 templates argocd-password argocd-token argocd-bridge

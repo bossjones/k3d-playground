@@ -272,6 +272,15 @@ volumes:
   nodeFilters:
   - server:*
   - agent:*
+# SOURCE: https://github.com/grafana/tns/blob/main/create-k3d-cluster
+# Expose the machine ID as a volume (if available) since this is used
+# by promtail and the Grafana Agent for reading the Systemd journal. If
+# it doesn't exist on the machine k3d is being run on (i.e. non-GNU/Linux
+# machines), just create an empty file.
+- volume: "${PWD}/storage/machine-id:/etc/machine-id"
+  nodeFilters:
+  - server:*
+  - agent:*
 - volume: "${PWD}/storage/mysql-kine:/mysql-kine"
   nodeFilters:
   - server:*
