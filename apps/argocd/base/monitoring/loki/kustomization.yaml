@@ -10,3 +10,23 @@ labels:
 - pairs:
     monitoring: prometheus
     prometheus: main
+
+# Fixes: https://github.com/argoproj/argo-cd/issues/6880
+# SOURCE: https://github.com/argoproj/argo-cd/issues/6880#issuecomment-1428194771
+patches:
+- target:
+    kind: Job
+    name: loki-minio-make-bucket-job
+  # Strip
+  # Stripping is specified by the "-"" chomping indicator. In this case, the final line break and any trailing empty lines are excluded from the scalar's content.
+  patch: |-
+    - path: "/spec/ttlSecondsAfterFinished"
+      op: remove
+- target:
+    kind: Job
+    name: loki-minio-make-user-job
+  # Strip
+  # Stripping is specified by the "-"" chomping indicator. In this case, the final line break and any trailing empty lines are excluded from the scalar's content.
+  patch: |-
+    - path: "/spec/ttlSecondsAfterFinished"
+      op: remove

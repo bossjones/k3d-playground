@@ -18,3 +18,37 @@ labels:
 
 commonAnnotations:
   argocd.argoproj.io/sync-wave: "-50"
+
+
+patches:
+- target:
+    kind: Job
+    name: thanos-minio-post-job
+    # loki-minio-make-bucket-job
+    # k batch/Job/ingress-nginx-admission-create
+  # Strip
+  # Stripping is specified by the "-"" chomping indicator. In this case, the final line break and any trailing empty lines are excluded from the scalar's content.
+  patch: |-
+    - path: "/spec/ttlSecondsAfterFinished"
+      op: remove
+
+- target:
+    kind: Job
+    name: loki-minio-make-bucket-job
+  patch: |-
+    - path: "/spec/ttlSecondsAfterFinished"
+      op: remove
+
+- target:
+    kind: Job
+    name: kube-prometheus-stack-admission-create
+  patch: |-
+    - path: "/spec/ttlSecondsAfterFinished"
+      op: remove
+
+- target:
+    kind: Job
+    name: kube-prometheus-stack-admission-patch
+  patch: |-
+    - path: "/spec/ttlSecondsAfterFinished"
+      op: remove

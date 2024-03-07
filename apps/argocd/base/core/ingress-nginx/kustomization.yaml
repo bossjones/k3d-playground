@@ -13,3 +13,14 @@ labels:
 
 # commonAnnotations:
 #   argocd.argoproj.io/sync-wave: "-10"
+
+
+patches:
+- target:
+    kind: Job
+    name: ingress-nginx-admission-create
+  # Strip
+  # Stripping is specified by the "-"" chomping indicator. In this case, the final line break and any trailing empty lines are excluded from the scalar's content.
+  patch: |-
+    - path: "/spec/ttlSecondsAfterFinished"
+      op: remove
