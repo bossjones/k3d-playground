@@ -37,3 +37,6 @@ helm repo add cilium https://helm.cilium.io
 helm repo add portainer https://portainer.github.io/k8s/
 
 helm repo update
+
+echo "END ------------------>  ${0##*/} "
+echo

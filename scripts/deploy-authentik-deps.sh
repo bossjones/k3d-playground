@@ -9,7 +9,6 @@ echo "# \$2 ---------------------->  $2       "
 echo "# path to me --------------->  ${0}     "
 echo "# parent path -------------->  ${0%/*}  "
 echo "# my name ------------------>  ${0##*/} "
-echo
 
 
 
@@ -21,6 +20,11 @@ helm repo update
 kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/base/identity/authentik-redis | kubectl apply --server-side -f -
 
 kubectl create namespace databases 2>/dev/null || true
+kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_backups.yaml 2>/dev/null || true
+kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_backups.yaml 2>/dev/null || true
+kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_clusters.yaml 2>/dev/null || true
+kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_poolers.yaml 2>/dev/null || true
+kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_scheduledbackups.yaml 2>/dev/null || true
 helm repo add cloudnative-pg https://cloudnative-pg.github.io/charts 2>/dev/null || true
 helm repo update
 # helm template --version 0.20.1 --values apps/argocd/base/database/cloudnative-pg/app/operator/values.yaml cloudnative-pg cloudnative-pg/cloudnative-pg -n databases | kubectl apply --server-side -f -
@@ -34,3 +38,7 @@ kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/b
 # helm repo add authentik https://charts.goauthentik.io 2>/dev/null || true
 # helm repo update
 # helm template --version 2023.10.7 --values apps/argocd/base/identity/authentik/app/values.yaml authentik authentik/authentik -n identity | kubectl apply --server-side -f -
+
+
+echo "END ------------------>  ${0##*/} "
+echo

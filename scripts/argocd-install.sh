@@ -25,15 +25,24 @@ kubectl -n argocd apply --server-side -f https://raw.githubusercontent.com/argop
 kubectl -n argocd apply --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/crds/applicationset-crd.yaml
 kubectl -n argocd apply --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/crds/appproject-crd.yaml
 
+echo ""
+echo ""
+
 kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd | kubectl apply --server-side -f -
 
+echo ""
+echo ""
 # sleep
 # SOURCE: https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
 yes | pv -SL1 -F 'Resuming in %e' -s 10 > /dev/null
 
 kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/base/core/ingress-nginx | kubectl apply --server-side -f -
+echo ""
+echo ""
 # kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/core/ingress-nginx | kubectl apply --server-side  -f -
 kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd | kubectl apply --server-side -f -
+echo ""
+echo ""
 
 echo -e "waiting for argocd-server\n"
 kubectl wait deploy/argocd-server -n argocd --for condition=available --timeout=600s
@@ -94,3 +103,6 @@ kubectx k3d-demo
 # kubectl wait deploy/argocd-server -n argocd --for condition=available --timeout=600s
 # echo ""
 # # cd -
+
+echo "END ------------------>  ${0##*/} "
+echo

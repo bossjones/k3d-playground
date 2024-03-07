@@ -27,3 +27,6 @@ kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/b
 # kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/base/database/cloudnative-pg | kubectl apply --server-side -f -
 kubectl -n kube-system wait deployment external-secrets-webhook --for condition=Available=True --timeout=300s
 kubectl -n kube-system wait deployment external-secrets-cert-controller  --for condition=Available=True --timeout=300s
+
+echo "END ------------------>  ${0##*/} "
+echo

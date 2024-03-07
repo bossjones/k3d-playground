@@ -91,3 +91,6 @@ EOF
 
 # validate the cluster master and worker nodes
 kubectl get nodes
+
+echo "END ------------------>  ${0##*/} "
+echo

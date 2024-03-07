@@ -250,6 +250,9 @@ install-secretgenerator:
 deploy-metallb:
   bash scripts/deploy-metallb.sh
 
+deploy-cert-manager:
+  bash scripts/deploy-cert-manager.sh
+
 deploy-nginx-proxy:
   bash scripts/deploy-nginx-proxy.sh
 
@@ -423,7 +426,7 @@ install-mandatory-manifests:
 
   bash scripts/deploy-metallb.sh
 
-  kubectl -n cert-manager apply --server-side -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.2/cert-manager.crds.yaml 2>/dev/null || true
+  just deploy-cert-manager
 
   kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_backups.yaml 2>/dev/null || true
   kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_backups.yaml 2>/dev/null || true
@@ -450,8 +453,6 @@ install-mandatory-manifests:
 
   just deploy-authentik-deps
 
-  kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/database/cloudnative-pg | kubectl apply --server-side -f -
-
   # kubectl -n databases apply --server-side -f apps/argocd/base/database/cloudnative-pg/app/cluster/cluster.yaml
   # kubectl -n databases apply --server-side -f apps/argocd/base/database/cloudnative-pg/app/cluster/externalSecret.yaml
   # kubectl -n databases apply --server-side -f apps/argocd/base/database/cloudnative-pg/app/cluster/prometheusRule.yaml
@@ -472,7 +473,7 @@ argocd-token:
   kubectl --cluster=k3d-demo -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d | pbcopy
 
 argo-render:
-  kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/gitops/argo-workflows/app | pbcopy
+  kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/base/gitops/argo-workflows/app | pbcopy
 
 # Generate external secrets jsonschema
 external-secrets-schema:

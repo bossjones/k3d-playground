@@ -29,3 +29,6 @@ stringData:
   password: ${GH_PASS}
   username: ${GH_USER}
 EOF
+
+echo ""
+echo "END ------------------>  ${0##*/} "

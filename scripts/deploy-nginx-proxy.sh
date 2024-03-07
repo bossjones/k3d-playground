@@ -6,7 +6,7 @@ set -x
 cluster_name="demo"
 context="k3d-${cluster_name}"
 
-kubectl create namespace monitoring || true
+kubectl create namespace monitoring 2>/dev/null || true
 kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
 kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
 kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
@@ -129,3 +129,6 @@ host_ip=$(ifconfig | perl -0777 -pe 's/\n+^[ \t]/ /gm' | grep 'inet ' | grep RUN
   | sed -nE 's/.* inet ([^ ]+).*/\1/p' | grep -vE '\.1$')
 
 host_domain="k8s.localhost"
+
+echo "END ------------------>  ${0##*/} "
+echo
