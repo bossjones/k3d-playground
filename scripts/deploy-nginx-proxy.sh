@@ -6,8 +6,15 @@ set -x
 cluster_name="demo"
 context="k3d-${cluster_name}"
 
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx || true
+helm repo update
+helm template --version 4.9.0 --values apps/argocd/base/core/ingress-nginx/app/values.yaml ingress-nginx ingress-nginx/ingress-nginx -n kube-system | kubectl apply --server-side -f -
+
+echo "waiting for ingress-nginx deployment.apps/ingress-nginx-controller"
+kubectl -n kube-system wait deployment ingress-nginx-controller --for condition=Available=True --timeout=300s
+
 # detect ingress-nginx service ip address
-lb_ip=$(kubectl -n ingress-nginx get svc/ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+lb_ip=$(kubectl -n kube-system get svc/ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
 
 # default proxy_host to sslip magic domain
