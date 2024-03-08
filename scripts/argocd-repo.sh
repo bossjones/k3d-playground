@@ -18,7 +18,7 @@ echo ""
 
 export GIT_URI=$(git config --get remote.origin.url | sed -e 's/:/\//g' | sed -e 's/ssh\/\/\///g' | sed -e 's/git@/https:\/\//g' | sed 's/.git$//')
 
-set -euxo pipefail
+# set -euxo pipefail
 kubectl apply -f - <<EOF
 apiVersion: v1
 kind: Secret
