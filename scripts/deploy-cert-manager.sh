@@ -13,6 +13,12 @@ echo
 set -x
 
 # crds
+kubectl create namespace argocd 2>/dev/null || true
+kubectl -n argocd apply --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/crds/application-crd.yaml
+kubectl -n argocd apply --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/crds/applicationset-crd.yaml
+kubectl -n argocd apply --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/crds/appproject-crd.yaml
+
+# crds
 kubectl create namespace cert-manager 2>/dev/null || true
 kubectl -n cert-manager apply --server-side -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.2/cert-manager.crds.yaml 2>/dev/null || true
 
@@ -47,6 +53,6 @@ echo ""
 # deployment.apps/cert-manager-cainjector   1/1     1            1           12m
 # deployment.apps/cert-manager-webhook      1/1     1            1           12m
 
-
+set +x
 echo "END ------------------>  ${0##*/} "
 echo

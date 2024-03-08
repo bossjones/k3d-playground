@@ -38,5 +38,6 @@ helm repo add portainer https://portainer.github.io/k8s/
 
 helm repo update
 
+set +x
 echo "END ------------------>  ${0##*/} "
 echo

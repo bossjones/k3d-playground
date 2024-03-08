@@ -35,5 +35,6 @@ kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/b
 echo "waiting for ingress-nginx deployment.apps/ingress-nginx-controller"
 kubectl -n kube-system wait deployment ingress-nginx-controller --for condition=Available=True --timeout=300s
 
+set +x
 echo "END ------------------>  ${0##*/} "
 echo

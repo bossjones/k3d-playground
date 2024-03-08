@@ -104,5 +104,6 @@ kubectx k3d-demo
 # echo ""
 # # cd -
 
+set +x
 echo "END ------------------>  ${0##*/} "
 echo

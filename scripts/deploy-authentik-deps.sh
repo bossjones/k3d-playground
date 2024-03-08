@@ -21,7 +21,6 @@ kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/b
 
 kubectl create namespace databases 2>/dev/null || true
 kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_backups.yaml 2>/dev/null || true
-kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_backups.yaml 2>/dev/null || true
 kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_clusters.yaml 2>/dev/null || true
 kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_poolers.yaml 2>/dev/null || true
 kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_scheduledbackups.yaml 2>/dev/null || true
@@ -40,5 +39,6 @@ kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/b
 # helm template --version 2023.10.7 --values apps/argocd/base/identity/authentik/app/values.yaml authentik authentik/authentik -n identity | kubectl apply --server-side -f -
 
 
+set +x
 echo "END ------------------>  ${0##*/} "
 echo

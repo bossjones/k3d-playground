@@ -28,5 +28,6 @@ kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/b
 kubectl -n kube-system wait deployment external-secrets-webhook --for condition=Available=True --timeout=300s
 kubectl -n kube-system wait deployment external-secrets-cert-controller  --for condition=Available=True --timeout=300s
 
+set +x
 echo "END ------------------>  ${0##*/} "
 echo

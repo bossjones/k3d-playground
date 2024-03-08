@@ -130,5 +130,6 @@ host_ip=$(ifconfig | perl -0777 -pe 's/\n+^[ \t]/ /gm' | grep 'inet ' | grep RUN
 
 host_domain="k8s.localhost"
 
+set +x
 echo "END ------------------>  ${0##*/} "
 echo
