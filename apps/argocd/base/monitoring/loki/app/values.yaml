@@ -14,7 +14,7 @@ loki:
   auth_enabled: false
 
   chunk_store_config:
-    max_look_back_period: &retentionPeriod 1440h # 60d = 24h x 60
+    max_look_back_period: 1440h # 60d = 24h x 60
 
   # -- Limits config
   limits_config:
@@ -23,7 +23,7 @@ loki:
     reject_old_samples_max_age: 168h
     max_cache_freshness_per_query: 10m
     split_queries_by_interval: 15m
-    retention_period: *retentionPeriod
+    retention_period: 1440h
     shard_streams:
       enabled: true
 
@@ -35,7 +35,7 @@ loki:
 
   table_manager:
     retention_deletes_enabled: true
-    retention_period: *retentionPeriod
+    retention_period: 1440h
 
   ## Pod Annotations
   podAnnotations:
@@ -143,21 +143,21 @@ ruler: {}
 read:
   enabled: true
   replicas: 1
-  extraArgs: &lokiCommonExtraArgs
+  extraArgs:
     - -config.expand-env=true
-  extraEnv: &extraEnv
+  extraEnv:
     - name: MINIO_ROOT_USER
       value: admin
     - name: MINIO_ROOT_PASSWORD
       value: password
-  extraVolumeMounts: &lokiExtraVolumeMounts
+  extraVolumeMounts:
     - name: loki-rules
       mountPath: /rules/fake
     - name: loki-rules-tmp
       mountPath: /tmp/scratch
     - name: loki-tmp
       mountPath: /tmp/loki-tmp
-  extraVolumes: &lokiExtraVolumes
+  extraVolumes:
     - name: loki-rules
       configMap:
         name: loki-alerting-rules
@@ -174,10 +174,29 @@ read:
 backend:
   enabled: true
   replicas: 1
-  extraArgs: *lokiCommonExtraArgs
-  extraEnv: *extraEnv
-  extraVolumeMounts: *lokiExtraVolumeMounts
-  extraVolumes: *lokiExtraVolumes
+  extraArgs:
+  - -config.expand-env=true
+  extraEnv:
+    - name: MINIO_ROOT_USER
+      value: admin
+    - name: MINIO_ROOT_PASSWORD
+      value: password
+  extraVolumeMounts:
+    - name: loki-rules
+      mountPath: /rules/fake
+    - name: loki-rules-tmp
+      mountPath: /tmp/scratch
+    - name: loki-tmp
+      mountPath: /tmp/loki-tmp
+  extraVolumes:
+    - name: loki-rules
+      configMap:
+        name: loki-alerting-rules
+        optional: true
+    - name: loki-rules-tmp
+      emptyDir: {}
+    - name: loki-tmp
+      emptyDir: {}
   persistence:
     enabled: true
     accessMode: ReadWriteOnce
@@ -186,8 +205,13 @@ backend:
 write:
   enabled: true
   replicas: 1
-  extraArgs: *lokiCommonExtraArgs
-  extraEnv: *extraEnv
+  extraArgs:
+    - -config.expand-env=true
+  extraEnv:
+    - name: MINIO_ROOT_USER
+      value: admin
+    - name: MINIO_ROOT_PASSWORD
+      value: password
   persistence:
     enabled: true
     accessMode: ReadWriteOnce
@@ -345,13 +369,33 @@ minio:
     enabled: false
     allowExternal: true
 
-  makeBucketJob: &minioJobDefaults
+  makeBucketJob:
     annotations:
       argocd.argoproj.io/hook: Sync
     resources:
       requests:
         memory: 32Mi
-  makePolicyJob: *minioJobDefaults
-  makeUserJob: *minioJobDefaults
-  customCommandJob: *minioJobDefaults
-  postJob: *minioJobDefaults
+  makePolicyJob:
+    annotations:
+      argocd.argoproj.io/hook: Sync
+    resources:
+      requests:
+        memory: 32Mi
+  makeUserJob:
+    annotations:
+      argocd.argoproj.io/hook: Sync
+    resources:
+      requests:
+        memory: 32Mi
+  customCommandJob:
+    annotations:
+      argocd.argoproj.io/hook: Sync
+    resources:
+      requests:
+        memory: 32Mi
+  postJob:
+    annotations:
+      argocd.argoproj.io/hook: Sync
+    resources:
+      requests:
+        memory: 32Mi

@@ -636,3 +636,6 @@ nodes-logs:
 
 k9s:
   retry -t 10 -- k9s
+
+get-all-events:
+  kubectl get events --all-namespaces --sort-by='.lastTimestamp'
