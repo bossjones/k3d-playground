@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-echo
+echo ""
 #echo "# arguments called with ---->  ${@}     "
 #echo "# \$1 ---------------------->  $1       "
 #echo "# \$2 ---------------------->  $2       "
 echo "# path to me --------------->  ${0}     "
 echo "# parent path -------------->  ${0%/*}  "
 echo "# my name ------------------>  ${0##*/} "
-echo
+echecho ""o
 
 
 
@@ -14,7 +14,7 @@ kubectx k3d-demo
 
 kubectl create namespace argocd 2>/dev/null || true
 yes | pv -SL1 -F 'Resuming in %e' -s 10 > /dev/null
-echo
+echo ""
 
 export GIT_URI=$(git config --get remote.origin.url | sed -e 's/:/\//g' | sed -e 's/ssh\/\/\///g' | sed -e 's/git@/https:\/\//g' | sed 's/.git$//')
 
@@ -36,3 +36,4 @@ EOF
 
 echo ""
 echo "END ------------------>  ${0##*/} "
+echo ""

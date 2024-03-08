@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # set -euxo pipefail
-echo
+echo ""
 #echo "# arguments called with ---->  ${@}     "
 #echo "# \$1 ---------------------->  $1       "
 #echo "# \$2 ---------------------->  $2       "
 echo "# path to me --------------->  ${0}     "
 echo "# parent path -------------->  ${0%/*}  "
 echo "# my name ------------------>  ${0##*/} "
-echo
+echo ""
 
 # set -x
 
@@ -29,7 +29,7 @@ kubectl -n metallb-system wait deployment controller --for condition=Available=T
 
 # https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
 yes | pv -SL1 -F 'Resuming in %e' -s 5 > /dev/null
-echo
+echo ""
 # external_cidr=$(docker network inspect "demo-net" -f '{{range .IPAM.Config}}{{println .Subnet}}{{end}}' | head -n1)
 # external_gateway=${external_cidr%???}
 # first_addr=$(echo "$external_gateway" | awk -F'.' '{ print $1,$2,1,2 }' OFS='.')
@@ -97,4 +97,4 @@ kubectl get nodes
 
 set +x
 echo "END ------------------>  ${0##*/} "
-echo
+echo ""

@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 set -e
 
-echo
+echo ""
 #echo "# arguments called with ---->  ${@}     "
 #echo "# \$1 ---------------------->  $1       "
 #echo "# \$2 ---------------------->  $2       "
 echo "# path to me --------------->  ${0}     "
 echo "# parent path -------------->  ${0%/*}  "
 echo "# my name ------------------>  ${0##*/} "
-echo
+echo ""
 
 
 kubectx k3d-demo
 
 kubectl create namespace argocd 2>/dev/null || true
 yes | pv -SL1 -F 'Resuming in %e' -s 10 > /dev/null
-echo
+echo ""
 
 set -x
 # SOURCE: https://github.com/viaduct-ai/kustomize-sops/blob/master/scripts/install-ksops.sh
@@ -40,4 +40,4 @@ cat "${SOPS_AGE_KEY_FILE}" | kubectl create secret generic sops-age \
 
 set +x
 echo "END ------------------>  ${0##*/} "
-echo
+echo ""

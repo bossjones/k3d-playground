@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # set -euxo pipefail
-echo
+echo ""
 #echo "# arguments called with ---->  ${@}     "
 #echo "# \$1 ---------------------->  $1       "
 #echo "# \$2 ---------------------->  $2       "
 echo "# path to me --------------->  ${0}     "
 echo "# parent path -------------->  ${0%/*}  "
 echo "# my name ------------------>  ${0##*/} "
-echo
+echo ""
 
 
 set -x
@@ -19,14 +19,14 @@ kubectl -n kube-system apply --server-side -f https://raw.githubusercontent.com/
 
 # https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
 yes | pv -SL1 -F 'Resuming in %e' -s 25 > /dev/null
-echo
+echo ""
 
 set +ex
 kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/base/kube-system/external-secrets | kubectl apply --server-side -f -
 
 # https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
 yes | pv -SL1 -F 'Resuming in %e' -s 60 > /dev/null
-echo
+echo ""
 
 # echo "waiting for external-secrets"
 # kubectl -n kube-system wait deployment external-secrets-cert-controller --for condition=Available=True --timeout=300s
@@ -38,4 +38,4 @@ kubectl -n kube-system wait deployment external-secrets-cert-controller  --for c
 
 set +x
 echo "END ------------------>  ${0##*/} "
-echo
+echo ""

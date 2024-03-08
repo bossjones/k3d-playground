@@ -26,7 +26,7 @@ TEST SUITE: None
 NOTES:
 1. Get your 'admin' user password by running:
 
-   kubectl get secret --namespace grafana grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+   kubectl get secret --namespace grafana grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo ""
 
 
 2. The Grafana server can be accessed via port 80 on the following DNS name from within your cluster:

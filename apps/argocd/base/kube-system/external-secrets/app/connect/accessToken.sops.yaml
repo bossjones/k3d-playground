@@ -5,7 +5,7 @@ metadata:
     namespace: kube-system
 type: Opaque
 stringData:
-    token: ENC[AES256_GCM,data:2bcjoC2DPudCtHAFe8N+1xYXTi0Yk5QALmKb7AXYL59vty3Jzew0UjdQU2iNOtUqBw8kZoyeX4s9n8it96rn5V5Chd639BvXaNYT2DkLnb7Kr1I12VXDlTFQJXURHCnMWSHdgCbCkJUD13KfDqmQAcepBO6w2yptfjiUpzYIc3Wki+i4wY7oliikXhHeo0WANjvR/GxUxGeaaotqRs6ebvCvGNF1pVhHcAkvSzpT8tqHap6+fgHXpiB6aHbsqRiQUVe5ZpJXSDCvX+HVY3Cv9EEA2I7lZyuNDhdxB2N22upoHtvuSSwQ5K13Vj452jSOMynIiHMlYOaUiqeZCF+g9oiTcXLj1mrgY60Wks9Dt67i/NrIkZNPTgBEgUfhBAzEv+Ti1KGhdgbP7bCsQgJFHhcI66n0vE/fAikFh5ASnPDkRu+pnLd6sB0QM3dDsFHbGHHLUvoJgz/08afs9V8rMaIpq/o0MJZbwBTG4d3VmS2XWrVLff5bQP45qWRrK/gmk97tc0wR9f//9pvO7c7p+Wgw9Y6xpCqL6YYSRL/8q97KUjvQr+L2S+MT/XmeYrXiSl+rkcBh8nT1R6EirRHRw6/oZerfOtJDX4srmcOEGX9YVsgKy4Y6kaEcLnHrgOdTZF3rXnhoWt1y9coq7FY1hoUqpfG2Zn55UMIpdFiIssHjjU8JuCgDxMysEk4/8Bl9oEUPmLMwJ3IxNW1+xEkJJWj8lgSl19MZMGB6WX0Re+jP630is8eheYhDpj+NYPhmDOkx8fuF/5uJQb+kvsAXNqC2jHN+VBaU7rF6L4AhYqp9phBe5KHW/GgqdpqT5R1kiJWgYoTrwZSJktXfKJX8YnFvSw==,iv:N9VfY+Bn73QKsK+4pH3ltJYMn9mwTBSys0ExJeB1QFw=,tag:1MdIp2z8O9H0RJQ9Lw8a4Q==,type:str]
+    token: ENC[AES256_GCM,data:BJs5WKtl0F9wv6nWov1x24kmUyWuUjP+vxRYe+gXkazoonKMBHC+kZ3Q+fdP/m+ieW+PTfU0rrFuI38WBd3obdQUDaEOgtflPqOMQ5TIcLAnAqofpLvCdW8D4a0WskUeutsZCSeCDvFTZL91hElZLu5LjuJwlb/skLYAZFRZp2QqN4wi0HxGtO3fYEFcBFTDwBw9Zb9X5Vz2E6t/61FuzPmrg3YjG9VRH/blc1yPvq+39d97TCpqvub9+KrpVVIud+1ItU1XhLsdfum1HFjZiKcl61/Ge0e02PoO5V8AZd+4H8NvpFqdztzIKRWIb2wuxj6tkRky8cr3vl0RnBGycl0fG6rGSHt/HxKJn/qftoi8aEfliHbaWSSUU1qAchPWkUBp4KmOXbD5qM+3QyCuJLoZetoJiTShwnOWuwPQBsgLJCkePhFdwVbqW+MePPxf3wWQo+aE3xpLtycN+XF+MYY27EPi/KWxO+t6q1rYQ3yMqlT2JXZkiNJ1AUZWB2gWmB3BUOPvGlPe5M+V8kG0NpUyV3Y3EuNEoOGVtQ/v6RwusFrvOvaBQ2H765vqQpCa8RzsvqaggqYLSVjt7T5pDDi0kXI22zZfOD+XBKsZadEkVenKPfOL5j1XkvqbgsIUgSOnSyJ+nezSQV+JOJVgGBE6R9fCUFl+H7xllvrbnD0FCukx2sfBiQ7eDkSDZCs4BaRFtRhAw3COAUd/cd7jrT9prtBQ1bGjFmTAf8A0vMjbRQnZmhbdPF29zYFK3OpnmKcvLB0egwsxBd39UWOpheHvpzgoCcqADJ9gTRnX/ESdqJf35/uN5EunacOAG37+Z31RYGMg7uz+A3fHkutfaVBPxw==,iv:wSne7GE0TTcS294cuPZfPIo9XcrXPuBVYS03zo9I9iM=,tag:cJCmgoKcog2aFYc7o9q04Q==,type:str]
 sops:
     kms: []
     gcp_kms: []
@@ -15,14 +15,14 @@ sops:
         - recipient: age1p6337ycedgcs2g9h5vmzlsmuuqftfkyccx4fhvv4nhpq0trz9ppshkmgat
           enc: |
             -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAvcTVXMmRYZXJDN3RRMjUw
-            Ym1jT254bHJOZnA3cVMvQ0Y3Z0s4M1lOQWlzCkRqQkF3bEszaVpjQ29DZHlUS0Zn
-            Z2JBaVRYZWxjejIxMGFBWHRkVitPM0UKLS0tIFpLK3psRmdSNGxFQ29tZ0pvd2gx
-            TVN6TFNZalJhVVc5YXNnL2VYV0s0R1UKuulM4Pt1zSKkdzMLZPRFjBtdJyBHhI+G
-            AxGYjswCJIC0PBgZKWssaftvAsJyzh1zyQ955dzUTAWLsFuAlTNGzQ==
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBhWXVkRVlIMDRQQWVibm1z
+            d1ZqOVJWditheEFUWk0ySHJGcjZqL05haWpzCkM3azYzVTFGaUk1ZU1HZ1k4MDRK
+            MXorZnYyS1NYa2NEa2E2Q2RKaCs2czgKLS0tIEhQRkZ6aFlOUFZaYm8xYW1tcFA1
+            S3hJNWYrVTRxWEdpWTB5WUhKaFg4REkK9SrABxK3Kz8uqJZYIxohdy9muTJYlpNW
+            Z87dYVv4g8WQ4xDC6c2mVlnJ6jHi+oba2MLlxQdSkAKazcTBeJIOyg==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2024-03-08T01:03:15Z"
-    mac: ENC[AES256_GCM,data:uZ7fFG72H7gxV2iP2UrgZalatoRjUQL4eANI2IBERl0j65WKrhpu0/pM+yfATMA8+UfNkvhLsExVipHLalFOC+m3e6gio7TYg8M1ZCNXkoOe0gAr5zxhas8znTSI/RKemmh2SSW2cEUj2FwP4oZd9t1OgVKcHZlElpwpAN+mwnY=,iv:oiBswyAn/XXQVKE1C1YLOtCLse33+9ysB05jEjXoWOk=,tag:icsOBOM9tohBVOtOsaU0LA==,type:str]
+    lastmodified: "2024-01-29T02:54:16Z"
+    mac: ENC[AES256_GCM,data:YQML9nbmOAxxdB00z8vvc1drjJrq2kfGMJgpnKCF67pb3yGdspMt2IGWaTVucIT6ihIdvQOiT9gQjKt3NBVp3ZPuG+JJhJkP52YLvioPKaikx/vNXPKwNn2vf8owopil+rIl7cBKcKRHaHNnQMdVjtlke8VgiVETxYkp7BbbCCw=,iv:41qhNfqobmypmIn6p6uzjtr+LtPq775spxjpy6hT9RA=,tag:2IvDwmoo62yY7msqI/SrqQ==,type:str]
     pgp: []
-    unencrypted_regex: ^(apiVersion|metadata|kind|type)$
+    encrypted_regex: ^(data|stringData)$
     version: 3.8.1

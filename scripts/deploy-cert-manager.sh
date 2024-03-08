@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # set -euxo pipefail
 # shellcheck disable=SC3036
-echo
+echo ""
 #echo "# arguments called with ---->  ${@}     "
 #echo "# \$1 ---------------------->  $1       "
 #echo "# \$2 ---------------------->  $2       "
 echo "# path to me --------------->  ${0}     "
 echo "# parent path -------------->  ${0%/*}  "
 echo "# my name ------------------>  ${0##*/} "
-echo
+echo ""
 
 
 set -x
@@ -44,7 +44,7 @@ echo ""
 # sleep
 # SOURCE: https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
 yes | pv -SL1 -F 'Resuming in %e' -s 120 > /dev/null
-echo
+echo ""
 
 echo -e "waiting for cert-manager\n"
 kubectl wait deploy/cert-manager -n cert-manager --for condition=available --timeout=600s
@@ -65,4 +65,4 @@ echo ""
 
 set +x
 echo "END ------------------>  ${0##*/} "
-echo
+echo ""

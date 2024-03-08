@@ -132,4 +132,4 @@ host_domain="k8s.localhost"
 
 set +x
 echo "END ------------------>  ${0##*/} "
-echo
+echo ""
