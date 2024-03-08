@@ -9,7 +9,7 @@ echo "# parent path -------------->  ${0%/*}  "
 echo "# my name ------------------>  ${0##*/} "
 echo
 
-set -x
+# set -x
 
 # SOURCE: https://github.com/keunlee/k3d-metallb-starter-kit/blob/master/scripts/create-cluster.sh
 
@@ -26,7 +26,10 @@ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.3/confi
 echo "waiting for metallb-system deployment.apps/controller"
 # kubectl wait --timeout=150s --for=condition=ready pod -l app=metallb,component=controller -n metallb-system
 kubectl -n metallb-system wait deployment controller --for condition=Available=True --timeout=300s
-sleep 5
+
+# https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
+yes | pv -SL1 -F 'Resuming in %e' -s 5 > /dev/null
+echo
 # external_cidr=$(docker network inspect "demo-net" -f '{{range .IPAM.Config}}{{println .Subnet}}{{end}}' | head -n1)
 # external_gateway=${external_cidr%???}
 # first_addr=$(echo "$external_gateway" | awk -F'.' '{ print $1,$2,1,2 }' OFS='.')

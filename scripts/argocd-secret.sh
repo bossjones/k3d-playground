@@ -29,5 +29,21 @@ stringData:
   username: ${GH_USER}
 EOF
 
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Secret
+metadata:
+  name: private-repo-creds
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repo-creds
+stringData:
+  type: git
+  url: ${GIT_URI}
+  password: ${GH_PASS}
+  username: ${GH_USER}
+EOF
+
 echo ""
 echo "END ------------------>  ${0##*/} "
+echo

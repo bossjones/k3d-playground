@@ -424,7 +424,12 @@ install-mandatory-manifests:
   kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
   kubectl -n kube-system apply --server-side -f https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/deploy/crds/bundle.yaml 2>/dev/null || true
 
-  bash scripts/deploy-metallb.sh
+
+  # sleep
+  # SOURCE: https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
+  @yes | pv -SL1 -F 'Resuming in %e' -s 120 > /dev/null
+
+  # bash scripts/deploy-metallb.sh
 
   just deploy-cert-manager
 

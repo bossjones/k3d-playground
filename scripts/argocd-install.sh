@@ -76,6 +76,9 @@ echo ""
 just deploy-external-secrets
 
 
+# sleep
+# SOURCE: https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
+yes | pv -SL1 -F 'Resuming in %e' -s 60 > /dev/null
 
 # external-secrets-webhook           1/1     1            1           2m10s
 # external-secrets-cert-controller   1/1     1            1           2m10s
@@ -86,9 +89,9 @@ just deploy-external-secrets
 # kubectl -n kube-system wait deploy/external-secrets-webhook --for condition=Available=True --timeout=300s
 # kubectl -n kube-system wait deploy/external-secrets-cert-controller  --for condition=Available=True --timeout=300s
 
-# sleep
-# SOURCE: https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
-yes | pv -SL1 -F 'Resuming in %e' -s 30 > /dev/null
+# # sleep
+# # SOURCE: https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
+# yes | pv -SL1 -F 'Resuming in %e' -s 30 > /dev/null
 
 # takes a second for everything to come up, so lets run this twice
 
