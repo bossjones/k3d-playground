@@ -618,6 +618,9 @@ options:
       - label: nerdctl/bypass4netns=true
         nodeFilters:
           - all
+      - label: node-role.kubernetes.io/worker=worker
+        nodeFilters:
+          - agent:*
     # serversMemory: 1G
     # agentsMemory: 1G
     ulimits:
