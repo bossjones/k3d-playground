@@ -80,7 +80,15 @@ spec:
     # - kind: ServiceAccount
     #   jsonPointers:
     #     - /imagePullSecrets
-
+    - group: external-secrets.io
+      kind: ExternalSecret
+      jqPathExpressions:
+        - '.spec.data[].remoteRef.conversionStrategy'
+        - '.spec.data[].remoteRef.decodingStrategy'
+        - '.spec.data[].remoteRef.metadataPolicy'
+        - '.spec.dataFrom[].extract.conversionStrategy'
+        - '.spec.dataFrom[].extract.decodingStrategy'
+        - '.spec.dataFrom[].extract.metadataPolicy'
 # - name: blackbox-exporter
 #   namespace: monitoring
 #   path: main/monitoring/blackbox-exporter
