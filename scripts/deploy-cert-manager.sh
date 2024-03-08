@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # set -euxo pipefail
+# shellcheck disable=SC3036
 echo
 #echo "# arguments called with ---->  ${@}     "
 #echo "# \$1 ---------------------->  $1       "
@@ -27,8 +28,8 @@ yes | pv -SL1 -F 'Resuming in %e' -s 30 > /dev/null
 kubectl create namespace cert-manager 2>/dev/null || true
 kubectl -n cert-manager apply --server-side -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.2/cert-manager.crds.yaml 2>/dev/null || true
 
-helm repo add cert-manager https://charts.jetstack.io || true
-helm repo update
+helm repo add cert-manager https://charts.jetstack.io 2>/dev/null || true
+helm repo update 2>/dev/null || true
 
 # https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
 yes | pv -SL1 -F 'Resuming in %e' -s 25 > /dev/null
@@ -46,6 +47,7 @@ echo
 echo -e "waiting for cert-manager\n"
 kubectl wait deploy/cert-manager -n cert-manager --for condition=available --timeout=600s
 echo ""
+
 
 echo -e "waiting for cert-manager-cainjector\n"
 kubectl wait deploy/cert-manager-cainjector -n cert-manager --for condition=available --timeout=600s

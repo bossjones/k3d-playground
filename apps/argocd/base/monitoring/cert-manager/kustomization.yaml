@@ -10,3 +10,10 @@ labels:
 - pairs:
     monitoring: prometheus
     prometheus: main
+
+helmCharts:
+- name: cert-manager
+  repo: https://charts.jetstack.io
+  version: v1.13.2
+  releaseName: cert-manager
+  namespace: cert-manager
