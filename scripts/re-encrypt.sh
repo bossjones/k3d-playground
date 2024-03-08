@@ -39,13 +39,13 @@ fi
 if [ "$CURRENT_OS" = "macos" ]; then
   for aFile in $(find . -type f -name '*.sops.yaml' ! -name ".sops.yaml"); do
     echo "Re-encrypting ${aFile}"
-    sops --decrypt --age $(cat "$SOPS_AGE_KEY_FILE" | ggrep -oP "public key: \K(.*)") --encrypted-regex '^(data|stringData)$' --in-place "${aFile}"
-    sops --encrypt --age $(cat "$SOPS_AGE_KEY_FILE" | ggrep -oP "public key: \K(.*)") --encrypted-regex '^(data|stringData)$' --in-place "${aFile}"
+    sops --decrypt --age $(cat "$SOPS_AGE_KEY_FILE" | ggrep -oP "public key: \K(.*)") --in-place "${aFile}"
+    sops --encrypt --age $(cat "$SOPS_AGE_KEY_FILE" | ggrep -oP "public key: \K(.*)") --in-place "${aFile}"
   done
 else
   for aFile in $(find . -type f -name '*.sops.yaml' ! -name ".sops.yaml"); do
     echo "Re-encrypting ${aFile}"
-    sops --decrypt --age $(cat "$SOPS_AGE_KEY_FILE" | grep -oP "public key: \K(.*)") --encrypted-regex '^(data|stringData)$' --in-place "${aFile}"
-    sops --encrypt --age $(cat "$SOPS_AGE_KEY_FILE" | grep -oP "public key: \K(.*)") --encrypted-regex '^(data|stringData)$' --in-place "${aFile}"
+    sops --decrypt --age $(cat "$SOPS_AGE_KEY_FILE" | grep -oP "public key: \K(.*)") --in-place "${aFile}"
+    sops --encrypt --age $(cat "$SOPS_AGE_KEY_FILE" | grep -oP "public key: \K(.*)") --in-place "${aFile}"
   done
 fi

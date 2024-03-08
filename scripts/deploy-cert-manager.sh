@@ -37,6 +37,8 @@ yes | pv -SL1 -F 'Resuming in %e' -s 25 > /dev/null
 set +ex
 kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/base/monitoring/cert-manager | kubectl apply --server-side -f -
 
+rm -rf apps/argocd/base/monitoring/cert-manager/charts
+
 echo ""
 echo ""
 # sleep
