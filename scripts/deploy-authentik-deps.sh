@@ -19,9 +19,9 @@ helm repo update 2>/dev/null || true
 set -x
 kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/base/identity/authentik-redis | kubectl apply --server-side -f -
 
-# https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
-yes | pv -SL1 -F 'Resuming in %e' -s 120 > /dev/null
-echo ""
+# # https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
+# yes | pv -SL1 -F 'Resuming in %e' -s 120 > /dev/null
+# echo ""
 
 kubectl create namespace databases 2>/dev/null || true
 kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_backups.yaml 2>/dev/null || true

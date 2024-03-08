@@ -34,7 +34,7 @@ echo ""
 echo ""
 # sleep
 # SOURCE: https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
-yes | pv -SL1 -F 'Resuming in %e' -s 10 > /dev/null
+# yes | pv -SL1 -F 'Resuming in %e' -s 10 > /dev/null
 
 kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/base/core/ingress-nginx | kubectl apply --server-side -f -
 echo ""
@@ -78,7 +78,7 @@ just deploy-external-secrets
 
 # sleep
 # SOURCE: https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
-yes | pv -SL1 -F 'Resuming in %e' -s 60 > /dev/null
+# yes | pv -SL1 -F 'Resuming in %e' -s 60 > /dev/null
 
 # external-secrets-webhook           1/1     1            1           2m10s
 # external-secrets-cert-controller   1/1     1            1           2m10s

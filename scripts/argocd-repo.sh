@@ -13,8 +13,8 @@ echecho ""o
 kubectx k3d-demo
 
 kubectl create namespace argocd 2>/dev/null || true
-yes | pv -SL1 -F 'Resuming in %e' -s 10 > /dev/null
-echo ""
+# yes | pv -SL1 -F 'Resuming in %e' -s 10 > /dev/null
+# echo ""
 
 export GIT_URI=$(git config --get remote.origin.url | sed -e 's/:/\//g' | sed -e 's/ssh\/\/\///g' | sed -e 's/git@/https:\/\//g' | sed 's/.git$//')
 

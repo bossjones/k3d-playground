@@ -20,9 +20,9 @@ kubectl -n argocd apply --server-side -f https://raw.githubusercontent.com/argop
 kubectl -n argocd apply --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/crds/appproject-crd.yaml
 
 
-# sleep
-# SOURCE: https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
-yes | pv -SL1 -F 'Resuming in %e' -s 30 > /dev/null
+# # sleep
+# # SOURCE: https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
+# yes | pv -SL1 -F 'Resuming in %e' -s 30 > /dev/null
 
 # crds
 kubectl create namespace cert-manager 2>/dev/null || true
@@ -31,8 +31,8 @@ kubectl -n cert-manager apply --server-side -f https://github.com/cert-manager/c
 helm repo add cert-manager https://charts.jetstack.io 2>/dev/null || true
 helm repo update 2>/dev/null || true
 
-# https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
-yes | pv -SL1 -F 'Resuming in %e' -s 25 > /dev/null
+# # https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
+# yes | pv -SL1 -F 'Resuming in %e' -s 25 > /dev/null
 
 set +ex
 kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/base/monitoring/cert-manager | kubectl apply --server-side -f -
@@ -41,9 +41,9 @@ rm -rf apps/argocd/base/monitoring/cert-manager/charts
 
 echo ""
 echo ""
-# sleep
-# SOURCE: https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
-yes | pv -SL1 -F 'Resuming in %e' -s 120 > /dev/null
+# # sleep
+# # SOURCE: https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
+# yes | pv -SL1 -F 'Resuming in %e' -s 120 > /dev/null
 echo ""
 
 echo -e "waiting for cert-manager\n"

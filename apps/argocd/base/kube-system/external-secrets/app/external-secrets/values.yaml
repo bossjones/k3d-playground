@@ -3,6 +3,8 @@ serviceMonitor:
   enabled: true
   interval: 1m
 webhook:
+  # -- Specifies whether validating webhooks should be created with failurePolicy: Fail or Ignore
+  failurePolicy: Ignore
   serviceMonitor:
     enabled: true
     interval: 1m

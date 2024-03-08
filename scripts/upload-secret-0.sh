@@ -14,8 +14,8 @@ echo ""
 kubectx k3d-demo
 
 kubectl create namespace argocd 2>/dev/null || true
-yes | pv -SL1 -F 'Resuming in %e' -s 10 > /dev/null
-echo ""
+# yes | pv -SL1 -F 'Resuming in %e' -s 10 > /dev/null
+# echo ""
 
 set -x
 # SOURCE: https://github.com/viaduct-ai/kustomize-sops/blob/master/scripts/install-ksops.sh
