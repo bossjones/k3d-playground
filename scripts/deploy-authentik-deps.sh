@@ -12,7 +12,7 @@ echo "# my name ------------------>  ${0##*/} "
 
 
 kubectl create namespace identity 2>/dev/null || true
-helm repo add authentik-redis https://bjw-s.github.io/helm-charts 2>/dev/null || true
+helm repo add app-template https://bjw-s.github.io/helm-charts 2>/dev/null || true
 helm repo update 2>/dev/null || true
 # helm template --version 2.6.0 --values apps/argocd/base/identity/authentik-redis/app/values.yaml authentik-redis authentik-redis/authentik-redis -n identity | kubectl apply --server-side -f -
 

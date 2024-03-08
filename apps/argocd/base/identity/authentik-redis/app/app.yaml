@@ -12,7 +12,7 @@ spec:
   project: cluster
   sources:
   - repoURL: 'https://bjw-s.github.io/helm-charts'
-    chart: authentik-redis
+    chart: app-template
     targetRevision: 2.6.0
     helm:
       releaseName: authentik-redis
