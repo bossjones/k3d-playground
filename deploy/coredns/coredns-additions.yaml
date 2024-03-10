@@ -33,6 +33,30 @@ rules:
       - list
       - watch
 ---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cluster-proportional-autoscaler-nodes
+  namespace: kube-system
+  annotations:
+    core.ethos.adobe.net/chart: "ethos-core-cluster-proportional-autoscaler"
+    core.ethos.adobe.net/quantum: "no-op"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-proportional-autoscaler-nodes
+# Add any CPA ServiceAccounts as subjects of this CRB
+subjects:
+  - kind: ServiceAccount
+    name: cluster-proportional-autoscaler
+    namespace: kube-system
+  # - kind: ServiceAccount
+  #   name: cluster-proportional-autoscaler
+  #   namespace: heptio-contour
+  # - kind: ServiceAccount
+  #   name: cluster-proportional-autoscaler
+  #   namespace: overprovisioner
+---
 # This should be bound in a namespaced RoleBinding within each CPA's Namespace
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -103,43 +127,48 @@ data:
   # SOURCE:
   linear: |-
     {
-      "coresToReplicas": [
-        [
-          1,
-          2
-        ],
-        [
-          512,
-          3
-        ],
-        [
-          1024,
-          4
-        ],
-        [
-          2048,
-          5
-        ]
-      ],
-      "nodesToReplicas": [
-        [
-          1,
-          2
-        ],
-        [
-          8,
-          3
-        ],
-        [
-          16,
-          4
-        ],
-        [
-          32,
-          5
-        ]
-      ]
+      "nodesPerReplica": 20,
+      "min": 5,
+      "includeUnschedulableNodes": true
     }
+# {
+#   "coresToReplicas": [
+#     [
+#       1,
+#       2
+#     ],
+#     [
+#       512,
+#       3
+#     ],
+#     [
+#       1024,
+#       4
+#     ],
+#     [
+#       2048,
+#       5
+#     ]
+#   ],
+#   "nodesToReplicas": [
+#     [
+#       1,
+#       2
+#     ],
+#     [
+#       8,
+#       3
+#     ],
+#     [
+#       16,
+#       4
+#     ],
+#     [
+#       32,
+#       5
+#     ]
+#   ]
+# }
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -165,7 +194,7 @@ spec:
     spec:
       containers:
       - name: cluster-proportional-autoscaler
-        image: "registry.k8s.io/cpa/cluster-proportional-autoscaler"
+        image: "registry.k8s.io/cluster-proportional-autoscaler-amd64:1.8.1"
         resources:
           requests:
             cpu: 150m
