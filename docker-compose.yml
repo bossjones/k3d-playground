@@ -87,7 +87,7 @@ services:
   # Loki would not have permissions to create the directories.
   # Therefore the init container changes permissions of the mounted directory.
   init:
-    image: mysql:8.0.36-bookworm
+    image: mysql:8.3.0
     user: root
     entrypoint:
       - "chown"
@@ -104,8 +104,6 @@ services:
       - "kine_mysql:/var/lib/mysql:rw"
       - "tmpvolume:/tmp:rw"
   kine-db:
-    # build:
-    #   context: ./docker/mysqld
     # image: mysql:8.0.36-bookworm
     image: mysql:8.3.0
     # network_mode: "host"
