@@ -1,0 +1,35 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: postgres-lb
+  namespace: databases
+  labels:
+    cnpg.io/cluster: postgres
+  annotations:
+    # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    # ingress.kubernetes.io/ssl-redirect: "false"
+    # nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+
+    # via goldilocks
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: postgres-lb.k8s.localhost
+    http:
+      paths:
+      - backend:
+          service:
+            name: postgres-lb
+            port:
+              name: postgresql
+              # number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - postgres-lb.k8s.localhost
+    secretName: tls-secret

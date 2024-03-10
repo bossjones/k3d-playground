@@ -7,6 +7,8 @@ metadata:
   annotations:
     # notifications.argoproj.io/subscribe.on-deployed-github.pushover: ui6cxf78gwxa6n93zkwddw1g8s3yio
     argocd.argoproj.io/manifest-generate-paths: /apps/argocd/base/database/cloudnative-pg
+
+# app version: 1.22.1
 spec:
   project: cluster
   sources:

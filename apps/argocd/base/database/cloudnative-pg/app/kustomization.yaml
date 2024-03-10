@@ -10,6 +10,9 @@ resources:
   - cluster/prometheusRule.yaml
   - cluster/scheduledbackup.yaml
   - cluster/service.yaml
+  - cluster/deployment_psql.yaml
+  # - cluster/pg-dashboard.yaml
+  - cluster/pg-ingress.yaml
 
 configMapGenerator:
   - name: cloudnative-pg-dashboard

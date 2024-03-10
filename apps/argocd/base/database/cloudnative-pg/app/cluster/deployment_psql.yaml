@@ -1,0 +1,51 @@
+# kubectl run --rm -it pg-client --image ghcr.io/cloudnative-pg/postgresql:15.3 --command -- /bin/sh
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: psql
+  labels:
+    app: psql
+  namespace: databases
+spec:
+  selector:
+    matchLabels:
+      app: psql
+  template:
+    metadata:
+      labels:
+        app: psql
+    spec:
+      containers:
+      - command:
+        - tail
+        - -f
+        - /dev/null
+        image: ghcr.io/cloudnative-pg/postgresql:16.1-15
+        imagePullPolicy: IfNotPresent
+        name: psql
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 200m
+            memory: 256Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+        volumeMounts:
+        - mountPath: /tmp
+          name: tmp
+      nodeSelector:
+        kubernetes.io/os: linux
+      securityContext:
+        runAsNonRoot: true
+      serviceAccountName: postgres
+      volumes:
+      - emptyDir: {}
+        name: tmp
