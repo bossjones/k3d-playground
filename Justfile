@@ -286,7 +286,7 @@ demo: nuke-cluster helm k3d-demo argocd-install certs argocd-secret templates ar
 demo-prebuilt: machine-id nuke-cluster k3d-demo argocd-install deploy-ingress-nginx certs-only argocd-secret install-secret-0 templates argocd-password argocd-bridge
 
 # bring up k3d-demo cluster but skip some steps
-demo-prebuilt-no-nuke: argocd-install certs-only argocd-secret install-secret-0 templates argocd-password argocd-token argocd-bridge
+demo-prebuilt-no-nuke: argocd-install certs-only argocd-secret install-secret-0 templates argocd-password argocd-token open-homepage argocd-bridge
 
 # apply secrets to cluster
 demo-prebuilt-secrets-only: certs-only argocd-secret install-secret-0 templates argocd-password argocd-token argocd-bridge
