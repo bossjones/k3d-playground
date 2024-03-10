@@ -57,7 +57,7 @@ data:
         errors
         health
         ready
-        kubernetes %{CLUSTER_DOMAIN}% in-addr.arpa ip6.arpa {
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
           pods insecure
           fallthrough in-addr.arpa ip6.arpa
         }
@@ -120,7 +120,7 @@ spec:
               k8s-app: kube-dns
       containers:
       - name: coredns
-        image: %{SYSTEM_DEFAULT_REGISTRY}%rancher/mirrored-coredns-coredns:1.10.1
+        image: rancher/mirrored-coredns-coredns:1.10.1
         imagePullPolicy: IfNotPresent
         resources:
           limits:
@@ -189,17 +189,6 @@ spec:
             name: coredns-custom
             optional: true
 ---
-apiVersion: policy/v1
-kind: PodDisruptionBudget
-metadata:
-  name: pdb-coredns
-  namespace: kube-system
-spec:
-  maxUnavailable: 10%
-  selector:
-    matchLabels:
-      k8s-app: kube-dns
----
 apiVersion: v1
 kind: Service
 metadata:
@@ -215,8 +204,7 @@ metadata:
 spec:
   selector:
     k8s-app: kube-dns
-  clusterIP: %{CLUSTER_DNS}%
-  clusterIPs: %{CLUSTER_DNS_LIST}%
+  clusterIP: 10.43.0.10
   ports:
   - name: dns
     port: 53
@@ -227,188 +215,3 @@ spec:
   - name: metrics
     port: 9153
     protocol: TCP
-  ipFamilyPolicy: %{CLUSTER_DNS_IPFAMILYPOLICY}%
-##############################################
-# Autoscale CoreDNS based on the number of nodes in the cluster
-##############################################
-# RBAC for Cluster Proportional Autoscaler
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: cluster-proportional-autoscaler
-  namespace: kube-system
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: cluster-proportional-autoscaler-nodes
-rules:
-  - apiGroups:
-      - ""
-    resources:
-      - nodes
-    verbs:
-      - get
-      - list
-      - watch
----
-# This should be bound in a namespaced RoleBinding within each CPA's Namespace
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: cluster-proportional-autoscaler-namespaced
-rules:
-  - apiGroups:
-      - apps
-    resources:
-      - deployments
-      - deployments/scale
-    verbs:
-      - get
-      - list
-      - update
-      - patch
-      - watch
-  - apiGroups:
-      - ""
-    resources:
-      - configmaps
-    verbs:
-      - get
-      - list
-      - watch
-      - create
-      - update
-      - patch
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: cluster-proportional-autoscaler
-  namespace: kube-system
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-proportional-autoscaler-namespaced
-subjects:
-  - kind: ServiceAccount
-    name: cluster-proportional-autoscaler
-    namespace: kube-system
-
-# Autoscale CoreDNS based on the number of nodes in the cluster
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: coredns-autoscaler
-  namespace: kube-system
-data:
-  # When cluster is using large nodes(with more cores), "coresPerReplica" should dominate.
-  # If using small nodes, "nodesPerReplica" should dominate.
-  # coresPerReplica: Configuration parameter indicating the number of CoreDNS replicas per vCPU of the Managed Service for Kubernetes cluster.
-  # nodesPerReplica: Configuration parameter indicating the number of CoreDNS replicas per Managed Service for Kubernetes cluster node.
-  # cores: Actual number of vCPUs in the Managed Service for Kubernetes cluster.
-  # nodes: Actual number of nodes in the Managed Service for Kubernetes cluster.
-  # ceil: Ceiling function that rounds up a decimal number to an integer.
-  # max: Max function that returns the largest of the two values.
-  # The preventSinglePointFailure additional parameter is relevant for multi-node Managed Service for Kubernetes clusters. If true, the minimum number of DNS replicas is two.
-  # SOURCE: https://cloud.yandex.com/en/docs/managed-kubernetes/tutorials/dns-autoscaler#parameters
-    # NOTE: Ethos version:
-    # {
-    #   "nodesPerReplica": 20,
-    #   "min": 5,
-    #   "includeUnschedulableNodes": true
-    # }
-  # SOURCE:
-  linear: |-
-    {
-      "coresToReplicas": [
-        [
-          1,
-          2
-        ],
-        [
-          512,
-          3
-        ],
-        [
-          1024,
-          4
-        ],
-        [
-          2048,
-          5
-        ]
-      ],
-      "nodesToReplicas": [
-        [
-          1,
-          2
-        ],
-        [
-          8,
-          3
-        ],
-        [
-          16,
-          4
-        ],
-        [
-          32,
-          5
-        ]
-      ]
-    }
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: coredns-autoscaler
-  namespace: kube-system
-  labels:
-    app: coredns-autoscaler
-spec:
-  selector:
-    matchLabels:
-      app: coredns-autoscaler
-  replicas: 3
-  # 1. In order to make Addon Manager do not reconcile this replicas parameter.
-  # 2. Default is 1.
-  # 3. Will be tuned in real time if DNS horizontal auto-scaling is turned on.
-  template:
-    metadata:
-      annotations:
-        "cluster-autoscaler.kubernetes.io/safe-to-evict": "true"
-      labels:
-        app: coredns-autoscaler
-    spec:
-      containers:
-      - name: cluster-proportional-autoscaler
-        image: "registry.k8s.io/cpa/cluster-proportional-autoscaler"
-        resources:
-          requests:
-            cpu: 150m
-            memory: 64Mi
-          limits:
-            cpu: 300m
-            memory: 128Mi
-        command:
-        - /cluster-proportional-autoscaler
-        args:
-        - --namespace=kube-system
-        - --configmap=coredns-autoscaler
-        - --target=deployment/coredns
-        - --logtostderr=true
-        - --v=2
-      serviceAccountName: cluster-proportional-autoscaler
-# SOURCE: https://github.com/MicrosoftDocs/azure-docs/blob/97ff0d77022fb1733895977f2df5185aaac497fe/articles/aks/coredns-custom.md
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: coredns-custom
-  namespace: kube-system
-data:
-  log.override: | # you may select any name here, but it must end with the .override file extension
-        log

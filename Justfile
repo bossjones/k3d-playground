@@ -143,6 +143,7 @@ k3d-demo:
 
   # sleep 60
   # bash scripts/deploy-metallb.sh
+  just apply-coredns-additions
 
 # Starts your local k3d cluster.
 k3d-demo-cilium:
@@ -272,6 +273,9 @@ deploy-authentik-deps:
 
 machine-id:
   touch storage/machine-id
+
+apply-coredns-additions:
+  kubectl -n kube-system apply -f deploy/coredns/coredns-additions.yaml
 
 # bring up k3d-demo cluster
 demo: nuke-cluster helm k3d-demo argocd-install certs argocd-secret templates argocd-password argocd-bridge
@@ -639,3 +643,9 @@ k9s:
 
 get-all-events:
   kubectl get events --all-namespaces --sort-by='.lastTimestamp'
+
+
+
+# Add new app to argocd
+add-argocd-app namespace app_name helm_repo chart_version:
+  ./scripts/add-argocd-app.sh -n {{namespace}} -a {{app_name}} -h {{helm_repo}} -c {{chart_version}}
