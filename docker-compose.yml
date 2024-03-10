@@ -87,7 +87,7 @@ services:
   # Loki would not have permissions to create the directories.
   # Therefore the init container changes permissions of the mounted directory.
   init:
-    image: mysql:8.3.0
+    image: mysql:8.0.36-bookworm
     user: root
     entrypoint:
       - "chown"
@@ -104,6 +104,9 @@ services:
       - "kine_mysql:/var/lib/mysql:rw"
       - "tmpvolume:/tmp:rw"
   kine-db:
+    # build:
+    #   context: ./docker/mysqld
+    # image: mysql:8.0.36-bookworm
     image: mysql:8.3.0
     # network_mode: "host"
     # pid: "host"
@@ -122,6 +125,14 @@ services:
       MYSQL_ROOT_HOST: '%'
       # -- Set the container timezone
       TZ: "America/New_York"
+      #       $ docker network create some-network
+      # $ docker run --detach --network some-network --name some-mariadb --env MARIADB_USER=example-user --env MARIADB_PASSWORD=my_cool_secret --env MARIADB_ROOT_PASSWORD=my-secret-pw  mariadb:latest
+      # $ docker run --detach --network some-network --name some-application --env APP_DB_HOST=some-mariadb  --env APP_DB_USER=example-user --env APP_DB_PASSWD=my_cool_secret some-application
+      MARIADB_USER: 'pi'
+      MARIADB_PASSWORD: 'raspberry'
+      MARIADB_DATABASE: 'kine'
+      MARIADB_ROOT_PASSWORD: 'raspberry'
+      MARIADB_ROOT_HOST: '%'
     ports:
       # <Port exposed> : <MySQL Port running inside container>
       - '0.0.0.0:6033:3306'
@@ -149,6 +160,9 @@ services:
     # SOURCE: https://github.com/vimalgandhi/Docker-compose-File/blob/main/README.md?plain=1
     # # container_name: therapy-link-mysql
     # platform: linux/amd64 # Only required in case Apple M1 / ARM
+    # platform: linux/x86_64
+    # platform: linux/x86_64/v8
+    # platform: "linux/${ARCH:-amd64}"
     # command: --default-authentication-plugin=mysql_native_password
     logging:
       driver: json-file

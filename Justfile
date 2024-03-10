@@ -573,6 +573,7 @@ docker-desktop-nsenter:
           sh
 
 kine-mysql-up:
+  docker-compose build --pull
   docker-compose up -d
 
 kine-mysql-down:

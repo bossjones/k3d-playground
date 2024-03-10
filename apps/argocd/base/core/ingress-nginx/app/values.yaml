@@ -10,7 +10,8 @@ controller:
     # argo: 2746
     ssh: 22
     # postgres: 5432
-  replicaCount: 1
+  replicaCount: 5
+  maxUnavailable: 2
   allowSnippetAnnotations: true
   extraEnvs:
     - name: TZ

@@ -211,13 +211,13 @@ spec:
         - --logtostderr=true
         - --v=2
       serviceAccountName: cluster-proportional-autoscaler
-# SOURCE: https://github.com/MicrosoftDocs/azure-docs/blob/97ff0d77022fb1733895977f2df5185aaac497fe/articles/aks/coredns-custom.md
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: coredns-custom
-  namespace: kube-system
-data:
-  log.override: | # you may select any name here, but it must end with the .override file extension
-        log
+# # SOURCE: https://github.com/MicrosoftDocs/azure-docs/blob/97ff0d77022fb1733895977f2df5185aaac497fe/articles/aks/coredns-custom.md
+# ---
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: coredns-custom
+#   namespace: kube-system
+# data:
+#   log.override: | # you may select any name here, but it must end with the .override file extension
+#         log
