@@ -499,9 +499,12 @@ options:
     # FIXME: I think we need to re-enable these but I need help doing it # - arg: --kube-controller-manager-arg=address=0.0.0.0
     # FIXME: I think we need to re-enable these but I need help doing it #   nodeFilters:
     # FIXME: I think we need to re-enable these but I need help doing it #   - server:*
-    # - arg: --kube-apiserver-arg=feature-gates=EphemeralContainers=true
-    #   nodeFilters:
-    #   - server:*
+    - arg: --kube-apiserver-arg=max-requests-inflight=4000
+      nodeFilters:
+      - server:*
+    - arg: --kube-apiserver-arg=max-mutating-requests-infligh=2400
+      nodeFilters:
+      - server:*
     # - arg: --kubelet-arg=feature-gates=enableSystemLogHandler=true
     #   nodeFilters:
     #   # - agent:*
