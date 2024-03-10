@@ -285,6 +285,9 @@ volumes:
   nodeFilters:
   - server:*
   - agent:*
+- volume: "${PWD}/static_pods/coredns.yaml:/var/lib/rancher/k3s/server/manifests/coredns.yamlcoredns.yaml"
+  nodeFilters:
+  - server:*
 - volume: "${PWD}/audit/audit.yaml:/var/lib/rancher/k3s/server/manifests/audit.yaml"
   nodeFilters:
   - server:*

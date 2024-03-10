@@ -53,6 +53,7 @@ resources:
 - base/monitoring/goldilocks/app/app.yaml
 - base/monitoring/node-problem-detector/app/app.yaml
 # - base/core/rolebinding_prometheus-k8s.yaml
+- base/kube-system/coredns/netshoot-dns.yaml
 
 components:
 - https://github.com/argoproj-labs/argocd-extensions/manifests
