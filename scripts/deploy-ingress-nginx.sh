@@ -29,8 +29,14 @@ helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx || true
 helm repo update
 # helm template --version 4.9.0 --values apps/argocd/base/core/ingress-nginx/app/values.yaml ingress-nginx ingress-nginx/ingress-nginx -n kube-system | kubectl apply --server-side -f -
 
+just certs-only
 
 kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/base/core/ingress-nginx | kubectl apply --server-side -f -
+
+rm -rf apps/argocd/base/core/ingress-nginx/charts
+
+echo ""
+echo ""
 
 echo "waiting for ingress-nginx deployment.apps/ingress-nginx-controller"
 kubectl -n kube-system wait deployment ingress-nginx-controller --for condition=Available=True --timeout=300s

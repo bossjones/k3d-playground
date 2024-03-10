@@ -34,8 +34,8 @@ set -euxo pipefail
 # kubectl -n kube-system wait deployment external-secrets-webhook --for condition=Available=True --timeout=300s
 # kubectl -n kube-system wait deployment external-secrets --for condition=Available=True --timeout=300s
 # kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/base/database/cloudnative-pg | kubectl apply --server-side -f -
-kubectl -n kube-system wait deployment external-secrets-webhook --for condition=Available=True --timeout=300s
-kubectl -n kube-system wait deployment external-secrets-cert-controller  --for condition=Available=True --timeout=300s
+retry -t 10 -- kubectl -n kube-system wait deployment external-secrets-webhook --for condition=Available=True --timeout=300s
+retry -t 10 -- kubectl -n kube-system wait deployment external-secrets-cert-controller  --for condition=Available=True --timeout=300s
 
 set +x
 echo "END ------------------>  ${0##*/} "

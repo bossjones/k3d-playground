@@ -639,6 +639,9 @@ k8s-netshoot:
 nodes-logs:
   kubectl get nodes -v=10 >> nodes.log
 
+serverlb-logs-stats:
+  bash scripts/k3d-ngxtop-logs.sh
+
 k9s:
   retry -t 10 -- k9s
 
