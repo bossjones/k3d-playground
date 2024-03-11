@@ -46,7 +46,7 @@ resources:
 - base/monitoring/kubeview/app/app.yaml
 # - base/gitea/gitea/app/app.yaml
 # - base/identity/authentik-redis/app/app.yaml
-# - base/database/cloudnative-pg/app/app.yaml
+- base/database/cloudnative-pg/app/app.yaml
 # - base/database/pgadmin/app/app.yaml
 - base/identity/authentik/app/app.yaml
 # - base/core/role_prometheus-k8s.yaml
@@ -83,7 +83,14 @@ patches:
 # - path: overlay/pdb-argocd-notifications-controller.yaml
 # - path: overlay/pdb-argocd-server.yaml
 
-
+- path: overlay/patch-deployment-argocd-repo-server.yaml
+  target:
+    kind: Deployment
+    name: argocd-repo-server
+- path: overlay/patch-deployment-argocd-server.yaml
+  target:
+    kind: Deployment
+    name: argocd-server
 # - path: overlay/add-resources-argocd-repo-server.yaml
 - path: overlay/delete-np-argocd-redis-network-policy.yaml
   target:

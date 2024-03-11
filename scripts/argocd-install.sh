@@ -25,6 +25,8 @@ kubectl -n argocd apply --server-side -f https://raw.githubusercontent.com/argop
 kubectl -n argocd apply --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/crds/applicationset-crd.yaml
 kubectl -n argocd apply --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/crds/appproject-crd.yaml
 
+just deploy-external-secrets
+
 echo ""
 echo ""
 
@@ -73,7 +75,7 @@ echo ""
 
 
 # kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/base/kube-system/external-secrets | kubectl apply --server-side -f -
-just deploy-external-secrets
+
 
 
 # sleep

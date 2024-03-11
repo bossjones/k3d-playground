@@ -170,6 +170,7 @@ volumeMounts:
 #       - AUTHENTIK_HOST_BROWSER=https://auth.${DOMAIN_NAME}
 # ##############################################################
 
+# SOURCE: https://github.com/goauthentik/helm/blob/main/charts/authentik/values.yaml
 # ---
 # # -- Provide a name in place of `authentik`. Prefer using global.nameOverride if possible
 # nameOverride: ""

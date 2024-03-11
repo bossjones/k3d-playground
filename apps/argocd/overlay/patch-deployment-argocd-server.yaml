@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-server
+spec:
+  template:
+    metadata:
+      annotations:
+        ethos.corp.adobe.com/logging-sourcetype: argocd-server
+    spec:
+      containers:
+      - name: argocd-server
+        env:
+        - name: ARGOCD_GRPC_MAX_SIZE_MB
+          value: "500"
