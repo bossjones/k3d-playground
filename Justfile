@@ -642,7 +642,7 @@ serverlb-logs-stats:
   bash scripts/k3d-ngxtop-logs.sh
 
 k9s:
-  retry -t 10 -- k9s
+  retry -t 20 -- k9s
 
 get-all-events:
   kubectl get events --all-namespaces --sort-by='.lastTimestamp'
