@@ -42,7 +42,7 @@ tolerations:
     operator: "Exists"
     effect: "NoSchedule"
 
-replicas: 2
+replicas: 3
 
 podDisruptionBudget:
   enabled: true
