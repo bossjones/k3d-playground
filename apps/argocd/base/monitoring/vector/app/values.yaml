@@ -181,11 +181,11 @@ containerPorts: []
 # resources -- Set Vector resource requests and limits.
 resources:
   requests:
-    memory: "256Mi"
-    cpu: "300m"
+    cpu: 93m
+    memory: 110M
   limits:
-    memory: "500Mi"
-    cpu: "400m"
+    cpu: 93m
+    memory: 110M
 
 # lifecycle -- Set lifecycle hooks for Vector containers.
 lifecycle: {}
