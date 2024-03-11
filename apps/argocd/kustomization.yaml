@@ -1,6 +1,42 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+# https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/sortoptions/
+sortOptions:
+  order: legacy
+  legacySortOptions:
+    orderFirst:
+    - Namespace
+    - ResourceQuota
+    - StorageClass
+    - CustomResourceDefinition
+    - ServiceAccount
+    - PodSecurityPolicy
+    - Role
+    - ClusterRole
+    - RoleBinding
+    - ClusterRoleBinding
+    - ConfigMap
+    - Secret
+    - Endpoints
+    - Service
+    - LimitRange
+    - PriorityClass
+    - PersistentVolume
+    - PersistentVolumeClaim
+    - Deployment
+    - StatefulSet
+    - CronJob
+    - PodDisruptionBudget
+    - NetworkPolicy
+    - Ingress
+    - IngressRoute
+    # - HTTPProxy
+    orderLast:
+    - AppProject
+    - MutatingWebhookConfiguration
+    - ValidatingWebhookConfiguration
+
 resources:
 - base/core/namespace.yaml
 - https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/install.yaml
@@ -82,7 +118,10 @@ patches:
 # - path: overlay/pdb-argocd-dex-server.yaml
 # - path: overlay/pdb-argocd-notifications-controller.yaml
 # - path: overlay/pdb-argocd-server.yaml
-
+- path: overlay/patch-resources-argocd-application-controller.yaml
+  target:
+    kind: StatefulSet
+    name: argocd-application-controller
 - path: overlay/patch-deployment-argocd-repo-server.yaml
   target:
     kind: Deployment
