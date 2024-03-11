@@ -135,14 +135,12 @@ k3d-demo:
   # k3d cluster create --config config/cluster.yaml --trace --verbose --timestamps
   k3d cluster create --config config/cluster.yaml
   echo -e "\nYour cluster has been created. Type 'k3d cluster list' to confirm."
-  echo "Waiting for the cluster to be ready... (sleep 120)"
+  echo "Waiting for the cluster to be ready... (sleep 30)"
 
   # sleep
   # SOURCE: https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
-  @yes | pv -SL1 -F 'Resuming in %e' -s 120 > /dev/null
+  @yes | pv -SL1 -F 'Resuming in %e' -s 30 > /dev/null
 
-  # sleep 60
-  # bash scripts/deploy-metallb.sh
   just apply-coredns-additions
   just argocd-secret
   just install-secret-0
@@ -437,7 +435,7 @@ install-mandatory-manifests:
 
   # sleep
   # SOURCE: https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
-  @yes | pv -SL1 -F 'Resuming in %e' -s 120 > /dev/null
+  @yes | pv -SL1 -F 'Resuming in %e' -s 20 > /dev/null
 
   # bash scripts/deploy-metallb.sh
 
