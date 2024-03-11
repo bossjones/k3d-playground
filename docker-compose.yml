@@ -29,6 +29,9 @@ volumes:
     postgres:
     pgadmin:
     # driver: local
+    redis_data:
+      driver: local
+
 services:
   postgres:
     privileged: true
@@ -227,3 +230,29 @@ services:
   #     driver: json-file
   #     options:
   #       tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+
+
+  redis:
+    image: bitnami/redis:6.2.10
+    hostname: "authentik-redis"
+    privileged: true
+    tty: true
+    stdin_open: true
+    container_name: authentik-redis
+    restart: always
+    environment:
+      ALLOW_EMPTY_PASSWORD: "yes"
+      REDIS_PORT_NUMBER: 7001
+    healthcheck:
+      test: redis-cli ping
+      interval: 1s
+      timeout: 3s
+      retries: 50
+    ports:
+    - "0.0.0.0:7001:7001"
+    volumes:
+    - 'redis_data:/bitnami/redis/data'
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"

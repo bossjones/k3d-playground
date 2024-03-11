@@ -58,12 +58,14 @@ authentik:
     # name: authentik
     password: "password"
     # password: "ThisIsNotASecurePassword"
-    host: postgres-rw.databases.svc.cluster.local
+    # host: postgres-rw.databases.svc.cluster.local
+    host: 192.168.3.13
     user: postgres
     name: authentik
 
   redis:
-    host: authentik-redis-master.identity.svc.cluster.local
+    # host: authentik-redis-master.identity.svc.cluster.local
+    host: 192.168.3.13:7001
     password: ""
 
   # SOURCE: https://github.com/K-FOSS/CoRE-Backplane/blob/a8b30a0dd0a21e34b3ddbb0981b7ede491a52a95/AAA/templates/User.yaml
