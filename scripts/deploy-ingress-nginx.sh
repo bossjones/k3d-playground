@@ -27,13 +27,13 @@ kubectl -n kube-system apply --server-side -f https://raw.githubusercontent.com/
 
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx || true
 helm repo update
-# helm template --version 4.9.0 --values apps/argocd/base/core/ingress-nginx/app/values.yaml ingress-nginx ingress-nginx/ingress-nginx -n kube-system | kubectl apply --server-side -f -
+helm template --version 4.9.0 --values apps/argocd/base/core/ingress-nginx/app/values.yaml ingress-nginx ingress-nginx/ingress-nginx -n kube-system | kubectl apply --server-side -f -
 
 just certs-only
 
-kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/base/core/ingress-nginx | kubectl apply --server-side -f -
+# kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/base/core/ingress-nginx | kubectl apply --server-side -f -
 
-rm -rf apps/argocd/base/core/ingress-nginx/charts
+# rm -rf apps/argocd/base/core/ingress-nginx/charts || true
 
 echo ""
 echo ""

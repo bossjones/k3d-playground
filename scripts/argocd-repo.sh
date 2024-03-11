@@ -6,7 +6,7 @@ echo ""
 echo "# path to me --------------->  ${0}     "
 echo "# parent path -------------->  ${0%/*}  "
 echo "# my name ------------------>  ${0##*/} "
-echecho ""o
+echo ""
 
 
 

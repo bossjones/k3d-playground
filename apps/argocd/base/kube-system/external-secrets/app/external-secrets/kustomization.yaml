@@ -4,3 +4,13 @@ kind: Kustomization
 
 resources:
   - app.yaml
+
+
+# helmCharts:
+# - name: external-secrets
+#   repo: https://charts.external-secrets.io
+#   version: 0.9.11
+#   releaseName: external-secrets
+#   namespace: kube-system
+#   includeCRDs: true
+#   valuesFile: values.yaml

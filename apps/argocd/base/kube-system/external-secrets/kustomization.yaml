@@ -23,11 +23,13 @@ commonAnnotations:
 #   repo: https://charts.external-secrets.io
 #   version: 0.9.11
 #   releaseName: external-secrets
-#   namespace: external-secrets
+#   namespace: kube-system
 #   includeCRDs: true
+#   valuesFile: app/external-secrets/values.yaml
 # - name: connect
 #   repo: https://1password.github.io/connect-helm-charts
 #   version: 1.14.0
 #   releaseName: connect
-#   namespace: connect
+#   namespace: kube-system
 #   includeCRDs: true
+#   valuesFile: app/connect/values.yaml

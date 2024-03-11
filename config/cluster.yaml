@@ -3,7 +3,7 @@ kind: Simple
 metadata:
   name: demo
 servers: 1
-agents: 3
+agents: 5
 kubeAPI:
   host: "k8s.localhost"
   # hostIP: "127.0.0.1"
@@ -285,12 +285,10 @@ volumes:
   nodeFilters:
   - server:*
   - agent:*
-# - volume: "${PWD}/static_pods/coredns.yaml:/var/lib/rancher/k3s/server/manifests/coredns.yaml"
+# NOTE: THIS WORKS, jsut commenting out for whatever reason
+# - volume: "${PWD}/audit/test-audit.yaml:/var/lib/rancher/k3s/server/manifests/audit.yaml"
 #   nodeFilters:
 #   - server:*
-- volume: "${PWD}/audit/test-audit.yaml:/var/lib/rancher/k3s/server/manifests/audit.yaml"
-  nodeFilters:
-  - server:*
 - volume: "${PWD}/audit/logs:/var/log/kubernetes/audit"
   nodeFilters:
   - server:*
@@ -327,7 +325,7 @@ options:
     loadbalancer:
       configOverrides:
       # - settings.workerConnections=2048
-      - settings.workerConnections=4096
+      - settings.workerConnections=8096
       - settings.defaultProxyTimeout=900
   k3s:
     # SOURCE: https://github.com/dramirez-qb/k3d-cluster/blob/5b2fc979271c7d38bc2fee7b77f8d5f6ff4c63eb/k3d-config.yaml#L5
@@ -484,6 +482,24 @@ options:
       nodeFilters:
       - server:*
       - agent:*
+    - arg: --kube-apiserver-arg=bind-address=0.0.0.0
+      nodeFilters:
+      - server:*
+    - arg: --kube-apiserver-arg=enable-admission-plugins=NamespaceLifecycle,NodeRestriction,LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota
+      nodeFilters:
+      - server:*
+    - arg: --kube-apiserver-arg=enable-priority-and-fairness=false
+      nodeFilters:
+      - server:*
+    - arg: --kube-controller-manager-arg=bind-address=0.0.0.0
+      nodeFilters:
+      - server:*
+    - arg: --kube-controller-manager-arg=node-monitor-grace-period=5m
+      nodeFilters:
+      - server:*
+    - arg: --kube-controller-manager-arg=route-reconciliation-period=1m
+      nodeFilters:
+      - server:*
     # FIXME: I think we need to re-enable these but I need help doing it # - arg: --kube-scheduler-arg=bind-address=0.0.0.0
     # FIXME: I think we need to re-enable these but I need help doing it #   nodeFilters:
     # FIXME: I think we need to re-enable these but I need help doing it #   - server:*
@@ -502,7 +518,10 @@ options:
     - arg: --kube-apiserver-arg=max-requests-inflight=4000
       nodeFilters:
       - server:*
-    - arg: --kube-apiserver-arg=max-mutating-requests-infligh=2400
+    - arg: --kube-apiserver-arg=max-mutating-requests-inflight=2400
+      nodeFilters:
+      - server:*
+    - arg: --kube-apiserver-arg=runtime-config=api/ga=true,api/beta=true
       nodeFilters:
       - server:*
     # - arg: --kubelet-arg=feature-gates=enableSystemLogHandler=true
@@ -564,7 +583,10 @@ options:
     - arg: --kube-apiserver-arg=v=1
       nodeFilters:
       - server:*
-    - arg: --kube-scheduler-arg=v=1
+    - arg: --kube-scheduler-arg=v=2
+      nodeFilters:
+      - server:*
+    - arg: --kube-controller-manager-arg=v=2
       nodeFilters:
       - server:*
 

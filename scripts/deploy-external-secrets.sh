@@ -14,15 +14,20 @@ set -x
 helm repo add connect https://1password.github.io/connect-helm-charts || true
 helm repo add external-secrets https://charts.external-secrets.io || true
 helm repo update
+helm template --version 0.9.11 --values apps/argocd/base/kube-system/external-secrets/app/external-secrets/values.yaml external-secrets external-secrets/external-secrets -n kube-system | kubectl apply --server-side -f -
+helm template --version 1.14.0 --values apps/argocd/base/kube-system/external-secrets/app/external-secrets/values.yaml connect connect/connect -n kube-system | kubectl apply --server-side -f -
 
-kubectl -n kube-system apply --server-side -f https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/deploy/crds/bundle.yaml 2>/dev/null || true
 
-# # https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
-# yes | pv -SL1 -F 'Resuming in %e' -s 25 > /dev/null
-# echo ""
+# kubectl -n kube-system apply --server-side -f https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/deploy/crds/bundle.yaml 2>/dev/null || true
 
-set +ex
-kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/base/kube-system/external-secrets | kubectl apply --server-side -f -
+
+# set +ex
+# kustomize build --enable-alpha-plugins --enable-exec --enable-helm apps/argocd/base/kube-system/external-secrets | kubectl apply --server-side -f -
+
+# rm -rf apps/argocd/base/kube-system/external-secrets/app/connect/charts || true
+# rm -rf apps/argocd/base/kube-system/external-secrets/app/external-secrets/charts || true
+# rm -rf apps/argocd/base/kube-system/external-secrets/charts/ || true
+
 
 # # https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
 # yes | pv -SL1 -F 'Resuming in %e' -s 60 > /dev/null

@@ -18,3 +18,4 @@ helmCharts:
   releaseName: cert-manager
   namespace: cert-manager
   includeCRDs: true
+  valuesFile: app/values.yaml
