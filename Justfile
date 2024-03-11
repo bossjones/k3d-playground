@@ -144,6 +144,10 @@ k3d-demo:
   # sleep 60
   # bash scripts/deploy-metallb.sh
   just apply-coredns-additions
+  just argocd-secret
+  just install-secret-0
+  just deploy-ingress-nginx
+  just install-mandatory-manifests
 
 # Starts your local k3d cluster.
 k3d-demo-cilium:
@@ -211,9 +215,6 @@ templates:
 
 # install argocd
 argocd-install:
-  just argocd-secret
-  just install-secret-0
-  just install-mandatory-manifests
   bash scripts/argocd-install.sh
   just deploy-authentik-deps
   # bash scripts/deploy-metallb.sh
