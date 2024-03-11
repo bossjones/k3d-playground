@@ -21,6 +21,7 @@ commonAnnotations:
 
 
 patches:
+# NOTE: https://github.com/argoproj/argo-cd/issues/6880
 - target:
     kind: Job
     name: thanos-minio-post-job
