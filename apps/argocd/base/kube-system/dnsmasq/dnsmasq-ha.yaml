@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: dnsmasq-ha
+  namespace: kube-system
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: dnsmasq-ha
+  template:
+    metadata:
+      labels:
+        app: dnsmasq-ha
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/os
+                operator: In
+                values:
+                - linux
+      containers:
+      - args:
+        - ""
+        - --interface=dnsmasq
+        - --cache-size=10000
+        - --dns-forward-max=300
+        - --server=/local./172.20.0.10
+        - --except-interface=lo
+        - --bind-interfaces
+        - --keep-in-foreground
+        - --log-facility=-
+        - --fast-dns-retry
+        command:
+        - /bin/bash
+        - -c
+        - /setup-network.sh && exec dnsmasq $@
+        image: index.docker.io/bossjones/dnsmasq:v2.76-1.2.0-bossjones
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 1
+          periodSeconds: 1
+          successThreshold: 1
+          tcpSocket:
+            host: 169.254.20.10
+            port: 53
+          timeoutSeconds: 3
+        name: dnsmasq
+        resources:
+          limits:
+            cpu: "2"
+            memory: 500Mi
+          requests:
+            cpu: 100m
+            memory: 10Mi
+        securityContext:
+          privileged: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/hosts
+          name: hosts
+        - mountPath: /lib/modules
+          name: modules
+      dnsConfig:
+        options:
+        - name: ndots
+          value: "1"
+      dnsPolicy: Default
+      hostNetwork: true
+      priorityClassName: system-node-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 0
+      volumes:
+      - hostPath:
+          path: /etc/hosts
+          type: File
+        name: hosts
+      - hostPath:
+          path: /lib/modules
+          type: Directory
+        name: modules
+  updateStrategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 30%
+    type: RollingUpdate
