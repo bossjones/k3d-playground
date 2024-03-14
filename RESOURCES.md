@@ -415,3 +415,79 @@ Most logging pluggins are blocking by default. You can change this setting with:
 Then setting the max size: `--log-opt max-buffer-size=4m`
 
 > The application will no longer block when that buffer fills up. Instead, the oldest loglines in memory will be dropped.
+
+
+# Example of a chart uninstaller
+
+```
+Sure, let's break down the Kubernetes manifest and explain each part, including the Helm annotations:
+
+# 1. `apiVersion`: Specifies the version of the Kubernetes API to use. In this case, it's using the RBAC (Role-Based Access Control) API, version 1.
+
+# 2. `kind`: Defines the type of Kubernetes resource being defined. Here, it's a Role, which is a set of permissions within a namespace.
+
+# 3. `metadata`: Contains metadata about the resource, such as its name and annotations.
+
+#    - `name`: Specifies the name of the Role, which is "ethos-core-tee-caddy-sync-hook" in this case.
+
+#    - `annotations`: Annotations are metadata attached to the object. They are key-value pairs used to add arbitrary non-identifying information to the object. In this manifest, annotations are used for Helm and ArgoCD hooks.
+
+# 4. Helm annotations:
+
+#    - `helm.sh/hook`: Indicates that this Role is used as a Helm hook. Specifically, it's a pre-install hook, meaning it executes before the installation of the chart.
+
+#    - `helm.sh/hook-delete-policy`: Specifies the deletion policy for Helm hooks. In this case, it's set to execute before the hook is created.
+
+#    - `helm.sh/hook-weight`: Assigns a weight to the Helm hook. A lower weight value means the hook executes earlier in the Helm lifecycle. Here, it's set to "-1", indicating it should run before other hooks.
+
+# 5. ArgoCD annotations:
+
+#    - `argocd.argoproj.io/hook`: Indicates that this resource is an ArgoCD hook. It specifies the type of hook; in this case, it's a PreSync hook, which runs before a synchronization operation.
+
+#    - `argocd.argoproj.io/hook-delete-policy`: Specifies the deletion policy for ArgoCD hooks. Here, it's set to execute before the hook is created.
+
+#    - `argocd.argoproj.io/sync-wave`: Assigns a synchronization wave to the ArgoCD hook. A lower value means the hook will be executed earlier during synchronization. "-1" indicates it should be executed in the first wave.
+
+# 6. `namespace`: Specifies the namespace in which the Role will be created. It's set to "ethos-core-tee-caddy".
+
+# 7. `rules`: Defines the permissions (rules) associated with the Role.
+
+#    - Each rule specifies a set of API groups, resources, and verbs.
+
+#    - The first rule grants permissions to get and list deployments within the "apps" API group.
+
+#    - The second rule grants permission to delete a deployment named "tee-caddy" within the "apps" API group.
+
+#    - The third rule grants permissions to get, list, and delete a VerticalPodAutoscaler named "tee-caddy-vpa" within the "autoscaling.k8s.io" API group.
+
+
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: ethos-core-tee-caddy-sync-hook
+  annotations:
+    # Add helm hook annotations for allowing local validation of the hooks using plain helm commands
+    helm.sh/hook: pre-install
+    helm.sh/hook-delete-policy: before-hook-creation
+    helm.sh/hook-weight: "-1"
+    # Add argocd hook annotations for readability purpose only
+    # Based on  https://argo-cd.readthedocs.io/en/stable/user-guide/helm/#helm-hooks , ArgoCD already knows how to map helm
+    # annotations to argocd annotations
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+    argocd.argoproj.io/sync-wave: "-1"
+  namespace: ethos-core-tee-caddy
+rules:
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  resourceNames: ["tee-caddy"]
+  verbs: ["delete"]
+- apiGroups: ["autoscaling.k8s.io"]
+  resources: ["verticalpodautoscalers"]
+  resourceNames: ["tee-caddy-vpa"]
+  verbs: ["get", "list", "delete"]
+```

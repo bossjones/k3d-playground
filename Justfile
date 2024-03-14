@@ -12,6 +12,7 @@ PATH_TO_TRAEFIK_CONFIG := CURRENT_DIR / "mounts/var/lib/rancer/k3s/server/manife
 
 base64_cmd := if "{{os()}}" == "macos" { "base64 -w 0 -i cert.pem -o ca.pem" } else { "base64 -b 0 -i cert.pem -o ca.pem" }
 grep_cmd := if "{{os()}}" =~ "macos" { "ggrep" } else { "grep" }
+conntrack_fix := if "{{os()}}" =~ "linux" { "--k3s-arg '--kube-proxy-arg=conntrack-max-per-core=0@server:*' --k3s-arg '--kube-proxy-arg=conntrack-max-per-core=0@agent:*'" } else { "" }
 
 
 _default:
@@ -133,7 +134,7 @@ argocd-schema:
 k3d-demo:
   k3d cluster delete demo
   # k3d cluster create --config config/cluster.yaml --trace --verbose --timestamps
-  k3d cluster create --config config/cluster.yaml
+  k3d cluster create --config config/cluster.yaml {{conntrack_fix}}
   echo -e "\nYour cluster has been created. Type 'k3d cluster list' to confirm."
   echo "Waiting for the cluster to be ready... (sleep 30)"
 
@@ -226,8 +227,9 @@ argocd-password:
   bash scripts/argocd-password.sh
 
 # port forward to argocd
+# kubectl port-forward -n argocd svc/argocd-server 8832:80
 argocd-bridge:
-  kubectl port-forward -n argocd svc/argocd-server 8832:80
+  echo "no op"
 
 argocd-proxy: argocd-bridge
 
