@@ -15,18 +15,27 @@ grep_cmd := if "{{os()}}" =~ "macos" { "ggrep" } else { "grep" }
 conntrack_fix := if "{{os()}}" =~ "linux" { "--k3s-arg '--kube-proxy-arg=conntrack-max-per-core=0@server:*' --k3s-arg '--kube-proxy-arg=conntrack-max-per-core=0@agent:*'" } else { "" }
 
 
-# Initialize OS Setup
-init:
-    just _init-{{os()}}
+# # Initialize OS Setup
+# init:
+#     just _init-{{os()}}
 
-_init-linux:
-    # Linux init
+# _init-linux:
+#     # Linux init
+#     wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | TAG=v5.5.1 bash
 
-_init-macos:
-    # macOS init
+#     curl --silent --location --remote-name \
+#     "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v5.3.0/kustomize_kustomize.v5.3.0_linux_amd64" && \
+#     chmod a+x kustomize_kustomize.v5.3.0_linux_amd64 && \
+#     sudo mv kustomize_kustomize.v5.3.0_linux_amd64 /usr/local/bin/kustomize
 
-_init-windows:
-    # Windows init
+#     curl -L https://github.com/mozilla/sops/releases/download/v3.8.1/sops-v3.8.1.linux > /usr/local/bin/sop
+#     $ chmod +x /usr/local/bin/sops
+
+# _init-macos:
+#     # macOS init
+
+# _init-windows:
+#     # Windows init
 
 
 _default:
@@ -186,7 +195,9 @@ k3d-demo-macos:
 
 k3d-demo-linux:
   sudo modprobe br_netfilter
+  sudo modprobe nf_conntrack
   echo br_netfilter | sudo tee /etc/modules-load.d/kubernetes.conf
+  echo nf_conntrack | sudo tee /etc/modules-load.d/nf.conf
   k3d cluster delete demo
   # k3d cluster create --config config/cluster.yaml --trace --verbose --timestamps
   k3d cluster create --config config/cluster.yaml --k3s-arg "--kube-proxy-arg=conntrack-max-per-core=0@server:*" \
