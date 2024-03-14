@@ -772,3 +772,6 @@ delete-docker:
   docker volume rm k3d-playground_kine_mysql >/dev/null 2>&1 2>/dev/null || true
   docker volume rm  k3d-playground_tmpvolume >/dev/null 2>&1 2>/dev/null || true
   ./scripts/delete-all-docker.sh
+
+journalctl:
+  sudo journalctl -f | ccze -A
