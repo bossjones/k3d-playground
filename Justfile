@@ -765,3 +765,10 @@ add-argocd-app namespace app_name helm_repo chart_version:
 
 oxker:
   oxker
+
+delete-docker:
+  docker-compose down --remove-orphans >/dev/null 2>&1 2>/dev/null || true
+  docker-compose down --remove-orphans >/dev/null 2>&1 2>/dev/null || true
+  docker volume rm k3d-playground_kine_mysql >/dev/null 2>&1 2>/dev/null || true
+  docker volume rm  k3d-playground_tmpvolume >/dev/null 2>&1 2>/dev/null || true
+  ./scripts/delete-all-docker.sh
