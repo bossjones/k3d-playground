@@ -229,8 +229,15 @@ k3d-demo-linux:
   @k3d_command_additional+=" -v /etc:/etc@server:*\;agent:* -v /dev/log:/dev/log@server:*\;agent:* -v /run/systemd/private:/run/systemd/private@server:*\;agent:* -v /dev/mapper:/dev/mapper@all"
 
   @echo "Creat k3d cluster"
-  k3d cluster create --config config/cluster.yaml  --trace --verbose --timestamps --datastore-endpoint='mysql://root:raspberry@tcp(192.168.2.11:6033)/kine@server:*' --k3s-arg "--kube-proxy-arg=conntrack-max-per-core=0@server:*" \
-  --k3s-arg "--kube-proxy-arg=conntrack-max-per-core=0@agent:*" -v "/etc:/etc@server:*\;agent:*" -v "/dev/log:/dev/log@server:*\;agent:*" -v "/run/systemd/private:/run/systemd/private@server:*\;agent:*" -v "/dev/mapper:/dev/mapper@all"
+  k3d cluster create --config config/cluster.yaml  --trace --verbose --timestamps \
+  --k3s-arg '--datastore-endpoint=mysql://root:raspberry@tcp(192.168.2.11:6033)/kine@server:*' \
+  --k3s-arg "--kube-proxy-arg=conntrack-max-per-core=0@server:*" \
+  --k3s-arg "--kube-proxy-arg=conntrack-max-per-core=0@agent:*" \
+  -v "/etc:/etc@server:*\;agent:*" \
+  -v "/dev/log:/dev/log@server:*\;agent:*" \
+  -v "/run/systemd/private:/run/systemd/private@server:*\;agent:*" \
+  -v "/dev/mapper:/dev/mapper@all"
+
   echo -e "\nYour cluster has been created. Type 'k3d cluster list' to confirm."
   echo "Waiting for the cluster to be ready... (sleep 30)"
 
