@@ -551,16 +551,21 @@ install-mandatory-manifests:
   # kubectl -n databases apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.1/config/crd/bases/postgresql.cnpg.io_scheduledbackups.yaml 2>/dev/null || true
 
   # kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/monitoring/kube-prometheus-stack/app | kubectl apply --server-side -f -
-  sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |ggrep -oP "public key: \K(.*)") --in-place apps/argocd/base/kube-system/external-secrets/app/connect/1passwordCredentials.sops.yaml
-  sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |ggrep -oP "public key: \K(.*)") --in-place apps/argocd/base/kube-system/external-secrets/app/connect/accessToken.sops.yaml
+  just decrypt apps/argocd/base/kube-system/external-secrets/app/connect/1passwordCredentials.sops.yaml
+  just decrypt apps/argocd/base/kube-system/external-secrets/app/connect/accessToken.sops.yaml
+
   kubectl -n kube-system apply --server-side -f apps/argocd/base/kube-system/external-secrets/app/connect/1passwordCredentials.sops.yaml
   kubectl -n kube-system apply --server-side -f apps/argocd/base/kube-system/external-secrets/app/connect/accessToken.sops.yaml
+
   git restore apps/argocd/base/kube-system/external-secrets/app/connect/1passwordCredentials.sops.yaml
   git restore apps/argocd/base/kube-system/external-secrets/app/connect/accessToken.sops.yaml
+
   # kustomize build --enable-alpha-plugins --enable-exec apps/argocd/base/kube-system/external-secrets | kubectl apply --server-side -f -
-  sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |ggrep -oP "public key: \K(.*)") --in-place apps/argocd/base/monitoring/kube-prometheus-stack/app/thanos-secret.sops.yaml
+
+  just decrypt apps/argocd/base/monitoring/kube-prometheus-stack/app/thanos-secret.sops.yaml
   kubectl -n monitoring apply --server-side -f apps/argocd/base/monitoring/kube-prometheus-stack/app/thanos-secret.sops.yaml
   git restore apps/argocd/base/monitoring/kube-prometheus-stack/app/thanos-secret.sops.yaml
+
   # kubectl -n kube-system apply --server-side -f apps/argocd/base/kube-system/external-secrets/app/connect/1passwordCredentials.sops.yaml
 
   kubectl -n argocd apply --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/crds/application-crd.yaml
