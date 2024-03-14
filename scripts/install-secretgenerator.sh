@@ -54,4 +54,8 @@ curl -Lo SopsSecretGenerator "https://github.com/goabout/kustomize-sopssecretgen
 chmod +x SopsSecretGenerator
 popd
 
+
+sudo cp -av ~/.config/kustomize/plugin/goabout.com/v1beta1/sopssecretgenerator/SopsSecretGenerator /usr/local/bin/
+
+
 # mv SopsSecretGenerator "${XDG_CONFIG_HOME:-$HOME/.config}/kustomize/plugin/goabout.com/v1beta1/sopssecretgenerator"
