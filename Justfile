@@ -15,6 +15,20 @@ grep_cmd := if "{{os()}}" =~ "macos" { "ggrep" } else { "grep" }
 conntrack_fix := if "{{os()}}" =~ "linux" { "--k3s-arg '--kube-proxy-arg=conntrack-max-per-core=0@server:*' --k3s-arg '--kube-proxy-arg=conntrack-max-per-core=0@agent:*'" } else { "" }
 
 
+# Initialize OS Setup
+init:
+    just _init-{{os()}}
+
+_init-linux:
+    # Linux init
+
+_init-macos:
+    # macOS init
+
+_init-windows:
+    # Windows init
+
+
 _default:
     @just --list
 
@@ -130,11 +144,51 @@ argocd-schema:
   python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/crds/applicationset-crd.yaml
   python3 ./scripts/openapi2jsonschema.py https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/crds/appproject-crd.yaml
 
+# k3d cluster delete demo
+# # k3d cluster create --config config/cluster.yaml --trace --verbose --timestamps
+# k3d cluster create --config config/cluster.yaml "{{conntrack_fix}}"
+# echo -e "\nYour cluster has been created. Type 'k3d cluster list' to confirm."
+# echo "Waiting for the cluster to be ready... (sleep 30)"
+
+# # sleep
+# # SOURCE: https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
+# @yes | pv -SL1 -F 'Resuming in %e' -s 30 > /dev/null
+
+# just apply-coredns-additions
+# just argocd-secret
+# just install-secret-0
+# just deploy-ingress-nginx
+# just install-mandatory-manifests
+
+# SOURCE: https://github.com/casey/just/issues/531#issuecomment-1434096386
 # Starts your local k3d cluster.
 k3d-demo:
+  just k3d-demo-{{os()}}
+
+# Starts your local k3d cluster.
+k3d-demo-macos:
   k3d cluster delete demo
   # k3d cluster create --config config/cluster.yaml --trace --verbose --timestamps
   k3d cluster create --config config/cluster.yaml "{{conntrack_fix}}"
+  echo -e "\nYour cluster has been created. Type 'k3d cluster list' to confirm."
+  echo "Waiting for the cluster to be ready... (sleep 30)"
+
+  # sleep
+  # SOURCE: https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
+  @yes | pv -SL1 -F 'Resuming in %e' -s 30 > /dev/null
+
+  just apply-coredns-additions
+  just argocd-secret
+  just install-secret-0
+  just deploy-ingress-nginx
+  just install-mandatory-manifests
+# Starts your local k3d cluster.
+
+k3d-demo-linux:
+  k3d cluster delete demo
+  # k3d cluster create --config config/cluster.yaml --trace --verbose --timestamps
+  k3d cluster create --config config/cluster.yaml --k3s-arg "--kube-proxy-arg=conntrack-max-per-core=0@server:*" \
+  --k3s-arg "--kube-proxy-arg=conntrack-max-per-core=0@agent:*"
   echo -e "\nYour cluster has been created. Type 'k3d cluster list' to confirm."
   echo "Waiting for the cluster to be ready... (sleep 30)"
 
