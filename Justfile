@@ -10,7 +10,8 @@ K3D_VERSION := `k3d version`
 CURRENT_DIR := "$(pwd)"
 PATH_TO_TRAEFIK_CONFIG := CURRENT_DIR / "mounts/var/lib/rancer/k3s/server/manifests/traefik-config.yaml"
 
-base64_cmd := if "{{os()}}" == "macos" { "base64 -w 0 -i cert.pem -o ca.pem" } else { "base64 -b 0 -i cert.pem -o ca.pem" }
+# base64_cmd := if "{{os()}}" == "macos" { "base64 -w 0 -i cert.pem -o ca.pem" } else { "base64 -b 0 -i cert.pem -o ca.pem" }
+base64_cmd := if "{{os()}}" == "macos" { "base64 -w 0 -i cert.pem -o ca.pem" } else { "base64 -w 0 -i cert.pem > ca.pem" }
 grep_cmd := if "{{os()}}" =~ "macos" { "ggrep" } else { "grep" }
 conntrack_fix := if "{{os()}}" =~ "linux" { "--k3s-arg '--kube-proxy-arg=conntrack-max-per-core=0@server:*' --k3s-arg '--kube-proxy-arg=conntrack-max-per-core=0@agent:*'" } else { "" }
 
@@ -194,6 +195,7 @@ k3d-demo-macos:
 # Starts your local k3d cluster.
 
 k3d-demo-linux:
+  sudo apt-get install sharutils -y
   # SOURCE: https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/assets/scripts/developer/k3d-dev.sh?ref_type=heads
   # SOURCE: https://istio.io/latest/docs/setup/platform-setup/prerequisites/
   @echo "Load required kernel modules"
