@@ -223,8 +223,8 @@ k3d-demo-linux:
   sudo sysctl --system
 
   k3d cluster delete demo
-  # k3d cluster create --config config/cluster.yaml --trace --verbose --timestamps
-  k3d cluster create --config config/cluster.yaml --k3s-arg "--kube-proxy-arg=conntrack-max-per-core=0@server:*" \
+
+  k3d cluster create --config config/cluster.yaml  --trace --verbose --timestamps --k3s-arg "--kube-proxy-arg=conntrack-max-per-core=0@server:*" \
   --k3s-arg "--kube-proxy-arg=conntrack-max-per-core=0@agent:*"
   echo -e "\nYour cluster has been created. Type 'k3d cluster list' to confirm."
   echo "Waiting for the cluster to be ready... (sleep 30)"
