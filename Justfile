@@ -479,41 +479,13 @@ get-k8s-logs:
 find-invalid-utf8-characters:
   scripts/find-invalid-utf8-characters.sh
 
-
-# just k3d-demo-{{os()}}
-
 # Encrypt all sops secrets
 encrypt target:
-  # just encrypt-{{os()}} {{target}}
-  # @echo 'Encrypting target: {{target}}…'
-  # sops --encrypt --age $(cat $SOPS_AGE_KEY_FILE |ggrep -oP "public key: \K(.*)") --in-place {{target}}
-  just encrypt-{{os()}} {{target}}
+  ./scripts/encrypt.sh {{target}}
 
 # Decrypt all sops secrets
 decrypt target:
-  # @echo 'Decrypting target: {{target}}…'
-  # sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |ggrep -oP "public key: \K(.*)") --in-place {{target}}
-  just decrypt-{{os()}} {{target}}
-
-# Encrypt all sops secrets
-encrypt-macos target:
-  @echo 'Encrypting target: {{target}}…'
-  sops --encrypt --age $(cat $SOPS_AGE_KEY_FILE |ggrep -oP "public key: \K(.*)") --in-place {{target}}
-
-# Decrypt all sops secrets
-decrypt-macos target:
-  @echo 'Decrypting target: {{target}}…'
-  sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |ggrep -oP "public key: \K(.*)") --in-place {{target}}
-
-# Encrypt all sops secrets
-encrypt-linux target:
-  @echo 'Encrypting target: {{target}}…'
-  sops --encrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") --in-place {{target}}
-
-# Decrypt all sops secrets
-decrypt-linux target:
-  @echo 'Decrypting target: {{target}}…'
-  sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") --in-place {{target}}
+  ./scripts/decrypt.sh {{target}}
 
 # Decrypt and re-encrypt all sops secrets
 re-encrypt:
