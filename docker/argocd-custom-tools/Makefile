@@ -15,7 +15,7 @@ IMAGE_SHORT := bossjones/$(container_name)
 
 # Shortcut for building the local development container
 # DOCKER_BUILD=DOCKER_BUILDKIT=1 docker buildx build --push --rm --platform linux/arm64,linux/amd64
-DOCKER_BUILD=DOCKER_BUILDKIT=1 docker buildx build --push --rm --platform linux/arm64
+DOCKER_BUILD=DOCKER_BUILDKIT=1 docker buildx build --push --rm --platform linux/arm64,linux/amd64
 
 ifndef IS_TTY
 	DOCKER_BUILD+= --progress=plain
