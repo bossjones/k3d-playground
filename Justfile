@@ -496,22 +496,22 @@ decrypt target:
   just decrypt-{{os()}} {{target}}
 
 # Encrypt all sops secrets
-encrypt-macos: (target)
+encrypt-macos target:
   @echo 'Encrypting target: {{target}}…'
   sops --encrypt --age $(cat $SOPS_AGE_KEY_FILE |ggrep -oP "public key: \K(.*)") --in-place {{target}}
 
 # Decrypt all sops secrets
-decrypt-macos: (target)
+decrypt-macos target:
   @echo 'Decrypting target: {{target}}…'
   sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |ggrep -oP "public key: \K(.*)") --in-place {{target}}
 
 # Encrypt all sops secrets
-encrypt-linux: (target)
+encrypt-linux target:
   @echo 'Encrypting target: {{target}}…'
   sops --encrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") --in-place {{target}}
 
 # Decrypt all sops secrets
-decrypt-linux:  (target)
+decrypt-linux target:
   @echo 'Decrypting target: {{target}}…'
   sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") --in-place {{target}}
 
