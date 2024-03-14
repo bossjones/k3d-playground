@@ -196,21 +196,31 @@ k3d-demo-macos:
 k3d-demo-linux:
   # SOURCE: https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/assets/scripts/developer/k3d-dev.sh?ref_type=heads
   # SOURCE: https://istio.io/latest/docs/setup/platform-setup/prerequisites/
+  @echo "Load required kernel modules"
   sudo modprobe br_netfilter
   sudo modprobe nf_conntrack
-  sudo modprobe nf_nat_redirect
+  # sudo modprobe nf_nat_redirect
   sudo modprobe xt_owner
   sudo modprobe xt_REDIRECT
   sudo modprobe xt_statistic
+  sudo modprobe overlay
   echo br_netfilter | sudo tee /etc/modules-load.d/kubernetes.conf
   echo nf_conntrack | sudo tee -a /etc/modules-load.d/kubernetes.conf
-  echo nf_nat_redirect | sudo tee -a /etc/modules-load.d/kubernetes.conf
+  # echo nf_nat_redirect | sudo tee -a /etc/modules-load.d/kubernetes.conf
   echo xt_REDIRECT | sudo tee -a /etc/modules-load.d/kubernetes.conf
   echo xt_owner | sudo tee -a /etc/modules-load.d/kubernetes.conf
   echo xt_statistic | sudo tee -a /etc/modules-load.d/kubernetes.conf
   echo bridge | sudo tee -a /etc/modules-load.d/kubernetes.conf
   echo ip_tables | sudo tee -a /etc/modules-load.d/kubernetes.conf
   echo nf_nat | sudo tee -a /etc/modules-load.d/kubernetes.conf
+
+  @echo "Set required networking parameters"
+  echo "net.bridge.bridge-nf-call-iptables  = 1" | sudo tee /etc/sysctl.d/k8s.conf
+  echo "net.bridge.bridge-nf-call-ip6tables = 1" | sudo tee -a /etc/sysctl.d/k8s.conf
+  echo "net.ipv4.ip_forward                 = 1" | sudo tee -a /etc/sysctl.d/k8s.conf
+
+  @echo "Apply sysctl params without reboot"
+  sudo sysctl --system
 
   k3d cluster delete demo
   # k3d cluster create --config config/cluster.yaml --trace --verbose --timestamps
