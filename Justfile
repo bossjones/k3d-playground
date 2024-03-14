@@ -194,10 +194,24 @@ k3d-demo-macos:
 # Starts your local k3d cluster.
 
 k3d-demo-linux:
+  # SOURCE: https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/assets/scripts/developer/k3d-dev.sh?ref_type=heads
+  # SOURCE: https://istio.io/latest/docs/setup/platform-setup/prerequisites/
   sudo modprobe br_netfilter
   sudo modprobe nf_conntrack
+  sudo modprobe nf_nat_redirect
+  sudo modprobe xt_owner
+  sudo modprobe xt_REDIRECT
+  sudo modprobe xt_statistic
   echo br_netfilter | sudo tee /etc/modules-load.d/kubernetes.conf
-  echo nf_conntrack | sudo tee /etc/modules-load.d/nf.conf
+  echo nf_conntrack | sudo tee -a /etc/modules-load.d/kubernetes.conf
+  echo nf_nat_redirect | sudo tee -a /etc/modules-load.d/kubernetes.conf
+  echo xt_REDIRECT | sudo tee -a /etc/modules-load.d/kubernetes.conf
+  echo xt_owner | sudo tee -a /etc/modules-load.d/kubernetes.conf
+  echo xt_statistic | sudo tee -a /etc/modules-load.d/kubernetes.conf
+  echo bridge | sudo tee -a /etc/modules-load.d/kubernetes.conf
+  echo ip_tables | sudo tee -a /etc/modules-load.d/kubernetes.conf
+  echo nf_nat | sudo tee -a /etc/modules-load.d/kubernetes.conf
+
   k3d cluster delete demo
   # k3d cluster create --config config/cluster.yaml --trace --verbose --timestamps
   k3d cluster create --config config/cluster.yaml --k3s-arg "--kube-proxy-arg=conntrack-max-per-core=0@server:*" \
