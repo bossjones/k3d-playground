@@ -762,3 +762,6 @@ get-all-events:
 # Add new app to argocd
 add-argocd-app namespace app_name helm_repo chart_version:
   ./scripts/add-argocd-app.sh -n {{namespace}} -a {{app_name}} -h {{helm_repo}} -c {{chart_version}}
+
+oxker:
+  oxker
