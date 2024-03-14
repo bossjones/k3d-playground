@@ -178,7 +178,7 @@ k3d-demo:
 k3d-demo-macos:
   k3d cluster delete demo
   # k3d cluster create --config config/cluster.yaml --trace --verbose --timestamps
-  k3d cluster create --config config/cluster.yaml "{{conntrack_fix}}"
+  k3d cluster create --config config/cluster.yaml -v "--datastore-endpoint=mysql://root:raspberry@tcp(192.168.3.13:6033)/kine@server:*"
   echo -e "\nYour cluster has been created. Type 'k3d cluster list' to confirm."
   echo "Waiting for the cluster to be ready... (sleep 30)"
 
@@ -224,8 +224,13 @@ k3d-demo-linux:
 
   k3d cluster delete demo
 
-  k3d cluster create --config config/cluster.yaml  --trace --verbose --timestamps --k3s-arg "--kube-proxy-arg=conntrack-max-per-core=0@server:*" \
-  --k3s-arg "--kube-proxy-arg=conntrack-max-per-core=0@agent:*"
+  echo "Volumes to support Twistlock defenders"
+  @k3d_command_additional=""
+  @k3d_command_additional+=" -v /etc:/etc@server:*\;agent:* -v /dev/log:/dev/log@server:*\;agent:* -v /run/systemd/private:/run/systemd/private@server:*\;agent:* -v /dev/mapper:/dev/mapper@all"
+
+  @echo "Creat k3d cluster"
+  k3d cluster create --config config/cluster.yaml  --trace --verbose --timestamps "--datastore-endpoint=mysql://root:raspberry@tcp(192.168.2.11:6033)/kine@server:*" --k3s-arg "--kube-proxy-arg=conntrack-max-per-core=0@server:*" \
+  --k3s-arg "--kube-proxy-arg=conntrack-max-per-core=0@agent:*" "${k3d_command_additional}"
   echo -e "\nYour cluster has been created. Type 'k3d cluster list' to confirm."
   echo "Waiting for the cluster to be ready... (sleep 30)"
 
