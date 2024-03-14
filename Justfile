@@ -185,6 +185,8 @@ k3d-demo-macos:
 # Starts your local k3d cluster.
 
 k3d-demo-linux:
+  sudo modprobe br_netfilter
+  echo br_netfilter | sudo tee /etc/modules-load.d/kubernetes.conf
   k3d cluster delete demo
   # k3d cluster create --config config/cluster.yaml --trace --verbose --timestamps
   k3d cluster create --config config/cluster.yaml --k3s-arg "--kube-proxy-arg=conntrack-max-per-core=0@server:*" \
