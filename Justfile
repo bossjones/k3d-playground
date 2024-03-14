@@ -134,7 +134,7 @@ argocd-schema:
 k3d-demo:
   k3d cluster delete demo
   # k3d cluster create --config config/cluster.yaml --trace --verbose --timestamps
-  k3d cluster create --config config/cluster.yaml {{conntrack_fix}}
+  k3d cluster create --config config/cluster.yaml "{{conntrack_fix}}"
   echo -e "\nYour cluster has been created. Type 'k3d cluster list' to confirm."
   echo "Waiting for the cluster to be ready... (sleep 30)"
 
