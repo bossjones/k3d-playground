@@ -230,7 +230,7 @@ k3d-demo-linux:
 
   @echo "Creat k3d cluster"
   k3d cluster create --config config/cluster.yaml  --trace --verbose --timestamps \
-  --k3s-arg '--datastore-endpoint=mysql://root:raspberry@tcp(192.168.2.11:6033)/kine@server:*' \
+  --k3s-arg "--datastore-endpoint=mysql://root:raspberry\@tcp(192.168.2.11:6033)/kine@server:*" \
   --k3s-arg "--kube-proxy-arg=conntrack-max-per-core=0@server:*" \
   --k3s-arg "--kube-proxy-arg=conntrack-max-per-core=0@agent:*" \
   -v "/etc:/etc@server:*\;agent:*" \
