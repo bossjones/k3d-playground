@@ -20,6 +20,7 @@ releases:
     needs: [vault/vault]
     # values:
     #   - installCRDs: true
+    disableValidationOnInstall: true
     values:
       - values-external-secrets.gotmpl
 
