@@ -230,6 +230,9 @@ k3d-demo-linux:
   @echo "Apply sysctl params without reboot"
   sudo sysctl --system
 
+  sudo sed -i "s,#NTP=,NTP=0.flatcar.pool.ntp.org 1.flatcar.pool.ntp.org 2.flatcar.pool.ntp.org 3.flatcar.pool.ntp.org,g" /etc/systemd/timesyncd.conf
+
+
   k3d cluster delete demo
 
   # -v "/etc:/etc@server:*\;agent:*" \
