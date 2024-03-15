@@ -775,3 +775,7 @@ delete-docker:
 
 journalctl:
   sudo journalctl -f | ccze -A
+
+k3d-vanilla: demo-down kine-mysql-reset sleep k3d-demo
+
+# deploy-ingress-nginx certs-only
