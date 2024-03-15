@@ -11,7 +11,7 @@ echo ""
 
 set -x
 
-just monitoring-crds
+# just monitoring-crds
 # kubectl -n kube-system apply --server-side -f https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/deploy/crds/bundle.yaml || true
 just deploy-externalsecrets-vault
 

@@ -10,17 +10,19 @@ echo ""
 
 helm repo add influxdata https://helm.influxdata.com/
 helm repo add bitnami https://charts.bitnami.com/bitnami
-# helm install my-release oci://registry-1.docker.io/bitnamicharts/memcached
+
 helm repo add grafana https://grafana.github.io/helm-charts
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 # Add kubernetes-dashboard repository
 helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 # Deploy a Helm Release named "kubernetes-dashboard" using the kubernetes-dashboard chart
 helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
+echo "lets give it 20 seconds to settle"
+@yes | pv -SL1 -F 'Resuming in %e' -s 20 > /dev/null
 
 # local-gitops
 helm repo add chaos-mesh https://charts.chaos-mesh.org
-helm repo add hashicorp https://helm.releases.hashicorp.com
+# helm repo add hashicorp https://helm.releases.hashicorp.com
 helm repo add external-dns https://kubernetes-sigs.github.io/external-dns/
 helm repo add nginx-stable https://helm.nginx.com/stable
 # helm repo add hashicorp https://helm.releases.hashicorp.co
