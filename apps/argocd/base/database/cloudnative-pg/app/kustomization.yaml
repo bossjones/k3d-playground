@@ -6,7 +6,9 @@ resources:
   # - minio
   # - app.yaml
   # - cluster/cluster.yaml
-  - cluster/externalSecret.yaml
+  # DISABLED: # - cluster/externalSecret.yaml
+  - cluster/pushSecretVault.yaml
+  - cluster/externalSecretVault.yaml
   # - cluster/prometheusRule.yaml
   # - cluster/scheduledbackup.yaml
   # - cluster/service.yaml

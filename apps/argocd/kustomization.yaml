@@ -48,8 +48,8 @@ resources:
 - base/projects/networking.yaml
 - base/projects/apps.yaml
 - base/monitoring/kube-prometheus-stack/app/app.yaml
-- base/kube-system/external-secrets/app/external-secrets/app.yaml
-- base/kube-system/external-secrets/app/connect/app-connect.yaml
+# - base/kube-system/external-secrets/app/external-secrets/app.yaml
+# - base/kube-system/external-secrets/app/connect/app-connect.yaml
 - base/monitoring/thanos-minio/app/app.yaml
 - base/monitoring/thanos/app/app.yaml
 

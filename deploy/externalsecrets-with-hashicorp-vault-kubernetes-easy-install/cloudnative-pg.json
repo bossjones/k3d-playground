@@ -1,0 +1,8 @@
+{
+  "POSTGRES_SUPER_USER": "authentik",
+  "POSTGRES_SUPER_PASS": "8edF6sRQjx",
+  "AWS_ACCESS_KEY_ID": "admin",
+  "AWS_SECRET_ACCESS_KEY": "password",
+  "username": "authentik",
+  "password": "8edF6sRQjx"
+}

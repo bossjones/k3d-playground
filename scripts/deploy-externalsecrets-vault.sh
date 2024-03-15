@@ -27,6 +27,8 @@ echo ""
 
 kubectl apply -f extsecret-example.yaml
 
+# vault kv put app/dev/test
+
 set +x
 echo "END ------------------>  ${0##*/} "
 echo ""
