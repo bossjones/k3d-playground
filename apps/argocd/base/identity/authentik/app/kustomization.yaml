@@ -4,7 +4,9 @@ kind: Kustomization
 
 resources:
   - namespace.yaml
-  - externalsecret.yaml
+  - pushSecretVault.yaml
+  - externalSecretVault.yaml
+  # - externalsecret.yaml
   - output-ingress.yaml
   - blueprint-config.yaml
   - app.yaml

@@ -491,3 +491,38 @@ rules:
   resourceNames: ["tee-caddy-vpa"]
   verbs: ["get", "list", "delete"]
 ```
+
+
+
+# argocd ingress
+
+source: https://github.com/rowa78/k8s-gitops/blob/76c364f5c1f73cbe19339575e8aec069b9bf31ac/pi-cluster/bootstrap/argocd/values.yaml#L110
+
+```
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-production
+        nginx.ingress.kubernetes.io/auth-url: |-
+          https://auth.rwcloud.org/outpost.goauthentik.io/auth/nginx
+        # If you're using domain-level auth, use the authentication URL instead of the application URL
+        nginx.ingress.kubernetes.io/auth-signin: |-
+          https://auth.rwcloud.org/outpost.goauthentik.io/start?rd=$escaped_request_uri
+        nginx.ingress.kubernetes.io/auth-response-headers: |-
+          Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid
+        nginx.ingress.kubernetes.io/auth-snippet: |
+          proxy_set_header X-Forwarded-Host $http_host;
+        hajimari.io/enable: "true"
+        hajimari.io/icon: "steering"
+        hajimari.io/group: system
+        hajimari.io/appName: argocd
+
+      ingressClassName: nginx
+#      https: true
+      hosts:
+        - argocd.pi.rwcloud.org
+      tls:
+        - hosts:
+            - argocd.pi.rwcloud.org
+          secretName: argocd-tls
+```

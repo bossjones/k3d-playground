@@ -10,9 +10,48 @@ data:
   # url: "https://argocd.k8s.localhost"
   statusbadge.enabled: "true"
   exec.enabled: "true"
+  server.rbac.log.enforce.enable: "true"
   # kustomize.buildOptions: "--enable-alpha-plugins --enable-exec"
   kustomize.buildOptions: "--enable-alpha-plugins --enable-exec"
 
+
+  resource.customizations.health.argoproj.io_Application: |
+    hs = {}
+    hs.status = "Progressing"
+    hs.message = ""
+    if obj.status ~= nil then
+      if obj.status.health ~= nil then
+        hs.status = obj.status.health.status
+        if obj.status.health.message ~= nil then
+          hs.message = obj.status.health.message
+        end
+      end
+    end
+    return hs
+
+  # SOURCE: https://github.com/rowa78/k8s-gitops/blob/76c364f5c1f73cbe19339575e8aec069b9bf31ac/pi-cluster/bootstrap/argocd/values.yaml#L110
+  resource.customizations.actions.external-secrets.io_ExternalSecret: |
+    discovery.lua: |
+      actions = {}
+      actions["trigger secret refresh"] = {}
+      return actions
+    definitions:
+      - name: trigger secret refresh
+        action.lua: |
+          local os = require("os")
+          if obj.metadata == nil then
+            obj.metadata = {}
+          end
+          if obj.metadata.annotations == nil then
+            obj.metadata.annotations = {}
+          end
+          obj.metadata.annotations["force-sync"] = tostring(os.time(os.date("!*t")))
+          return obj
+  # SOURCE: https://github.com/rowa78/k8s-gitops/blob/76c364f5c1f73cbe19339575e8aec069b9bf31ac/pi-cluster/bootstrap/argocd/values.yaml#L110
+  resource.customizations.ignoreDifferences.apiextensions.k8s.io_CustomResourceDefinition: |
+    jqPathExpressions:
+      - '.spec.conversion.webhook.clientConfig.caBundle'
+      - '.spec.versions[]?.additionalPrinterColumns[]?.priority | select(. == 0)'
   # # The metadata.label key name where Argo CD injects the app name as a tracking label (optional).
   # # Tracking labels are used to determine which resources need to be deleted when pruning.
   # # If omitted, Argo CD injects the app name into the label: 'app.kubernetes.io/instance'
@@ -38,3 +77,47 @@ data:
   #     end
   #   end
   #   return hs
+
+# # Adding health checks to argocd to prevent pvc resources
+# # that aren't bound state from blocking deployments
+#   resourceHealthChecks:
+#   - kind: PersistentVolumeClaim
+#     check: |
+#       hs = {}
+#       if obj.status ~= nil then
+#         if obj.status.phase ~= nil then
+#           if obj.status.phase == "Pending" then
+#             hs.status = "Healthy"
+#             hs.message = obj.status.phase
+#             return hs
+#           elseif obj.status.phase == "Bound" then
+#             hs.status = "Healthy"
+#             hs.message = obj.status.phase
+#             return hs
+#           end
+#         end
+#       end
+#       hs.status = "Progressing"
+#       hs.message = "Waiting for PVC"
+#       return hs
+
+  # SOURCE: https://github.com/gnunn-gitops/acm-hub-bootstrap/blob/77a03f533c0504340d9803f21230ac1b18fd6e53/components/policies/gitops/base/manifests/gitops-instance/base/argocd.yaml#L13
+  resource.customizations.ignoreResourceUpdates.external-secrets.io_ExternalSecret: |
+    jsonPointers:
+    - /status/refreshTime
+  # resource.customizations.ignoreResourceUpdates.ocs.openshift.io_StorageCluster: |
+  #   jsonPointers:
+  #   - /status
+  #   - /metadata/resourceVersion
+  # resource.customizations.ignoreResourceUpdates.ocs.openshift.io_StorageSystem: |
+  #   jsonPointers:
+  #   - /status
+  #   - /metadata/resourceVersion
+  # resource.customizations.ignoreResourceUpdates.noobaa.io_Noobaa: |
+  #   jsonPointers:
+  #   - /status
+  #   - /metadata/resourceVersion
+  # resource.customizations.ignoreResourceUpdates.noobaa.io_BackingStore: |
+  #   jsonPointers:
+  #   - /status
+  #   - /metadata/resourceVersion
