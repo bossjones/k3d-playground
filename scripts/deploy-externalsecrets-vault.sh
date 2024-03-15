@@ -19,13 +19,17 @@ just monitoring-crds
 
 cd deploy/externalsecrets-with-hashicorp-vault-kubernetes-easy-install || exit
 
-helmfile sync
+_API_RESOURCES=$(kubectl api-resources)
 
-echo "lets let the helmfile sync settle for a minute"
-yes | pv -SL1 -F 'Resuming in %e' -s 20 > /dev/null
-echo ""
+# shellcheck disable=SC3010
+if [[ $_API_RESOURCES != *"generators.external-secrets.io"* ]]; then
+    helmfile sync
 
-kubectl apply -f extsecret-example.yaml
+    echo "lets let the helmfile sync settle for a minute"
+    yes | pv -SL1 -F 'Resuming in %e' -s 20 > /dev/null
+    echo ""
+    kubectl apply -f extsecret-example.yaml
+fi
 
 # vault kv put app/dev/test
 
