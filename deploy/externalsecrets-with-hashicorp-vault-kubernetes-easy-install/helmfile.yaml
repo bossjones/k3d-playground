@@ -1,0 +1,40 @@
+releases:
+
+  - name: vault
+    chart: hashicorp/vault
+    namespace: vault
+    # version: 0.20.1
+    version: 0.27.0
+    # values:
+    #   - server:
+    #       dev: { enabled: true }
+    #       postStart: ['sh', '-c', 'vault kv get secret/foo || vault kv put secret/foo hello=world']
+    values:
+      - values-vault.yaml
+
+  - name: external-secrets
+    chart: external-secrets/external-secrets
+    # version: 0.7.2
+    version: 0.9.11
+    namespace: es
+    needs: [vault/vault]
+    # values:
+    #   - installCRDs: true
+    values:
+      - values-external-secrets.gotmpl
+
+  - name: config
+    chart: ./charts/config
+    needs: [es/external-secrets]
+    namespace: default
+    version: 0.1.0
+
+repositories:
+ - name: hashicorp
+   url: https://helm.releases.hashicorp.com
+ - name: external-secrets
+   url: https://charts.external-secrets.io
+
+helmDefaults:
+  wait: true
+  createNamespace: true
