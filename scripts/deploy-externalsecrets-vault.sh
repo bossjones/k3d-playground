@@ -22,7 +22,7 @@ cd deploy/externalsecrets-with-hashicorp-vault-kubernetes-easy-install || exit
 helmfile sync
 
 echo "lets let the helmfile sync settle for a minute"
-yes | pv -SL1 -F 'Resuming in %e' -s 60 > /dev/null
+yes | pv -SL1 -F 'Resuming in %e' -s 20 > /dev/null
 echo ""
 
 kubectl apply -f extsecret-example.yaml

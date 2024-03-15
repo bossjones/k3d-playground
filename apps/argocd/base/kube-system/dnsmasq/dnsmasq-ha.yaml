@@ -38,7 +38,8 @@ spec:
         - /bin/bash
         - -cx
         - /setup-network.sh && exec dnsmasq $@
-        image: index.docker.io/bossjones/dnsmasq:v2.76-1.2.0-bossjones
+        # image: index.docker.io/bossjones/dnsmasq:v2.76-1.2.0-bossjones
+        image: index.docker.io/bossjones/dnsmasq:v2.85-1.3.0-bossjones
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
