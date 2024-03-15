@@ -779,4 +779,10 @@ journalctl:
 
 k3d-vanilla: demo-down kine-mysql-reset sleep k3d-demo
 
+# the rest of the normal steps we take to bring something up
+k3d-vanilla-the-rest:  argocd-install deploy-ingress-nginx certs-only argocd-secret install-secret-0 templates argocd-password argocd-bridge
+
 # deploy-ingress-nginx certs-only
+
+journal-errors:
+  sudo journalctl -p err -b

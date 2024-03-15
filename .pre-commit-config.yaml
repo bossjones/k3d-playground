@@ -23,10 +23,10 @@ repos:
     rev: 0.2.0
     hooks:
       - id: fix-smartquotes
-  # - repo: https://github.com/k8s-at-home/sops-pre-commit
-  #   rev: v2.1.1
-  #   hooks:
-  #     - id: forbid-secrets
+  - repo: https://github.com/k8s-at-home/sops-pre-commit
+    rev: v2.1.1
+    hooks:
+      - id: forbid-secrets
         # exclude: ^*s-vault-token.yaml$
   # # "repo: local" is a configuration in the pre-commit file that specifies the location of a local repository that contains custom hooks. The "language" key is set to "script" to indicate that the hook is implemented as a shell script, something like this
   # - repo: local
