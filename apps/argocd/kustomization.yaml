@@ -38,8 +38,6 @@ sortOptions:
     - ValidatingWebhookConfiguration
 
 resources:
-- base/kube-system/dnsmasq/dnsmasq.yaml
-- base/kube-system/dnsmasq/dnsmasq-ha.yaml
 - base/core/namespace.yaml
 - https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/install.yaml
 - base/projects/core.yaml
