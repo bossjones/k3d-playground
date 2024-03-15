@@ -3,7 +3,7 @@ set -euxo pipefail
 
 mkdir -p /etc/systemd/system/kernel-tuning.service.d/
 
-cat <<EOF >/etc/systemd/system/kernel-tuning.service.d/perf.conf
+cat <<EOF >/etc/systemd/system/kernel-tuning.service
 [Unit]
 Description=Kernel tuning for Ethos hosts
 
