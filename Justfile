@@ -714,6 +714,9 @@ mysqld-logs:
 k3d-server-exec:
   bash scripts/k3d-server-exec.sh
 
+k3d-agent-exec:
+  bash scripts/k3d-agent-exec.sh
+
 netshoot-exec:
   bash scripts/docker-netshoot-exec.sh
 
