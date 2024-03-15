@@ -13,6 +13,9 @@ data:
   server.rbac.log.enforce.enable: "true"
   # kustomize.buildOptions: "--enable-alpha-plugins --enable-exec"
   kustomize.buildOptions: "--enable-alpha-plugins --enable-exec"
+  # FIXME: Note, this could cause a bunch of stuff to break
+  # SOURCE: https://argo-cd.readthedocs.io/en/stable/operator-manual/reconcile/
+  resource.ignoreResourceUpdatesEnabled: "true"
 
 
   resource.customizations.health.argoproj.io_Application: |
