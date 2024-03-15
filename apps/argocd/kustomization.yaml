@@ -66,7 +66,7 @@ resources:
 - base/utilities/reflector.yaml
 # - base/utilities/descheduler.yaml
 
-- base/monitoring/metrics-server/app/app.yaml
+- base/kube-system/metrics-server/app/app.yaml
 # - base/monitoring/rancher/app/app.yaml
 
 - base/monitoring/vector/app/app.yaml

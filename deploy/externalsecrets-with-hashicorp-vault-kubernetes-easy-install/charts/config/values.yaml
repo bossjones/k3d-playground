@@ -1,3 +1,24 @@
+# Probably need to add a sidecar to get secrets
+# FIXME: https://github.com/spirkaa/infra/blob/db024f737d720c83e1d4204ffcee051041d58cbc/cluster/bootstrap/argocd/values.yaml#L109
+# FIXME: https://github.com/spirkaa/infra/blob/db024f737d720c83e1d4204ffcee051041d58cbc/cluster/bootstrap/argocd/values.yaml#L109
+# FIXME: https://github.com/spirkaa/infra/blob/db024f737d720c83e1d4204ffcee051041d58cbc/cluster/bootstrap/argocd/values.yaml#L109
+# FIXME: https://github.com/spirkaa/infra/blob/db024f737d720c83e1d4204ffcee051041d58cbc/cluster/bootstrap/argocd/values.yaml#L109
+# FIXME: https://github.com/spirkaa/infra/blob/db024f737d720c83e1d4204ffcee051041d58cbc/cluster/bootstrap/argocd/values.yaml#L109
+# FIXME: https://github.com/spirkaa/infra/blob/db024f737d720c83e1d4204ffcee051041d58cbc/cluster/bootstrap/argocd/values.yaml#L109
+# FIXME: https://github.com/spirkaa/infra/blob/db024f737d720c83e1d4204ffcee051041d58cbc/cluster/bootstrap/argocd/values.yaml#L109
+# FIXME: https://github.com/spirkaa/infra/blob/db024f737d720c83e1d4204ffcee051041d58cbc/cluster/bootstrap/argocd/values.yaml#L109
+# FIXME: https://github.com/spirkaa/infra/blob/db024f737d720c83e1d4204ffcee051041d58cbc/cluster/bootstrap/argocd/values.yaml#L109
+# FIXME: https://github.com/spirkaa/infra/blob/db024f737d720c83e1d4204ffcee051041d58cbc/cluster/bootstrap/argocd/values.yaml#L109
+# FIXME: https://github.com/spirkaa/infra/blob/db024f737d720c83e1d4204ffcee051041d58cbc/cluster/bootstrap/argocd/values.yaml#L109
+# FIXME: https://github.com/spirkaa/infra/blob/db024f737d720c83e1d4204ffcee051041d58cbc/cluster/bootstrap/argocd/values.yaml#L109
+# FIXME: https://github.com/spirkaa/infra/blob/db024f737d720c83e1d4204ffcee051041d58cbc/cluster/bootstrap/argocd/values.yaml#L109
+# FIXME: https://github.com/spirkaa/infra/blob/db024f737d720c83e1d4204ffcee051041d58cbc/cluster/bootstrap/argocd/values.yaml#L109
+# FIXME: https://github.com/spirkaa/infra/blob/db024f737d720c83e1d4204ffcee051041d58cbc/cluster/bootstrap/argocd/values.yaml#L109
+# FIXME: https://github.com/spirkaa/infra/blob/db024f737d720c83e1d4204ffcee051041d58cbc/cluster/bootstrap/argocd/values.yaml#L109
+# FIXME: https://github.com/spirkaa/infra/blob/db024f737d720c83e1d4204ffcee051041d58cbc/cluster/bootstrap/argocd/values.yaml#L109
+# FIXME: https://github.com/spirkaa/infra/blob/db024f737d720c83e1d4204ffcee051041d58cbc/cluster/bootstrap/argocd/values.yaml#L109
+# FIXME: https://github.com/spirkaa/infra/blob/db024f737d720c83e1d4204ffcee051041d58cbc/cluster/bootstrap/argocd/values.yaml#L109
+# FIXME: https://github.com/spirkaa/infra/blob/db024f737d720c83e1d4204ffcee051041d58cbc/cluster/bootstrap/argocd/values.yaml#L109
 vaultToken:
   namespace: default
   name: vault-token
