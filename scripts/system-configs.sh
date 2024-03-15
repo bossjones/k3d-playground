@@ -23,8 +23,6 @@ systemctl daemon-reload
 systemctl restart kernel-tuning.service
 systemctl enable kernel-tuning.service
 
-
-
 cat <<EOF >/etc/docker/daemon.json
 {
   "log-driver": "journald",
@@ -77,3 +75,8 @@ EOF
 systemctl daemon-reload
 systemctl restart docker.service
 systemctl enable docker.service
+
+
+cat <<EOF >/etc/udev/rules.d/10-sunrpc.rules
+SUBSYSTEM=="module" ACTION=="add" DEVPATH=="*/sunrpc" RUN+="/sbin/sysctl -w sunrpc.max_resvport=65535 sunrpc.min_resvport=1024"
+EOF
