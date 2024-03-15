@@ -542,7 +542,8 @@ install-mandatory-manifests:
   kubectl create namespace cert-manager 2>/dev/null || true
   just monitoring-crds
 
-  kubectl -n kube-system apply --server-side -f https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/deploy/crds/bundle.yaml 2>/dev/null || true
+  just deploy-externalsecrets-vault
+  # NOTE: This used to be here: kubectl -n kube-system apply --server-side -f https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.11/deploy/crds/bundle.yaml 2>/dev/null || true
 
 
   # sleep
