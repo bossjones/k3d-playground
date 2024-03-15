@@ -240,6 +240,7 @@ k3d-demo-linux:
   --k3s-arg "--kube-proxy-arg=conntrack-max-per-core=0@agent:*" \
   -v "/dev/log:/dev/log@server:*" \
   -v "/dev/log:/dev/log@agent:*" \
+  -v "/etc/ssl/certs:/etc/ssl/certs@all" \
   -v "/run/systemd/private:/run/systemd/private@server:*" \
   -v "/run/systemd/private:/run/systemd/private@agent:*" \
   -v "/dev/mapper:/dev/mapper@all"
