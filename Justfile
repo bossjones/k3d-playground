@@ -245,7 +245,8 @@ k3d-demo-linux:
   -v "/dev/log:/dev/log@agent:*" \
   -v "/run/systemd/private:/run/systemd/private@server:*" \
   -v "/run/systemd/private:/run/systemd/private@agent:*" \
-  -v "/dev/mapper:/dev/mapper@all"
+  -v "/dev/mapper:/dev/mapper@all" \
+  -v "/lib/modules:/lib/modules@all" \
 
   # -v "/etc/ssl/certs:/etc/ssl/certs@all" \
   echo -e "\nYour cluster has been created. Type 'k3d cluster list' to confirm."
