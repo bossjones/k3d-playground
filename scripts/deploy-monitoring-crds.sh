@@ -17,6 +17,7 @@ kubectx k3d-demo
 
 _API_RESOURCES=$(kubectl api-resources)
 
+# shellcheck disable=SC3010
 if [[ $_API_RESOURCES != *"monitoring.coreos.com"* ]]; then
     kubectl create namespace monitoring 2>/dev/null || true
     kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
@@ -29,12 +30,14 @@ if [[ $_API_RESOURCES != *"monitoring.coreos.com"* ]]; then
     kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_scrapeconfigs.yaml
     kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
     kubectl -n monitoring apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
+
+    echo "lets let the crds settle for a minute"
+    yes | pv -SL1 -F 'Resuming in %e' -s 60 > /dev/null
+    echo ""
 fi
 
 
-echo "lets let the crds settle for a minute"
-yes | pv -SL1 -F 'Resuming in %e' -s 60 > /dev/null
-echo ""
+
 
 
 set +x
