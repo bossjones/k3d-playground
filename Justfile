@@ -787,8 +787,10 @@ journalctl:
 
 k3d-vanilla: demo-down kine-mysql-reset sleep k3d-demo
 
+# k3d-vanilla-the-rest:  argocd-install certs-only templates argocd-password argocd-bridge
+
 # the rest of the normal steps we take to bring something up
-k3d-vanilla-the-rest:  argocd-install certs-only templates argocd-password argocd-bridge
+k3d-vanilla-the-rest:  argocd-install templates argocd-password argocd-bridge
 
 down: demo-down delete-docker
 
