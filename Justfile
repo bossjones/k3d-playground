@@ -226,6 +226,9 @@ k3d-demo-linux:
   echo "net.bridge.bridge-nf-call-iptables  = 1" | sudo tee /etc/sysctl.d/k8s.conf
   echo "net.bridge.bridge-nf-call-ip6tables = 1" | sudo tee -a /etc/sysctl.d/k8s.conf
   echo "net.ipv4.ip_forward                 = 1" | sudo tee -a /etc/sysctl.d/k8s.conf
+  # SOURCE: rowa78/k8s-gitops
+  # echo "fs.inotify.max_user_watches         = 524288" | sudo tee -a /etc/sysctl.d/k8s.conf
+  # echo "fs.inotify.max_user_instances       = 8192" | sudo tee -a /etc/sysctl.d/k8s.conf
 
   @echo "Apply sysctl params without reboot"
   sudo sysctl --system
@@ -804,3 +807,15 @@ journal-errors:
 vault-login:
   export VAULT_ADDR="https://vault.k8s.localhost:8200"
   export VAULT_TOKEN=root
+
+install-mkdocs:
+  pip install mkdocs
+  # EVENTUALLY make man pages
+  pip install click-man
+  # click-man --target path/to/man/pages mkdocs
+
+build-docs-local:
+    mkdocs build
+
+serve-docs-local:
+    mkdocs serve
