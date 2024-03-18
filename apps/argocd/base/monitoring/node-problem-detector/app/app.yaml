@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bossjones/k3d-playground/main/schema/argocd/v2.8.0/application_v1alpha1.json
 # SOURCE: pork3s
 ---
 apiVersion: argoproj.io/v1alpha1

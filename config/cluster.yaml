@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/k3d-io/k3d/main/pkg/config/v1alpha5/schema.json
 apiVersion: k3d.io/v1alpha5
 kind: Simple
 metadata:

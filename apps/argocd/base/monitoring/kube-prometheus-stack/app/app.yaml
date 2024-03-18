@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bossjones/k3d-playground/main/schema/argocd/v2.8.0/application_v1alpha1.json
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -88,6 +89,19 @@ spec:
       jsonPointers:
         - /spec/claimRef/resourceVersion
         - /spec/claimRef/uid
+        - /status/lastPhaseTransitionTime
+
+    # SOURCE: https://github.com/home-prod/k8s-infra/blob/main/cluster-application.example.yaml
+    # this is currently broken due to arog-cd serversideapply=true
+    # @see https://github.com/argoproj/argo-cd/issues/11143
+    - group: ""
+      kind: PersistentVolume
+      jsonPointers:
+        - /spec/claimRef/apiVersion
+        - /spec/claimRef/kind
+        - /spec/claimRef/resourceVersion
+        - /spec/claimRef/uid
+        # NOTE: This was not part of https://github.com/home-prod/k8s-infra/blob/main/cluster-application.example.yaml
         - /status/lastPhaseTransitionTime
     # SOURCE: https://github.com/rogerrum/k8s-gitops/blob/578d7a8cdd89dd940060e005942e567814dcf9f6/main/monitoring/values.yaml#L24
     # SOURCE: https://github.com/search?q=jqpathexpressions+metricRelabelings&type=code

@@ -526,3 +526,67 @@ source: https://github.com/rowa78/k8s-gitops/blob/76c364f5c1f73cbe19339575e8aec0
             - argocd.pi.rwcloud.org
           secretName: argocd-tls
 ```
+
+
+## The Rendered Manifests Pattern (helm + kustomize)
+
+https://akuity.io/blog/the-rendered-manifests-pattern/
+
+Important(looks like we can't use sops with this pattern)
+
+## Disadvantages
+
+Added CI Complexity
+
+There's no denying that this pattern adds additional CI automation requirements. The simplicity of using Argo CD for manifest generation should not be understated. Much work has been done in Argo CD to integrate Helm and Kustomize and provide reliable manifest generation.
+
+For Argo CD, there have been several attempts to add diffs of the rendered manifests from Applications to pull requests. I created a GitHub Action called argocd-diff-action to solve this problem (it currently sits broken, as I opted to use the rendered manifests pattern to produce immutable artifacts with clean and informative diffs to the desired state of my Kubernetes clusters). Zapier recently open-sourced their in-house tool kubechecks, which performs a similar function with added features like policy checks.
+
+At Akuity, we created a tool used internally to adopt the rendered manifests pattern. While the project is still under active development, the goal is to open-source it so that Argo CD users can take their existing definitions of what manifests to render (i.e. an Application manifest) and use the tool to render them in CI instead of with Argo CD.
+
+## Rendered Plain-text Secrets
+
+Kubernetes Secrets management tools like Kustomize + SOPS are incompatible with the Rendered Manifests pattern. They allow users to store encrypted secrets in Git and rely on the tooling running in the cluster to render the manifests and decrypt the secrets.
+This is not ideal for the rendered manifest pattern, where the decrypted secrets would end up in plain text on the environment-specific branches.
+Before adopting this pattern, it's recommended to use a tool like External Secrets Operator, which uses ExternalSecret resources that contain a reference to data in a SecretStore and are safe to store in Git. It then uses an in-cluster controller to generate the Kubernetes Secret based on the ExternalSecrets. In our blog post, How to manage Kubernetes secrets with GitOps?, we explain why this is our preferred method, regardless of whether you use the Rendered Manifests pattern.
+
+
+# app deps with argocd
+
+You can (and probably should) also add the following annotation to resources that depend on others existing first (like a CR of a CRD)
+
+```
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: simple-go
+  # NOTE: You can (and probably should) also add the following annotation to resources that depend on others existing first (like a CR of a CRD)
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  destination:
+    name: in-cluster
+    namespace: demo
+  source:
+    path: deploy/overlays/default
+    repoURL: 'https://github.com/christianh814/simple-go'
+    targetRevision: main
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      # NOTE: Eventual Consistency: One of the patterns that can be used is, ironically, to not use any dependency management at all and, instead, rely on the fact that things will eventually be consistent with retries. This can easily be setup using the Argo CD Application manifest itself and also by leveraging Argo CD Sync Option annotation. Here's an example Application manifest.
+      - Validate=false
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
+
+
+
+```
