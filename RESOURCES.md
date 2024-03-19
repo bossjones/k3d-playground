@@ -590,3 +590,13 @@ spec:
 
 
 ```
+
+
+# Supplying Custom Values Files to Helm Charts in Argo CD(Solution 3: Multiple Sources for Applications (Beta Feature))
+
+https://akuity.io/blog/argo-cd-helm-values-files/
+
+
+multiple sources search: https://github.com/search?q=%22apiVersion%3A+argoproj.io%2Fv1alpha1%22+%22%24values%22+%22github%22&type=code
+
+peep: https://github.com/sebastiaankok/k8s-homelab/blob/c60d4d0b3c0fe7cb93a0448392042f9de75212c7/clusters/k8s-home/argocd/apps/home-automation/zigbee2mqtt/application.yaml#L2
