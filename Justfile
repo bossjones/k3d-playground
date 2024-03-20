@@ -15,6 +15,7 @@ base64_cmd := if "{{os()}}" == "macos" { "base64 -w 0 -i cert.pem -o ca.pem" } e
 grep_cmd := if "{{os()}}" =~ "macos" { "ggrep" } else { "grep" }
 conntrack_fix := if "{{os()}}" =~ "linux" { "--k3s-arg '--kube-proxy-arg=conntrack-max-per-core=0@server:*' --k3s-arg '--kube-proxy-arg=conntrack-max-per-core=0@agent:*'" } else { "" }
 
+en0_ip := `ifconfig en0 | grep inet | cut -d' ' -f2 | grep -v ":"`
 
 # # Initialize OS Setup
 # init:
@@ -175,6 +176,24 @@ deploy-monitoring-crds: monitoring-crds
 # just install-secret-0
 # just deploy-ingress-nginx
 # just install-mandatory-manifests
+
+# Starts your local k3d cluster.
+k3d-demo-bare:
+  k3d cluster delete demo
+  k3d cluster create --config config/cluster.yaml --trace --verbose --timestamps \
+  --k3s-arg "--datastore-endpoint=mysql://root:raspberry\@tcp({{en0_ip}}:6033)/kine@server:*"
+  echo -e "\nYour cluster has been created. Type 'k3d cluster list' to confirm."
+  echo "Waiting for the cluster to be ready... (sleep 30)"
+
+  # sleep
+  # SOURCE: https://unix.stackexchange.com/questions/600868/verbose-sleep-command-that-displays-pending-time-seconds-minutes/600871#600871
+  @yes | pv -SL1 -F 'Resuming in %e' -s 30 > /dev/null
+
+  just apply-coredns-additions
+  # just argocd-secret
+  # just install-secret-0
+  # just deploy-ingress-nginx
+  # just install-mandatory-manifests
 
 # SOURCE: https://github.com/casey/just/issues/531#issuecomment-1434096386
 # Starts your local k3d cluster.
@@ -797,6 +816,13 @@ k3d-vanilla-the-rest:  argocd-install templates argocd-password argocd-bridge
 
 down: demo-down delete-docker
 
+k3d-bare: demo-down kine-mysql-reset sleep k3d-demo-bare
+
+# k3d-bare-the-rest:  argocd-install certs-only templates argocd-password argocd-bridge
+
+# the rest of the normal steps we take to bring something up
+k3d-bare-the-rest:  argocd-install templates argocd-password argocd-bridge
+
 # deploy-ingress-nginx certs-only
 
 journal-errors:
@@ -819,3 +845,6 @@ build-docs-local:
 
 serve-docs-local:
     mkdocs serve
+
+screen-docker-desktop:
+  screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty
